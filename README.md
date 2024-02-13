@@ -1,6 +1,6 @@
-## Flutter Chat-App
+# Flutter Chat-App
 
-# Welcome to Chat-App!
+## Overview
 
 This project is all about creating a simple and user-friendly chat application where people can
 connect and chat in real-time.
