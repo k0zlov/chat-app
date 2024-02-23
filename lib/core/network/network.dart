@@ -1,5 +1,8 @@
+import 'package:chat_app/core/errors/failure.dart';
+import 'package:dartz/dartz.dart';
+
 /// Abstract interface class for network operations.
-abstract class Network {
+abstract interface class Network {
   /// Retrieves data from the database.
   ///
   /// [tableName]: The name of the table from which to retrieve the data.
@@ -14,12 +17,12 @@ abstract class Network {
   /// [whereValues]: Optional list of values for the WHERE clause.
   ///
   /// Returns a list of objects of type T.
-  Future<List<T>> get<T>({
+  Future<Either<Failure, T>> get<T>({
     required String tableName,
-    required String params,
-    required T Function(Map<String, dynamic>) parser,
-    String? where,
-    List<Object>? whereValues,
+    required T Function(Map<String, dynamic> json) parser,
+    String? filterColumn,
+    String filterOperator = 'eq',
+    Object? filterValue,
   });
 
 
@@ -35,7 +38,7 @@ abstract class Network {
   /// Does not return any data.
   Future<void> post<T>({
     required String tableName,
-    required List<T> insertData,
-    required Map<String, dynamic> Function(T) toJson,
+    required T data,
+    required Map<String, dynamic> Function(T) parser,
   });
 }

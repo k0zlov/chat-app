@@ -22,11 +22,14 @@ dependencies:
   supabase_flutter: ^2.3.4
   flutter:
     sdk: flutter
+  build_runner: ^2.4.8
+  json_annotation: ^4.8.1
 
 dev_dependencies:
 
   flutter_lints: ^2.0.0
   very_good_analysis: ^5.1.0
+  json_serializable: any
   flutter_test:
     sdk: flutter
 
