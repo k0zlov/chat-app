@@ -9,12 +9,19 @@ abstract class Network {
   /// [parser]: A function that converts data
   /// from a Map<String, dynamic> format to an object of type T.
   ///
+  /// [where]: Optional column name for the WHERE clause.
+  ///
+  /// [whereValues]: Optional list of values for the WHERE clause.
+  ///
   /// Returns a list of objects of type T.
   Future<List<T>> get<T>({
     required String tableName,
     required String params,
     required T Function(Map<String, dynamic>) parser,
+    String? where,
+    List<Object>? whereValues,
   });
+
 
   /// Sends data to the database.
   ///

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_app/core/network/network.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,8 +19,14 @@ class NetworkImpl implements Network {
     required String tableName,
     required String params,
     required T Function(Map<String, dynamic>) parser,
+    String? where,
+    List<Object>? whereValues,
   }) async {
-    final response = await _supabaseClient.from(tableName).select(params);
+    final response = await _supabaseClient
+        .from(tableName)
+        .select(params)
+        .inFilter(where ?? '', whereValues ?? []);
+
     return response.map((e) => parser(e)).toList();
   }
 
