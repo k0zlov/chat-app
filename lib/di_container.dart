@@ -32,6 +32,6 @@ Future<void> _network() async {
 
 void _provider() {
   getIt.registerLazySingleton<UsersProvider>(
-    () => UserProviderImpl(network: getIt()),
+    () => UsersProviderImpl(network: getIt()),
   );
 }

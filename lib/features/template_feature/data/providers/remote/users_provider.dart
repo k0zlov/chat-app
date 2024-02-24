@@ -24,9 +24,9 @@ abstract interface class UsersProvider {
 ///
 /// This implementation interacts with the network layer
 /// to perform user-related operations
-class UserProviderImpl implements UsersProvider {
-  /// Constructs a [UserProviderImpl] instance with the specified [Network].
-  const UserProviderImpl({
+class UsersProviderImpl implements UsersProvider {
+  /// Constructs a [UsersProviderImpl] instance with the specified [Network].
+  const UsersProviderImpl({
     required this.network,
   });
 

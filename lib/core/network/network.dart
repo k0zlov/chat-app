@@ -12,9 +12,13 @@ abstract interface class Network {
   /// [parser]: A function that converts data
   /// from a Map<String, dynamic> format to an object of type T.
   ///
-  /// [where]: Optional column name for the WHERE clause.
+  /// [filterColumn]: Optional column name for the filter clause.
   ///
-  /// [whereValues]: Optional list of values for the WHERE clause.
+  /// [filterValue]: Optional value of column for the filter clause.
+  ///
+  /// [filterOperator]: (Optional) The filter operator to use.
+  /// Defaults to 'eq' (equals).
+  /// Other possible values include 'gt' (greater than), 'lt' (less than), etc.
   ///
   /// Returns a list of objects of type T.
   Future<Either<Failure, T>> get<T>({
@@ -30,9 +34,9 @@ abstract interface class Network {
   ///
   /// [tableName]: The name of the table to which to send the data.
   ///
-  /// [insertData]: The list of data to insert into the table.
+  /// [data]: Th data to insert into the table.
   ///
-  /// [toJson]: A function that converts an object of type T
+  /// [parser]: A function that converts an object of type T
   /// to a Map<String, dynamic> for insertion into the database.
   ///
   /// Does not return any data.
