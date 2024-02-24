@@ -24,16 +24,26 @@ class NetworkImpl implements Network {
   Future<Either<Failure, T>> get<T>({
     required String tableName,
     required T Function(Map<String, dynamic> json) parser,
+    String? orderColumn,
     String? filterColumn,
-    String filterOperator = 'eq',
     Object? filterValue,
+    int limit = 1000,
+    String filterOperator = 'eq',
+    bool isAscendingOrder = false,
   }) async {
     try {
-      final response = await _supabaseClient.from(tableName).select().filter(
-            filterColumn ?? '',
-            filterOperator,
-            filterValue,
-          );
+      final query = _supabaseClient
+          .from(tableName)
+          .select()
+          .filter(filterColumn ?? '', filterOperator, filterValue)
+          .limit(limit);
+
+      final response = orderColumn == null
+          ? await query
+          : await query.order(
+              orderColumn,
+              ascending: isAscendingOrder,
+            );
 
       final parsedResponse = parser({'items': response});
 

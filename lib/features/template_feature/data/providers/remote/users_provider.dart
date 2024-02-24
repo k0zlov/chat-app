@@ -37,9 +37,12 @@ class UsersProviderImpl implements UsersProvider {
   Future<Either<Failure, UserResponse>> fetchUsers() async {
     final response = await network.get(
       tableName: 'users',
-      filterColumn: 'userid',
+      orderColumn: 'createdat',
+      isAscendingOrder: false,
+      // filterColumn: 'userid',
       // filterOperator: 'gt',
-      filterValue: 3,
+      limit: 3,
+      // filterValue: 3,
       parser: UserResponse.fromJson,
     );
     return response;

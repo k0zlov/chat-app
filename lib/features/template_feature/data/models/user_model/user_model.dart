@@ -16,6 +16,7 @@ class UserResponse with _$UserResponse {
   const factory UserResponse({
     @JsonKey(name: 'items') @Default([]) List<UserModel> users,
   }) = _UserResponse;
+
   const UserResponse._();
 
   /// Factory constructor for creating a [UserResponse] instance from JSON.
@@ -30,13 +31,28 @@ class UserResponse with _$UserResponse {
 /// This class is used to deserialize JSON representations of a user.
 @freezed
 class UserModel with _$UserModel {
-
   /// Default constructor for creating a [UserModel] instance.
   ///
   /// The `userid` parameter specifies the user's ID.
+  ///
+  /// The `username` parameter specifies the user's username.
+  ///
+  /// The `email` parameter specifies the user's email.
+  ///
+  /// The `phoneNumber` parameter specifies the user's phone number.
+  ///
+  /// The `passwordHash` parameter specifies the user's password hash.
+  ///
+  /// The `createdAt` parameter specifies the user's creation date.
   const factory UserModel({
     @Default(0) int userid,
+    @Default('') String username,
+    @Default('') String email,
+    @JsonKey(name: 'phonenumber') @Default('') String phoneNumber,
+    @JsonKey(name: 'passwordhash') @Default('') String passwordHash,
+    @JsonKey(name: 'createdat') @Default('') String createdAt,
   }) = _UserModel;
+
   const UserModel._();
 
   /// Factory constructor for creating a [UserModel] instance from JSON.

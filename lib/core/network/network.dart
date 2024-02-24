@@ -20,13 +20,23 @@ abstract interface class Network {
   /// Defaults to 'eq' (equals).
   /// Other possible values include 'gt' (greater than), 'lt' (less than), etc.
   ///
+  /// [limit]: (Optional) The maximum number of records to retrieve.
+  /// Defaults to 1000.
+  ///
+  /// [isAscendingOrder]: (Optional) Specifies whether the ordering
+  /// is ascending or descending.
+  /// Defaults to false (descending).
+  ///
   /// Returns a list of objects of type T.
   Future<Either<Failure, T>> get<T>({
     required String tableName,
     required T Function(Map<String, dynamic> json) parser,
+    String? orderColumn,
     String? filterColumn,
-    String filterOperator = 'eq',
     Object? filterValue,
+    int limit = 1000,
+    String filterOperator = 'eq',
+    bool isAscendingOrder = false,
   });
 
 
