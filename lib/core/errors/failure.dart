@@ -1,10 +1,10 @@
 /// Abstract class defining a failure.
 abstract class Failure {
-
   /// Constructs a [Failure] with the provided [errorMessage].
   const Failure({
     required this.errorMessage,
   });
+
   /// The error message associated with the failure.
   final String errorMessage;
 
@@ -23,9 +23,17 @@ class ServerFailure extends Failure {
 
   @override
   String toString() {
-    return 'ServerFailure{${super.errorMessage}}';
+    return 'ServerFailure{errorMessage: ${super.errorMessage}}';
   }
 }
 
+/// A failure representing a cache error.
+class CacheFailure extends Failure {
+  /// Constructs a [CacheFailure] with the provided [errorMessage].
+  const CacheFailure({required super.errorMessage});
 
-/// Implementations of Failure types...
+  @override
+  String toString() {
+    return 'CacheFailure{errorMessage: ${super.errorMessage}';
+  }
+}
