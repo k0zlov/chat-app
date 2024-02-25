@@ -1,15 +1,24 @@
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
 
-/// Interface for interacting with a database handler for performing database operations.
+/// Defines an interface for database operations within the application.
 ///
-/// Implementations of this interface should provide methods to perform common database operations
-/// such as fetching, inserting, updating, and deleting data from a database.
+/// This interface abstracts the underlying database implementation and provides
+/// a contract for common database operations such as retrieval, insertion,
+/// updating, and deletion of data. Implementations must handle these operations
+/// and potentially encapsulate error handling using the `Either` type from `dartz`,
+/// providing a unified approach to error management across database interactions.
 abstract interface class DatabaseHandler {
-  /// Fetches data from the specified table in the database.
+  /// Retrieves data from a specified table within the database.
   ///
-  /// Returns a [Future] that resolves to an [Either] containing either a
-  /// [Failure] if the operation fails, or a value of type [T] if successful.
+  /// This method should query the database based on the provided parameters and
+  /// return the result as a parsed model of type [T]. In case of failure, it returns
+  /// a [Failure] object encapsulated in an [Either]. This approach allows for expressive
+  /// error handling while maintaining the type safety of successful operations.
+  ///
+  /// - [tableName] specifies the table from which to fetch the data.
+  /// - [parser] is a function that converts raw database data into an instance of [T].
+  /// - [where] and [whereArgs] allow specifying conditional clauses for the query.
   Future<Either<Failure, T>> get<T>({
     required String tableName,
     required T Function(Map<String, dynamic> json) parser,
@@ -17,20 +26,32 @@ abstract interface class DatabaseHandler {
     List<dynamic>? whereArgs,
   });
 
-  /// Inserts data into the specified table in the database.
+  /// Inserts a new record into a specified table within the database.
   ///
-  /// The [data] parameter specifies the data to be inserted, and the [parser] function
-  /// is used to convert the data into a format suitable for insertion into the database.
+  /// This operation should convert the provided [data] using the [parser] function into
+  /// a format suitable for database insertion. Implementations should ensure that errors
+  /// during the insertion process are handled gracefully, typically by logging or other
+  /// error management strategies.
+  ///
+  /// - [tableName] specifies the target table for the insertion.
+  /// - [data] is the data to be inserted, of type [T].
+  /// - [parser] converts [data] into a map representation for insertion.
   Future<void> insert<T>({
     required String tableName,
     required T data,
     required Map<String, dynamic> Function(T data) parser,
   });
 
-  /// Updates data in the specified table in the database.
+  /// Updates existing records in a specified table within the database.
   ///
-  /// The [data] parameter specifies the updated data, and the [parser] function
-  /// is used to convert the data into a format suitable for updating in the database.
+  /// This method applies the provided [data] to records matching the [where] condition,
+  /// using the [parser] function to convert [data] into a suitable format. Implementations
+  /// should handle errors during the update process, ensuring the application's stability.
+  ///
+  /// - [tableName] specifies the target table for the update.
+  /// - [data] is the new data for the update operation.
+  /// - [parser] converts [data] into a map representation for updating.
+  /// - [where] and [whereArgs] define the condition to select records for updating.
   Future<void> update<T>({
     required String tableName,
     required T data,
@@ -39,10 +60,14 @@ abstract interface class DatabaseHandler {
     required List<dynamic> whereArgs,
   });
 
-  /// Deletes data from the specified table in the database.
+  /// Deletes records from a specified table within the database.
   ///
-  /// The [where] parameter specifies the condition for deletion,
-  /// and the [whereArgs] parameter provides values to substitute in the condition.
+  /// This method removes records that match the specified [where] condition. Implementations
+  /// should ensure that errors during the deletion process are handled appropriately, maintaining
+  /// the integrity and stability of the database.
+  ///
+  /// - [tableName] specifies the target table for deletion.
+  /// - [where] and [whereArgs] define the condition to select records for deletion.
   Future<void> delete({
     required String tableName,
     required String where,
