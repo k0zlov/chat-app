@@ -7,7 +7,7 @@ import 'package:dartz/dartz.dart';
 ///
 /// Implementations of this interface should provide methods to interact with
 /// user data, such as fetching users and inserting new users.
-abstract interface class UsersProvider {
+abstract interface class UsersRemoteProvider {
   /// Fetches a list of users from the data source.
   ///
   /// Returns a [Future] that resolves to an [Either] containing either a
@@ -20,13 +20,13 @@ abstract interface class UsersProvider {
   Future<void> insertUser({required UserModel userModel});
 }
 
-/// Implementation of the [UsersProvider] interface using the provided [Network]
+/// Implementation of the [UsersRemoteProvider] interface using the provided [Network]
 ///
 /// This implementation interacts with the network layer
 /// to perform user-related operations
-class UsersProviderImpl implements UsersProvider {
-  /// Constructs a [UsersProviderImpl] instance with the specified [Network].
-  const UsersProviderImpl({
+class UsersRemoteProviderImpl implements UsersRemoteProvider {
+  /// Constructs a [UsersRemoteProviderImpl] instance with the specified [Network].
+  const UsersRemoteProviderImpl({
     required this.network,
   });
 
@@ -53,7 +53,7 @@ class UsersProviderImpl implements UsersProvider {
     await network.post(
       tableName: 'users',
       data: userModel,
-      parser: (_) => userModel.toJson(),
+      parser: (model) => model.toJson(),
     );
   }
 }
