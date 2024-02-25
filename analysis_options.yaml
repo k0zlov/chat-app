@@ -10,3 +10,31 @@ analyzer:
 linter:
   rules:
     sort_pub_dependencies: false
+
+    lines_longer_than_80_chars: false
+
+    omit_local_variable_types: false
+
+    use_key_in_widget_constructors: true
+
+    always_use_package_imports: true
+
+    prefer_const_constructors: true
+
+    prefer_const_declarations: true
+
+    prefer_single_quotes: true
+
+    avoid_init_to_null: true
+
+    #   Sort constructor declarations before other members.
+    sort_constructors_first: true
+
+    #   Sort child properties last in widget instance creations.
+    sort_child_properties_last: true
+
+    #   DO use Flutter TO DO format. // TO DO(username): message, https://URL-to-issue.
+    flutter_style_todos: true
+
+    #   DO follow the directive ordering conventions in Effective Dart:
+    directives_ordering: true
