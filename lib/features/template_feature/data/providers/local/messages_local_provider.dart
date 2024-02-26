@@ -1,4 +1,4 @@
-import 'package:chat_app/core/database/database.dart';
+import 'package:chat_app/core/database/database_handler.dart';
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/features/template_feature/data/models/message_model/message_model.dart';
 import 'package:dartz/dartz.dart';

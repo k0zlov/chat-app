@@ -1,4 +1,4 @@
-import 'package:chat_app/core/database/database.dart';
+import 'package:chat_app/core/database/database_handler.dart';
 import 'package:chat_app/core/database/tables.dart';
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/di_container.dart';
@@ -37,6 +37,14 @@ class DatabaseHandlerImpl implements DatabaseHandler {
   ///
   /// This variable holds the singleton instance of the SQLite database.
   Database? _database;
+
+  List<Table> get tables => [
+    UsersTable(),
+    ChatsTable(),
+    MessagesTable(),
+    ChatParticipantsTable(),
+    ContactsTable(),
+  ];
 
   /// Ensures a singleton instance of the database.
   ///
@@ -97,14 +105,6 @@ class DatabaseHandlerImpl implements DatabaseHandler {
   /// It iterates over a list of table definitions, executing their respective
   /// `createTableQuery` to set up the initial database schema.
   Future<void> _onCreate(Database db, int newVersion) async {
-    final List<Table> tables = [
-      UsersTable(),
-      ChatsTable(),
-      MessagesTable(),
-      ChatParticipantsTable(),
-      ContactsTable(),
-    ];
-
     for (final table in tables) {
       await db.execute(table.createTableQuery());
     }
