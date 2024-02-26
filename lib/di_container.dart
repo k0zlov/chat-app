@@ -1,7 +1,7 @@
-import 'package:chat_app/core/database/database.dart';
-import 'package:chat_app/core/database/database_implementation.dart';
-import 'package:chat_app/core/network/network.dart';
-import 'package:chat_app/core/network/network_implementation.dart';
+import 'package:chat_app/core/database/database_handler.dart';
+import 'package:chat_app/core/database/database_handler_implementation.dart';
+import 'package:chat_app/core/supabase/supabase_handler.dart';
+import 'package:chat_app/core/supabase/supabase_handler_implementation.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/chatparticipants_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/chats_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/contacts_local_provider.dart';
@@ -9,7 +9,6 @@ import 'package:chat_app/features/template_feature/data/providers/local/messages
 import 'package:chat_app/features/template_feature/data/providers/local/users_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/remote/users_remote_provider.dart';
 import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Singleton instance of GetIt for dependency injection.
 ///
@@ -21,10 +20,10 @@ final GetIt getIt = GetIt.instance;
 /// Initializes and registers the application's dependencies asynchronously.
 ///
 /// This setup function is crucial for preparing the application's infrastructure,
-/// including network configurations, database setup, and the registration of
+/// including supabase configurations, local database setup, and the registration of
 /// both local and remote data providers.
 Future<void> registerDependencies() async {
-  await _network(); // Initializes network configurations.
+  await _supabase(); // Initializes supabase configurations.
   await _database(); // Configures the database and its handler.
   _providers(); // Registers data providers for different features.
 
@@ -37,19 +36,12 @@ Future<void> registerDependencies() async {
 /// Initializes Supabase with necessary configurations and registers the
 /// network implementation as a lazy singleton, ensuring efficient usage
 /// across the application.
-Future<void> _network() async {
-  // Supabase configuration constants.
-  const supabaseUrl = 'https://pyjduiurropblpsqzgzs.supabase.co';
-  const supabaseKey = String.fromEnvironment('SUPABASE_KEY');
-
-  // Initializes Supabase client with the provided URL and anonKey.
-  await Supabase.initialize(
-    url: supabaseUrl,
-    anonKey: supabaseKey,
+Future<void> _supabase() async {
+  // Registers the supabase implementation to be used for supabase operations.
+  getIt.registerSingletonAsync<SupabaseHandler>(
+    signalsReady: true,
+    () async => SupabaseHandlerImpl(),
   );
-
-  // Registers the network implementation to be used for API calls.
-  getIt.registerLazySingleton<Network>(NetworkImpl.new);
 }
 
 /// Registers all local and remote data provider dependencies.
@@ -60,22 +52,22 @@ Future<void> _network() async {
 void _providers() {
   getIt
     ..registerLazySingleton<UsersRemoteProvider>(
-          () => UsersRemoteProviderImpl(network: getIt()),
+      () => UsersRemoteProviderImpl(supabaseHandler: getIt()),
     )
     ..registerLazySingleton<ChatsLocalProvider>(
-          () => ChatsLocalProviderImpl(databaseHandler: getIt()),
+      () => ChatsLocalProviderImpl(databaseHandler: getIt()),
     )
     ..registerLazySingleton<MessagesLocalProvider>(
-          () => MessagesLocalProviderImpl(databaseHandler: getIt()),
+      () => MessagesLocalProviderImpl(databaseHandler: getIt()),
     )
     ..registerLazySingleton<UsersLocalProvider>(
-          () => UsersLocalProviderImpl(databaseHandler: getIt()),
+      () => UsersLocalProviderImpl(databaseHandler: getIt()),
     )
     ..registerLazySingleton<ChatParticipantsLocalProvider>(
-          () => ChatParticipantsLocalProviderImpl(databaseHandler: getIt()),
+      () => ChatParticipantsLocalProviderImpl(databaseHandler: getIt()),
     )
     ..registerLazySingleton<ContactsLocalProvider>(
-          () => ContactsLocalProviderImpl(databaseHandler: getIt()),
+      () => ContactsLocalProviderImpl(databaseHandler: getIt()),
     );
 }
 
@@ -86,6 +78,6 @@ void _providers() {
 Future<void> _database() async {
   getIt.registerSingletonAsync<DatabaseHandler>(
     signalsReady: true,
-        () async => DatabaseHandlerImpl(),
+    () async => DatabaseHandlerImpl(),
   );
 }

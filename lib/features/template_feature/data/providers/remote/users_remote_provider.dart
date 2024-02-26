@@ -1,5 +1,6 @@
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/network/network.dart';
+import 'package:chat_app/core/supabase/supabase_handler.dart';
 import 'package:chat_app/features/template_feature/data/models/user_model/user_model.dart';
 import 'package:dartz/dartz.dart';
 
@@ -25,17 +26,17 @@ abstract interface class UsersRemoteProvider {
 /// This implementation interacts with the network layer
 /// to perform user-related operations
 class UsersRemoteProviderImpl implements UsersRemoteProvider {
-  /// Constructs a [UsersRemoteProviderImpl] instance with the specified [Network].
+  /// Constructs a [UsersRemoteProviderImpl] instance with the specified [SupabaseHandler].
   const UsersRemoteProviderImpl({
-    required this.network,
+    required this.supabaseHandler,
   });
 
   /// The network layer used for performing user-related operations.
-  final Network network;
+  final SupabaseHandler supabaseHandler;
 
   @override
   Future<Either<Failure, UserResponse>> fetchUsers() async {
-    final response = await network.get(
+    final response = await supabaseHandler.retrieve(
       tableName: 'users',
       orderColumn: 'createdat',
       isAscendingOrder: false,
@@ -50,7 +51,7 @@ class UsersRemoteProviderImpl implements UsersRemoteProvider {
 
   @override
   Future<void> insertUser({required UserModel userModel}) async {
-    await network.post(
+    await supabaseHandler.insert(
       tableName: 'users',
       data: userModel,
       parser: (model) => model.toJson(),
