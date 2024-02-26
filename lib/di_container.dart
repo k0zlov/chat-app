@@ -24,7 +24,7 @@ Future<void> registerDependencies() async {
   await _network();  // Initialize network-related dependencies.
   await _database(); // Set up database configurations.
   _providers();      // Register various data providers.
-  // await getIt.allReady(); // Ensures all async dependencies are ready before proceeding.
+  await getIt.allReady(); // Ensures all async dependencies are ready before proceeding.
 }
 
 /// Configures network dependencies, including initializing Supabase.
