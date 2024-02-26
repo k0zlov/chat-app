@@ -69,7 +69,7 @@ class MessagesTable extends Table {
   @override
   Map<String, String> fields() => {
     'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'messageid': 'INTEGER',
+    'messageid': 'INTEGER UNIQUE',
     'chatid': 'INTEGER',
     'userid': 'INTEGER',
     'content': 'TEXT NOT NULL',
@@ -96,6 +96,7 @@ class ChatParticipantsTable extends Table {
     'joinedat': 'TEXT NOT NULL',
     'FOREIGN KEY (chatid)': 'REFERENCES ${ChatsTable().tableName}(chatid)',
     'FOREIGN KEY (userid)': 'REFERENCES ${UsersTable().tableName}(userid)',
+    'UNIQUE': '(userid, chatid)',
   };
 }
 
@@ -110,11 +111,12 @@ class ContactsTable extends Table {
   @override
   Map<String, String> fields() => {
     'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'contactuserid': 'INTEGER',
+    'contactuserid': 'INTEGER UNIQUE',
     'userid': 'INTEGER',
-    'role': 'TEXT NOT NULL',
-    'joinedat': 'TEXT NOT NULL',
+    'addedat': 'TEXT NOT NULL',
     'FOREIGN KEY (userid)': 'REFERENCES ${UsersTable().tableName}(userid)',
     'FOREIGN KEY (contactuserid)': 'REFERENCES ${UsersTable().tableName}(userid)',
+    'CHECK': '(contactuserid != userid)',
+    'UNIQUE': '(contactuserid, userid)',
   };
 }
