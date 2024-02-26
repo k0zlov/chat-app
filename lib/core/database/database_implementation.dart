@@ -49,24 +49,48 @@ class DatabaseHandlerImpl implements DatabaseHandler {
     return _database!;
   }
 
-  /// Creates and opens the database.
+  /// Initializes and returns a reference to the app's SQLite database.
   ///
-  /// This method constructs the database path and initializes it with
-  /// necessary tables through the `_onCreate` callback.
+  /// This method generates the full path for the database file named 'chat_app.db'
+  /// and leverages the `openDatabase` method from the `sqflite` package to either
+  /// open the database if it exists or create it if it doesn't. During the database
+  /// creation phase, it sets up the schema by invoking the `_onCreate` callback.
+  /// Additionally, it configures the database with the `_onConfigure` callback to
+  /// ensure proper settings, such as enabling foreign key support.
+  ///
+  /// Returns:
+  /// A `Future` that completes with the `Database` instance, ready for use.
   Future<Database> _initDatabase() async {
+    // Constructs the full path to the SQLite database file.
     final String path = join(await getDatabasesPath(), 'chat_app.db');
+
+    // Opens the database, creating it if it doesn't exist, and applies
+    // configuration and creation logic through the specified callbacks.
     return openDatabase(
       path,
-      version: 1,
-      onCreate: _onCreate,
-      onConfigure: _onConfigure,
+      version: 1, // Sets the schema version of the database.
+      onCreate: _onCreate, // Callback to create the schema if the database is new.
+      onConfigure: _onConfigure, // Callback to configure the database settings.
     );
   }
 
+  /// Configures the database upon initialization.
+  ///
+  /// Specifically, this method enables SQLite's foreign key constraint support,
+  /// which is crucial for maintaining referential integrity across table relationships.
+  ///
+  /// Parameters:
+  ///   - [db]: The `Database` instance being configured.
+  ///
+  /// Note:
+  /// This method is typically invoked by the `openDatabase` method during the
+  /// database initialization process.
   Future<void> _onConfigure(Database db) async {
+    // Enables foreign key constraints to ensure referential integrity.
     await db.execute('PRAGMA foreign_keys = ON');
   }
-  
+
+
   /// Defines the schema of the database on its creation.
   ///
   /// This callback method is executed the first time the database is created.
