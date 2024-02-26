@@ -1,4 +1,5 @@
 import 'package:chat_app/core/database/database.dart';
+import 'package:chat_app/core/database/tables.dart';
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/features/template_feature/data/models/chat_model/chat_model.dart';
 import 'package:dartz/dartz.dart';
@@ -37,16 +38,19 @@ abstract interface class ChatsLocalProvider {
 class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
   /// Constructs a [ChatsLocalProviderImpl] instance with the specified [DatabaseHandler].
-  const ChatsLocalProviderImpl({
+  ChatsLocalProviderImpl({
     required this.databaseHandler,
   });
   /// The database handler used for performing database operations.
   final DatabaseHandler databaseHandler;
 
+  /// The name of the database table used for storing chats data.
+  final String tableName = ChatsTable().tableName;
+
   @override
   Future<Either<Failure, ChatResponse>> getCachedChats() async {
     final response = await databaseHandler.get(
-      tableName: 'chats',
+      tableName: tableName,
       parser: ChatResponse.fromJson,
     );
 
@@ -56,7 +60,7 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
   @override
   Future<void> cacheChat({required ChatModel chatModel}) async {
     await databaseHandler.insert(
-      tableName: 'chats',
+      tableName: tableName,
       data: chatModel,
       parser: (model) => model.toJson(),
     );
@@ -65,7 +69,7 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
   @override
   Future<void> updateCachedChat({required ChatModel chatModel}) async {
     await databaseHandler.update(
-      tableName: 'chats',
+      tableName: tableName,
       data: chatModel,
       parser: (model) => model.toJson(),
       where: 'chatid = ?',
@@ -76,7 +80,7 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
   @override
   Future<void> deleteCachedChat({required ChatModel chatModel}) async {
     await databaseHandler.delete(
-      tableName: 'chats',
+      tableName: tableName,
       where: 'chatid = ?',
       whereArgs: [chatModel.chatid],
     );
