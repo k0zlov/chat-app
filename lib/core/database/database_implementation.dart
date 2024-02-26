@@ -55,9 +55,18 @@ class DatabaseHandlerImpl implements DatabaseHandler {
   /// necessary tables through the `_onCreate` callback.
   Future<Database> _initDatabase() async {
     final String path = join(await getDatabasesPath(), 'chat_app.db');
-    return openDatabase(path, version: 1, onCreate: _onCreate);
+    return openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+      onConfigure: _onConfigure,
+    );
   }
 
+  Future<void> _onConfigure(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
+  
   /// Defines the schema of the database on its creation.
   ///
   /// This callback method is executed the first time the database is created.
