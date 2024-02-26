@@ -38,6 +38,7 @@ class DatabaseHandlerImpl implements DatabaseHandler {
   /// This variable holds the singleton instance of the SQLite database.
   Database? _database;
 
+  /// List of table definitions
   List<Table> get tables => [
     UsersTable(),
     ChatsTable(),
