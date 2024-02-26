@@ -1,18 +1,18 @@
-/// Abstract base class for table schemas.
+/// An abstract class that serves as a blueprint for table schema definitions.
 ///
-/// Defines common methods and properties that all table classes must implement,
-/// such as `tableName`, `fields`, and `createTableQuery`.
+/// This class outlines essential elements and operations for defining a database table,
+/// including the table's name, its fields, and the SQL statement to create the table.
 abstract class Table {
-  /// Returns the name of the table.
+  /// The name of the table.
   String get tableName;
 
-  /// Returns a map of field names and their SQL data types.
+  /// A dictionary of the table's fields, mapping field names to their SQL data types.
   Map<String, String> fields();
 
-  /// Generates a SQL query to create the table.
+  /// Constructs a SQL `CREATE TABLE` statement.
   ///
-  /// Constructs the SQL `CREATE TABLE` statement using the table name and fields.
-  /// Iterates over the map of fields to construct the field definitions part of the query.
+  /// This method generates the SQL command required to create the table with its fields
+  /// and associated data types, formatted according to SQL syntax standards.
   String createTableQuery() {
     final String fieldsQuery = fields()
         .entries
@@ -22,10 +22,10 @@ abstract class Table {
   }
 }
 
-/// Table schema for 'users'.
+/// Represents the schema for a 'users' table in the database.
 ///
-/// Includes fields like user ID, username, email, phone number, and others,
-/// with appropriate SQL data types and constraints such as `NOT NULL` and `PRIMARY KEY`.
+/// This class defines the structure and constraints of the 'users' table,
+/// including essential fields like user ID, username, and contact information.
 class UsersTable extends Table {
   @override
   String get tableName => 'users';
@@ -42,9 +42,10 @@ class UsersTable extends Table {
   };
 }
 
-/// Table schema for 'chats'.
+/// Describes the schema for a 'chats' table in the database.
 ///
-/// Defines fields related to chat information, such as chat ID, chat type, and creation date.
+/// Outlines the fields relevant to chat sessions, such as chat ID and type,
+/// ensuring each chat is uniquely identified and categorized.
 class ChatsTable extends Table {
   @override
   String get tableName => 'chats';
@@ -58,10 +59,10 @@ class ChatsTable extends Table {
   };
 }
 
-/// Table schema for 'messages'.
+/// Defines the schema for a 'messages' table in the database.
 ///
-/// Represents the structure of the messages table, including message content, associated chat,
-/// and user IDs, with foreign keys linking to the 'chats' and 'users' tables.
+/// Captures message details within chats, including sender, content, and timestamps,
+/// with references to the 'chats' and 'users' tables to maintain relational integrity.
 class MessagesTable extends Table {
   @override
   String get tableName => 'messages';
@@ -79,10 +80,10 @@ class MessagesTable extends Table {
   };
 }
 
-/// Table schema for 'chatparticipants'.
+/// Specifies the schema for a 'chatparticipants' table in the database.
 ///
-/// Details the participants of a chat, their roles, and the time they joined the chat,
-/// with foreign keys to the 'chats' and 'users' tables.
+/// Details the association of users to chat rooms, their roles within those chats,
+/// and the time they joined, incorporating references to 'chats' and 'users' for integrity.
 class ChatParticipantsTable extends Table {
   @override
   String get tableName => 'chatparticipants';
@@ -100,10 +101,10 @@ class ChatParticipantsTable extends Table {
   };
 }
 
-/// Table schema for 'contacts'.
+/// Outlines the schema for a 'contacts' table in the database.
 ///
-/// Manages user contacts, including a reference to the user ID and the contact's user ID,
-/// with both fields linked to the 'users' table to enforce referential integrity.
+/// Manages user connections by storing references to user IDs and their contacts,
+/// enforcing constraints to prevent duplication and self-referencing.
 class ContactsTable extends Table {
   @override
   String get tableName => 'contacts';

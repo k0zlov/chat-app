@@ -2,7 +2,9 @@ import 'package:chat_app/core/database/database.dart';
 import 'package:chat_app/core/database/database_implementation.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_implementation.dart';
+import 'package:chat_app/features/template_feature/data/providers/local/chatparticipants_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/chats_local_provider.dart';
+import 'package:chat_app/features/template_feature/data/providers/local/contacts_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/users_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/remote/users_remote_provider.dart';
@@ -66,6 +68,12 @@ void _providers() {
     )
     ..registerLazySingleton<UsersLocalProvider>(
       () => UsersLocalProviderImpl(databaseHandler: getIt()),
+    )
+    ..registerLazySingleton<ChatParticipantsLocalProvider>(
+      () => ChatParticipantsLocalProviderImpl(databaseHandler: getIt()),
+    )
+    ..registerLazySingleton<ContactsLocalProvider>(
+      () => ContactsLocalProviderImpl(databaseHandler: getIt()),
     );
 }
 
