@@ -23,14 +23,14 @@ Map<String, dynamic> _$$ContactResponseImplToJson(
 
 _$ContactModelImpl _$$ContactModelImplFromJson(Map<String, dynamic> json) =>
     _$ContactModelImpl(
-      userid: json['userid'] as int? ?? 0,
-      addedAt: json['addedat'] as String? ?? '',
-      contactUserid: json['contactuserid'] as int? ?? 0,
+      userId: json['user_id'] as int? ?? 0,
+      addedAt: json['added_at'] as String? ?? '',
+      contactUserId: json['contact_user_id'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$ContactModelImplToJson(_$ContactModelImpl instance) =>
     <String, dynamic>{
-      'userid': instance.userid,
-      'addedat': instance.addedAt,
-      'contactuserid': instance.contactUserid,
+      'user_id': instance.userId,
+      'added_at': instance.addedAt,
+      'contact_user_id': instance.contactUserId,
     };

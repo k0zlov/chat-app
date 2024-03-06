@@ -7,20 +7,20 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-/// An implementation of [DatabaseHandler] to manage database operations.
+/// An implementation of [DatabaseHelper] to manage database operations.
 ///
 /// This class provides functionalities to initialize the database, execute
 /// CRUD operations, and manage error handling. It leverages the Singleton
 /// pattern for database instance management to ensure only one instance is
 /// created throughout the app lifecycle.
-class DatabaseHandlerImpl implements DatabaseHandler {
-  /// Constructs an instance of [DatabaseHandlerImpl].
+class DatabaseHelperImpl implements DatabaseHelper {
+  /// Constructs an instance of [DatabaseHelperImpl].
   ///
   /// Upon instantiation of the class, the database initialization process
   /// is automatically triggered by invoking the [_init] method. This ensures
-  /// that the database is ready for use immediately after the [DatabaseHandlerImpl]
+  /// that the database is ready for use immediately after the [DatabaseHelperImpl]
   /// instance is created.
-  DatabaseHandlerImpl() {
+  DatabaseHelperImpl() {
     _init();
   }
 

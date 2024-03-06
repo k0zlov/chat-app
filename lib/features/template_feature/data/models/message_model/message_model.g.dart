@@ -23,18 +23,18 @@ Map<String, dynamic> _$$MessageResponseImplToJson(
 
 _$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
     _$MessageModelImpl(
-      messageid: json['messageid'] as int? ?? 0,
-      chatid: json['chatid'] as int? ?? 0,
-      userid: json['userid'] as int? ?? 0,
+      messageId: json['message_id'] as int? ?? 0,
+      chatId: json['chat_id'] as int? ?? 0,
+      userId: json['user_id'] as int? ?? 0,
       content: json['content'] as String? ?? '',
       createdAt: json['createdat'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$MessageModelImplToJson(_$MessageModelImpl instance) =>
     <String, dynamic>{
-      'messageid': instance.messageid,
-      'chatid': instance.chatid,
-      'userid': instance.userid,
+      'message_id': instance.messageId,
+      'chat_id': instance.chatId,
+      'user_id': instance.userId,
       'content': instance.content,
       'createdat': instance.createdAt,
     };

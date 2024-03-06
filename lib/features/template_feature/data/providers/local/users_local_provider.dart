@@ -32,18 +32,18 @@ abstract interface class UsersLocalProvider {
 
 /// Implementation of [UsersLocalProvider] using a local database.
 ///
-/// Utilizes a [DatabaseHandler] for database operations to manage user data,
+/// Utilizes a [DatabaseHelper] for database operations to manage user data,
 /// including retrieval, caching, updating, and deletion.
 class UsersLocalProviderImpl implements UsersLocalProvider {
-  /// Constructs an instance of [UsersLocalProviderImpl] with a given [DatabaseHandler].
+  /// Constructs an instance of [UsersLocalProviderImpl] with a given [DatabaseHelper].
   ///
-  /// The [DatabaseHandler] is used for all database interactions within this provider.
+  /// The [DatabaseHelper] is used for all database interactions within this provider.
   UsersLocalProviderImpl({
-    required this.databaseHandler,
+    required this.databaseHelper,
   });
 
   /// The database handler used for performing operations on the users table.
-  final DatabaseHandler databaseHandler;
+  final DatabaseHelper databaseHelper;
 
   /// The name of the table in the database used for storing users' data.
   final String tableName = UsersTable().tableName;
@@ -51,7 +51,7 @@ class UsersLocalProviderImpl implements UsersLocalProvider {
   @override
   Future<Either<Failure, UserResponse>> getCachedUsers() async {
     // Retrieves users data from the local database.
-    final response = await databaseHandler.get(
+    final response = await databaseHelper.get(
       tableName: tableName,
       parser: UserResponse.fromJson,
     );
@@ -61,7 +61,7 @@ class UsersLocalProviderImpl implements UsersLocalProvider {
   @override
   Future<void> cacheUser({required UserModel userModel}) async {
     // Caches a new user's data in the local database.
-    await databaseHandler.insert(
+    await databaseHelper.insert(
       tableName: tableName,
       data: userModel,
       parser: (model) => model.toJson(),
@@ -71,22 +71,22 @@ class UsersLocalProviderImpl implements UsersLocalProvider {
   @override
   Future<void> updateCachedUser({required UserModel userModel}) async {
     // Updates an existing user's data in the local database.
-    await databaseHandler.update(
+    await databaseHelper.update(
       tableName: tableName,
       data: userModel,
       parser: (model) => model.toJson(),
       where: 'userid = ?',
-      whereArgs: [userModel.userid],
+      whereArgs: [userModel.userId],
     );
   }
 
   @override
   Future<void> deleteCachedUser({required UserModel userModel}) async {
     // Deletes a user's data from the local database.
-    await databaseHandler.delete(
+    await databaseHelper.delete(
       tableName: tableName,
       where: 'userid = ?',
-      whereArgs: [userModel.userid],
+      whereArgs: [userModel.userId],
     );
   }
 }

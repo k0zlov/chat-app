@@ -43,15 +43,15 @@ abstract interface class ChatParticipantsLocalProvider {
 /// This class is responsible for performing operations such as retrieving, caching,
 /// updating, and deleting chat participants data from the local database.
 class ChatParticipantsLocalProviderImpl implements ChatParticipantsLocalProvider {
-  /// Constructs a [ChatParticipantsLocalProviderImpl] with a required [DatabaseHandler].
+  /// Constructs a [ChatParticipantsLocalProviderImpl] with a required [DatabaseHelper].
   ///
-  /// The [DatabaseHandler] is used to interact with the local database.
+  /// The [DatabaseHelper] is used to interact with the local database.
   ChatParticipantsLocalProviderImpl({
-    required this.databaseHandler,
+    required this.databaseHelper,
   });
 
-  /// The [DatabaseHandler] used for database operations.
-  final DatabaseHandler databaseHandler;
+  /// The [DatabaseHelper] used for database operations.
+  final DatabaseHelper databaseHelper;
 
   /// The name of the table in the database used for storing chat participants data.
   final String tableName = ChatParticipantsTable().tableName;
@@ -59,7 +59,7 @@ class ChatParticipantsLocalProviderImpl implements ChatParticipantsLocalProvider
   @override
   Future<Either<Failure, ChatParticipantsResponse>> getCachedChatParticipants() async {
     // Retrieve chat participants data from the local database.
-    final response = await databaseHandler.get(
+    final response = await databaseHelper.get(
       tableName: tableName,
       parser: ChatParticipantsResponse.fromJson,
     );
@@ -71,7 +71,7 @@ class ChatParticipantsLocalProviderImpl implements ChatParticipantsLocalProvider
     required ChatParticipantsModel chatParticipantsModel,
   }) async {
     // Insert a new chat participant's data into the local database.
-    await databaseHandler.insert(
+    await databaseHelper.insert(
       tableName: tableName,
       data: chatParticipantsModel,
       parser: (model) => model.toJson(),
@@ -83,12 +83,12 @@ class ChatParticipantsLocalProviderImpl implements ChatParticipantsLocalProvider
     required ChatParticipantsModel chatParticipantsModel,
   }) async {
     // Update an existing chat participant's data in the local database.
-    await databaseHandler.update(
+    await databaseHelper.update(
       tableName: tableName,
       data: chatParticipantsModel,
       parser: (model) => model.toJson(),
       where: 'userid = ? AND chatid = ?',
-      whereArgs: [chatParticipantsModel.userid, chatParticipantsModel.chatid],
+      whereArgs: [chatParticipantsModel.userId, chatParticipantsModel.chatId],
     );
   }
 
@@ -97,10 +97,10 @@ class ChatParticipantsLocalProviderImpl implements ChatParticipantsLocalProvider
     required ChatParticipantsModel chatParticipantsModel,
   }) async {
     // Delete a chat participant's data from the local database.
-    await databaseHandler.delete(
+    await databaseHelper.delete(
       tableName: tableName,
       where: 'userid = ? AND chatid = ?',
-      whereArgs: [chatParticipantsModel.userid, chatParticipantsModel.chatid],
+      whereArgs: [chatParticipantsModel.userId, chatParticipantsModel.chatId],
     );
   }
 }

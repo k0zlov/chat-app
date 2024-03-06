@@ -26,10 +26,10 @@ class ChatParticipantsResponse with _$ChatParticipantsResponse {
 class ChatParticipantsModel with _$ChatParticipantsModel {
   /// Default constructor for [ChatParticipantsModel].
   const factory ChatParticipantsModel({
-    @Default(0) int chatid,
-    @Default(0) int userid,
+    @JsonKey(name: 'chat_id') @Default(0) int chatId,
+    @JsonKey(name: 'user_id') @Default(0) int userId,
     @Default('') String role,
-    @JsonKey(name: 'joinedat') @Default('') String joinedAt,
+    @JsonKey(name: 'joined_at') @Default('') String joinedAt,
   }) = _ChatParticipantsModel;
 
   const ChatParticipantsModel._();

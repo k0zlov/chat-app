@@ -21,20 +21,20 @@ Map<String, dynamic> _$$UserResponseImplToJson(_$UserResponseImpl instance) =>
 
 _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
-      userid: json['userid'] as int? ?? 0,
+      userId: json['user_id'] as int? ?? 0,
       username: json['username'] as String? ?? '',
       email: json['email'] as String? ?? '',
-      phoneNumber: json['phonenumber'] as String? ?? '',
-      passwordHash: json['passwordhash'] as String? ?? '',
-      createdAt: json['createdat'] as String? ?? '',
+      phoneNumber: json['phone_number'] as String? ?? '',
+      passwordHash: json['password_hash'] as String? ?? '',
+      createdAt: json['created_at'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
     <String, dynamic>{
-      'userid': instance.userid,
+      'user_id': instance.userId,
       'username': instance.username,
       'email': instance.email,
-      'phonenumber': instance.phoneNumber,
-      'passwordhash': instance.passwordHash,
-      'createdat': instance.createdAt,
+      'phone_number': instance.phoneNumber,
+      'password_hash': instance.passwordHash,
+      'created_at': instance.createdAt,
     };

@@ -30,22 +30,22 @@ abstract interface class MessagesLocalProvider {
   Future<void> deleteCachedMessage({required MessageModel messageModel});
 }
 
-/// Implementation of the [MessagesLocalProvider] interface using the provided [DatabaseHandler].
+/// Implementation of the [MessagesLocalProvider] interface using the provided [DatabaseHelper].
 ///
 /// This implementation interacts with the local database layer
 /// to perform message-related operations.
 class MessagesLocalProviderImpl implements MessagesLocalProvider {
 
-  /// Constructs a [MessagesLocalProviderImpl] instance with the specified [DatabaseHandler].
+  /// Constructs a [MessagesLocalProviderImpl] instance with the specified [DatabaseHelper].
   const MessagesLocalProviderImpl({
-    required this.databaseHandler,
+    required this.databaseHelper,
   });
   /// The database handler used for performing database operations.
-  final DatabaseHandler databaseHandler;
+  final DatabaseHelper databaseHelper;
 
   @override
   Future<Either<Failure, MessageResponse>> getCachedMessages() async {
-    final response = await databaseHandler.get(
+    final response = await databaseHelper.get(
       tableName: 'messages',
       parser: MessageResponse.fromJson,
     );
@@ -55,7 +55,7 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
 
   @override
   Future<void> cacheMessage({required MessageModel messageModel}) async {
-    await databaseHandler.insert(
+    await databaseHelper.insert(
       tableName: 'messages',
       data: messageModel,
       parser: (model) => model.toJson(),
@@ -64,21 +64,21 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
 
   @override
   Future<void> updateCachedMessage({required MessageModel messageModel}) async {
-    await databaseHandler.update(
+    await databaseHelper.update(
       tableName: 'messages',
       data: messageModel,
       parser: (model) => model.toJson(),
       where: 'messageid = ?',
-      whereArgs: [messageModel.messageid],
+      whereArgs: [messageModel.messageId],
     );
   }
 
   @override
   Future<void> deleteCachedMessage({required MessageModel messageModel}) async {
-    await databaseHandler.delete(
+    await databaseHelper.delete(
       tableName: 'messages',
       where: 'messageid = ?',
-      whereArgs: [messageModel.messageid],
+      whereArgs: [messageModel.messageId],
     );
   }
 }

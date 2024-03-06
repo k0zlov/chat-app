@@ -36,15 +36,15 @@ abstract interface class ContactsLocalProvider {
 /// This class is responsible for executing the defined operations on contacts data,
 /// leveraging a local database for storage and retrieval.
 class ContactsLocalProviderImpl implements ContactsLocalProvider {
-  /// Constructs a [ContactsLocalProviderImpl] with a required [DatabaseHandler].
+  /// Constructs a [ContactsLocalProviderImpl] with a required [DatabaseHelper].
   ///
-  /// The [DatabaseHandler] is utilized for all database interactions.
+  /// The [DatabaseHelper] is utilized for all database interactions.
   ContactsLocalProviderImpl({
-    required this.databaseHandler,
+    required this.databaseHelper,
   });
 
   /// The handler for database operations, encapsulating the logic for data manipulation.
-  final DatabaseHandler databaseHandler;
+  final DatabaseHelper databaseHelper;
 
   /// The name of the database table used for storing contacts data.
   final String tableName = ContactsTable().tableName;
@@ -52,7 +52,7 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
   @override
   Future<Either<Failure, ContactResponse>> getCachedContacts() async {
     // Retrieves contacts data from the specified table in the local database.
-    final response = await databaseHandler.get(
+    final response = await databaseHelper.get(
       tableName: tableName,
       parser: ContactResponse.fromJson,
     );
@@ -62,7 +62,7 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
   @override
   Future<void> cacheContact({required ContactModel contactModel}) async {
     // Inserts a new contact's data into the local database.
-    await databaseHandler.insert(
+    await databaseHelper.insert(
       tableName: tableName,
       data: contactModel,
       parser: (model) => model.toJson(),
@@ -72,22 +72,22 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
   @override
   Future<void> updateCachedContact({required ContactModel contactModel}) async {
     // Updates an existing contact's data in the local database based on identifiers.
-    await databaseHandler.update(
+    await databaseHelper.update(
       tableName: tableName,
       data: contactModel,
       parser: (model) => model.toJson(),
       where: 'contactuserid = ? AND userid = ?',
-      whereArgs: [contactModel.contactUserid, contactModel.userid],
+      whereArgs: [contactModel.contactUserId, contactModel.userId],
     );
   }
 
   @override
   Future<void> deleteCachedContact({required ContactModel contactModel}) async {
     // Deletes a contact's data from the local database based on identifiers.
-    await databaseHandler.delete(
+    await databaseHelper.delete(
       tableName: tableName,
       where: 'contactuserid = ? AND userid = ?',
-      whereArgs: [contactModel.contactUserid, contactModel.userid],
+      whereArgs: [contactModel.contactUserId, contactModel.userId],
     );
   }
 }

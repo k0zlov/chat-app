@@ -8,7 +8,7 @@ import 'package:dartz/dartz.dart';
 /// updating, and deletion of data. Implementations must handle these operations
 /// and potentially encapsulate error handling using the `Either` type from `dartz`,
 /// providing a unified approach to error management across database interactions.
-abstract interface class DatabaseHandler {
+abstract interface class DatabaseHelper {
   /// Retrieves data from a specified table within the database.
   ///
   /// This method should query the database based on the provided parameters and

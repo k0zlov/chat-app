@@ -24,9 +24,9 @@ class ContactResponse with _$ContactResponse {
 class ContactModel with _$ContactModel {
   /// Default constructor for [ContactModel].
   const factory ContactModel({
-    @Default(0) int userid,
-    @JsonKey(name: 'addedat') @Default('') String addedAt,
-    @JsonKey(name: 'contactuserid') @Default(0) int contactUserid,
+    @JsonKey(name: 'user_id') @Default(0) int userId,
+    @JsonKey(name: 'added_at') @Default('') String addedAt,
+    @JsonKey(name: 'contact_user_id') @Default(0) int contactUserId,
   }) = _ContactModel;
 
   const ContactModel._();

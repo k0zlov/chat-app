@@ -1,4 +1,82 @@
+import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/network/network.dart';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// Implementation of the Network interface for network operations.
-class NetworkImpl implements Network {}
+class NetworkImpl implements Network {
+  NetworkImpl({required String baseUrl}) {
+    Network.setBaseUrl = baseUrl;
+  }
+
+  Dio get dio {
+    final Map<String, dynamic> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    return Dio(
+      BaseOptions(
+        baseUrl: Network.baseUrl!,
+        headers: headers,
+      ),
+    );
+  }
+
+  @override
+  Future<Either<Failure, T>> get<T>({
+    required String url,
+    required Map<String, dynamic> queryParameters,
+    required T Function(dynamic json) parser,
+  }) async {
+    try {
+      final Response<dynamic> response = await dio.get(
+        url,
+        queryParameters: queryParameters,
+      );
+
+      final parsedData = parser(response.data);
+
+      return Right(parsedData);
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error: $e \nStack Trace: \n$stackTrace');
+      }
+
+      const ServerFailure serverFailure = ServerFailure(
+        errorMessage: 'Could not retrieve data from server.',
+      );
+
+      return const Left(serverFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, T>> post<T>({
+    required String url,
+    required Map<String, dynamic> data,
+    required T Function(dynamic json) parser,
+  }) async {
+    try {
+      final Response<dynamic> response = await dio.post(
+        url,
+        data: data,
+      );
+
+      final parsedData = parser(response.data);
+
+      return Right(parsedData);
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error: $e \nStack Trace: \n$stackTrace');
+      }
+
+      const ServerFailure serverFailure = ServerFailure(
+        errorMessage: 'Could not retrieve data from server.',
+      );
+
+      return const Left(serverFailure);
+    }
+  }
+}

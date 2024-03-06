@@ -24,9 +24,9 @@ class MessageResponse with _$MessageResponse {
 class MessageModel with _$MessageModel {
   /// Default constructor for [MessageModel].
   const factory MessageModel({
-    @Default(0) int messageid,
-    @Default(0) int chatid,
-    @Default(0) int userid,
+    @JsonKey(name: 'message_id') @Default(0) int messageId,
+    @JsonKey(name: 'chat_id') @Default(0) int chatId,
+    @JsonKey(name: 'user_id') @Default(0) int userId,
     @Default('') String content,
     @JsonKey(name: 'createdat') @Default('') String createdAt,
   }) = _MessageModel;

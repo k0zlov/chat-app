@@ -31,25 +31,25 @@ abstract interface class ChatsLocalProvider {
   Future<void> deleteCachedChat({required ChatModel chatModel});
 }
 
-/// Implementation of the [ChatsLocalProvider] interface using the provided [DatabaseHandler].
+/// Implementation of the [ChatsLocalProvider] interface using the provided [DatabaseHelper].
 ///
 /// This implementation interacts with the local database layer
 /// to perform chat-related operations.
 class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
-  /// Constructs a [ChatsLocalProviderImpl] instance with the specified [DatabaseHandler].
+  /// Constructs a [ChatsLocalProviderImpl] instance with the specified [DatabaseHelper].
   ChatsLocalProviderImpl({
-    required this.databaseHandler,
+    required this.databaseHelper,
   });
   /// The database handler used for performing database operations.
-  final DatabaseHandler databaseHandler;
+  final DatabaseHelper databaseHelper;
 
   /// The name of the database table used for storing chats data.
   final String tableName = ChatsTable().tableName;
 
   @override
   Future<Either<Failure, ChatResponse>> getCachedChats() async {
-    final response = await databaseHandler.get(
+    final response = await databaseHelper.get(
       tableName: tableName,
       parser: ChatResponse.fromJson,
     );
@@ -59,7 +59,7 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
   @override
   Future<void> cacheChat({required ChatModel chatModel}) async {
-    await databaseHandler.insert(
+    await databaseHelper.insert(
       tableName: tableName,
       data: chatModel,
       parser: (model) => model.toJson(),
@@ -68,21 +68,21 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
   @override
   Future<void> updateCachedChat({required ChatModel chatModel}) async {
-    await databaseHandler.update(
+    await databaseHelper.update(
       tableName: tableName,
       data: chatModel,
       parser: (model) => model.toJson(),
       where: 'chatid = ?',
-      whereArgs: [chatModel.chatid],
+      whereArgs: [chatModel.chatId],
     );
   }
 
   @override
   Future<void> deleteCachedChat({required ChatModel chatModel}) async {
-    await databaseHandler.delete(
+    await databaseHelper.delete(
       tableName: tableName,
       where: 'chatid = ?',
-      whereArgs: [chatModel.chatid],
+      whereArgs: [chatModel.chatId],
     );
   }
 }

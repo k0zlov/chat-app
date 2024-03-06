@@ -171,10 +171,11 @@ ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatModel {
-  int get chatid => throw _privateConstructorUsedError;
-  @JsonKey(name: 'chattype')
+  @JsonKey(name: 'chat_id')
+  int get chatId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'chat_type')
   String get chatType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'createdat')
+  @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -189,9 +190,9 @@ abstract class $ChatModelCopyWith<$Res> {
       _$ChatModelCopyWithImpl<$Res, ChatModel>;
   @useResult
   $Res call(
-      {int chatid,
-      @JsonKey(name: 'chattype') String chatType,
-      @JsonKey(name: 'createdat') String createdAt});
+      {@JsonKey(name: 'chat_id') int chatId,
+      @JsonKey(name: 'chat_type') String chatType,
+      @JsonKey(name: 'created_at') String createdAt});
 }
 
 /// @nodoc
@@ -207,14 +208,14 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatid = null,
+    Object? chatId = null,
     Object? chatType = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      chatid: null == chatid
-          ? _value.chatid
-          : chatid // ignore: cast_nullable_to_non_nullable
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
               as int,
       chatType: null == chatType
           ? _value.chatType
@@ -237,9 +238,9 @@ abstract class _$$ChatModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int chatid,
-      @JsonKey(name: 'chattype') String chatType,
-      @JsonKey(name: 'createdat') String createdAt});
+      {@JsonKey(name: 'chat_id') int chatId,
+      @JsonKey(name: 'chat_type') String chatType,
+      @JsonKey(name: 'created_at') String createdAt});
 }
 
 /// @nodoc
@@ -253,14 +254,14 @@ class __$$ChatModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatid = null,
+    Object? chatId = null,
     Object? chatType = null,
     Object? createdAt = null,
   }) {
     return _then(_$ChatModelImpl(
-      chatid: null == chatid
-          ? _value.chatid
-          : chatid // ignore: cast_nullable_to_non_nullable
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
               as int,
       chatType: null == chatType
           ? _value.chatType
@@ -278,27 +279,27 @@ class __$$ChatModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatModelImpl extends _ChatModel {
   const _$ChatModelImpl(
-      {this.chatid = 0,
-      @JsonKey(name: 'chattype') this.chatType = '',
-      @JsonKey(name: 'createdat') this.createdAt = ''})
+      {@JsonKey(name: 'chat_id') this.chatId = 0,
+      @JsonKey(name: 'chat_type') this.chatType = '',
+      @JsonKey(name: 'created_at') this.createdAt = ''})
       : super._();
 
   factory _$ChatModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatModelImplFromJson(json);
 
   @override
-  @JsonKey()
-  final int chatid;
+  @JsonKey(name: 'chat_id')
+  final int chatId;
   @override
-  @JsonKey(name: 'chattype')
+  @JsonKey(name: 'chat_type')
   final String chatType;
   @override
-  @JsonKey(name: 'createdat')
+  @JsonKey(name: 'created_at')
   final String createdAt;
 
   @override
   String toString() {
-    return 'ChatModel(chatid: $chatid, chatType: $chatType, createdAt: $createdAt)';
+    return 'ChatModel(chatId: $chatId, chatType: $chatType, createdAt: $createdAt)';
   }
 
   @override
@@ -306,7 +307,7 @@ class _$ChatModelImpl extends _ChatModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatModelImpl &&
-            (identical(other.chatid, chatid) || other.chatid == chatid) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.chatType, chatType) ||
                 other.chatType == chatType) &&
             (identical(other.createdAt, createdAt) ||
@@ -315,7 +316,7 @@ class _$ChatModelImpl extends _ChatModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, chatid, chatType, createdAt);
+  int get hashCode => Object.hash(runtimeType, chatId, chatType, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -333,21 +334,22 @@ class _$ChatModelImpl extends _ChatModel {
 
 abstract class _ChatModel extends ChatModel {
   const factory _ChatModel(
-      {final int chatid,
-      @JsonKey(name: 'chattype') final String chatType,
-      @JsonKey(name: 'createdat') final String createdAt}) = _$ChatModelImpl;
+      {@JsonKey(name: 'chat_id') final int chatId,
+      @JsonKey(name: 'chat_type') final String chatType,
+      @JsonKey(name: 'created_at') final String createdAt}) = _$ChatModelImpl;
   const _ChatModel._() : super._();
 
   factory _ChatModel.fromJson(Map<String, dynamic> json) =
       _$ChatModelImpl.fromJson;
 
   @override
-  int get chatid;
+  @JsonKey(name: 'chat_id')
+  int get chatId;
   @override
-  @JsonKey(name: 'chattype')
+  @JsonKey(name: 'chat_type')
   String get chatType;
   @override
-  @JsonKey(name: 'createdat')
+  @JsonKey(name: 'created_at')
   String get createdAt;
   @override
   @JsonKey(ignore: true)

@@ -45,12 +45,12 @@ class UserModel with _$UserModel {
   ///
   /// The `createdAt` parameter specifies the user's creation date.
   const factory UserModel({
-    @Default(0) int userid,
+    @JsonKey(name: 'user_id') @Default(0) int userId,
     @Default('') String username,
     @Default('') String email,
-    @JsonKey(name: 'phonenumber') @Default('') String phoneNumber,
-    @JsonKey(name: 'passwordhash') @Default('') String passwordHash,
-    @JsonKey(name: 'createdat') @Default('') String createdAt,
+    @JsonKey(name: 'phone_number') @Default('') String phoneNumber,
+    @JsonKey(name: 'password_hash') @Default('') String passwordHash,
+    @JsonKey(name: 'created_at') @Default('') String createdAt,
   }) = _UserModel;
 
   const UserModel._();

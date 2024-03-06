@@ -25,17 +25,17 @@ Map<String, dynamic> _$$ChatParticipantsResponseImplToJson(
 _$ChatParticipantsModelImpl _$$ChatParticipantsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatParticipantsModelImpl(
-      chatid: json['chatid'] as int? ?? 0,
-      userid: json['userid'] as int? ?? 0,
+      chatId: json['chat_id'] as int? ?? 0,
+      userId: json['user_id'] as int? ?? 0,
       role: json['role'] as String? ?? '',
-      joinedAt: json['joinedat'] as String? ?? '',
+      joinedAt: json['joined_at'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$ChatParticipantsModelImplToJson(
         _$ChatParticipantsModelImpl instance) =>
     <String, dynamic>{
-      'chatid': instance.chatid,
-      'userid': instance.userid,
+      'chat_id': instance.chatId,
+      'user_id': instance.userId,
       'role': instance.role,
-      'joinedat': instance.joinedAt,
+      'joined_at': instance.joinedAt,
     };

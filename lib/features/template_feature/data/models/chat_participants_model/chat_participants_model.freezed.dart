@@ -185,10 +185,12 @@ ChatParticipantsModel _$ChatParticipantsModelFromJson(
 
 /// @nodoc
 mixin _$ChatParticipantsModel {
-  int get chatid => throw _privateConstructorUsedError;
-  int get userid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'chat_id')
+  int get chatId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
+  int get userId => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
-  @JsonKey(name: 'joinedat')
+  @JsonKey(name: 'joined_at')
   String get joinedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -204,10 +206,10 @@ abstract class $ChatParticipantsModelCopyWith<$Res> {
       _$ChatParticipantsModelCopyWithImpl<$Res, ChatParticipantsModel>;
   @useResult
   $Res call(
-      {int chatid,
-      int userid,
+      {@JsonKey(name: 'chat_id') int chatId,
+      @JsonKey(name: 'user_id') int userId,
       String role,
-      @JsonKey(name: 'joinedat') String joinedAt});
+      @JsonKey(name: 'joined_at') String joinedAt});
 }
 
 /// @nodoc
@@ -224,19 +226,19 @@ class _$ChatParticipantsModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatid = null,
-    Object? userid = null,
+    Object? chatId = null,
+    Object? userId = null,
     Object? role = null,
     Object? joinedAt = null,
   }) {
     return _then(_value.copyWith(
-      chatid: null == chatid
-          ? _value.chatid
-          : chatid // ignore: cast_nullable_to_non_nullable
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
               as int,
-      userid: null == userid
-          ? _value.userid
-          : userid // ignore: cast_nullable_to_non_nullable
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as int,
       role: null == role
           ? _value.role
@@ -260,10 +262,10 @@ abstract class _$$ChatParticipantsModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int chatid,
-      int userid,
+      {@JsonKey(name: 'chat_id') int chatId,
+      @JsonKey(name: 'user_id') int userId,
       String role,
-      @JsonKey(name: 'joinedat') String joinedAt});
+      @JsonKey(name: 'joined_at') String joinedAt});
 }
 
 /// @nodoc
@@ -278,19 +280,19 @@ class __$$ChatParticipantsModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatid = null,
-    Object? userid = null,
+    Object? chatId = null,
+    Object? userId = null,
     Object? role = null,
     Object? joinedAt = null,
   }) {
     return _then(_$ChatParticipantsModelImpl(
-      chatid: null == chatid
-          ? _value.chatid
-          : chatid // ignore: cast_nullable_to_non_nullable
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
               as int,
-      userid: null == userid
-          ? _value.userid
-          : userid // ignore: cast_nullable_to_non_nullable
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as int,
       role: null == role
           ? _value.role
@@ -308,31 +310,31 @@ class __$$ChatParticipantsModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatParticipantsModelImpl extends _ChatParticipantsModel {
   const _$ChatParticipantsModelImpl(
-      {this.chatid = 0,
-      this.userid = 0,
+      {@JsonKey(name: 'chat_id') this.chatId = 0,
+      @JsonKey(name: 'user_id') this.userId = 0,
       this.role = '',
-      @JsonKey(name: 'joinedat') this.joinedAt = ''})
+      @JsonKey(name: 'joined_at') this.joinedAt = ''})
       : super._();
 
   factory _$ChatParticipantsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatParticipantsModelImplFromJson(json);
 
   @override
-  @JsonKey()
-  final int chatid;
+  @JsonKey(name: 'chat_id')
+  final int chatId;
   @override
-  @JsonKey()
-  final int userid;
+  @JsonKey(name: 'user_id')
+  final int userId;
   @override
   @JsonKey()
   final String role;
   @override
-  @JsonKey(name: 'joinedat')
+  @JsonKey(name: 'joined_at')
   final String joinedAt;
 
   @override
   String toString() {
-    return 'ChatParticipantsModel(chatid: $chatid, userid: $userid, role: $role, joinedAt: $joinedAt)';
+    return 'ChatParticipantsModel(chatId: $chatId, userId: $userId, role: $role, joinedAt: $joinedAt)';
   }
 
   @override
@@ -340,8 +342,8 @@ class _$ChatParticipantsModelImpl extends _ChatParticipantsModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatParticipantsModelImpl &&
-            (identical(other.chatid, chatid) || other.chatid == chatid) &&
-            (identical(other.userid, userid) || other.userid == userid) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.joinedAt, joinedAt) ||
                 other.joinedAt == joinedAt));
@@ -349,7 +351,7 @@ class _$ChatParticipantsModelImpl extends _ChatParticipantsModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, chatid, userid, role, joinedAt);
+  int get hashCode => Object.hash(runtimeType, chatId, userId, role, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -368,10 +370,10 @@ class _$ChatParticipantsModelImpl extends _ChatParticipantsModel {
 
 abstract class _ChatParticipantsModel extends ChatParticipantsModel {
   const factory _ChatParticipantsModel(
-          {final int chatid,
-          final int userid,
+          {@JsonKey(name: 'chat_id') final int chatId,
+          @JsonKey(name: 'user_id') final int userId,
           final String role,
-          @JsonKey(name: 'joinedat') final String joinedAt}) =
+          @JsonKey(name: 'joined_at') final String joinedAt}) =
       _$ChatParticipantsModelImpl;
   const _ChatParticipantsModel._() : super._();
 
@@ -379,13 +381,15 @@ abstract class _ChatParticipantsModel extends ChatParticipantsModel {
       _$ChatParticipantsModelImpl.fromJson;
 
   @override
-  int get chatid;
+  @JsonKey(name: 'chat_id')
+  int get chatId;
   @override
-  int get userid;
+  @JsonKey(name: 'user_id')
+  int get userId;
   @override
   String get role;
   @override
-  @JsonKey(name: 'joinedat')
+  @JsonKey(name: 'joined_at')
   String get joinedAt;
   @override
   @JsonKey(ignore: true)

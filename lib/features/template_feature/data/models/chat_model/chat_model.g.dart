@@ -21,14 +21,14 @@ Map<String, dynamic> _$$ChatResponseImplToJson(_$ChatResponseImpl instance) =>
 
 _$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
     _$ChatModelImpl(
-      chatid: json['chatid'] as int? ?? 0,
-      chatType: json['chattype'] as String? ?? '',
-      createdAt: json['createdat'] as String? ?? '',
+      chatId: json['chat_id'] as int? ?? 0,
+      chatType: json['chat_type'] as String? ?? '',
+      createdAt: json['created_at'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$ChatModelImplToJson(_$ChatModelImpl instance) =>
     <String, dynamic>{
-      'chatid': instance.chatid,
-      'chattype': instance.chatType,
-      'createdat': instance.createdAt,
+      'chat_id': instance.chatId,
+      'chat_type': instance.chatType,
+      'created_at': instance.createdAt,
     };

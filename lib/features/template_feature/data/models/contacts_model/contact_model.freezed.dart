@@ -172,11 +172,12 @@ ContactModel _$ContactModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ContactModel {
-  int get userid => throw _privateConstructorUsedError;
-  @JsonKey(name: 'addedat')
+  @JsonKey(name: 'user_id')
+  int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'added_at')
   String get addedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'contactuserid')
-  int get contactUserid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'contact_user_id')
+  int get contactUserId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -191,9 +192,9 @@ abstract class $ContactModelCopyWith<$Res> {
       _$ContactModelCopyWithImpl<$Res, ContactModel>;
   @useResult
   $Res call(
-      {int userid,
-      @JsonKey(name: 'addedat') String addedAt,
-      @JsonKey(name: 'contactuserid') int contactUserid});
+      {@JsonKey(name: 'user_id') int userId,
+      @JsonKey(name: 'added_at') String addedAt,
+      @JsonKey(name: 'contact_user_id') int contactUserId});
 }
 
 /// @nodoc
@@ -209,22 +210,22 @@ class _$ContactModelCopyWithImpl<$Res, $Val extends ContactModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userid = null,
+    Object? userId = null,
     Object? addedAt = null,
-    Object? contactUserid = null,
+    Object? contactUserId = null,
   }) {
     return _then(_value.copyWith(
-      userid: null == userid
-          ? _value.userid
-          : userid // ignore: cast_nullable_to_non_nullable
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as int,
       addedAt: null == addedAt
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      contactUserid: null == contactUserid
-          ? _value.contactUserid
-          : contactUserid // ignore: cast_nullable_to_non_nullable
+      contactUserId: null == contactUserId
+          ? _value.contactUserId
+          : contactUserId // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -239,9 +240,9 @@ abstract class _$$ContactModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int userid,
-      @JsonKey(name: 'addedat') String addedAt,
-      @JsonKey(name: 'contactuserid') int contactUserid});
+      {@JsonKey(name: 'user_id') int userId,
+      @JsonKey(name: 'added_at') String addedAt,
+      @JsonKey(name: 'contact_user_id') int contactUserId});
 }
 
 /// @nodoc
@@ -255,22 +256,22 @@ class __$$ContactModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userid = null,
+    Object? userId = null,
     Object? addedAt = null,
-    Object? contactUserid = null,
+    Object? contactUserId = null,
   }) {
     return _then(_$ContactModelImpl(
-      userid: null == userid
-          ? _value.userid
-          : userid // ignore: cast_nullable_to_non_nullable
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as int,
       addedAt: null == addedAt
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as String,
-      contactUserid: null == contactUserid
-          ? _value.contactUserid
-          : contactUserid // ignore: cast_nullable_to_non_nullable
+      contactUserId: null == contactUserId
+          ? _value.contactUserId
+          : contactUserId // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -280,27 +281,27 @@ class __$$ContactModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ContactModelImpl extends _ContactModel {
   const _$ContactModelImpl(
-      {this.userid = 0,
-      @JsonKey(name: 'addedat') this.addedAt = '',
-      @JsonKey(name: 'contactuserid') this.contactUserid = 0})
+      {@JsonKey(name: 'user_id') this.userId = 0,
+      @JsonKey(name: 'added_at') this.addedAt = '',
+      @JsonKey(name: 'contact_user_id') this.contactUserId = 0})
       : super._();
 
   factory _$ContactModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ContactModelImplFromJson(json);
 
   @override
-  @JsonKey()
-  final int userid;
+  @JsonKey(name: 'user_id')
+  final int userId;
   @override
-  @JsonKey(name: 'addedat')
+  @JsonKey(name: 'added_at')
   final String addedAt;
   @override
-  @JsonKey(name: 'contactuserid')
-  final int contactUserid;
+  @JsonKey(name: 'contact_user_id')
+  final int contactUserId;
 
   @override
   String toString() {
-    return 'ContactModel(userid: $userid, addedAt: $addedAt, contactUserid: $contactUserid)';
+    return 'ContactModel(userId: $userId, addedAt: $addedAt, contactUserId: $contactUserId)';
   }
 
   @override
@@ -308,15 +309,15 @@ class _$ContactModelImpl extends _ContactModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContactModelImpl &&
-            (identical(other.userid, userid) || other.userid == userid) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
-            (identical(other.contactUserid, contactUserid) ||
-                other.contactUserid == contactUserid));
+            (identical(other.contactUserId, contactUserId) ||
+                other.contactUserId == contactUserId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userid, addedAt, contactUserid);
+  int get hashCode => Object.hash(runtimeType, userId, addedAt, contactUserId);
 
   @JsonKey(ignore: true)
   @override
@@ -334,9 +335,9 @@ class _$ContactModelImpl extends _ContactModel {
 
 abstract class _ContactModel extends ContactModel {
   const factory _ContactModel(
-          {final int userid,
-          @JsonKey(name: 'addedat') final String addedAt,
-          @JsonKey(name: 'contactuserid') final int contactUserid}) =
+          {@JsonKey(name: 'user_id') final int userId,
+          @JsonKey(name: 'added_at') final String addedAt,
+          @JsonKey(name: 'contact_user_id') final int contactUserId}) =
       _$ContactModelImpl;
   const _ContactModel._() : super._();
 
@@ -344,13 +345,14 @@ abstract class _ContactModel extends ContactModel {
       _$ContactModelImpl.fromJson;
 
   @override
-  int get userid;
+  @JsonKey(name: 'user_id')
+  int get userId;
   @override
-  @JsonKey(name: 'addedat')
+  @JsonKey(name: 'added_at')
   String get addedAt;
   @override
-  @JsonKey(name: 'contactuserid')
-  int get contactUserid;
+  @JsonKey(name: 'contact_user_id')
+  int get contactUserId;
   @override
   @JsonKey(ignore: true)
   _$$ContactModelImplCopyWith<_$ContactModelImpl> get copyWith =>

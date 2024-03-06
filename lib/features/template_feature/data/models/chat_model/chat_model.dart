@@ -24,9 +24,9 @@ class ChatResponse with _$ChatResponse {
 class ChatModel with _$ChatModel {
   /// Default constructor for [ChatModel].
   const factory ChatModel({
-    @Default(0) int chatid,
-    @JsonKey(name: 'chattype') @Default('') String chatType,
-    @JsonKey(name: 'createdat') @Default('') String createdAt,
+    @JsonKey(name: 'chat_id') @Default(0) int chatId,
+    @JsonKey(name: 'chat_type') @Default('') String chatType,
+    @JsonKey(name: 'created_at') @Default('') String createdAt,
 }) = _ChatModel;
 
   const ChatModel._();

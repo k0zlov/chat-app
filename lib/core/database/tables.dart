@@ -32,14 +32,14 @@ class UsersTable extends Table {
 
   @override
   Map<String, String> fields() => {
-    'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'userid': 'INTEGER UNIQUE',
-    'username': 'TEXT NOT NULL',
-    'email': 'TEXT NOT NULL',
-    'phonenumber': 'TEXT NOT NULL',
-    'passwordhash': 'TEXT NOT NULL',
-    'createdat': 'TEXT NOT NULL',
-  };
+        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'user_id': 'INTEGER UNIQUE',
+        'username': 'TEXT NOT NULL',
+        'email': 'TEXT NOT NULL',
+        'phone_number': 'TEXT NOT NULL',
+        'password_hash': 'TEXT NOT NULL',
+        'created_at': 'TEXT NOT NULL',
+      };
 }
 
 /// Describes the schema for a 'chats' table in the database.
@@ -52,11 +52,11 @@ class ChatsTable extends Table {
 
   @override
   Map<String, String> fields() => {
-    'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'chatid': 'INTEGER UNIQUE',
-    'chattype': 'TEXT NOT NULL',
-    'createdat': 'TEXT NOT NULL',
-  };
+        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'chat_id': 'INTEGER UNIQUE',
+        'chat_type': 'TEXT NOT NULL',
+        'created_at': 'TEXT NOT NULL',
+      };
 }
 
 /// Defines the schema for a 'messages' table in the database.
@@ -69,15 +69,17 @@ class MessagesTable extends Table {
 
   @override
   Map<String, String> fields() => {
-    'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'messageid': 'INTEGER UNIQUE',
-    'chatid': 'INTEGER',
-    'userid': 'INTEGER',
-    'content': 'TEXT NOT NULL',
-    'createdat': 'TEXT NOT NULL',
-    'FOREIGN KEY (chatid)': 'REFERENCES ${ChatsTable().tableName}(chatid)',
-    'FOREIGN KEY (userid)': 'REFERENCES ${UsersTable().tableName}(userid)',
-  };
+        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'message_id': 'INTEGER UNIQUE',
+        'chat_id': 'INTEGER',
+        'user_id': 'INTEGER',
+        'content': 'TEXT NOT NULL',
+        'created_at': 'TEXT NOT NULL',
+        'FOREIGN KEY (chat_id)':
+            'REFERENCES ${ChatsTable().tableName}(chat_id)',
+        'FOREIGN KEY (user_id)':
+            'REFERENCES ${UsersTable().tableName}(user_id)',
+      };
 }
 
 /// Specifies the schema for a 'chatparticipants' table in the database.
@@ -90,15 +92,17 @@ class ChatParticipantsTable extends Table {
 
   @override
   Map<String, String> fields() => {
-    'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'chatid': 'INTEGER',
-    'userid': 'INTEGER',
-    'role': 'TEXT NOT NULL',
-    'joinedat': 'TEXT NOT NULL',
-    'FOREIGN KEY (chatid)': 'REFERENCES ${ChatsTable().tableName}(chatid)',
-    'FOREIGN KEY (userid)': 'REFERENCES ${UsersTable().tableName}(userid)',
-    'UNIQUE': '(userid, chatid)',
-  };
+        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'chat_id': 'INTEGER',
+        'user_id': 'INTEGER',
+        'role': 'TEXT NOT NULL',
+        'joined_at': 'TEXT NOT NULL',
+        'FOREIGN KEY (chat_id)':
+            'REFERENCES ${ChatsTable().tableName}(chat_id)',
+        'FOREIGN KEY (user_id)':
+            'REFERENCES ${UsersTable().tableName}(user_id)',
+        'UNIQUE': '(user_id, chat_id)',
+      };
 }
 
 /// Outlines the schema for a 'contacts' table in the database.
@@ -111,13 +115,15 @@ class ContactsTable extends Table {
 
   @override
   Map<String, String> fields() => {
-    'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-    'contactuserid': 'INTEGER UNIQUE',
-    'userid': 'INTEGER',
-    'addedat': 'TEXT NOT NULL',
-    'FOREIGN KEY (userid)': 'REFERENCES ${UsersTable().tableName}(userid)',
-    'FOREIGN KEY (contactuserid)': 'REFERENCES ${UsersTable().tableName}(userid)',
-    'CHECK': '(contactuserid != userid)',
-    'UNIQUE': '(contactuserid, userid)',
-  };
+        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'contact_user_id': 'INTEGER UNIQUE',
+        'user_id': 'INTEGER',
+        'added_at': 'TEXT NOT NULL',
+        'FOREIGN KEY (user_id)':
+            'REFERENCES ${UsersTable().tableName}(user_id)',
+        'FOREIGN KEY (contact_user_id)':
+            'REFERENCES ${UsersTable().tableName}(user_id)',
+        'CHECK': '(contact_user_id != user_id)',
+        'UNIQUE': '(contact_user_id, user_id)',
+      };
 }
