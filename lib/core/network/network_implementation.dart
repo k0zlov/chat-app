@@ -30,6 +30,8 @@ class NetworkImpl implements Network {
     required Map<String, dynamic> queryParameters,
     required T Function(dynamic json) parser,
   }) async {
+    const String defaultErrorMessage = 'Could not retrieve data from server.';
+
     try {
       final Response<dynamic> response = await dio.get(
         url,
@@ -39,13 +41,23 @@ class NetworkImpl implements Network {
       final parsedData = parser(response.data);
 
       return Right(parsedData);
+    } on DioException catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error: $e \nStack Trace: \n$stackTrace');
+      }
+
+      final serverFailure = ServerFailure(
+        errorMessage: e.message ?? defaultErrorMessage,
+      );
+
+      return Left(serverFailure);
     } catch (e, stackTrace) {
       if (kDebugMode) {
         print('Error: $e \nStack Trace: \n$stackTrace');
       }
 
       const ServerFailure serverFailure = ServerFailure(
-        errorMessage: 'Could not retrieve data from server.',
+        errorMessage: defaultErrorMessage,
       );
 
       return const Left(serverFailure);
@@ -58,6 +70,8 @@ class NetworkImpl implements Network {
     required Map<String, dynamic> data,
     required T Function(dynamic json) parser,
   }) async {
+    const String defaultErrorMessage = 'Could not retrieve data from server.';
+
     try {
       final Response<dynamic> response = await dio.post(
         url,
@@ -67,13 +81,23 @@ class NetworkImpl implements Network {
       final parsedData = parser(response.data);
 
       return Right(parsedData);
+    } on DioException catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error: $e \nStack Trace: \n$stackTrace');
+      }
+
+      final serverFailure = ServerFailure(
+        errorMessage: e.message ?? defaultErrorMessage,
+      );
+
+      return Left(serverFailure);
     } catch (e, stackTrace) {
       if (kDebugMode) {
         print('Error: $e \nStack Trace: \n$stackTrace');
       }
 
       const ServerFailure serverFailure = ServerFailure(
-        errorMessage: 'Could not retrieve data from server.',
+        errorMessage: defaultErrorMessage,
       );
 
       return const Left(serverFailure);
