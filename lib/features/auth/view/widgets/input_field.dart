@@ -6,16 +6,19 @@ class InputField extends StatelessWidget {
     required this.title,
     required this.controller,
     required this.errorText,
+    required this.onChanged,
   });
 
   final String title;
   final TextEditingController controller;
   final String? errorText;
+  final void Function() onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onChanged: (_) => onChanged(),
       decoration: InputDecoration(
         label: Text(title),
         errorText: errorText,

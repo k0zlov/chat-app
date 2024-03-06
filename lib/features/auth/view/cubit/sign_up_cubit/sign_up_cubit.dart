@@ -22,21 +22,78 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   TextEditingController get passwordController => _passwordController;
 
-  Future<void> signUp() async {
-    final String name = nameController.text;
+  bool checkEmail() {
     final String email = emailController.text;
+
+    final bool isValid = SignUpFormValidator.validateEmail(email);
+
+    if (isValid) {
+      if (state is SignUpStateFailure) {
+        emit(
+          SignUpStateFailure(
+            nameError: (state as SignUpStateFailure).nameError,
+            passwordError: (state as SignUpStateFailure).passwordError,
+          ),
+        );
+      } else {
+        emit(SignUpStateInitial());
+      }
+    }
+    return isValid;
+  }
+
+  bool checkName() {
+    final String name = nameController.text;
+
+    final bool isValid = SignUpFormValidator.validateName(name);
+
+    if (isValid) {
+      if (state is SignUpStateFailure) {
+        emit(
+          SignUpStateFailure(
+            emailError: (state as SignUpStateFailure).emailError,
+            passwordError: (state as SignUpStateFailure).passwordError,
+          ),
+        );
+      } else {
+        emit(SignUpStateInitial());
+      }
+    }
+    return isValid;
+  }
+
+  bool checkPassword() {
     final String password = passwordController.text;
 
-    final String? nameError = SignUpFormValidator.validateName(name)
-        ? null
-        : 'Name should be longer than 2 symbols.';
+    final bool isValid = SignUpFormValidator.validatePassword(password);
 
-    final String? emailError =
-        SignUpFormValidator.validateEmail(email) ? null : 'Invalid email.';
+    if (isValid) {
+      if (state is SignUpStateFailure) {
+        emit(
+          SignUpStateFailure(
+            nameError: (state as SignUpStateFailure).nameError,
+            emailError: (state as SignUpStateFailure).emailError,
+          ),
+        );
+      } else {
+        emit(SignUpStateInitial());
+      }
+    }
+    return isValid;
+  }
 
-    final String? passwordError = SignUpFormValidator.validatePassword(password)
-        ? null
-        : 'Password should be longer than 7 symbols.';
+  bool _checkAllInputs() {
+    final bool isNameValid = checkName();
+    final bool isEmailValid = checkEmail();
+    final bool isPasswordValid = checkPassword();
+
+    final String? nameError =
+    isNameValid ? null : 'Name should be longer than 2 symbols.';
+
+    final String? emailError = isEmailValid ? null : 'Invalid email.';
+
+    final String? passwordError =
+    isPasswordValid ? null : 'Password should be longer than 7 symbols.';
 
     if (nameError != null || emailError != null || passwordError != null) {
       emit(
@@ -46,10 +103,22 @@ class SignUpCubit extends Cubit<SignUpState> {
           passwordError: passwordError,
         ),
       );
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> signUp() async {
+    if(!_checkAllInputs()) {
       return;
     }
 
     emit(SignUpStateLoading());
+
+    final String name = nameController.text;
+    final String email = emailController.text;
+    final String password = passwordController.text;
+
 
     final SignUpParams signUpParams = SignUpParams(
       name: name,

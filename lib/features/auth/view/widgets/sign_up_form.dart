@@ -30,18 +30,21 @@ class SignUpForm extends StatelessWidget {
               title: 'Name',
               controller: cubit.nameController,
               errorText: nameError,
+              onChanged: cubit.checkName,
             ),
             const SizedBox(height: 10),
             InputField(
               title: 'Email',
               controller: cubit.emailController,
               errorText: emailError,
+              onChanged: cubit.checkEmail,
             ),
             const SizedBox(height: 10),
             InputField(
               title: 'Password',
               controller: cubit.passwordController,
               errorText: passwordError,
+              onChanged: cubit.checkPassword,
             ),
             const SizedBox(height: 10),
             SubmitButton(
