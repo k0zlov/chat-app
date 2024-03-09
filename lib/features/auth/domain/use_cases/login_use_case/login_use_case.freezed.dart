@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'sign_up_use_case.dart';
+part of 'login_use_case.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,35 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-SignUpParams _$SignUpParamsFromJson(Map<String, dynamic> json) {
-  return _SignUpParams.fromJson(json);
+LoginParams _$LoginParamsFromJson(Map<String, dynamic> json) {
+  return _LoginParams.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SignUpParams {
-  String get name => throw _privateConstructorUsedError;
+mixin _$LoginParams {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SignUpParamsCopyWith<SignUpParams> get copyWith =>
+  $LoginParamsCopyWith<LoginParams> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SignUpParamsCopyWith<$Res> {
-  factory $SignUpParamsCopyWith(
-          SignUpParams value, $Res Function(SignUpParams) then) =
-      _$SignUpParamsCopyWithImpl<$Res, SignUpParams>;
+abstract class $LoginParamsCopyWith<$Res> {
+  factory $LoginParamsCopyWith(
+          LoginParams value, $Res Function(LoginParams) then) =
+      _$LoginParamsCopyWithImpl<$Res, LoginParams>;
   @useResult
-  $Res call({String name, String email, String password});
+  $Res call({String email, String password});
 }
 
 /// @nodoc
-class _$SignUpParamsCopyWithImpl<$Res, $Val extends SignUpParams>
-    implements $SignUpParamsCopyWith<$Res> {
-  _$SignUpParamsCopyWithImpl(this._value, this._then);
+class _$LoginParamsCopyWithImpl<$Res, $Val extends LoginParams>
+    implements $LoginParamsCopyWith<$Res> {
+  _$LoginParamsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -52,15 +51,10 @@ class _$SignUpParamsCopyWithImpl<$Res, $Val extends SignUpParams>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
     Object? email = null,
     Object? password = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -74,36 +68,31 @@ class _$SignUpParamsCopyWithImpl<$Res, $Val extends SignUpParams>
 }
 
 /// @nodoc
-abstract class _$$SignUpParamsImplCopyWith<$Res>
-    implements $SignUpParamsCopyWith<$Res> {
-  factory _$$SignUpParamsImplCopyWith(
-          _$SignUpParamsImpl value, $Res Function(_$SignUpParamsImpl) then) =
-      __$$SignUpParamsImplCopyWithImpl<$Res>;
+abstract class _$$LoginParamsImplCopyWith<$Res>
+    implements $LoginParamsCopyWith<$Res> {
+  factory _$$LoginParamsImplCopyWith(
+          _$LoginParamsImpl value, $Res Function(_$LoginParamsImpl) then) =
+      __$$LoginParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String email, String password});
+  $Res call({String email, String password});
 }
 
 /// @nodoc
-class __$$SignUpParamsImplCopyWithImpl<$Res>
-    extends _$SignUpParamsCopyWithImpl<$Res, _$SignUpParamsImpl>
-    implements _$$SignUpParamsImplCopyWith<$Res> {
-  __$$SignUpParamsImplCopyWithImpl(
-      _$SignUpParamsImpl _value, $Res Function(_$SignUpParamsImpl) _then)
+class __$$LoginParamsImplCopyWithImpl<$Res>
+    extends _$LoginParamsCopyWithImpl<$Res, _$LoginParamsImpl>
+    implements _$$LoginParamsImplCopyWith<$Res> {
+  __$$LoginParamsImplCopyWithImpl(
+      _$LoginParamsImpl _value, $Res Function(_$LoginParamsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
     Object? email = null,
     Object? password = null,
   }) {
-    return _then(_$SignUpParamsImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_$LoginParamsImpl(
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -118,17 +107,12 @@ class __$$SignUpParamsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SignUpParamsImpl extends _SignUpParams {
-  const _$SignUpParamsImpl(
-      {this.name = '', this.email = '', this.password = ''})
-      : super._();
+class _$LoginParamsImpl extends _LoginParams {
+  const _$LoginParamsImpl({this.email = '', this.password = ''}) : super._();
 
-  factory _$SignUpParamsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SignUpParamsImplFromJson(json);
+  factory _$LoginParamsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoginParamsImplFromJson(json);
 
-  @override
-  @JsonKey()
-  final String name;
   @override
   @JsonKey()
   final String email;
@@ -138,15 +122,14 @@ class _$SignUpParamsImpl extends _SignUpParams {
 
   @override
   String toString() {
-    return 'SignUpParams(name: $name, email: $email, password: $password)';
+    return 'LoginParams(email: $email, password: $password)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignUpParamsImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            other is _$LoginParamsImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password));
@@ -154,40 +137,36 @@ class _$SignUpParamsImpl extends _SignUpParams {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, email, password);
+  int get hashCode => Object.hash(runtimeType, email, password);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignUpParamsImplCopyWith<_$SignUpParamsImpl> get copyWith =>
-      __$$SignUpParamsImplCopyWithImpl<_$SignUpParamsImpl>(this, _$identity);
+  _$$LoginParamsImplCopyWith<_$LoginParamsImpl> get copyWith =>
+      __$$LoginParamsImplCopyWithImpl<_$LoginParamsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignUpParamsImplToJson(
+    return _$$LoginParamsImplToJson(
       this,
     );
   }
 }
 
-abstract class _SignUpParams extends SignUpParams {
-  const factory _SignUpParams(
-      {final String name,
-      final String email,
-      final String password}) = _$SignUpParamsImpl;
-  const _SignUpParams._() : super._();
+abstract class _LoginParams extends LoginParams {
+  const factory _LoginParams({final String email, final String password}) =
+      _$LoginParamsImpl;
+  const _LoginParams._() : super._();
 
-  factory _SignUpParams.fromJson(Map<String, dynamic> json) =
-      _$SignUpParamsImpl.fromJson;
+  factory _LoginParams.fromJson(Map<String, dynamic> json) =
+      _$LoginParamsImpl.fromJson;
 
-  @override
-  String get name;
   @override
   String get email;
   @override
   String get password;
   @override
   @JsonKey(ignore: true)
-  _$$SignUpParamsImplCopyWith<_$SignUpParamsImpl> get copyWith =>
+  _$$LoginParamsImplCopyWith<_$LoginParamsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

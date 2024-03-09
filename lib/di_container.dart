@@ -5,8 +5,9 @@ import 'package:chat_app/core/network/network_implementation.dart';
 import 'package:chat_app/features/auth/data/providers/remote/auth_remote_provider.dart';
 import 'package:chat_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:chat_app/features/auth/domain/use_cases/sign_up_use_case.dart';
-import 'package:chat_app/features/auth/view/cubit/sign_up_cubit/sign_up_cubit.dart';
+import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/chatparticipants_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/chats_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/contacts_local_provider.dart';
@@ -43,15 +44,22 @@ Future<void> registerDependencies() async {
 }
 
 void _cubits() {
-  getIt.registerLazySingleton<SignUpCubit>(
-    () => SignUpCubit(signUpUseCase: getIt()),
+  getIt.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(
+      registrationUseCase: getIt(),
+      loginUseCase: getIt(),
+    ),
   );
 }
 
 void _useCases() {
-  getIt.registerLazySingleton<SignUpUseCase>(
-    () => SignUpUseCase(repository: getIt()),
-  );
+  getIt
+    ..registerLazySingleton<RegistrationUseCase>(
+      () => RegistrationUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(repository: getIt()),
+    );
 }
 
 void _repositories() {

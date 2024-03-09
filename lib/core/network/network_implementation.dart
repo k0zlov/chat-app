@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+// Hive Box or Secure Storage as Mixin Class
 /// Implementation of the Network interface for network operations.
 class NetworkImpl implements Network {
   NetworkImpl({required String baseUrl}) {
@@ -14,6 +15,7 @@ class NetworkImpl implements Network {
     final Map<String, dynamic> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'authorization': 'token',
     };
 
     return Dio(
@@ -56,7 +58,7 @@ class NetworkImpl implements Network {
         print('Error: $e \nStack Trace: \n$stackTrace');
       }
 
-      const ServerFailure serverFailure = ServerFailure(
+      const serverFailure = ServerFailure(
         errorMessage: defaultErrorMessage,
       );
 

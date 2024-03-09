@@ -1,19 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sign_up_use_case.dart';
+part of 'registration_use_case.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SignUpParamsImpl _$$SignUpParamsImplFromJson(Map<String, dynamic> json) =>
-    _$SignUpParamsImpl(
+_$RegistrationParamsImpl _$$RegistrationParamsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RegistrationParamsImpl(
       name: json['name'] as String? ?? '',
       email: json['email'] as String? ?? '',
       password: json['password'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$SignUpParamsImplToJson(_$SignUpParamsImpl instance) =>
+Map<String, dynamic> _$$RegistrationParamsImplToJson(
+        _$RegistrationParamsImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'email': instance.email,

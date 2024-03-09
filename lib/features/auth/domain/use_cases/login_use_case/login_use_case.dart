@@ -5,33 +5,32 @@ import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart'
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'sign_up_use_case.freezed.dart';
+part 'login_use_case.freezed.dart';
 
-part 'sign_up_use_case.g.dart';
+part 'login_use_case.g.dart';
 
-class SignUpUseCase implements UseCase<TokenEntity, SignUpParams> {
-  const SignUpUseCase({
+class LoginUseCase implements UseCase<TokenEntity, LoginParams> {
+  const LoginUseCase({
     required this.repository,
   });
 
   final AuthRepository repository;
 
   @override
-  Future<Either<Failure, TokenEntity>> call(SignUpParams params) async {
-    return repository.signUp(params);
+  Future<Either<Failure, TokenEntity>> call(LoginParams params) async {
+    return repository.login(params);
   }
 }
 
 @freezed
-class SignUpParams with _$SignUpParams {
-  const factory SignUpParams({
-    @Default('') String name,
+class LoginParams with _$LoginParams {
+  const factory LoginParams({
     @Default('') String email,
     @Default('') String password,
-  }) = _SignUpParams;
+  }) = _LoginParams;
 
-  const SignUpParams._();
+  const LoginParams._();
 
-  factory SignUpParams.fromJson(Map<String, dynamic> json) =>
-      _$SignUpParamsFromJson(json);
+  factory LoginParams.fromJson(Map<String, dynamic> json) =>
+      _$LoginParamsFromJson(json);
 }

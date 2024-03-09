@@ -1,8 +1,8 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ChatApplication extends StatelessWidget {
+  const ChatApplication({super.key});
 
   // This widget is the root of your application.
   @override
