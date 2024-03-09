@@ -13,6 +13,7 @@ import 'package:chat_app/features/template_feature/data/providers/local/chats_lo
 import 'package:chat_app/features/template_feature/data/providers/local/contacts_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/template_feature/data/providers/local/users_local_provider.dart';
+import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
 
 /// Singleton instance of GetIt for dependency injection.
@@ -29,6 +30,7 @@ final GetIt getIt = GetIt.instance;
 /// both local and remote data providers.
 Future<void> registerDependencies() async {
   await _database(); // Configures the database and its handler.
+  await _hive();
   _localProviders(); // Registers data providers for different features.
 
   _network();
@@ -41,6 +43,11 @@ Future<void> registerDependencies() async {
 
   // Waits for all asynchronous registrations to complete before proceeding.
   await getIt.allReady();
+}
+
+Future<void> _hive() async {
+  await HiveBoxMixin.initHive();
+  getIt.registerSingleton<HiveBoxMixin>(HiveBoxMixin());
 }
 
 void _cubits() {
@@ -64,7 +71,10 @@ void _useCases() {
 
 void _repositories() {
   getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(remoteProvider: getIt()),
+    () => AuthRepositoryImpl(
+      remoteProvider: getIt(),
+      hiveBoxMixin: getIt(),
+    ),
   );
 }
 

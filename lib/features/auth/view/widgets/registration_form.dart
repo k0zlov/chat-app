@@ -1,8 +1,10 @@
+import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
 import 'package:chat_app/features/auth/view/widgets/auth_text_field.dart';
 import 'package:chat_app/features/auth/view/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RegistrationForm extends StatelessWidget {
   const RegistrationForm({super.key});
@@ -56,6 +58,14 @@ class RegistrationForm extends StatelessWidget {
             height: 60,
             onPressed: cubit.onRegistrationButton,
             color: Colors.greenAccent,
+          ),
+          const SizedBox(height: gapBetweenFields),
+          TextButton(
+            onPressed: () => context.go(AppRoutes.login.path),
+            child: const Text(
+              'Already registered? Sign in',
+              style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+            ),
           ),
         ],
       ),
