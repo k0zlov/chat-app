@@ -93,10 +93,7 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
 
     failureOrToken.fold(
       (failure) {
-        const String errorMessage =
-            'Could not register you. Check the correctness of the entered data.';
-
-        _state = _state.copyWith(authError: errorMessage);
+        _state = _state.copyWith(authError: failure.errorMessage);
         emit(_state);
       },
       (tokenEntity) {
@@ -160,10 +157,7 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
 
     failureOrToken.fold(
       (failure) {
-        const String errorMessage =
-            'Could not login you. Check the correctness of the entered data.';
-
-        _state = _state.copyWith(authError: errorMessage);
+        _state = _state.copyWith(authError: failure.errorMessage);
         emit(_state);
       },
       (tokenEntity) {
@@ -173,6 +167,19 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     );
 
     _state = _state.copyWith(authInProcess: false);
+    emit(_state);
+  }
+
+  void showAuthError(BuildContext context) {
+    final String errorMessage = _state.authError;
+
+    if(errorMessage == '') return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage)),
+    );
+
+    _state = _state.copyWith(authError: '');
     emit(_state);
   }
 

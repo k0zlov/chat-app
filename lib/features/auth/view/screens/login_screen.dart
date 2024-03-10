@@ -9,11 +9,18 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthState state = context.select((AuthCubit cubit) => cubit.state);
-
-    return state.authInProcess
-        ? const _LoadingLoginScreen()
-        : const _LoginScreenStructure();
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.authError != '') {
+          context.read<AuthCubit>().showAuthError(context);
+        }
+      },
+      builder: (context, state) {
+        return state.authInProcess
+            ? const _LoadingLoginScreen()
+            : const _LoginScreenStructure();
+      },
+    );
   }
 }
 

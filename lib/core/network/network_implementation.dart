@@ -92,10 +92,11 @@ class NetworkImpl implements Network {
         print('Error: $e \nStack Trace: \n$stackTrace');
       }
 
-      final serverFailure = ServerFailure(
-        errorMessage: e.message ?? defaultErrorMessage,
-      );
+      final String? errorText = e.response?.data?['message'] as String?;
 
+      final serverFailure = ServerFailure(
+        errorMessage: errorText ?? defaultErrorMessage,
+      );
       return Left(serverFailure);
     } catch (e, stackTrace) {
       if (kDebugMode) {
