@@ -5,15 +5,15 @@ class ReactiveTextField extends StatefulWidget {
     super.key,
     required String this.text,
     required void Function(String) this.onChanged,
-    this.error,
-    this.label,
+    this.obscureText,
+    this.inputDecoration,
   });
 
   final String text;
   final void Function(String) onChanged;
-  final String? error;
 
-  final Widget? label;
+  final InputDecoration? inputDecoration;
+  final bool? obscureText;
 
   @override
   State<ReactiveTextField> createState() => _ReactiveTextFieldState();
@@ -41,13 +41,11 @@ class _ReactiveTextFieldState extends State<ReactiveTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: widget.obscureText ?? false,
       controller: _controller,
       onChanged: widget.onChanged,
       focusNode: _focusNode,
-      decoration: InputDecoration(
-        label: widget.label,
-        errorText: widget.error,
-      ),
+      decoration: widget.inputDecoration,
     );
   }
 }

@@ -176,6 +176,11 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     emit(_state);
   }
 
+  void onHidePasswordButton() {
+    _state = _state.copyWith(hidePassword: !_state.hidePassword);
+    emit(_state);
+  }
+
   Future<void> logout() async {
     await logoutBox();
     _state = const AuthState();

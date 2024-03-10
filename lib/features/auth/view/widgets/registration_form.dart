@@ -1,6 +1,7 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
 import 'package:chat_app/features/auth/view/widgets/auth_text_field.dart';
+import 'package:chat_app/features/auth/view/widgets/hide_password_button.dart';
 import 'package:chat_app/features/auth/view/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,9 +45,11 @@ class RegistrationForm extends StatelessWidget {
           ),
           const SizedBox(height: gapBetweenFields),
           AuthTextField(
+            obscureText: state.hidePassword,
             text: state.registrationParams.password,
             onChanged: cubit.onRegistrationPasswordChanged,
             label: const Text('Password'),
+            suffixIcon: const AuthHidePasswordButton(),
             error: state.registrationPasswordError == ''
                 ? null
                 : state.registrationPasswordError,
