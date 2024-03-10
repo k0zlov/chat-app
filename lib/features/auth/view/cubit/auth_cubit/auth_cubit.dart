@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:chat_app/core/widgets/error_snack_bar.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
+import 'package:chat_app/utils/text_input_validator/text_input_validator.dart';
 import 'package:flutter/material.dart';
 
 part 'auth_cubit_state.dart';
@@ -23,6 +25,13 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
 
     if (registrationParams.name == name) return;
 
+    final String nameError = TextInputValidator.validateName(name);
+    _state = _state.copyWith(registrationNameError: nameError);
+
+    if (name == '') {
+      _state = _state.copyWith(registrationNameError: '');
+    }
+
     _state = _state.copyWith(
       registrationParams: registrationParams.copyWith(name: name),
     );
@@ -33,6 +42,14 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     final RegistrationParams registrationParams = _state.registrationParams;
 
     if (registrationParams.email == email) return;
+
+    final String emailError = TextInputValidator.validateEmail(email);
+    _state = _state.copyWith(registrationEmailError: emailError);
+
+    if (email == '') {
+      _state = _state.copyWith(registrationEmailError: '');
+    }
+
     _state = _state.copyWith(
       registrationParams: registrationParams.copyWith(email: email),
     );
@@ -44,6 +61,13 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
 
     if (registrationParams.password == password) return;
 
+    final String passwordError = TextInputValidator.validatePassword(password);
+    _state = _state.copyWith(registrationPasswordError: passwordError);
+
+    if (password == '') {
+      _state = _state.copyWith(registrationPasswordError: '');
+    }
+
     _state = _state.copyWith(
       registrationParams: registrationParams.copyWith(password: password),
     );
@@ -54,23 +78,18 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     final RegistrationParams registrationParams = _state.registrationParams;
     bool allInputsValid = true;
 
-    String nameError = '';
-    String emailError = '';
-    String passwordError = '';
+    final String nameError = TextInputValidator.validateName(
+      registrationParams.name,
+    );
+    final String emailError = TextInputValidator.validateEmail(
+      registrationParams.email,
+    );
+    final String passwordError = TextInputValidator.validatePassword(
+      registrationParams.password,
+    );
 
-    if (!_InputsValidator.validateName(registrationParams.name)) {
+    if (nameError != '' || emailError != '' || passwordError != '') {
       allInputsValid = false;
-      nameError = 'Name should be longer than 2 symbols.';
-    }
-
-    if (!_InputsValidator.validateEmail(registrationParams.email)) {
-      allInputsValid = false;
-      emailError = 'Incorrect email.';
-    }
-
-    if (!_InputsValidator.validatePassword(registrationParams.password)) {
-      allInputsValid = false;
-      passwordError = 'Password should be longer than 7 symbols.';
     }
 
     _state = _state.copyWith(
@@ -94,11 +113,9 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     failureOrToken.fold(
       (failure) {
         _state = _state.copyWith(authError: failure.errorMessage);
-        emit(_state);
       },
       (tokenEntity) {
         _state = _state.copyWith(token: tokenEntity.token);
-        emit(_state);
       },
     );
 
@@ -111,6 +128,14 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     final LoginParams loginParams = _state.loginParams;
 
     if (loginParams.email == email) return;
+
+    final String emailError = TextInputValidator.validateEmail(email);
+    _state = _state.copyWith(loginEmailError: emailError);
+
+    if (email == '') {
+      _state = _state.copyWith(loginEmailError: '');
+    }
+
     _state = _state.copyWith(
       loginParams: loginParams.copyWith(email: email),
     );
@@ -122,6 +147,10 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
 
     if (loginParams.password == password) return;
 
+    if (password == '') {
+      _state = _state.copyWith(loginPasswordError: '');
+    }
+
     _state = _state.copyWith(
       loginParams: loginParams.copyWith(password: password),
     );
@@ -132,11 +161,12 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     final LoginParams loginParams = _state.loginParams;
     bool allInputsValid = true;
 
-    String emailError = '';
+    final String emailError = TextInputValidator.validateEmail(
+      loginParams.email,
+    );
 
-    if (!_InputsValidator.validateEmail(loginParams.email)) {
+    if (emailError != '') {
       allInputsValid = false;
-      emailError = 'Incorrect email.';
     }
 
     _state = _state.copyWith(
@@ -158,11 +188,9 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     failureOrToken.fold(
       (failure) {
         _state = _state.copyWith(authError: failure.errorMessage);
-        emit(_state);
       },
       (tokenEntity) {
         _state = _state.copyWith(token: tokenEntity.token);
-        emit(_state);
       },
     );
 
@@ -173,10 +201,10 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
   void showAuthError(BuildContext context) {
     final String errorMessage = _state.authError;
 
-    if(errorMessage == '') return;
+    if (errorMessage == '') return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(errorMessage)),
+      ErrorSnackBar(errorMessage: errorMessage),
     );
 
     _state = _state.copyWith(authError: '');
@@ -193,15 +221,4 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
     _state = const AuthState();
     emit(_state);
   }
-}
-
-class _InputsValidator {
-  _InputsValidator._();
-
-  static bool validateEmail(String email) =>
-      email.contains('@') && email.length > 4;
-
-  static bool validateName(String name) => name.length >= 3;
-
-  static bool validatePassword(String password) => password.length > 7;
 }

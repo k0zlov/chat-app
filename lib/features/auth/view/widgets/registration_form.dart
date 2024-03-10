@@ -23,13 +23,19 @@ class RegistrationForm extends StatelessWidget {
         children: [
           const Text(
             'Sign Up',
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          const Text('Create your account'),
           const SizedBox(height: gapBetweenFields),
           AuthTextField(
             text: state.registrationParams.name,
             onChanged: cubit.onRegistrationNameChanged,
             label: const Text('Name'),
+            prefixIcon: const Icon(Icons.person),
+            helperText: 'Name should be at least 2 symbols long.',
             error: state.registrationNameError == ''
                 ? null
                 : state.registrationNameError,
@@ -39,6 +45,7 @@ class RegistrationForm extends StatelessWidget {
             text: state.registrationParams.email,
             onChanged: cubit.onRegistrationEmailChanged,
             label: const Text('Email'),
+            prefixIcon: const Icon(Icons.email),
             error: state.registrationEmailError == ''
                 ? null
                 : state.registrationEmailError,
@@ -50,6 +57,7 @@ class RegistrationForm extends StatelessWidget {
             onChanged: cubit.onRegistrationPasswordChanged,
             label: const Text('Password'),
             suffixIcon: const AuthHidePasswordButton(),
+            helperText: 'Password should be longer than 7 symbols.',
             error: state.registrationPasswordError == ''
                 ? null
                 : state.registrationPasswordError,
@@ -65,9 +73,19 @@ class RegistrationForm extends StatelessWidget {
           const SizedBox(height: gapBetweenFields),
           TextButton(
             onPressed: () => context.go(AppRoutes.login.path),
-            child: const Text(
-              'Already registered? Sign in',
-              style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Already have an account?',
+                  style: TextStyle(color: Colors.black,fontSize: 14),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  'Sign in',
+                  style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+                ),
+              ],
             ),
           ),
         ],

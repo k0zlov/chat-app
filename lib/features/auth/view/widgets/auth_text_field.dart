@@ -10,6 +10,7 @@ class AuthTextField extends StatelessWidget {
     required this.label,
     this.obscureText,
     this.suffixIcon,
+    this.prefixIcon, this.helperText,
   });
 
   final String text;
@@ -18,6 +19,8 @@ class AuthTextField extends StatelessWidget {
   final String? error;
   final bool? obscureText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final String? helperText;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,16 @@ class AuthTextField extends StatelessWidget {
       onChanged: onChanged,
       inputDecoration: InputDecoration(
         label: label,
+        floatingLabelStyle: const TextStyle(fontSize: 18),
+        helperText: helperText,
         errorText: error,
         suffixIcon: suffixIcon,
+        filled: true,
+        prefixIcon: prefixIcon,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(15),
+        ),
       ),
     );
   }

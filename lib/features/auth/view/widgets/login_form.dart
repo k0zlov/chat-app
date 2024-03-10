@@ -23,12 +23,17 @@ class LoginForm extends StatelessWidget {
         children: [
           const Text(
             'Login',
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          const Text('Enter your credentials to login'),
           const SizedBox(height: gapBetweenFields),
           AuthTextField(
             text: state.loginParams.email,
             onChanged: cubit.onLoginEmailChanged,
+            prefixIcon: const Icon(Icons.email),
             label: const Text('Email'),
             error: state.loginEmailError == '' ? null : state.loginEmailError,
           ),
@@ -54,9 +59,19 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: gapBetweenFields),
           TextButton(
             onPressed: () => context.go(AppRoutes.registration.path),
-            child: const Text(
-              'Not registered yet? Sign up',
-              style: TextStyle(color: Colors.blueAccent, fontSize: 12),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Don't have an account?",
+                  style: TextStyle(color: Colors.black,fontSize: 14),
+                ),
+                SizedBox(width: 4),
+                Text(
+                  'Sign up',
+                  style: TextStyle(color: Colors.blueAccent, fontSize: 14),
+                ),
+              ],
             ),
           ),
         ],
