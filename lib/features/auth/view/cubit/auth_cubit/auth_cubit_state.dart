@@ -3,8 +3,8 @@ part of 'auth_cubit.dart';
 @immutable
 class AuthState {
   const AuthState({
-    required this.registrationParams,
-    required this.loginParams,
+    this.registrationParams = const RegistrationParams(),
+    this.loginParams = const LoginParams(),
     this.authInProcess = false,
     this.hidePassword = true,
     this.authError = '',

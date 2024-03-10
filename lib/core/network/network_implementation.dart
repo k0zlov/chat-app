@@ -1,10 +1,11 @@
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/network/network.dart';
+import 'package:chat_app/di_container.dart';
+import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-// Hive Box or Secure Storage as Mixin Class
 /// Implementation of the Network interface for network operations.
 class NetworkImpl implements Network {
   NetworkImpl({required String baseUrl}) {
@@ -12,10 +13,13 @@ class NetworkImpl implements Network {
   }
 
   Dio get dio {
+    final String token =
+        getIt<HiveBoxMixin>().getData<String?>(HiveBoxKeys.token) ?? '';
+
     final Map<String, dynamic> headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'authorization': 'token',
+      'Authorization': 'Bearer $token',
     };
 
     return Dio(

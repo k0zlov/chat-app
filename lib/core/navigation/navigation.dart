@@ -1,82 +1,94 @@
+import 'package:chat_app/core/navigation/navigation_stream.dart';
+import 'package:chat_app/core/network/network.dart';
+import 'package:chat_app/core/screen_factory/screen_factory.dart';
 import 'package:chat_app/di_container.dart';
-import 'package:chat_app/features/auth/view/cubit/sign_up_cubit/sign_up_cubit.dart';
-import 'package:chat_app/features/auth/view/screens/sign_up_screen.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
+import 'package:chat_app/features/auth/view/widgets/submit_button.dart';
+import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppNavigation {
+  AppNavigation._();
+
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
+
   static GoRouter get router => GoRouter(
-        initialLocation: AppRoutes.registration.path,
+        routerNeglect: true,
+        initialLocation: AppRoutes.root.path,
+        navigatorKey: rootNavigatorKey,
+        refreshListenable: NavigationRefreshStream(
+          stream: getIt<AuthCubit>().stream,
+        ),
         redirect: (BuildContext context, GoRouterState state) {
-          // if (state.path == '/') {
-          //   return _initialLocation;
-          // }
+          final String location = state.matchedLocation;
+
+          final bool isAuthPage = location == AppRoutes.login.path ||
+              location == AppRoutes.registration.path;
+
+          final bool isAuthorized = getIt<HiveBoxMixin>().isAuthorized;
+
+          if (isAuthPage && isAuthorized) {
+            return AppRoutes.chats.path;
+          }
+
+          if (!isAuthorized && !isAuthPage) {
+            return AppRoutes.login.path;
+          }
+
+          if (state.matchedLocation == '/') {
+            return AppRoutes.login.path;
+          }
           return null;
         },
         routes: _routes,
       );
 
   static final List<RouteBase> _routes = <RouteBase>[
-    /// Bottom nav bar
-    ShellRoute(
-      builder: (context, state, child) => MockUpNavBar(child: child),
-      routes: [
-        /// Chats
-        GoRoute(
-          name: AppRoutes.chats.name,
-          path: AppRoutes.chats.path,
-          builder: (context, state) => const MockUpChats(),
-        ),
-
-        /// Settings
-        GoRoute(
-          name: AppRoutes.settings.name,
-          path: AppRoutes.settings.path,
-          builder: (context, state) => const MockUpPage(title: 'Settings'),
-        ),
-
-        /// Contacts
-        GoRoute(
-          name: AppRoutes.contacts.name,
-          path: AppRoutes.contacts.path,
-          builder: (context, state) => const MockUpPage(title: 'Contacts'),
-        ),
-      ],
+    GoRoute(
+      name: AppRoutes.login.name,
+      path: AppRoutes.login.path,
+      builder: (context, state) => ScreenFactory.renderLoginScreen(),
     ),
-
     GoRoute(
       name: AppRoutes.registration.name,
       path: AppRoutes.registration.path,
-      builder: (context, state) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider<SignUpCubit>.value(
-              value: getIt<SignUpCubit>(),
+      builder: (context, state) => ScreenFactory.renderRegistrationScreen(),
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return MockUpNavBar(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: AppRoutes.contacts.name,
+              path: AppRoutes.contacts.path,
+              builder: (context, state) => const MockUpWidget(
+                title: 'Contacts',
+              ),
             ),
           ],
-          child: const SignUpScreen(),
-        );
-      },
-    ),
-
-    /// Chat
-    GoRoute(
-      name: AppRoutes.chat.name,
-      path: AppRoutes.chat.path,
-      builder: (context, state) {
-        final chatId = state.pathParameters['chatId'];
-        return MockUpDeepPage(title: 'This is chat $chatId');
-      },
-      routes: <RouteBase>[
-        /// Chat details
-        GoRoute(
-          name: AppRoutes.chatSettings.name,
-          path: AppRoutes.chatSettings.path,
-          builder: (context, state) {
-            final chatId = state.pathParameters['chatId'];
-            return const MockUpWidget();
-          },
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: AppRoutes.chats.name,
+              path: AppRoutes.chats.path,
+              builder: (context, state) => const MockUpChats(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: AppRoutes.settings.name,
+              path: AppRoutes.settings.path,
+              builder: (context, state) => const MockUpSettings(),
+            ),
+          ],
         ),
       ],
     ),
@@ -98,113 +110,78 @@ enum AppRoutes {
   final String path;
 }
 
-class MockUpDeepPage extends StatelessWidget {
-  const MockUpDeepPage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => context.push(AppRoutes.chats.path),
-        ),
-      ),
-      body: Center(
-        child: Text(title),
-      ),
-    );
-  }
-}
-
 class MockUpChats extends StatelessWidget {
   const MockUpChats({super.key});
 
+  Future<void> _onTap() async {
+    final response = await getIt<Network>().get(
+      url: '/posts',
+      queryParameters: {},
+      parser: (json) => json,
+    );
+
+    print(response);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chats'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(14),
-        child: ListView.separated(
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(8),
-            child: ListTile(
-              tileColor: Colors.blueAccent,
-              onTap: () => context.goNamed(
-                AppRoutes.chat.name,
-                pathParameters: {'chatId': '$index'},
-              ),
-              title: Text('This is $index chat'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Chats page',
+              style: TextStyle(fontSize: 30),
             ),
-          ),
-          separatorBuilder: (context, index) => const Divider(thickness: 1),
-          itemCount: 20,
+            const SizedBox(height: 15),
+            SubmitButton(
+              title: 'Get posts',
+              width: 200,
+              height: 60,
+              onPressed: () async => _onTap(),
+              color: Colors.yellowAccent,
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class MockUpNavBar extends StatefulWidget {
-  const MockUpNavBar({super.key, required this.child});
-
-  final Widget child;
-
-  @override
-  State<MockUpNavBar> createState() => _MockUpNavBarState();
-}
-
-class _MockUpNavBarState extends State<MockUpNavBar> {
-  int _selectedPage = 1;
-
-  void _itemSelected(int index) {
-    _selectedPage = index;
-    setState(() {});
-
-    switch (index) {
-      case 0:
-        context.goNamed(AppRoutes.contacts.name);
-      case 1:
-        context.goNamed(AppRoutes.chats.name);
-      case 2:
-        context.goNamed(AppRoutes.settings.name);
-    }
-  }
+class MockUpSettings extends StatelessWidget {
+  const MockUpSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AuthCubit cubit = context.read<AuthCubit>();
+
     return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _itemSelected,
-        currentIndex: _selectedPage,
-        items: const [
-          BottomNavigationBarItem(
-            label: 'Contacts',
-            icon: Icon(Icons.contacts),
-          ),
-          BottomNavigationBarItem(
-            label: 'Chats',
-            icon: Icon(Icons.chat),
-          ),
-          BottomNavigationBarItem(
-            label: 'Settings',
-            icon: Icon(Icons.settings),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Settings page',
+              style: TextStyle(fontSize: 30),
+            ),
+            const SizedBox(height: 15),
+            SubmitButton(
+              title: 'Logout',
+              width: 200,
+              height: 60,
+              onPressed: () async => cubit.logout(),
+              color: Colors.redAccent,
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class MockUpPage extends StatelessWidget {
-  const MockUpPage({super.key, required this.title});
+class MockUpWidget extends StatelessWidget {
+  const MockUpWidget({super.key, required this.title});
 
   final String title;
 
@@ -213,7 +190,7 @@ class MockUpPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          'This is $title page',
+          title,
           style: const TextStyle(fontSize: 25),
         ),
       ),
@@ -221,13 +198,40 @@ class MockUpPage extends StatelessWidget {
   }
 }
 
-/// Mockup widget for navigation class
-class MockUpWidget extends StatelessWidget {
-  /// Constructor for [MockUpWidget]
-  const MockUpWidget({super.key});
+class MockUpNavBar extends StatelessWidget {
+  const MockUpNavBar({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
+
+  void _onTap(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: navigationShell.currentIndex,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contacts),
+            label: 'Contacts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        onTap: _onTap,
+      ),
+    );
   }
 }

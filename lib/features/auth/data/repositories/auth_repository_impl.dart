@@ -28,8 +28,8 @@ class AuthRepositoryImpl implements AuthRepository {
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
-      (tokenModel) {
-        // Save to Hive Box
+      (tokenModel) async {
+        await hiveBoxMixin.loginBox(token: tokenModel.token);
         return Right(tokenModel.toEntity());
       },
     );

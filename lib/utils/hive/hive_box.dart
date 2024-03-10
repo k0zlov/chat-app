@@ -23,6 +23,8 @@ mixin class HiveBoxMixin {
     await _mainBox?.delete(key.name);
   }
 
+  bool get isAuthorized => getData<bool?>(HiveBoxKeys.isLogin) ?? false;
+
   /// Retrieves data of type [T] from the main storage box
   /// associated with the specified [key].
   T getData<T>(HiveBoxKeys key) => _mainBox?.get(key.name) as T;
