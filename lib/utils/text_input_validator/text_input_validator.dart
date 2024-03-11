@@ -9,7 +9,7 @@ class TextInputValidator {
 
   static String validateEmail(String email) {
     if(email == '') return 'Email is empty.';
-    if(!email.contains('@') && email.length < 4) return 'Invalid email.';
+    if(!email.contains('@') || email.length < 4) return 'Invalid email.';
     return '';
   }
 
