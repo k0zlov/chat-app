@@ -1,7 +1,8 @@
 import 'package:chat_app/core/database/database_handler.dart';
 import 'package:chat_app/core/database/database_handler_implementation.dart';
+import 'package:chat_app/core/network/dio_interceptor.dart';
 import 'package:chat_app/core/network/network.dart';
-import 'package:chat_app/core/network/network_implementation.dart';
+import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/features/auth/data/providers/remote/auth_remote_provider.dart';
 import 'package:chat_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart';
@@ -32,6 +33,8 @@ Future<void> registerDependencies() async {
   await _database(); // Configures the database and its handler.
   await _hive();
   _localProviders(); // Registers data providers for different features.
+
+  _interceptor();
 
   _network();
   _remoteProviders();
@@ -84,6 +87,20 @@ void _remoteProviders() {
   );
 }
 
+void _network() {
+  const String spaBaseUrl = String.fromEnvironment('SPA_BASE_URL');
+  getIt.registerLazySingleton<Network>(
+    () => NetworkImplDio(
+      baseUrl: spaBaseUrl,
+      interceptor: getIt(),
+    ),
+  );
+}
+
+void _interceptor() {
+  getIt.registerLazySingleton<DioInterceptor>(DioInterceptor.new);
+}
+
 /// Registers all local and remote data provider dependencies.
 ///
 /// Providers are registered as lazy singletons, optimizing resource usage by
@@ -106,15 +123,6 @@ void _localProviders() {
     ..registerLazySingleton<ContactsLocalProvider>(
       () => ContactsLocalProviderImpl(databaseHelper: getIt()),
     );
-}
-
-void _network() {
-  const String spaBaseUrl = String.fromEnvironment('SPA_BASE_URL');
-  getIt.registerLazySingleton<Network>(
-    () => NetworkImpl(
-      baseUrl: spaBaseUrl,
-    ),
-  );
 }
 
 /// Configures and registers the database handler.

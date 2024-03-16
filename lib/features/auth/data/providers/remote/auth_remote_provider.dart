@@ -1,4 +1,5 @@
 import 'package:chat_app/core/errors/failure.dart';
+import 'package:chat_app/core/network/api_endpoints.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/features/auth/data/models/token_model/token_model.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
@@ -23,7 +24,7 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
     RegistrationParams params,
   ) async {
     final Either<Failure, TokenModel> response = await network.post(
-      url: '/users/sign-up',
+      url: APIEndpoints.postRegistration,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
@@ -36,7 +37,7 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
   @override
   Future<Either<Failure, TokenModel>> login(LoginParams params) async {
     final Either<Failure, TokenModel> response = await network.post(
-      url: '/users/login',
+      url: APIEndpoints.postLogin,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
