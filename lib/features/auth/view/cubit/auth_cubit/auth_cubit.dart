@@ -1,21 +1,24 @@
 import 'package:bloc/bloc.dart';
+import 'package:chat_app/core/use_cases/use_case.dart';
 import 'package:chat_app/core/widgets/error_snack_bar.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
-import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:chat_app/utils/text_input_validator/text_input_validator.dart';
 import 'package:flutter/material.dart';
 
 part 'auth_cubit_state.dart';
 
-class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
+class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
     required this.registrationUseCase,
     required this.loginUseCase,
+    required this.logoutUseCase,
   }) : super(AuthState());
 
   final RegistrationUseCase registrationUseCase;
   final LoginUseCase loginUseCase;
+  final LogoutUseCase logoutUseCase;
 
   AuthState _state = const AuthState();
 
@@ -217,7 +220,7 @@ class AuthCubit extends Cubit<AuthState> with HiveBoxMixin {
   }
 
   Future<void> logout() async {
-    await logoutBox();
+    await logoutUseCase(NoParams());
     _state = const AuthState();
     emit(_state);
   }

@@ -1,8 +1,7 @@
 import 'package:chat_app/core/navigation/navigation_stream.dart';
 import 'package:chat_app/core/screen_factory/screen_factory.dart';
+import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/di_container.dart';
-import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
-import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,7 +15,7 @@ class AppNavigation {
         initialLocation: AppRoutes.root.path,
         navigatorKey: rootNavigatorKey,
         refreshListenable: NavigationRefreshStream(
-          stream: getIt<AuthCubit>().stream,
+          stream: getIt<AuthService>().authStateChanges,
         ),
         redirect: (BuildContext context, GoRouterState state) {
           final String location = state.matchedLocation;
@@ -24,7 +23,7 @@ class AppNavigation {
           final bool isAuthPage = location == AppRoutes.login.path ||
               location == AppRoutes.registration.path;
 
-          final bool isAuthorized = getIt<HiveBoxMixin>().isAuthorized;
+          final bool isAuthorized = getIt<AuthService>().isAuthorized;
 
           if (isAuthPage && isAuthorized) {
             return AppRoutes.chats.path;

@@ -3,17 +3,14 @@ import 'package:chat_app/core/database/database_handler_implementation.dart';
 import 'package:chat_app/core/network/dio_interceptor.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_dio.dart';
+import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/data/providers/remote/auth_remote_provider.dart';
 import 'package:chat_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
-import 'package:chat_app/features/template_feature/data/providers/local/chatparticipants_local_provider.dart';
-import 'package:chat_app/features/template_feature/data/providers/local/chats_local_provider.dart';
-import 'package:chat_app/features/template_feature/data/providers/local/contacts_local_provider.dart';
-import 'package:chat_app/features/template_feature/data/providers/local/messages_local_provider.dart';
-import 'package:chat_app/features/template_feature/data/providers/local/users_local_provider.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
 
@@ -31,12 +28,14 @@ final GetIt getIt = GetIt.instance;
 /// both local and remote data providers.
 Future<void> registerDependencies() async {
   await _database(); // Configures the database and its handler.
+
   await _hive();
-  _localProviders(); // Registers data providers for different features.
+  _services();
 
   _interceptor();
-
   _network();
+
+  _localProviders(); // Registers data providers for different features.
   _remoteProviders();
 
   _repositories();
@@ -48,45 +47,38 @@ Future<void> registerDependencies() async {
   await getIt.allReady();
 }
 
+/// Configures and registers the database helper.
+///
+/// The database handler is setup as a singleton that signals its readiness,
+/// ensuring dependent components wait for the database to be fully initialized.
+Future<void> _database() async {
+  getIt.registerSingletonAsync<DatabaseHelper>(
+    signalsReady: true,
+    () async => DatabaseHelperImpl(),
+  );
+}
+
+/// Initializes Hive database and registers its singleton with the service locator.
 Future<void> _hive() async {
   await HiveBoxMixin.initHive();
   getIt.registerSingleton<HiveBoxMixin>(HiveBoxMixin());
 }
 
-void _cubits() {
-  getIt.registerLazySingleton<AuthCubit>(
-    () => AuthCubit(
-      registrationUseCase: getIt(),
-      loginUseCase: getIt(),
-    ),
+/// Registers authentication service as a lazy singleton with the service locator.
+void _services() {
+  getIt.registerLazySingleton<AuthService>(
+    () => AuthServiceImpl(hiveBoxMixin: getIt()),
   );
 }
 
-void _useCases() {
-  getIt
-    ..registerLazySingleton<RegistrationUseCase>(
-      () => RegistrationUseCase(repository: getIt()),
-    )
-    ..registerLazySingleton<LoginUseCase>(
-      () => LoginUseCase(repository: getIt()),
-    );
-}
-
-void _repositories() {
-  getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(
-      remoteProvider: getIt(),
-      hiveBoxMixin: getIt(),
-    ),
+/// Registers a custom Dio interceptor as a lazy singleton for HTTP request manipulation.
+void _interceptor() {
+  getIt.registerLazySingleton<DioInterceptor>(
+    () => DioInterceptor(authService: getIt()),
   );
 }
 
-void _remoteProviders() {
-  getIt.registerLazySingleton<AuthRemoteProvider>(
-    () => AuthRemoteProviderImpl(network: getIt()),
-  );
-}
-
+/// Sets up the network layer with a base URL and registers it as a lazy singleton.
 void _network() {
   const String spaBaseUrl = String.fromEnvironment('SPA_BASE_URL');
   getIt.registerLazySingleton<Network>(
@@ -97,41 +89,47 @@ void _network() {
   );
 }
 
-void _interceptor() {
-  getIt.registerLazySingleton<DioInterceptor>(DioInterceptor.new);
+/// Placeholder for registering local data providers (currently empty).
+void _localProviders() {}
+
+/// Registers remote data providers, such as `AuthRemoteProvider`, as lazy singletons.
+void _remoteProviders() {
+  getIt.registerLazySingleton<AuthRemoteProvider>(
+    () => AuthRemoteProviderImpl(network: getIt()),
+  );
 }
 
-/// Registers all local and remote data provider dependencies.
-///
-/// Providers are registered as lazy singletons, optimizing resource usage by
-/// instantiating them only when needed. Each provider handles specific data
-/// operations for its associated feature.
-void _localProviders() {
+/// Registers repositories, such as `AuthRepository`, as lazy singletons to handle data operations.
+void _repositories() {
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      remoteProvider: getIt(),
+      authService: getIt(),
+    ),
+  );
+}
+
+/// Registers use cases that encapsulate business logic as lazy singletons.
+void _useCases() {
   getIt
-    ..registerLazySingleton<ChatsLocalProvider>(
-      () => ChatsLocalProviderImpl(databaseHelper: getIt()),
+    ..registerLazySingleton<RegistrationUseCase>(
+      () => RegistrationUseCase(repository: getIt()),
     )
-    ..registerLazySingleton<MessagesLocalProvider>(
-      () => MessagesLocalProviderImpl(databaseHelper: getIt()),
+    ..registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(repository: getIt()),
     )
-    ..registerLazySingleton<UsersLocalProvider>(
-      () => UsersLocalProviderImpl(databaseHelper: getIt()),
-    )
-    ..registerLazySingleton<ChatParticipantsLocalProvider>(
-      () => ChatParticipantsLocalProviderImpl(databaseHelper: getIt()),
-    )
-    ..registerLazySingleton<ContactsLocalProvider>(
-      () => ContactsLocalProviderImpl(databaseHelper: getIt()),
+    ..registerLazySingleton<LogoutUseCase>(
+      () => LogoutUseCase(repository: getIt()),
     );
 }
 
-/// Configures and registers the database handler.
-///
-/// The database handler is setup as a singleton that signals its readiness,
-/// ensuring dependent components wait for the database to be fully initialized.
-Future<void> _database() async {
-  getIt.registerSingletonAsync<DatabaseHelper>(
-    signalsReady: true,
-    () async => DatabaseHelperImpl(),
+/// Registers Cubits (state management) as lazy singletons to manage and distribute application state.
+void _cubits() {
+  getIt.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(
+      registrationUseCase: getIt(),
+      loginUseCase: getIt(),
+      logoutUseCase: getIt(),
+    ),
   );
 }
