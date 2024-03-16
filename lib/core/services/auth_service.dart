@@ -20,7 +20,7 @@ class AuthServiceImpl implements AuthService {
     _init();
   }
 
-  final HiveBoxMixin hiveBoxMixin;
+  final HiveBox hiveBoxMixin;
 
   final _authStateController = StreamController<bool>.broadcast();
 

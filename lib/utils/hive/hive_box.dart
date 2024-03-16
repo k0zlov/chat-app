@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/adapters.dart';
 
-mixin class HiveBoxMixin {
+class HiveBox {
   static Box<dynamic>? _mainBox;
 
   /// The name of the application's storage box.

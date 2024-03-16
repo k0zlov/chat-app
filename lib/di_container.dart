@@ -60,8 +60,8 @@ Future<void> _database() async {
 
 /// Initializes Hive database and registers its singleton with the service locator.
 Future<void> _hive() async {
-  await HiveBoxMixin.initHive();
-  getIt.registerSingleton<HiveBoxMixin>(HiveBoxMixin());
+  await HiveBox.initHive();
+  getIt.registerSingleton<HiveBox>(HiveBox());
 }
 
 /// Registers authentication service as a lazy singleton with the service locator.
