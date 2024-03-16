@@ -32,10 +32,13 @@ class _ReactiveTextFieldState extends State<ReactiveTextField> {
   @override
   void didUpdateWidget(covariant ReactiveTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.text != _controller.text) {
-      _controller.text = widget.text;
-      _focusNode.unfocus();
-    }
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.text != _controller.text) {
+        _controller.text = widget.text;
+        _focusNode.unfocus();
+      }
+    });
   }
 
   @override
