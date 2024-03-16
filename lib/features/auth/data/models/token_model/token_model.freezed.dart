@@ -14,34 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-TokenModel _$TokenModelFromJson(Map<String, dynamic> json) {
-  return _TokenModel.fromJson(json);
+TokenResponseModel _$TokenResponseModelFromJson(Map<String, dynamic> json) {
+  return _TokenResponseModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$TokenModel {
-  @JsonKey(name: 'accessToken')
-  String get token => throw _privateConstructorUsedError;
+mixin _$TokenResponseModel {
+  String get accessToken => throw _privateConstructorUsedError;
+  String get refreshToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TokenModelCopyWith<TokenModel> get copyWith =>
+  $TokenResponseModelCopyWith<TokenResponseModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TokenModelCopyWith<$Res> {
-  factory $TokenModelCopyWith(
-          TokenModel value, $Res Function(TokenModel) then) =
-      _$TokenModelCopyWithImpl<$Res, TokenModel>;
+abstract class $TokenResponseModelCopyWith<$Res> {
+  factory $TokenResponseModelCopyWith(
+          TokenResponseModel value, $Res Function(TokenResponseModel) then) =
+      _$TokenResponseModelCopyWithImpl<$Res, TokenResponseModel>;
   @useResult
-  $Res call({@JsonKey(name: 'accessToken') String token});
+  $Res call({String accessToken, String refreshToken});
 }
 
 /// @nodoc
-class _$TokenModelCopyWithImpl<$Res, $Val extends TokenModel>
-    implements $TokenModelCopyWith<$Res> {
-  _$TokenModelCopyWithImpl(this._value, this._then);
+class _$TokenResponseModelCopyWithImpl<$Res, $Val extends TokenResponseModel>
+    implements $TokenResponseModelCopyWith<$Res> {
+  _$TokenResponseModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -51,45 +51,55 @@ class _$TokenModelCopyWithImpl<$Res, $Val extends TokenModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
+    Object? accessToken = null,
+    Object? refreshToken = null,
   }) {
     return _then(_value.copyWith(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      accessToken: null == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$TokenModelImplCopyWith<$Res>
-    implements $TokenModelCopyWith<$Res> {
-  factory _$$TokenModelImplCopyWith(
-          _$TokenModelImpl value, $Res Function(_$TokenModelImpl) then) =
-      __$$TokenModelImplCopyWithImpl<$Res>;
+abstract class _$$TokenResponseModelImplCopyWith<$Res>
+    implements $TokenResponseModelCopyWith<$Res> {
+  factory _$$TokenResponseModelImplCopyWith(_$TokenResponseModelImpl value,
+          $Res Function(_$TokenResponseModelImpl) then) =
+      __$$TokenResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'accessToken') String token});
+  $Res call({String accessToken, String refreshToken});
 }
 
 /// @nodoc
-class __$$TokenModelImplCopyWithImpl<$Res>
-    extends _$TokenModelCopyWithImpl<$Res, _$TokenModelImpl>
-    implements _$$TokenModelImplCopyWith<$Res> {
-  __$$TokenModelImplCopyWithImpl(
-      _$TokenModelImpl _value, $Res Function(_$TokenModelImpl) _then)
+class __$$TokenResponseModelImplCopyWithImpl<$Res>
+    extends _$TokenResponseModelCopyWithImpl<$Res, _$TokenResponseModelImpl>
+    implements _$$TokenResponseModelImplCopyWith<$Res> {
+  __$$TokenResponseModelImplCopyWithImpl(_$TokenResponseModelImpl _value,
+      $Res Function(_$TokenResponseModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
+    Object? accessToken = null,
+    Object? refreshToken = null,
   }) {
-    return _then(_$TokenModelImpl(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+    return _then(_$TokenResponseModelImpl(
+      accessToken: null == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -97,61 +107,71 @@ class __$$TokenModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TokenModelImpl extends _TokenModel {
-  const _$TokenModelImpl({@JsonKey(name: 'accessToken') this.token = ''})
+class _$TokenResponseModelImpl extends _TokenResponseModel {
+  const _$TokenResponseModelImpl(
+      {this.accessToken = '', this.refreshToken = ''})
       : super._();
 
-  factory _$TokenModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TokenModelImplFromJson(json);
+  factory _$TokenResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenResponseModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'accessToken')
-  final String token;
+  @JsonKey()
+  final String accessToken;
+  @override
+  @JsonKey()
+  final String refreshToken;
 
   @override
   String toString() {
-    return 'TokenModel(token: $token)';
+    return 'TokenResponseModel(accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TokenModelImpl &&
-            (identical(other.token, token) || other.token == token));
+            other is _$TokenResponseModelImpl &&
+            (identical(other.accessToken, accessToken) ||
+                other.accessToken == accessToken) &&
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token);
+  int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TokenModelImplCopyWith<_$TokenModelImpl> get copyWith =>
-      __$$TokenModelImplCopyWithImpl<_$TokenModelImpl>(this, _$identity);
+  _$$TokenResponseModelImplCopyWith<_$TokenResponseModelImpl> get copyWith =>
+      __$$TokenResponseModelImplCopyWithImpl<_$TokenResponseModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TokenModelImplToJson(
+    return _$$TokenResponseModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _TokenModel extends TokenModel {
-  const factory _TokenModel(
-      {@JsonKey(name: 'accessToken') final String token}) = _$TokenModelImpl;
-  const _TokenModel._() : super._();
+abstract class _TokenResponseModel extends TokenResponseModel {
+  const factory _TokenResponseModel(
+      {final String accessToken,
+      final String refreshToken}) = _$TokenResponseModelImpl;
+  const _TokenResponseModel._() : super._();
 
-  factory _TokenModel.fromJson(Map<String, dynamic> json) =
-      _$TokenModelImpl.fromJson;
+  factory _TokenResponseModel.fromJson(Map<String, dynamic> json) =
+      _$TokenResponseModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'accessToken')
-  String get token;
+  String get accessToken;
+  @override
+  String get refreshToken;
   @override
   @JsonKey(ignore: true)
-  _$$TokenModelImplCopyWith<_$TokenModelImpl> get copyWith =>
+  _$$TokenResponseModelImplCopyWith<_$TokenResponseModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

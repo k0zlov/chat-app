@@ -7,9 +7,9 @@ import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/re
 import 'package:dartz/dartz.dart';
 
 abstract class AuthRemoteProvider {
-  Future<Either<Failure, TokenModel>> register(RegistrationParams params);
+  Future<Either<Failure, TokenResponseModel>> register(RegistrationParams params);
 
-  Future<Either<Failure, TokenModel>> login(LoginParams params);
+  Future<Either<Failure, TokenResponseModel>> login(LoginParams params);
 }
 
 class AuthRemoteProviderImpl implements AuthRemoteProvider {
@@ -20,28 +20,28 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
   final Network network;
 
   @override
-  Future<Either<Failure, TokenModel>> register(
+  Future<Either<Failure, TokenResponseModel>> register(
     RegistrationParams params,
   ) async {
-    final Either<Failure, TokenModel> response = await network.post(
+    final Either<Failure, TokenResponseModel> response = await network.post(
       url: APIEndpoints.postRegistration,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
-        return TokenModel.fromJson(data);
+        return TokenResponseModel.fromJson(data);
       },
     );
     return response;
   }
 
   @override
-  Future<Either<Failure, TokenModel>> login(LoginParams params) async {
-    final Either<Failure, TokenModel> response = await network.post(
+  Future<Either<Failure, TokenResponseModel>> login(LoginParams params) async {
+    final Either<Failure, TokenResponseModel> response = await network.post(
       url: APIEndpoints.postLogin,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
-        return TokenModel.fromJson(data);
+        return TokenResponseModel.fromJson(data);
       },
     );
     return response;

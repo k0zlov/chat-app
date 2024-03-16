@@ -118,7 +118,7 @@ class AuthCubit extends Cubit<AuthState> {
         _state = _state.copyWith(authError: failure.errorMessage);
       },
       (tokenEntity) {
-        _state = _state.copyWith(token: tokenEntity.token);
+        _state = _state.copyWith(token: tokenEntity.accessToken);
       },
     );
 
@@ -193,7 +193,7 @@ class AuthCubit extends Cubit<AuthState> {
         _state = _state.copyWith(authError: failure.errorMessage);
       },
       (tokenEntity) {
-        _state = _state.copyWith(token: tokenEntity.token);
+        _state = _state.copyWith(token: tokenEntity.accessToken);
       },
     );
 

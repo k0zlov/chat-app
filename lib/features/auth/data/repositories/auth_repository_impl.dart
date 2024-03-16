@@ -37,19 +37,22 @@ class AuthRepositoryImpl implements AuthRepository {
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
-  ///   or a [TokenEntity] on successful registration.
+  ///   or a [TokenResponseEntity] on successful registration.
   @override
-  Future<Either<Failure, TokenEntity>> register(
+  Future<Either<Failure, TokenResponseEntity>> register(
     RegistrationParams params,
   ) async {
-    final Either<Failure, TokenModel> response =
+    final Either<Failure, TokenResponseModel> response =
         await remoteProvider.register(params);
 
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
       (tokenModel) async {
-        await authService.login(token: tokenModel.token);
+        await authService.login(
+          accessToken: tokenModel.accessToken,
+          refreshToken: tokenModel.refreshToken,
+        );
         return Right(tokenModel.toEntity());
       },
     );
@@ -65,17 +68,20 @@ class AuthRepositoryImpl implements AuthRepository {
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
-  ///   or a [TokenEntity] on successful login.
+  ///   or a [TokenResponseEntity] on successful login.
   @override
-  Future<Either<Failure, TokenEntity>> login(LoginParams params) async {
-    final Either<Failure, TokenModel> response =
+  Future<Either<Failure, TokenResponseEntity>> login(LoginParams params) async {
+    final Either<Failure, TokenResponseModel> response =
         await remoteProvider.login(params);
 
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
       (tokenModel) async {
-        await authService.login(token: tokenModel.token);
+        await authService.login(
+          accessToken: tokenModel.accessToken,
+          refreshToken: tokenModel.refreshToken,
+        );
         return Right(tokenModel.toEntity());
       },
     );

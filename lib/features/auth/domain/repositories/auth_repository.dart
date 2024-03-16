@@ -19,7 +19,7 @@ abstract interface class AuthRepository {
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
   ///   or a [TokenEntity] on successful registration, representing the user's authentication token.
-  Future<Either<Failure, TokenEntity>> register(RegistrationParams params);
+  Future<Either<Failure, TokenResponseEntity>> register(RegistrationParams params);
 
   /// Logs in a user with the provided login parameters.
   ///
@@ -29,7 +29,7 @@ abstract interface class AuthRepository {
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
   ///   or a [TokenEntity] on successful login, representing the user's authentication token.
-  Future<Either<Failure, TokenEntity>> login(LoginParams params);
+  Future<Either<Failure, TokenResponseEntity>> login(LoginParams params);
 
   /// Logs out the currently authenticated user.
   ///

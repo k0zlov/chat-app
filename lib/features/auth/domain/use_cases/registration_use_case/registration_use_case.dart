@@ -10,7 +10,7 @@ part 'registration_use_case.freezed.dart';
 part 'registration_use_case.g.dart';
 
 // To reg use case
-class RegistrationUseCase implements UseCase<TokenEntity, RegistrationParams> {
+class RegistrationUseCase implements UseCase<TokenResponseEntity, RegistrationParams> {
   const RegistrationUseCase({
     required this.repository,
   });
@@ -18,7 +18,7 @@ class RegistrationUseCase implements UseCase<TokenEntity, RegistrationParams> {
   final AuthRepository repository;
 
   @override
-  Future<Either<Failure, TokenEntity>> call(RegistrationParams params) async {
+  Future<Either<Failure, TokenResponseEntity>> call(RegistrationParams params) async {
     return repository.register(params);
   }
 }

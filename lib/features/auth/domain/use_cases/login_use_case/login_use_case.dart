@@ -9,7 +9,7 @@ part 'login_use_case.freezed.dart';
 
 part 'login_use_case.g.dart';
 
-class LoginUseCase implements UseCase<TokenEntity, LoginParams> {
+class LoginUseCase implements UseCase<TokenResponseEntity, LoginParams> {
   const LoginUseCase({
     required this.repository,
   });
@@ -17,7 +17,7 @@ class LoginUseCase implements UseCase<TokenEntity, LoginParams> {
   final AuthRepository repository;
 
   @override
-  Future<Either<Failure, TokenEntity>> call(LoginParams params) async {
+  Future<Either<Failure, TokenResponseEntity>> call(LoginParams params) async {
     return repository.login(params);
   }
 }

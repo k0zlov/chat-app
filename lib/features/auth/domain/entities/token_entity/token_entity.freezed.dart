@@ -15,27 +15,28 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$TokenEntity {
-  String get token => throw _privateConstructorUsedError;
+mixin _$TokenResponseEntity {
+  String get accessToken => throw _privateConstructorUsedError;
+  String get refreshToken => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TokenEntityCopyWith<TokenEntity> get copyWith =>
+  $TokenResponseEntityCopyWith<TokenResponseEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TokenEntityCopyWith<$Res> {
-  factory $TokenEntityCopyWith(
-          TokenEntity value, $Res Function(TokenEntity) then) =
-      _$TokenEntityCopyWithImpl<$Res, TokenEntity>;
+abstract class $TokenResponseEntityCopyWith<$Res> {
+  factory $TokenResponseEntityCopyWith(
+          TokenResponseEntity value, $Res Function(TokenResponseEntity) then) =
+      _$TokenResponseEntityCopyWithImpl<$Res, TokenResponseEntity>;
   @useResult
-  $Res call({String token});
+  $Res call({String accessToken, String refreshToken});
 }
 
 /// @nodoc
-class _$TokenEntityCopyWithImpl<$Res, $Val extends TokenEntity>
-    implements $TokenEntityCopyWith<$Res> {
-  _$TokenEntityCopyWithImpl(this._value, this._then);
+class _$TokenResponseEntityCopyWithImpl<$Res, $Val extends TokenResponseEntity>
+    implements $TokenResponseEntityCopyWith<$Res> {
+  _$TokenResponseEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -45,45 +46,55 @@ class _$TokenEntityCopyWithImpl<$Res, $Val extends TokenEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
+    Object? accessToken = null,
+    Object? refreshToken = null,
   }) {
     return _then(_value.copyWith(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      accessToken: null == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$TokenEntityImplCopyWith<$Res>
-    implements $TokenEntityCopyWith<$Res> {
-  factory _$$TokenEntityImplCopyWith(
-          _$TokenEntityImpl value, $Res Function(_$TokenEntityImpl) then) =
-      __$$TokenEntityImplCopyWithImpl<$Res>;
+abstract class _$$TokenResponseEntityImplCopyWith<$Res>
+    implements $TokenResponseEntityCopyWith<$Res> {
+  factory _$$TokenResponseEntityImplCopyWith(_$TokenResponseEntityImpl value,
+          $Res Function(_$TokenResponseEntityImpl) then) =
+      __$$TokenResponseEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String token});
+  $Res call({String accessToken, String refreshToken});
 }
 
 /// @nodoc
-class __$$TokenEntityImplCopyWithImpl<$Res>
-    extends _$TokenEntityCopyWithImpl<$Res, _$TokenEntityImpl>
-    implements _$$TokenEntityImplCopyWith<$Res> {
-  __$$TokenEntityImplCopyWithImpl(
-      _$TokenEntityImpl _value, $Res Function(_$TokenEntityImpl) _then)
+class __$$TokenResponseEntityImplCopyWithImpl<$Res>
+    extends _$TokenResponseEntityCopyWithImpl<$Res, _$TokenResponseEntityImpl>
+    implements _$$TokenResponseEntityImplCopyWith<$Res> {
+  __$$TokenResponseEntityImplCopyWithImpl(_$TokenResponseEntityImpl _value,
+      $Res Function(_$TokenResponseEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
+    Object? accessToken = null,
+    Object? refreshToken = null,
   }) {
-    return _then(_$TokenEntityImpl(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+    return _then(_$TokenResponseEntityImpl(
+      accessToken: null == accessToken
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      refreshToken: null == refreshToken
+          ? _value.refreshToken
+          : refreshToken // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -91,44 +102,57 @@ class __$$TokenEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TokenEntityImpl extends _TokenEntity {
-  const _$TokenEntityImpl({this.token = ''}) : super._();
+class _$TokenResponseEntityImpl extends _TokenResponseEntity {
+  const _$TokenResponseEntityImpl(
+      {this.accessToken = '', this.refreshToken = ''})
+      : super._();
 
   @override
   @JsonKey()
-  final String token;
+  final String accessToken;
+  @override
+  @JsonKey()
+  final String refreshToken;
 
   @override
   String toString() {
-    return 'TokenEntity(token: $token)';
+    return 'TokenResponseEntity(accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TokenEntityImpl &&
-            (identical(other.token, token) || other.token == token));
+            other is _$TokenResponseEntityImpl &&
+            (identical(other.accessToken, accessToken) ||
+                other.accessToken == accessToken) &&
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, token);
+  int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TokenEntityImplCopyWith<_$TokenEntityImpl> get copyWith =>
-      __$$TokenEntityImplCopyWithImpl<_$TokenEntityImpl>(this, _$identity);
+  _$$TokenResponseEntityImplCopyWith<_$TokenResponseEntityImpl> get copyWith =>
+      __$$TokenResponseEntityImplCopyWithImpl<_$TokenResponseEntityImpl>(
+          this, _$identity);
 }
 
-abstract class _TokenEntity extends TokenEntity {
-  const factory _TokenEntity({final String token}) = _$TokenEntityImpl;
-  const _TokenEntity._() : super._();
+abstract class _TokenResponseEntity extends TokenResponseEntity {
+  const factory _TokenResponseEntity(
+      {final String accessToken,
+      final String refreshToken}) = _$TokenResponseEntityImpl;
+  const _TokenResponseEntity._() : super._();
 
   @override
-  String get token;
+  String get accessToken;
+  @override
+  String get refreshToken;
   @override
   @JsonKey(ignore: true)
-  _$$TokenEntityImplCopyWith<_$TokenEntityImpl> get copyWith =>
+  _$$TokenResponseEntityImplCopyWith<_$TokenResponseEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

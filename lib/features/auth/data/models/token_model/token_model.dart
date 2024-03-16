@@ -6,15 +6,19 @@ part 'token_model.freezed.dart';
 part 'token_model.g.dart';
 
 @freezed
-class TokenModel with _$TokenModel {
-  const factory TokenModel({
-    @JsonKey(name: 'accessToken') @Default('') String token,
-  }) = _TokenModel;
+class TokenResponseModel with _$TokenResponseModel {
+  const factory TokenResponseModel({
+    @Default('') String accessToken,
+    @Default('') String refreshToken,
+  }) = _TokenResponseModel;
 
-  const TokenModel._();
+  const TokenResponseModel._();
 
-  factory TokenModel.fromJson(Map<String, dynamic> json) =>
-      _$TokenModelFromJson(json);
+  factory TokenResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$TokenResponseModelFromJson(json);
 
-  TokenEntity toEntity() => TokenEntity(token: token);
+  TokenResponseEntity toEntity() => TokenResponseEntity(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      );
 }
