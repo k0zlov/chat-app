@@ -2,6 +2,7 @@ import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/network/dio_interceptor.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_base.dart';
+import 'package:chat_app/utils/cookies/get_cookies.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -77,7 +78,20 @@ class NetworkImplDio extends NetworkBase {
         queryParameters: queryParameters,
       ); // Perform the Dio request.
 
-      final T parsedData = parser(response.data); // Parse the response data.
+      final String? rawCookies = response.headers.value('set-cookie');
+
+      final Map<String, String> cookies = getCookiesFromRaw(rawCookies ?? '');
+
+      dynamic responseData = response.data;
+
+      if (responseData is Map<String, dynamic>) {
+        responseData = {
+          ...cookies,
+          ...response.data as Map<String, dynamic>,
+        };
+      }
+
+      final T parsedData = parser(responseData); // Parse the response data.
 
       return Right(parsedData); // Return success with parsed data.
     } on DioException catch (e) {

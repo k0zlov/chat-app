@@ -22,4 +22,6 @@ class APIEndpoints {
   /// It should be combined with the base URL of the API to construct the full
   /// URL for the registration request.
   static const String postRegistration = '/users/sign-up';
+
+  static const String getRefreshToken = '/users/refresh';
 }
