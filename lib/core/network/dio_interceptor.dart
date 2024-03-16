@@ -1,13 +1,17 @@
+import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
-import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-class DioInterceptor extends Interceptor with HiveBoxMixin {
+class DioInterceptor extends Interceptor {
+  const DioInterceptor({required this.authService});
+
+  final AuthService authService;
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final String? token = getData<String?>(HiveBoxKeys.token);
+    final String? token = authService.getToken;
     options.headers.addAll({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
