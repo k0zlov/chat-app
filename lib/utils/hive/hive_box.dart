@@ -12,6 +12,7 @@ class HiveBox {
     await Hive.initFlutter();
     _mainBox = await Hive.openBox(_boxName);
   }
+
   /// Adds data to the main storage box with the specified [key] and [value].
   Future<void> addData<T>(HiveBoxKeys key, T value) async {
     await _mainBox?.put(key.name, value);
@@ -29,15 +30,20 @@ class HiveBox {
   /// associated with the specified [key].
   T getData<T>(HiveBoxKeys key) => _mainBox?.get(key.name) as T;
 
-  Future<void> loginBox({required String token}) async {
-    await addData(HiveBoxKeys.token, token);
+  Future<void> loginBox({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await addData(HiveBoxKeys.refreshToken, refreshToken);
+    await addData(HiveBoxKeys.accessToken, accessToken);
     await addData(HiveBoxKeys.isLogin, true);
   }
 
   /// Clears user-related data from the main storage box to handle logout.
   Future<void> logoutBox() async {
     await removeData(HiveBoxKeys.isLogin);
-    await removeData(HiveBoxKeys.token);
+    await removeData(HiveBoxKeys.refreshToken);
+    await removeData(HiveBoxKeys.accessToken);
   }
 
   /// Closes and optionally deletes the main storage box.
@@ -47,7 +53,7 @@ class HiveBox {
       await _mainBox?.close();
       await _mainBox?.deleteFromDisk();
     } catch (e, stackTrace) {
-      if(kDebugMode) {
+      if (kDebugMode) {
         print('Error: $e\nStack trace:\n$stackTrace');
       }
     }
@@ -57,7 +63,10 @@ class HiveBox {
 /// Enumerated keys used to store and retrieve data from the main Hive box.
 enum HiveBoxKeys {
   /// The key for the user's authentication token.
-  token,
+  accessToken,
+
+  /// The key for the user user's refresh token
+  refreshToken,
 
   /// The key indicating whether the user is logged in.
   isLogin,

@@ -7,9 +7,12 @@ abstract interface class AuthService {
 
   bool get isAuthorized;
 
-  String? get getToken;
+  String? get getAccessToken;
 
-  Future<void> login({required String token});
+  String? get getRefreshToken;
+
+  Future<void> login(
+      {required String accessToken, required String refreshToken});
 
   Future<void> logout();
 }
@@ -36,11 +39,24 @@ class AuthServiceImpl implements AuthService {
   bool get isAuthorized => hiveBoxMixin.isAuthorized;
 
   @override
-  String? get getToken => hiveBoxMixin.getData<String?>(HiveBoxKeys.token);
+  String? get getAccessToken => hiveBoxMixin.getData<String?>(
+        HiveBoxKeys.accessToken,
+      );
 
   @override
-  Future<void> login({required String token}) async {
-    await hiveBoxMixin.loginBox(token: token);
+  String? get getRefreshToken => hiveBoxMixin.getData<String?>(
+        HiveBoxKeys.refreshToken,
+      );
+
+  @override
+  Future<void> login({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await hiveBoxMixin.loginBox(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
     _authStateController.add(isAuthorized);
   }
 
