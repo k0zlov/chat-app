@@ -10,7 +10,8 @@ class AuthTextField extends StatelessWidget {
     required this.label,
     this.obscureText,
     this.suffixIcon,
-    this.prefixIcon, this.helperText,
+    this.prefixIcon,
+    this.helperText,
   });
 
   final String text;
