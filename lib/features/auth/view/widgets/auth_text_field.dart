@@ -1,47 +1,69 @@
 import 'package:chat_app/core/widgets/reactive_text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
-    super.key,
-    required this.text,
     required this.onChanged,
-    this.error,
-    required this.label,
-    this.obscureText,
-    this.suffixIcon,
-    this.prefixIcon,
-    this.helperText,
+    required this.text,
+    super.key,
+    this.placeholder,
+    this.prefix,
+    this.obscureText = false,
+    this.validator,
   });
 
   final String text;
-  final Widget label;
-  final void Function(String) onChanged;
-  final String? error;
-  final bool? obscureText;
-  final Widget? suffixIcon;
-  final Widget? prefixIcon;
-  final String? helperText;
+  final String? placeholder;
+  final Widget? prefix;
+  final bool obscureText;
+  final void Function(String value) onChanged;
+  final String? Function(String? value)? validator;
 
   @override
   Widget build(BuildContext context) {
+    const Radius borderRadius = Radius.circular(15);
+
     return ReactiveTextField(
-      obscureText: obscureText,
       text: text,
-      onChanged: onChanged,
-      inputDecoration: InputDecoration(
-        label: label,
-        floatingLabelStyle: const TextStyle(fontSize: 18),
-        helperText: helperText,
-        errorText: error,
-        suffixIcon: suffixIcon,
-        filled: true,
-        prefixIcon: prefixIcon,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
+      builder: (controller, focusNode) {
+        return CupertinoTextFormFieldRow(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          controller: controller,
+          focusNode: focusNode,
+          obscureText: obscureText,
+          autocorrect: false,
+          placeholder: placeholder,
+          validator: validator,
+          padding: EdgeInsetsDirectional.zero,
+          style: const TextStyle(fontSize: 18),
+          onChanged: onChanged,
+          prefix: Container(
+            decoration: const BoxDecoration(
+              color: CupertinoColors.extraLightBackgroundGray,
+              borderRadius: BorderRadius.only(
+                bottomLeft: borderRadius,
+                topLeft: borderRadius,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: prefix,
+            ),
+          ),
+          decoration: const BoxDecoration(
+            color: CupertinoColors.extraLightBackgroundGray,
+            borderRadius: BorderRadius.only(
+              bottomRight: borderRadius,
+              topRight: borderRadius,
+            ),
+            border: Border.symmetric(
+              horizontal: BorderSide(
+                color: CupertinoColors.lightBackgroundGray,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

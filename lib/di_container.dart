@@ -10,7 +10,7 @@ import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart'
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
-import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
 

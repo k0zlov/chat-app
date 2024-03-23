@@ -1,7 +1,5 @@
-import 'package:chat_app/core/services/auth_service.dart';
-import 'package:chat_app/di_container.dart';
-import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
-import 'package:chat_app/features/auth/view/widgets/submit_button.dart';
+import 'package:chat_app/core/widgets/buttons/cupertino_submit_button.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,14 +10,14 @@ class MockUpSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthCubit cubit = context.read<AuthCubit>();
 
-    Future<void> breakToken() async {
-      await getIt<AuthService>().login(
-        accessToken: 'broken_accessToken',
-        refreshToken: getIt<AuthService>().getRefreshToken ?? '',
-      );
-
-      print('BROKEN ACCESS TOKEN:${getIt<AuthService>().getAccessToken}');
-    }
+    // Future<void> breakToken() async {
+    //   await getIt<AuthService>().login(
+    //     accessToken: 'broken_accessToken',
+    //     refreshToken: getIt<AuthService>().getRefreshToken ?? '',
+    //   );
+    //
+    //   print('BROKEN ACCESS TOKEN:${getIt<AuthService>().getAccessToken}');
+    // }
 
     return Scaffold(
       body: Center(
@@ -31,21 +29,13 @@ class MockUpSettings extends StatelessWidget {
               style: TextStyle(fontSize: 30),
             ),
             const SizedBox(height: 15),
-            SubmitButton(
-              title: 'Logout',
-              width: 200,
-              height: 60,
+            CupertinoSubmitButton(
+              label: 'Logout',
+              width: 300,
               onPressed: () async => cubit.logout(),
               color: Colors.redAccent,
             ),
             const SizedBox(height: 15),
-            SubmitButton(
-              title: 'Break access token',
-              width: 200,
-              height: 60,
-              onPressed: () async => breakToken(),
-              color: Colors.orangeAccent,
-            ),
           ],
         ),
       ),

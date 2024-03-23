@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class MockUpNavBar extends StatelessWidget {
-  const MockUpNavBar({super.key, required this.navigationShell});
+class ChatAppNavigationBar extends StatelessWidget {
+  const ChatAppNavigationBar({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
@@ -15,25 +16,30 @@ class MockUpNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: navigationShell.currentIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.contacts),
-            label: 'Contacts',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chats',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+    return CupertinoPageScaffold(
+      child: Column(
+        children: [
+          Expanded(child: navigationShell),
+          CupertinoTabBar(
+            height: 55,
+            currentIndex: navigationShell.currentIndex,
+            onTap: _onTap,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.profile_circled),
+                label: 'Contacts',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'Chats',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ],
+          )
         ],
-        onTap: _onTap,
       ),
     );
   }

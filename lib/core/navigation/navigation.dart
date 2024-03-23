@@ -21,7 +21,8 @@ class AppNavigation {
           final String location = state.matchedLocation;
 
           final bool isAuthPage = location == AppRoutes.login.path ||
-              location == AppRoutes.registration.path;
+              location == AppRoutes.registration.path ||
+              location == AppRoutes.auth.path;
 
           final bool isAuthorized = getIt<AuthService>().isAuthorized;
 
@@ -30,11 +31,11 @@ class AppNavigation {
           }
 
           if (!isAuthorized && !isAuthPage) {
-            return AppRoutes.login.path;
+            return AppRoutes.auth.path;
           }
 
           if (state.matchedLocation == '/') {
-            return AppRoutes.login.path;
+            return AppRoutes.auth.path;
           }
           return null;
         },
@@ -43,14 +44,23 @@ class AppNavigation {
 
   static final List<RouteBase> _routes = <RouteBase>[
     GoRoute(
-      name: AppRoutes.login.name,
-      path: AppRoutes.login.path,
-      builder: (context, state) => ScreenFactory.renderLoginScreen(),
-    ),
-    GoRoute(
-      name: AppRoutes.registration.name,
-      path: AppRoutes.registration.path,
-      builder: (context, state) => ScreenFactory.renderRegistrationScreen(),
+      name: AppRoutes.auth.name,
+      path: AppRoutes.auth.path,
+      builder: (context, state) => ScreenFactory.renderInitialScreen(),
+      routes: [
+        GoRoute(
+          name: AppRoutes.login.name,
+          path: AppRoutes.login.name,
+          builder: (context, state) => ScreenFactory.renderLoginScreen(),
+        ),
+        GoRoute(
+          name: AppRoutes.registration.name,
+          path: AppRoutes.registration.name,
+          builder: (context, state) {
+            return ScreenFactory.renderRegistrationScreen();
+          },
+        ),
+      ],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -91,8 +101,10 @@ class AppNavigation {
 
 enum AppRoutes {
   root('/'),
-  login('/login'),
-  registration('/registration'),
+  auth('/auth'),
+  login('/auth/login'),
+  registration('/auth/registration'),
+  registrationPassword('/auth/registration/password'),
   chats('/chats'),
   chat('/chat/:chatId'),
   chatSettings('chat-settings'),

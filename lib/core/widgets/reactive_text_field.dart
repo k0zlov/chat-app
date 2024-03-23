@@ -1,19 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+typedef TextFieldBuilder = Widget Function(
+  TextEditingController controller,
+  FocusNode focusNode,
+);
 
 class ReactiveTextField extends StatefulWidget {
   const ReactiveTextField({
     super.key,
-    required String this.text,
-    required void Function(String) this.onChanged,
-    this.obscureText,
-    this.inputDecoration,
+    required this.text,
+    required this.builder,
   });
 
   final String text;
-  final void Function(String) onChanged;
-
-  final InputDecoration? inputDecoration;
-  final bool? obscureText;
+  final TextFieldBuilder builder;
 
   @override
   State<ReactiveTextField> createState() => _ReactiveTextFieldState();
@@ -43,12 +43,6 @@ class _ReactiveTextFieldState extends State<ReactiveTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      obscureText: widget.obscureText ?? false,
-      controller: _controller,
-      onChanged: widget.onChanged,
-      focusNode: _focusNode,
-      decoration: widget.inputDecoration,
-    );
+    return widget.builder(_controller, _focusNode);
   }
 }

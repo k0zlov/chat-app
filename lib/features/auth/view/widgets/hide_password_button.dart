@@ -1,5 +1,5 @@
-import 'package:chat_app/features/auth/view/cubit/auth_cubit/auth_cubit.dart';
-import 'package:flutter/material.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthHidePasswordButton extends StatelessWidget {
@@ -10,9 +10,16 @@ class AuthHidePasswordButton extends StatelessWidget {
     final AuthCubit cubit = context.read<AuthCubit>();
     final AuthState state = context.select((AuthCubit cubit) => cubit.state);
 
-    return IconButton(
-      onPressed: cubit.onHidePasswordButton,
-      icon: Icon(state.hidePassword ? Icons.visibility_off : Icons.visibility),
+    return CupertinoButton(
+      minSize: 25,
+      padding: EdgeInsetsDirectional.zero,
+      onPressed: cubit.onHidePassword,
+      child: Icon(
+        state.hidePassword
+            ? CupertinoIcons.eye_slash_fill
+            : CupertinoIcons.eye_fill,
+        color: CupertinoColors.inactiveGray,
+      ),
     );
   }
 }
