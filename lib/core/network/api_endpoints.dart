@@ -24,4 +24,6 @@ class APIEndpoints {
   static const String postRegistration = '/users/sign-up';
 
   static const String getRefreshToken = '/users/refresh';
+
+  static const String getLogout = '/users/logout';
 }

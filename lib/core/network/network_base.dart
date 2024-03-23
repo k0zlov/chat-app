@@ -14,8 +14,8 @@ abstract class NetworkBase implements Network {
   @override
   Future<Either<Failure, T>> get<T>({
     required String url,
-    required Map<String, dynamic> queryParameters,
     required T Function(dynamic json) parser,
+    Map<String, dynamic>? queryParameters,
   }) async =>
       send(
         url: url,
@@ -27,8 +27,8 @@ abstract class NetworkBase implements Network {
   @override
   Future<Either<Failure, T>> post<T>({
     required String url,
-    required Map<String, dynamic> data,
     required T Function(dynamic json) parser,
+    Map<String, dynamic>? data,
   }) async =>
       send(
         url: url,

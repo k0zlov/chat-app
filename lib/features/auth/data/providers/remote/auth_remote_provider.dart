@@ -7,9 +7,13 @@ import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/re
 import 'package:dartz/dartz.dart';
 
 abstract class AuthRemoteProvider {
-  Future<Either<Failure, TokenResponseModel>> register(RegistrationParams params);
+  Future<Either<Failure, TokenResponseModel>> register(
+    RegistrationParams params,
+  );
 
   Future<Either<Failure, TokenResponseModel>> login(LoginParams params);
+
+  Future<Either<Failure, void>> logout();
 }
 
 class AuthRemoteProviderImpl implements AuthRemoteProvider {
@@ -43,6 +47,15 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
         final data = json as Map<String, dynamic>;
         return TokenResponseModel.fromJson(data);
       },
+    );
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    final Either<Failure, void> response = await network.get(
+      url: APIEndpoints.getLogout,
+      parser: (json) => json,
     );
     return response;
   }

@@ -28,8 +28,8 @@ abstract interface class Network {
   ///   an error, or a [T] instance in case of success.
   Future<Either<Failure, T>> get<T>({
     required String url,
-    required Map<String, dynamic> queryParameters,
     required T Function(dynamic json) parser,
+    Map<String, dynamic>? queryParameters,
   });
 
   /// Performs a POST request.
@@ -48,7 +48,7 @@ abstract interface class Network {
   ///   an error, or a [T] instance in case of success.
   Future<Either<Failure, T>> post<T>({
     required String url,
-    required Map<String, dynamic> data,
     required T Function(dynamic json) parser,
+    Map<String, dynamic>? data,
   });
 }

@@ -89,23 +89,22 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// Logs out the currently authenticated user.
   ///
-  /// This method uses [authService] to clear the authentication state. If the logout
-  /// operation is successful and the user is no longer authorized, it returns success;
-  /// otherwise, it returns a [CacheFailure].
+  /// This method uses [authService] to clear the authentication state.
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
   ///   or void on successful logout.
   @override
   Future<Either<Failure, void>> logout() async {
-    await authService.logout();
+    final Either<Failure, void> response = await remoteProvider.logout();
 
-    if (!authService.isAuthorized) {
-      return const Right(null); // Indicates successful logout.
-    } else {
-      // Indicates a failure in logging out, potentially due to caching issues.
-      const cacheFailure = CacheFailure(errorMessage: 'Could not logout user.');
-      return const Left(cacheFailure);
-    }
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (_) async {
+        await authService.logout();
+        return Right(_);
+      },
+    );
   }
 }

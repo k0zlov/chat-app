@@ -68,8 +68,8 @@ class NetworkImplDio extends NetworkBase {
     Map<String, dynamic>? data,
   }) async {
     try {
-      final Options options =
-          Options(method: method); // Set the request method in options.
+      // Set the request method in options.
+      final Options options = Options(method: method);
 
       final Response<dynamic> response = await dio.request(
         url,
