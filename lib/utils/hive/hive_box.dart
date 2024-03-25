@@ -24,27 +24,9 @@ class HiveBox {
     await _mainBox?.delete(key.name);
   }
 
-  bool get isAuthorized => getData<bool?>(HiveBoxKeys.isLogin) ?? false;
-
   /// Retrieves data of type [T] from the main storage box
   /// associated with the specified [key].
   T getData<T>(HiveBoxKeys key) => _mainBox?.get(key.name) as T;
-
-  Future<void> loginBox({
-    required String accessToken,
-    required String refreshToken,
-  }) async {
-    await addData(HiveBoxKeys.refreshToken, refreshToken);
-    await addData(HiveBoxKeys.accessToken, accessToken);
-    await addData(HiveBoxKeys.isLogin, true);
-  }
-
-  /// Clears user-related data from the main storage box to handle logout.
-  Future<void> logoutBox() async {
-    await removeData(HiveBoxKeys.isLogin);
-    await removeData(HiveBoxKeys.refreshToken);
-    await removeData(HiveBoxKeys.accessToken);
-  }
 
   /// Closes and optionally deletes the main storage box.
   Future<void> closeBox() async {
@@ -70,4 +52,8 @@ enum HiveBoxKeys {
 
   /// The key indicating whether the user is logged in.
   isLogin,
+
+  themeMode,
+
+  themeColor,
 }

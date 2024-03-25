@@ -11,24 +11,25 @@ abstract interface class AuthService {
 
   String? get getRefreshToken;
 
-  Future<void> login(
-      {required String accessToken, required String refreshToken});
+  Future<void> login({
+    required String accessToken,
+    required String refreshToken,
+  });
 
   Future<void> logout();
 }
 
 class AuthServiceImpl implements AuthService {
   /// fd
-  AuthServiceImpl({required this.hiveBoxMixin}) {
+  AuthServiceImpl({required this.hiveBox}) {
     _init();
   }
 
-  final HiveBox hiveBoxMixin;
+  final HiveBox hiveBox;
 
   final _authStateController = StreamController<bool>.broadcast();
 
   void _init() {
-    final bool isAuthorized = hiveBoxMixin.isAuthorized;
     _authStateController.add(isAuthorized);
   }
 
@@ -36,15 +37,15 @@ class AuthServiceImpl implements AuthService {
   Stream<bool> get authStateChanges => _authStateController.stream;
 
   @override
-  bool get isAuthorized => hiveBoxMixin.isAuthorized;
+  bool get isAuthorized => hiveBox.getData<bool?>(HiveBoxKeys.isLogin) ?? false;
 
   @override
-  String? get getAccessToken => hiveBoxMixin.getData<String?>(
+  String? get getAccessToken => hiveBox.getData<String?>(
         HiveBoxKeys.accessToken,
       );
 
   @override
-  String? get getRefreshToken => hiveBoxMixin.getData<String?>(
+  String? get getRefreshToken => hiveBox.getData<String?>(
         HiveBoxKeys.refreshToken,
       );
 
@@ -53,16 +54,19 @@ class AuthServiceImpl implements AuthService {
     required String accessToken,
     required String refreshToken,
   }) async {
-    await hiveBoxMixin.loginBox(
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    );
+    await hiveBox.addData(HiveBoxKeys.refreshToken, refreshToken);
+    await hiveBox.addData(HiveBoxKeys.accessToken, accessToken);
+    await hiveBox.addData(HiveBoxKeys.isLogin, true);
+
     _authStateController.add(isAuthorized);
   }
 
   @override
   Future<void> logout() async {
-    await hiveBoxMixin.logoutBox();
+    await hiveBox.removeData(HiveBoxKeys.isLogin);
+    await hiveBox.removeData(HiveBoxKeys.refreshToken);
+    await hiveBox.removeData(HiveBoxKeys.accessToken);
+
     _authStateController.add(isAuthorized);
   }
 }
