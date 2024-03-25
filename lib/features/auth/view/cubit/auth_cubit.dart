@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
+import 'package:chat_app/core/widgets/modal_pop_up.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
 import 'package:chat_app/utils/text_input_validator/text_input_validator.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'auth_cubit_state.dart';
 
@@ -21,12 +23,29 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthState _state = const AuthState();
 
+  void showAuthError(String authError) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (AppNavigation.rootNavigatorKey.currentContext == null) {
+        return;
+      }
+      showCupertinoModalPopup<void>(
+        context: AppNavigation.rootNavigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return ModalPopUpContainer(
+            iconData: CupertinoIcons.exclamationmark_triangle_fill,
+            message: authError,
+          );
+        },
+      );
+    });
+  }
+
   Future<void> logout() async {
     final failureOrVoid = await logoutUseCase(NoParams());
     _state = const AuthState();
     failureOrVoid.fold(
       (failure) {
-        _state = _state.copyWith(authError: failure.errorMessage);
+        showAuthError(failure.errorMessage);
       },
       (r) => null,
     );
@@ -112,16 +131,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit(_state);
   }
 
-  void clearAuthError() {
-    _state = _state.copyWith(authError: '');
-    emit(_state);
-  }
-
   Future<void> onLoginButton() async {
     if (!checkLoginParams()) {
-      _state = _state.copyWith(
-        authError: 'The data you entered is incorrect. Please try again.',
-      );
+      _state = _state.copyWith();
+      showAuthError('The data you entered is incorrect. Please try again.');
       emit(_state);
       return;
     }
@@ -133,7 +146,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     failureOrToken.fold(
       (failure) {
-        _state = _state.copyWith(authError: failure.errorMessage);
+        showAuthError(failure.errorMessage);
       },
       (tokenEntity) => null,
     );
@@ -144,10 +157,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> onRegistrationButton() async {
     if (!checkRegistrationParams()) {
-      _state = _state.copyWith(
-        authError: 'The data you entered is incorrect. Please try again.',
-      );
-      emit(_state);
+      showAuthError('The data you entered is incorrect. Please try again.');
       return;
     }
 
@@ -158,7 +168,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     failureOrToken.fold(
       (failure) {
-        _state = _state.copyWith(authError: failure.errorMessage);
+        showAuthError(failure.errorMessage);
       },
       (tokenEntity) => null,
     );
