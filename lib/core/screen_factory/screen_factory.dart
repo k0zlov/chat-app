@@ -1,4 +1,5 @@
 import 'package:chat_app/application.dart';
+import 'package:chat_app/core/resources/theme.dart';
 import 'package:chat_app/core/widgets/mock_up_chats.dart';
 import 'package:chat_app/core/widgets/mock_up_contacts.dart';
 import 'package:chat_app/core/widgets/mock_up_nav_bar.dart';
@@ -47,12 +48,8 @@ class ScreenFactory {
   static Widget renderApplication() {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(
-          value: getIt<AuthCubit>(),
-        ),
-        BlocProvider.value(
-          value: getIt<SettingsCubit>(),
-        ),
+        BlocProvider(create: (context) => getIt<AuthCubit>()),
+        BlocProvider(create: (context) => getIt<SettingsCubit>()),
       ],
       child: const ChatApplication(),
     );

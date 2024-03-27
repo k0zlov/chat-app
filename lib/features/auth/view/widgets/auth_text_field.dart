@@ -21,11 +21,22 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+    final Color backgroundColor = CupertinoTheme.of(context).barBackgroundColor;
+
+    final Color inputColor = backgroundColor.withOpacity(0.99);
+
     const Radius borderRadius = Radius.circular(15);
+
+    final BorderSide borderSide = BorderSide(
+      color: primaryColor.withOpacity(0.3),
+    );
 
     return ReactiveTextField(
       text: text,
       builder: (controller, focusNode) {
+        final bool selected = focusNode.hasFocus;
+
         return CupertinoTextFormFieldRow(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: controller,
@@ -34,13 +45,20 @@ class AuthTextField extends StatelessWidget {
           autocorrect: false,
           placeholder: placeholder,
           validator: validator,
-          padding: EdgeInsetsDirectional.zero,
+          padding: EdgeInsets.symmetric(vertical: 5),
           style: const TextStyle(fontSize: 18),
           onChanged: onChanged,
           prefix: Container(
-            decoration: const BoxDecoration(
-              color: CupertinoColors.extraLightBackgroundGray,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: inputColor,
+              border: selected
+                  ? Border(
+                      top: borderSide,
+                      bottom: borderSide,
+                      left: borderSide,
+                    )
+                  : null,
+              borderRadius: const BorderRadius.only(
                 bottomLeft: borderRadius,
                 topLeft: borderRadius,
               ),
@@ -50,16 +68,18 @@ class AuthTextField extends StatelessWidget {
               child: prefix,
             ),
           ),
-          decoration: const BoxDecoration(
-            color: CupertinoColors.extraLightBackgroundGray,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: inputColor,
+            border: selected
+                ? Border(
+                    top: borderSide,
+                    bottom: borderSide,
+                    right: borderSide,
+                  )
+                : null,
+            borderRadius: const BorderRadius.only(
               bottomRight: borderRadius,
               topRight: borderRadius,
-            ),
-            border: Border.symmetric(
-              horizontal: BorderSide(
-                color: CupertinoColors.lightBackgroundGray,
-              ),
             ),
           ),
         );

@@ -1,13 +1,15 @@
+import 'package:chat_app/core/resources/theme.dart';
+import 'package:chat_app/utils/enum_parsing/enum_parsing_extension.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 
 abstract interface class ThemeService {
-  String? getThemeMode();
+  AppThemeMode? getThemeMode();
 
-  String? getThemeColor();
+  AppThemeColor? getThemeColor();
 
-  Future<void> setThemeMode({required String themeMode});
+  Future<void> setThemeMode({required AppThemeMode themeMode});
 
-  Future<void> setThemeColor({required String themeColor});
+  Future<void> setThemeColor({required AppThemeColor themeColor});
 }
 
 class ThemeServiceImpl implements ThemeService {
@@ -16,22 +18,30 @@ class ThemeServiceImpl implements ThemeService {
   final HiveBox hiveBox;
 
   @override
-  String? getThemeColor() {
-    return hiveBox.getData<String?>(HiveBoxKeys.themeColor);
+  AppThemeMode? getThemeMode() {
+    final String? modeName = hiveBox.getData<String?>(HiveBoxKeys.themeMode);
+    final AppThemeMode? themeMode = AppThemeMode.values.valueFromString(
+      modeName,
+    );
+    return themeMode;
   }
 
   @override
-  String? getThemeMode() {
-    return hiveBox.getData<String?>(HiveBoxKeys.themeMode);
+  AppThemeColor? getThemeColor() {
+    final String? colorName = hiveBox.getData<String?>(HiveBoxKeys.themeColor);
+    final AppThemeColor? themeColor = AppThemeColor.values.valueFromString(
+      colorName,
+    );
+    return themeColor;
   }
 
   @override
-  Future<void> setThemeColor({required String themeColor}) async {
-    await hiveBox.addData(HiveBoxKeys.themeColor, themeColor);
+  Future<void> setThemeMode({required AppThemeMode themeMode}) async {
+    await hiveBox.addData(HiveBoxKeys.themeMode, themeMode.name);
   }
 
   @override
-  Future<void> setThemeMode({required String themeMode}) async {
-    await hiveBox.addData(HiveBoxKeys.themeMode, themeMode);
+  Future<void> setThemeColor({required AppThemeColor themeColor}) async {
+    await hiveBox.addData(HiveBoxKeys.themeColor, themeColor.name);
   }
 }

@@ -21,13 +21,16 @@ class CupertinoSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+
+    final Color primaryContrast =
+        CupertinoTheme.of(context).primaryContrastingColor;
+
     final bool buttonEnabled = onPressed != null;
 
     final Color buttonTextColor = buttonEnabled
-        ? textColor ?? CupertinoColors.white
+        ? textColor ?? primaryContrast
         : CupertinoColors.inactiveGray;
-
-    final Color? defaultButtonColor = Colors.green[700];
 
     return SizedBox(
       width: width,
@@ -36,7 +39,7 @@ class CupertinoSubmitButton extends StatelessWidget {
         child: CupertinoButton(
           borderRadius: BorderRadius.circular(15),
           onPressed: onPressed,
-          color: color ?? defaultButtonColor,
+          color: color ?? primaryColor,
           child: Text(
             label,
             style: TextStyle(

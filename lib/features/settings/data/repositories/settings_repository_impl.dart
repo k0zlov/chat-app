@@ -6,7 +6,6 @@ import 'package:chat_app/features/settings/domain/entities/theme_mode_entity/the
 import 'package:chat_app/features/settings/domain/repositories/settings_repository.dart';
 import 'package:chat_app/features/settings/domain/use_cases/change_theme_color.dart';
 import 'package:chat_app/features/settings/domain/use_cases/change_theme_mode.dart';
-import 'package:chat_app/utils/enum_parsing/enum_parsing_extension.dart';
 import 'package:dartz/dartz.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
@@ -17,14 +16,10 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<Either<Failure, ThemeColorEntity>> getThemeColor() async {
     try {
-      final String? colorName = themeService.getThemeColor();
-
-      final AppThemeColor? themeColor = AppThemeColor.values.valueFromString(
-        colorName,
-      );
+      final AppThemeColor? themeColor = themeService.getThemeColor();
 
       final ThemeColorEntity entity = ThemeColorEntity(
-        color: themeColor ?? AppThemeColor.standart,
+        color: themeColor ?? AppThemeColor.standard,
       );
 
       return Right(entity);
@@ -40,19 +35,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<Either<Failure, ThemeModeEntity>> getThemeMode() async {
     try {
-      final String? modeName = themeService.getThemeMode();
-
-      print(modeName);
-
-      final AppThemeMode? themeMode = AppThemeMode.values.valueFromString(
-        modeName,
-      );
-      print(2);
+      final AppThemeMode? themeMode = themeService.getThemeMode();
 
       final ThemeModeEntity entity = ThemeModeEntity(
         mode: themeMode ?? AppThemeMode.system,
       );
-      print(3);
 
       return Right(entity);
     } catch (e) {
@@ -69,7 +56,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     ChangeThemeColorParams params,
   ) async {
     try {
-      await themeService.setThemeColor(themeColor: params.color.name);
+      await themeService.setThemeColor(themeColor: params.color);
       return const Right(null);
     } catch (e) {
       const cacheFailure = CacheFailure(
@@ -85,7 +72,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
     ChangeThemeModeParams params,
   ) async {
     try {
-      await themeService.setThemeMode(themeMode: params.mode.name);
+      await themeService.setThemeMode(themeMode: params.mode);
       return const Right(null);
     } catch (e) {
       const cacheFailure = CacheFailure(

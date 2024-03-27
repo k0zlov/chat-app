@@ -113,8 +113,10 @@ class AuthInfoPage extends StatelessWidget {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: const TextStyle(
-                      color: CupertinoColors.black, fontSize: 22),
+                  style: CupertinoTheme.of(context)
+                      .textTheme
+                      .textStyle
+                      .copyWith(fontSize: 22),
                   children: [
                     for (int i = 0; i < pageData.description.length; i++) ...{
                       TextSpan(

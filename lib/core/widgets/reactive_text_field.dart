@@ -22,6 +22,7 @@ class ReactiveTextField extends StatefulWidget {
 class _ReactiveTextFieldState extends State<ReactiveTextField> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
+  bool isSelected = false;
 
   @override
   void initState() {

@@ -6,7 +6,7 @@ part 'theme_color_entity.freezed.dart';
 @freezed
 class ThemeColorEntity with _$ThemeColorEntity {
   const factory ThemeColorEntity({
-    @Default(AppThemeColor.standart) AppThemeColor color,
+    @Default(AppThemeColor.standard) AppThemeColor color,
   }) = _ThemeColorEntity;
 
   const ThemeColorEntity._();

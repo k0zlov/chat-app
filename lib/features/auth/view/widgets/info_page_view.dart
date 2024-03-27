@@ -58,6 +58,8 @@ class _InitialInfoPageViewState extends State<InitialInfoPageView> {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+
     return Column(
       children: [
         SizedBox(
@@ -81,19 +83,17 @@ class _InitialInfoPageViewState extends State<InitialInfoPageView> {
               controller: _pageController,
               onDotClicked: (index) {
                 if (!_wasTouched) _wasTouched = true;
-
                 _pageController.animateToPage(
                   index,
                   duration: const Duration(milliseconds: 600),
                   curve: Curves.easeInOut,
                 );
               },
-              effect: const ColorTransitionEffect(
+              effect: ColorTransitionEffect(
                 dotHeight: 9,
                 dotWidth: 9,
                 spacing: 10,
-                dotColor: CupertinoColors.lightBackgroundGray,
-                activeDotColor: CupertinoColors.activeGreen,
+                activeDotColor: primaryColor,
               ),
             ),
             const SizedBox(width: 5),
@@ -111,7 +111,7 @@ class _InitialInfoPageViewState extends State<InitialInfoPageView> {
                   _wasTouched ? CupertinoIcons.play : CupertinoIcons.pause,
                   key: ValueKey<bool>(_wasTouched),
                   color: _wasTouched
-                      ? CupertinoColors.activeGreen
+                      ? primaryColor
                       : CupertinoColors.inactiveGray,
                   size: 20,
                 ),

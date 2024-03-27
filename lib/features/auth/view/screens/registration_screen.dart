@@ -80,7 +80,7 @@ class _RegistrationScreenBody extends StatelessWidget {
                     color: CupertinoColors.inactiveGray,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 4),
                 AuthTextField(
                   placeholder: 'Email',
                   onChanged: cubit.onRegistrationEmail,
@@ -93,7 +93,7 @@ class _RegistrationScreenBody extends StatelessWidget {
                     color: CupertinoColors.inactiveGray,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 4),
                 AuthTextField(
                   placeholder: 'Password',
                   obscureText: state.hidePassword,
@@ -126,11 +126,11 @@ class _RegistrationScreenBody extends StatelessWidget {
                       color: Colors.transparent,
                       onPressed: () => context.go(AppRoutes.login.path),
                       padding: const EdgeInsets.only(left: 5),
-                      child: const Text(
+                      child: Text(
                         'Login',
                         style: TextStyle(
                           fontSize: 14,
-                          color: CupertinoColors.activeGreen,
+                          color: CupertinoTheme.of(context).primaryColor,
                         ),
                       ),
                     ),

@@ -28,7 +28,7 @@ class InitialScreen extends StatelessWidget {
               CupertinoSubmitButton(
                 label: 'Continue in {language}',
                 color: Colors.transparent,
-                textColor: Colors.green,
+                textColor: CupertinoTheme.of(context).primaryColor,
                 onPressed: () {},
               ),
             ],

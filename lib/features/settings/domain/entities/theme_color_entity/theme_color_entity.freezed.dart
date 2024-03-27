@@ -92,7 +92,7 @@ class __$$ThemeColorEntityImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ThemeColorEntityImpl extends _ThemeColorEntity {
-  const _$ThemeColorEntityImpl({this.color = AppThemeColor.standart})
+  const _$ThemeColorEntityImpl({this.color = AppThemeColor.standard})
       : super._();
 
   @override

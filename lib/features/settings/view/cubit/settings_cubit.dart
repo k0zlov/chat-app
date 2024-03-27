@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/resources/theme.dart';
@@ -10,6 +12,7 @@ import 'package:chat_app/features/settings/domain/use_cases/change_theme_mode.da
 import 'package:chat_app/features/settings/domain/use_cases/get_theme_color.dart';
 import 'package:chat_app/features/settings/domain/use_cases/get_theme_mode.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'settings_state.dart';
 

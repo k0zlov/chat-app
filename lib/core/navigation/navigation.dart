@@ -31,7 +31,7 @@ class AppNavigation {
           }
 
           if (!isAuthorized && !isAuthPage) {
-            return AppRoutes.auth.path;
+            return AppRoutes.registration.path;
           }
 
           if (state.matchedLocation == '/') {
