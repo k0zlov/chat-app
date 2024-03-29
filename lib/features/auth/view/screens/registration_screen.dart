@@ -1,4 +1,5 @@
 import 'package:chat_app/core/navigation/navigation.dart';
+import 'package:chat_app/core/resources/images.dart';
 import 'package:chat_app/core/widgets/blur/blurred_loading_screen.dart';
 import 'package:chat_app/core/widgets/buttons/cupertino_submit_button.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
@@ -36,7 +37,7 @@ class _RegistrationScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthInfoPageData registrationPageData = AuthInfoPageData(
       header: Image.asset(
-        'assets/images/registration.png',
+        AppImages.registration,
         height: 80,
         width: 80,
       ),

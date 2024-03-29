@@ -1,3 +1,4 @@
+import 'package:chat_app/core/resources/images.dart';
 import 'package:flutter/cupertino.dart';
 
 class AuthInfoPageData {
@@ -14,7 +15,7 @@ class AuthInfoPageData {
   static final data = <AuthInfoPageData>[
     AuthInfoPageData(
       header: Image.asset(
-        'assets/images/logo.png',
+        AppImages.appLogo,
         height: 150,
       ),
       description: [
@@ -30,7 +31,7 @@ class AuthInfoPageData {
     ),
     AuthInfoPageData(
       header: Image.asset(
-        'assets/images/speedometer.png',
+        AppImages.authSpeedometer,
         height: 150,
       ),
       description: [
@@ -41,7 +42,7 @@ class AuthInfoPageData {
     ),
     AuthInfoPageData(
       header: Image.asset(
-        'assets/images/gift.png',
+        AppImages.authGift,
         height: 150,
       ),
       description: [
@@ -54,7 +55,7 @@ class AuthInfoPageData {
     ),
     AuthInfoPageData(
       header: Image.asset(
-        'assets/images/lock.png',
+        AppImages.authLock,
         height: 150,
       ),
       description: [
@@ -65,7 +66,7 @@ class AuthInfoPageData {
     ),
     AuthInfoPageData(
       header: Image.asset(
-        'assets/images/cloud.png',
+        AppImages.authCloud,
         height: 150,
       ),
       description: [

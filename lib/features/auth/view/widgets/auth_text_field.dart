@@ -45,7 +45,7 @@ class AuthTextField extends StatelessWidget {
           autocorrect: false,
           placeholder: placeholder,
           validator: validator,
-          padding: EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           style: const TextStyle(fontSize: 18),
           onChanged: onChanged,
           prefix: Container(

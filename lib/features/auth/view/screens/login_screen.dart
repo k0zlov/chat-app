@@ -1,13 +1,11 @@
 import 'package:chat_app/core/navigation/navigation.dart';
-import 'package:chat_app/core/resources/theme.dart';
+import 'package:chat_app/core/resources/images.dart';
 import 'package:chat_app/core/widgets/blur/blurred_loading_screen.dart';
 import 'package:chat_app/core/widgets/buttons/cupertino_submit_button.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/auth/view/widgets/auth_text_field.dart';
 import 'package:chat_app/features/auth/view/widgets/hide_password_button.dart';
 import 'package:chat_app/features/auth/view/widgets/info_page.dart';
-import 'package:chat_app/features/settings/domain/use_cases/change_theme_mode.dart';
-import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
 import 'package:chat_app/utils/text_input_validator/text_input_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +37,7 @@ class _LoadingScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthInfoPageData loginPageData = AuthInfoPageData(
       header: Image.asset(
-        'assets/images/login.png',
+        AppImages.login,
         height: 80,
         width: 80,
       ),
