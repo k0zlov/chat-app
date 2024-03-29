@@ -7,9 +7,24 @@ class ApplicationTheme {
     required Color color,
     required Brightness brightness,
   }) {
+    return brightness == Brightness.dark
+        ? cupertinoDark(color: color)
+        : cupertinoLight(color: color);
+  }
+
+  static CupertinoThemeData cupertinoLight({required Color color}) {
     return CupertinoThemeData(
       primaryColor: color,
-      brightness: brightness,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: CupertinoColors.white,
+    );
+  }
+
+  static CupertinoThemeData cupertinoDark({required Color color}) {
+    return CupertinoThemeData(
+      primaryColor: color,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
     );
   }
 }
