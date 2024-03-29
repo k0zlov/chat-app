@@ -31,12 +31,13 @@ class AppNavigation {
           }
 
           if (!isAuthorized && !isAuthPage) {
-            return AppRoutes.registration.path;
+            return AppRoutes.auth.path;
           }
 
           if (state.matchedLocation == '/') {
             return AppRoutes.auth.path;
           }
+
           return null;
         },
         routes: _routes,
@@ -104,7 +105,6 @@ enum AppRoutes {
   auth('/auth'),
   login('/auth/login'),
   registration('/auth/registration'),
-  registrationPassword('/auth/registration/password'),
   chats('/chats'),
   chat('/chat/:chatId'),
   chatSettings('chat-settings'),
