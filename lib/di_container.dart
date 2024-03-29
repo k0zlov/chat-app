@@ -1,5 +1,5 @@
-import 'package:chat_app/core/database/database_handler.dart';
-import 'package:chat_app/core/database/database_handler_implementation.dart';
+import 'package:chat_app/core/database/database_helper.dart';
+import 'package:chat_app/core/database/database_helper_impl.dart';
 import 'package:chat_app/core/network/dio_interceptor.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_dio.dart';
