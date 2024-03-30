@@ -9,17 +9,19 @@ import 'package:dartz/dartz.dart';
 abstract class SettingsRepository {
   Future<Either<Failure, ThemeColorEntity>> getThemeColor();
 
+  Future<Either<Failure, ThemeModeEntity>> getThemeMode();
+
+  Future<Either<Failure, bool>> getUsingSystemMode();
+
   Future<Either<Failure, void>> setThemeColor(
     ChangeThemeColorParams params,
   );
-
-  Future<Either<Failure, ThemeModeEntity>> getThemeMode();
 
   Future<Either<Failure, void>> setThemeMode(
     ChangeThemeModeParams params,
   );
 
-  Future<Either<Failure, bool>> getUsingSystemMode();
-
-  Future<Either<Failure, void>> setUsingSystemMode(ChangeUsingSystemModeParams params);
+  Future<Either<Failure, void>> setUsingSystemMode(
+    ChangeUsingSystemModeParams params,
+  );
 }

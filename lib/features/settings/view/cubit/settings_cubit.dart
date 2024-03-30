@@ -44,7 +44,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> _init() async {
     await _initThemeMode();
-    // await _initThemeColor();
+    await _initThemeColor();
     getIt.signalReady(this);
   }
 
@@ -74,18 +74,20 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(_state);
   }
 
-  // Future<void> _initThemeColor() async {
-  //   final Either<Failure, ThemeColorEntity> failureOrColor =
-  //       await getThemeColor(NoParams());
-  //
-  //   failureOrColor.fold(
-  //     (failure) => null,
-  //     (colorEntity) {
-  //       _state = _state.copyWith(themeColor: colorEntity.color);
-  //       emit(_state);
-  //     },
-  //   );
-  // }
+  Future<void> _initThemeColor() async {
+    final failureOrEntity = await getThemeColor(NoParams());
+
+    failureOrEntity.fold(
+      // ignore: unnecessary_lambdas
+      (failure) {
+        print(failure);
+      },
+      (colorEntity) {
+        _state = _state.copyWith(themeColor: colorEntity.color);
+      },
+    );
+    emit(_state);
+  }
 
   Future<void> switchUsingSystemMode() async {
     final bool newUsingSystemBrightness = !_state.usingSystemBrightness;
@@ -126,6 +128,26 @@ class SettingsCubit extends Cubit<SettingsState> {
       },
       (_) {
         _state = _state.copyWith(currentBrightness: newBrightness);
+      },
+    );
+
+    emit(_state);
+  }
+
+  Future<void> setThemeColor(AppThemeColor themeColor) async {
+    if (themeColor == _state.themeColor) return;
+
+    final failureOrVoid = await changeThemeColor(
+      ChangeThemeColorParams(color: themeColor),
+    );
+
+    failureOrVoid.fold(
+      // ignore: unnecessary_lambdas
+      (failure) {
+        print(failure);
+      },
+      (_) {
+        _state = _state.copyWith(themeColor: themeColor);
       },
     );
 

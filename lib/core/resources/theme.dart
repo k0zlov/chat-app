@@ -1,5 +1,6 @@
 import 'package:chat_app/core/resources/palette.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ApplicationTheme {
   const ApplicationTheme._();
@@ -31,19 +32,11 @@ class ApplicationTheme {
 }
 
 enum AppThemeColor {
-  standard,
-  blue,
-  green,
-}
+  standard(AppPalette.blueThemePrimary),
+  blue(AppPalette.blueThemePrimary),
+  green(AppPalette.greenThemePrimary);
 
-extension AppThemeColorExtension on AppThemeColor {
-  Color get toColor {
-    switch (this) {
-      case AppThemeColor.standard:
-      case AppThemeColor.blue:
-        return CupertinoColors.activeBlue;
-      case AppThemeColor.green:
-        return CupertinoColors.activeGreen;
-    }
-  }
+  const AppThemeColor(this.color);
+
+  final Color color;
 }

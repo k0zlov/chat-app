@@ -5,19 +5,11 @@ import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-class ChatApplication extends StatefulWidget {
+class ChatApplication extends StatelessWidget {
   const ChatApplication({
     super.key,
   });
-
-  @override
-  State<ChatApplication> createState() => _ChatApplicationState();
-}
-
-class _ChatApplicationState extends State<ChatApplication> {
-  final GoRouter router = AppNavigation.router;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +24,12 @@ class _ChatApplicationState extends State<ChatApplication> {
       title: 'Chat-App',
       debugShowCheckedModeBanner: false,
       theme: ApplicationTheme.themeData(
-        color: settingsState.themeColor.toColor,
+        color: settingsState.themeColor.color,
         brightness: settingsState.usingSystemBrightness
             ? settingsState.currentBrightness
             : deviceBrightness,
       ),
-      routerConfig: router,
+      routerConfig: AppNavigation.router,
       builder: (context, child) {
         return BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {

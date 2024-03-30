@@ -4,26 +4,12 @@ import 'package:chat_app/core/network/dio_interceptor.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
-import 'package:chat_app/core/services/theme_service.dart';
-import 'package:chat_app/features/auth/data/providers/remote/auth_remote_provider.dart';
-import 'package:chat_app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
-import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
-import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
-import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
-import 'package:chat_app/features/settings/data/data_providers/local/settings_local_data_provider.dart';
-import 'package:chat_app/features/settings/data/repositories/settings_repository_impl.dart';
-import 'package:chat_app/features/settings/domain/repositories/settings_repository.dart';
-import 'package:chat_app/features/settings/domain/use_cases/change_theme_color.dart';
-import 'package:chat_app/features/settings/domain/use_cases/change_theme_mode.dart';
-import 'package:chat_app/features/settings/domain/use_cases/change_using_system_mode.dart';
-import 'package:chat_app/features/settings/domain/use_cases/get_theme_color.dart';
-import 'package:chat_app/features/settings/domain/use_cases/get_theme_mode.dart';
-import 'package:chat_app/features/settings/domain/use_cases/get_using_system_mode.dart';
-import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
+import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
+
+
 
 /// Singleton instance of GetIt for dependency injection.
 ///
@@ -77,13 +63,9 @@ Future<void> _hive() async {
 
 /// Registers authentication service as a lazy singleton with the service locator.
 void _services() {
-  getIt
-    ..registerLazySingleton<AuthService>(
-      () => AuthServiceImpl(hiveBox: getIt()),
-    )
-    ..registerLazySingleton<ThemeService>(
-      () => ThemeServiceImpl(hiveBox: getIt()),
-    );
+  getIt.registerLazySingleton<AuthService>(
+    () => AuthServiceImpl(hiveBox: getIt()),
+  );
 }
 
 /// Registers a custom Dio interceptor as a lazy singleton for HTTP request manipulation.

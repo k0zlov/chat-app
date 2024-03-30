@@ -14,15 +14,17 @@ class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsLocalDataProvider localDataProvider;
 
   @override
-  Future<Either<Failure, ThemeColorEntity>> getThemeColor() {
-    // TODO: implement getThemeColor
-    throw UnimplementedError();
-  }
+  Future<Either<Failure, ThemeColorEntity>> getThemeColor() async {
+    final failureOrModel = await localDataProvider.getThemeColor();
 
-  @override
-  Future<Either<Failure, void>> setThemeColor(ChangeThemeColorParams params) {
-    // TODO: implement setThemeColor
-    throw UnimplementedError();
+    return failureOrModel.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) {
+        final ThemeColorEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
   }
 
   @override
@@ -40,15 +42,22 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> setThemeMode(
-    ChangeThemeModeParams params,
-  ) async {
-    return localDataProvider.setThemeMode(params);
+  Future<Either<Failure, bool>> getUsingSystemMode() {
+    return localDataProvider.getUsingSystemMode();
   }
 
   @override
-  Future<Either<Failure, bool>> getUsingSystemMode() {
-    return localDataProvider.getUsingSystemMode();
+  Future<Either<Failure, void>> setThemeColor(
+    ChangeThemeColorParams params,
+  ) {
+    return localDataProvider.setThemeColor(params);
+  }
+
+  @override
+  Future<Either<Failure, void>> setThemeMode(
+    ChangeThemeModeParams params,
+  ) {
+    return localDataProvider.setThemeMode(params);
   }
 
   @override

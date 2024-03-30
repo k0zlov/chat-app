@@ -12,7 +12,7 @@ class ChangeUsingSystemModeUseCase
   final SettingsRepository repository;
 
   @override
-  Future<Either<Failure, void>> call(ChangeUsingSystemModeParams params) async {
+  Future<Either<Failure, void>> call(ChangeUsingSystemModeParams params) {
     return repository.setUsingSystemMode(params);
   }
 }

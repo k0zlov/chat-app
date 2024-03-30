@@ -10,7 +10,7 @@ class GetThemeColorUseCase implements UseCase<ThemeColorEntity, NoParams> {
   final SettingsRepository repository;
 
   @override
-  Future<Either<Failure, ThemeColorEntity>> call(NoParams params) async {
+  Future<Either<Failure, ThemeColorEntity>> call(NoParams params) {
     return repository.getThemeColor();
   }
 }

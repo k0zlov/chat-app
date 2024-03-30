@@ -7,4 +7,7 @@ class AppPalette {
       CupertinoColors.darkBackgroundGray;
 
   static const Color lightScaffoldBackground = CupertinoColors.white;
+
+  static const Color blueThemePrimary = CupertinoColors.activeBlue;
+  static const Color greenThemePrimary = CupertinoColors.activeGreen;
 }

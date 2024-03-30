@@ -10,7 +10,7 @@ class ChangeThemeColorUseCase implements UseCase<void, ChangeThemeColorParams> {
   final SettingsRepository repository;
 
   @override
-  Future<Either<Failure, void>> call(ChangeThemeColorParams params) async {
+  Future<Either<Failure, void>> call(ChangeThemeColorParams params) {
     return repository.setThemeColor(params);
   }
 }

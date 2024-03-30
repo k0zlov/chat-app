@@ -10,7 +10,7 @@ class GetThemeModeUseCase implements UseCase<ThemeModeEntity, NoParams> {
   final SettingsRepository repository;
 
   @override
-  Future<Either<Failure, ThemeModeEntity>> call(NoParams params) async {
+  Future<Either<Failure, ThemeModeEntity>> call(NoParams params) {
     return repository.getThemeMode();
   }
 }

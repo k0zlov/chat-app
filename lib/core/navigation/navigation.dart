@@ -10,7 +10,7 @@ class AppNavigation {
 
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
-  static GoRouter get router => GoRouter(
+  static final GoRouter router = GoRouter(
         routerNeglect: true,
         initialLocation: AppRoutes.root.path,
         navigatorKey: rootNavigatorKey,

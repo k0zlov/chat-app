@@ -1,4 +1,9 @@
+export 'package:chat_app/features/auth/data/providers/remote/auth_remote_provider.dart';
+export 'package:chat_app/features/auth/data/repositories/auth_repository_impl.dart';
 export 'package:chat_app/features/auth/domain/repositories/auth_repository.dart';
+export 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
+export 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
+export 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
 export 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 export 'package:chat_app/features/auth/view/screens/init_screen.dart';
 export 'package:chat_app/features/auth/view/screens/login_screen.dart';

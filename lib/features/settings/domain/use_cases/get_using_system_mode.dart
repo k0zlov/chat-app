@@ -11,7 +11,7 @@ class GetUsingSystemModeUseCase implements UseCase<bool, NoParams> {
   final SettingsRepository repository;
 
   @override
-  Future<Either<Failure, bool>> call(NoParams params) async {
+  Future<Either<Failure, bool>> call(NoParams params) {
     return repository.getUsingSystemMode();
   }
 }
