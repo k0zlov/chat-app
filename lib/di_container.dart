@@ -12,12 +12,15 @@ import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use
 import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
+import 'package:chat_app/features/settings/data/data_providers/local/settings_local_data_provider.dart';
 import 'package:chat_app/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:chat_app/features/settings/domain/repositories/settings_repository.dart';
 import 'package:chat_app/features/settings/domain/use_cases/change_theme_color.dart';
 import 'package:chat_app/features/settings/domain/use_cases/change_theme_mode.dart';
+import 'package:chat_app/features/settings/domain/use_cases/change_using_system_mode.dart';
 import 'package:chat_app/features/settings/domain/use_cases/get_theme_color.dart';
 import 'package:chat_app/features/settings/domain/use_cases/get_theme_mode.dart';
+import 'package:chat_app/features/settings/domain/use_cases/get_using_system_mode.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
@@ -102,7 +105,11 @@ void _network() {
 }
 
 /// Placeholder for registering local data providers (currently empty).
-void _localProviders() {}
+void _localProviders() {
+  getIt.registerLazySingleton<SettingsLocalDataProvider>(
+    () => SettingsLocalDataProviderImpl(hiveBox: getIt()),
+  );
+}
 
 /// Registers remote data providers, such as `AuthRemoteProvider`, as lazy singletons.
 void _remoteProviders() {
@@ -121,7 +128,7 @@ void _repositories() {
       ),
     )
     ..registerLazySingleton<SettingsRepository>(
-      () => SettingsRepositoryImpl(themeService: getIt()),
+      () => SettingsRepositoryImpl(localDataProvider: getIt()),
     );
 }
 
@@ -148,25 +155,34 @@ void _useCases() {
     )
     ..registerLazySingleton<GetThemeModeUseCase>(
       () => GetThemeModeUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<ChangeUsingSystemModeUseCase>(
+      () => ChangeUsingSystemModeUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<GetUsingSystemModeUseCase>(
+      () => GetUsingSystemModeUseCase(repository: getIt()),
     );
 }
 
 /// Registers Cubits (state management) as lazy singletons to manage and distribute application state.
 void _cubits() {
-  getIt..registerLazySingleton<AuthCubit>(
-    () => AuthCubit(
-      registrationUseCase: getIt(),
-      loginUseCase: getIt(),
-      logoutUseCase: getIt(),
-    ),
-  )
-  ..registerSingletonAsync<SettingsCubit>(
-    signalsReady: true,
-    () async => SettingsCubit(
-      changeThemeColor: getIt(),
-      changeThemeMode: getIt(),
-      getThemeColor: getIt(),
-      getThemeMode: getIt(),
-    ),
-  );
+  getIt
+    ..registerLazySingleton<AuthCubit>(
+      () => AuthCubit(
+        registrationUseCase: getIt(),
+        loginUseCase: getIt(),
+        logoutUseCase: getIt(),
+      ),
+    )
+    ..registerSingletonAsync<SettingsCubit>(
+      signalsReady: true,
+      () async => SettingsCubit(
+        changeThemeColor: getIt(),
+        changeThemeMode: getIt(),
+        changeUsingSystemMode: getIt(),
+        getThemeColor: getIt(),
+        getThemeMode: getIt(),
+        getUsingSystemMode: getIt(),
+      ),
+    );
 }

@@ -41,13 +41,16 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> logout() async {
+    _state = _state.copyWith(authInProcess: true);
+    emit(_state);
+
     final failureOrVoid = await logoutUseCase(NoParams());
     _state = const AuthState();
     failureOrVoid.fold(
       (failure) {
         showAuthError(failure.errorMessage);
       },
-      (r) => null,
+      (_) => null,
     );
     emit(_state);
   }

@@ -33,7 +33,9 @@ class _ChatApplicationState extends State<ChatApplication> {
       debugShowCheckedModeBanner: false,
       theme: ApplicationTheme.themeData(
         color: settingsState.themeColor.toColor,
-        brightness: settingsState.getBrightness ?? deviceBrightness,
+        brightness: settingsState.usingSystemBrightness
+            ? settingsState.currentBrightness
+            : deviceBrightness,
       ),
       routerConfig: router,
       builder: (context, child) {

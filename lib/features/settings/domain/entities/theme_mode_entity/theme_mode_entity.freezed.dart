@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ThemeModeEntity {
-  AppThemeMode get mode => throw _privateConstructorUsedError;
+  Brightness get mode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ThemeModeEntityCopyWith<ThemeModeEntity> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $ThemeModeEntityCopyWith<$Res> {
           ThemeModeEntity value, $Res Function(ThemeModeEntity) then) =
       _$ThemeModeEntityCopyWithImpl<$Res, ThemeModeEntity>;
   @useResult
-  $Res call({AppThemeMode mode});
+  $Res call({Brightness mode});
 }
 
 /// @nodoc
@@ -51,7 +51,7 @@ class _$ThemeModeEntityCopyWithImpl<$Res, $Val extends ThemeModeEntity>
       mode: null == mode
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
-              as AppThemeMode,
+              as Brightness,
     ) as $Val);
   }
 }
@@ -64,7 +64,7 @@ abstract class _$$ThemeModeEntityImplCopyWith<$Res>
       __$$ThemeModeEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppThemeMode mode});
+  $Res call({Brightness mode});
 }
 
 /// @nodoc
@@ -84,7 +84,7 @@ class __$$ThemeModeEntityImplCopyWithImpl<$Res>
       mode: null == mode
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
-              as AppThemeMode,
+              as Brightness,
     ));
   }
 }
@@ -92,11 +92,11 @@ class __$$ThemeModeEntityImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ThemeModeEntityImpl extends _ThemeModeEntity {
-  const _$ThemeModeEntityImpl({this.mode = AppThemeMode.system}) : super._();
+  const _$ThemeModeEntityImpl({this.mode = Brightness.light}) : super._();
 
   @override
   @JsonKey()
-  final AppThemeMode mode;
+  final Brightness mode;
 
   @override
   String toString() {
@@ -123,12 +123,12 @@ class _$ThemeModeEntityImpl extends _ThemeModeEntity {
 }
 
 abstract class _ThemeModeEntity extends ThemeModeEntity {
-  const factory _ThemeModeEntity({final AppThemeMode mode}) =
+  const factory _ThemeModeEntity({final Brightness mode}) =
       _$ThemeModeEntityImpl;
   const _ThemeModeEntity._() : super._();
 
   @override
-  AppThemeMode get mode;
+  Brightness get mode;
   @override
   @JsonKey(ignore: true)
   _$$ThemeModeEntityImplCopyWith<_$ThemeModeEntityImpl> get copyWith =>

@@ -52,8 +52,7 @@ enum HiveBoxKeys {
 
   /// The key indicating whether the user is logged in.
   isLogin,
-
   themeMode,
-
+  isUsingSystemBrightness,
   themeColor,
 }

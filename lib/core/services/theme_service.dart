@@ -1,13 +1,14 @@
 import 'package:chat_app/core/resources/theme.dart';
 import 'package:chat_app/utils/enum_parsing/enum_parsing_extension.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
+import 'package:flutter/material.dart';
 
 abstract interface class ThemeService {
-  AppThemeMode? getThemeMode();
+  ThemeMode? getThemeMode();
 
   AppThemeColor? getThemeColor();
 
-  Future<void> setThemeMode({required AppThemeMode themeMode});
+  Future<void> setThemeMode({required ThemeMode themeMode});
 
   Future<void> setThemeColor({required AppThemeColor themeColor});
 }
@@ -18,9 +19,9 @@ class ThemeServiceImpl implements ThemeService {
   final HiveBox hiveBox;
 
   @override
-  AppThemeMode? getThemeMode() {
+  ThemeMode? getThemeMode() {
     final String? modeName = hiveBox.getData<String?>(HiveBoxKeys.themeMode);
-    final AppThemeMode? themeMode = AppThemeMode.values.valueFromString(
+    final ThemeMode? themeMode = ThemeMode.values.valueFromString(
       modeName,
     );
     return themeMode;
@@ -36,7 +37,7 @@ class ThemeServiceImpl implements ThemeService {
   }
 
   @override
-  Future<void> setThemeMode({required AppThemeMode themeMode}) async {
+  Future<void> setThemeMode({required ThemeMode themeMode}) async {
     await hiveBox.addData(HiveBoxKeys.themeMode, themeMode.name);
   }
 

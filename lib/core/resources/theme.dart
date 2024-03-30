@@ -1,3 +1,4 @@
+import 'package:chat_app/core/resources/palette.dart';
 import 'package:flutter/cupertino.dart';
 
 class ApplicationTheme {
@@ -16,7 +17,7 @@ class ApplicationTheme {
     return CupertinoThemeData(
       primaryColor: color,
       brightness: Brightness.light,
-      scaffoldBackgroundColor: CupertinoColors.white,
+      scaffoldBackgroundColor: AppPalette.lightScaffoldBackground,
     );
   }
 
@@ -24,15 +25,9 @@ class ApplicationTheme {
     return CupertinoThemeData(
       primaryColor: color,
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray,
+      scaffoldBackgroundColor: AppPalette.darkScaffoldBackground,
     );
   }
-}
-
-enum AppThemeMode {
-  system,
-  light,
-  dark,
 }
 
 enum AppThemeColor {
