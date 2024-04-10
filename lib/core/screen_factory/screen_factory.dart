@@ -1,11 +1,11 @@
 import 'package:chat_app/application.dart';
+import 'package:chat_app/core/widgets/bottom_nav_bar.dart';
 import 'package:chat_app/core/widgets/mock_up_chats.dart';
 import 'package:chat_app/core/widgets/mock_up_contacts.dart';
-import 'package:chat_app/core/widgets/mock_up_nav_bar.dart';
-import 'package:chat_app/core/widgets/mock_up_settings.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
+import 'package:chat_app/features/settings/view/screens/settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +22,7 @@ class ScreenFactory {
   }
 
   static Widget renderBottomNavBar(StatefulNavigationShell navigationShell) {
-    return ChatAppNavigationBar(navigationShell: navigationShell);
+    return AppBottomNavigationBar(navigationShell: navigationShell);
   }
 
   static Widget renderChatsPage() {
@@ -34,7 +34,7 @@ class ScreenFactory {
   }
 
   static Widget renderSettingsPage() {
-    return const MockUpSettings();
+    return const SettingsScreen();
   }
 
   static Widget renderContactsPage() {

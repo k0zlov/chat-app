@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MockUpChats extends StatelessWidget {
@@ -5,16 +6,28 @@ class MockUpChats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return CupertinoPageScaffold(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Chats page',
-              style: TextStyle(fontSize: 30),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 30,
+                padding: const EdgeInsets.all(8),
+                itemBuilder: (context, index) {
+                  if (index == 29) {
+                    return const SizedBox(height: 70);
+                  }
+
+                  return Container(
+                    height: 50,
+                    width: 50,
+                    color: index.isEven ? Colors.red : Colors.greenAccent,
+                  );
+                },
+              ),
             ),
-            SizedBox(height: 15),
           ],
         ),
       ),
