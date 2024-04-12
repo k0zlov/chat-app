@@ -124,13 +124,14 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
 
         final double basicHeight = MediaQuery.of(context).size.height / 3.5;
 
-        if (currentOffset < basicHeight / 2) {
+        if (currentOffset < basicHeight / 1.7) {
           await scrollController.animateTo(
             0,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
-        } else if (currentOffset > basicHeight / 2) {
+        } else if (currentOffset > basicHeight / 1.7 &&
+            currentOffset < basicHeight) {
           await scrollController.animateTo(
             basicHeight,
             duration: const Duration(milliseconds: 300),
@@ -267,72 +268,70 @@ class _UserInfoContainer extends StatelessWidget {
     final TextStyle themeTextStyle =
         CupertinoTheme.of(context).textTheme.textStyle;
 
-    return ClipRect(
-      child: BlurredWidget(
-        blurred: expanded,
-        child: SizedBox(
-          height: 50,
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Stack(
-              children: [
-                AnimatedAlign(
-                  alignment:
-                      expanded ? Alignment.centerLeft : Alignment.bottomCenter,
-                  duration: const Duration(milliseconds: 200),
-                  child: Column(
-                    crossAxisAlignment: expanded
-                        ? CrossAxisAlignment.start
-                        : CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Username',
+    return BlurredWidget(
+      blurred: expanded,
+      child: SizedBox(
+        height: 50,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Stack(
+            children: [
+              AnimatedAlign(
+                alignment:
+                    expanded ? Alignment.centerLeft : Alignment.bottomCenter,
+                duration: const Duration(milliseconds: 200),
+                child: Column(
+                  crossAxisAlignment: expanded
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Username',
+                      style: themeTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: expanded ? CupertinoColors.white : null,
+                      ),
+                    ),
+                    AnimatedOpacity(
+                      duration: const Duration(milliseconds: 100),
+                      opacity: collapsed ? 0 : 1,
+                      child: Text(
+                        '+380 95 439 34 83 * @onemorro',
                         style: themeTextStyle.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: expanded ? CupertinoColors.white : null,
+                          fontSize: 12,
+                          color: expanded
+                              ? CupertinoColors.white
+                              : CupertinoColors.inactiveGray,
                         ),
                       ),
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 100),
-                        opacity: collapsed ? 0 : 1,
-                        child: Text(
-                          '+380 95 439 34 83 * @onemorro',
-                          style: themeTextStyle.copyWith(
-                            fontSize: 12,
-                            color: expanded
-                                ? CupertinoColors.white
-                                : CupertinoColors.inactiveGray,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 200),
-                      opacity: collapsed ? 1 : 0,
-                      child: SizedBox(
-                        width: 30,
-                        child: CupertinoButton(
-                          onPressed: () {},
-                          child: Icon(
-                            CupertinoIcons.search,
-                            color: CupertinoTheme.of(context).primaryColor,
-                          ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 200),
+                    opacity: collapsed ? 1 : 0,
+                    child: SizedBox(
+                      width: 30,
+                      child: CupertinoButton(
+                        onPressed: () {},
+                        child: Icon(
+                          CupertinoIcons.search,
+                          color: CupertinoTheme.of(context).primaryColor,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
