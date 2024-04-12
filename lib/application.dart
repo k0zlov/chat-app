@@ -27,8 +27,8 @@ class ChatApplication extends StatelessWidget {
       theme: ApplicationTheme.themeData(
         color: settingsState.themeColor.color,
         brightness: settingsState.usingSystemBrightness
-            ? settingsState.currentBrightness
-            : deviceBrightness,
+            ? deviceBrightness
+            : settingsState.currentBrightness,
       ),
       routerConfig: AppNavigation.router,
       localizationsDelegates: const [

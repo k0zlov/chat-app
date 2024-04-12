@@ -1,6 +1,8 @@
+import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/resources/icons.dart';
 import 'package:chat_app/features/settings/view/widgets/setting_options_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsOptions extends StatelessWidget {
   const SettingsOptions({super.key});
@@ -89,7 +91,7 @@ class SettingsOptions extends StatelessWidget {
               hasBottomBorder: false,
             ),
             SettingsMenuOption(
-              onPressed: () {},
+              onPressed: () => context.go(AppRoutes.appearanceSettings.path),
               hasDivider: true,
               iconData: AppIcons.appearance,
               title: 'Appearance',
@@ -154,7 +156,7 @@ class SettingsOptionsBox extends StatelessWidget {
     required this.children,
   });
 
-  final List<SettingsMenuOption> children;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {

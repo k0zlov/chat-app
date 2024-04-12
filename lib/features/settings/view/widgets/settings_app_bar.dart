@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:chat_app/core/widgets/animated_clip_rrect.dart';
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_edit_button.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_qr_button.dart';
@@ -65,6 +64,8 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
 
     if (!scrollController.hasClients) return;
 
+    if (_cooldown) return;
+
     if (_onScrollDownStretched(scrollController)) return;
 
     if (_onCollapsed(scrollController)) return;
@@ -90,7 +91,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   bool _onCollapsed(ScrollController controller) {
     if (_mode == SettingsAppBarMode.collapsed) return false;
 
-    final double basicHeight = MediaQuery.of(context).size.height / 4;
+    final double basicHeight = MediaQuery.of(context).size.height / 3.5;
 
     if (controller.offset > basicHeight - 50) {
       _changeMode(SettingsAppBarMode.collapsed);
@@ -103,7 +104,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
     if (_mode == SettingsAppBarMode.basic ||
         _mode == SettingsAppBarMode.expanded) return false;
 
-    final double basicHeight = MediaQuery.of(context).size.height / 4;
+    final double basicHeight = MediaQuery.of(context).size.height / 3.5;
 
     if (controller.offset < basicHeight - 50) {
       _changeMode(SettingsAppBarMode.basic);
@@ -121,17 +122,17 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       if (!scrollController.position.isScrollingNotifier.value) {
         final currentOffset = scrollController.offset;
 
-        final double basicHeight = MediaQuery.of(context).size.height / 4;
+        final double basicHeight = MediaQuery.of(context).size.height / 3.5;
 
-        if (currentOffset > basicHeight - 150 && currentOffset > 0) {
+        if (currentOffset < basicHeight / 2) {
           await scrollController.animateTo(
-            basicHeight,
+            0,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
-        } else if (currentOffset < (basicHeight / 2)) {
+        } else if (currentOffset > basicHeight / 2) {
           await scrollController.animateTo(
-            0,
+            basicHeight,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
@@ -143,7 +144,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   @override
   Widget build(BuildContext context) {
     final double expandedHeight = MediaQuery.of(context).size.height / 2;
-    final double basicHeight = MediaQuery.of(context).size.height / 4.5;
+    final double basicHeight = MediaQuery.of(context).size.height / 3.5;
 
     final Color borderColor =
         CupertinoTheme.of(context).brightness == Brightness.dark
@@ -152,7 +153,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
 
     return SliverAppBar(
       pinned: true,
-      elevation: 1000,
+      elevation: 10,
       stretch: _mode != SettingsAppBarMode.expanded,
       expandedHeight: expanded ? expandedHeight : basicHeight,
       onStretchTrigger: () async {
@@ -212,23 +213,21 @@ class _SettingsAppBarBackground extends StatelessWidget {
         return Stack(
           children: [
             Center(
-              child: AnimatedClipRRect(
-                duration: const Duration(milliseconds: 400),
-                borderRadius: BorderRadius.circular(expanded ? 0 : 100),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: expanded ? maxHeight : 110,
-                  width: expanded ? maxWidth : 110,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(expanded ? 0 : 50),
-                  ),
-                  child: GestureDetector(
-                    onTap: onImagePressed,
-                    child: Image.network(
-                      'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
-                      fit: BoxFit.cover,
-                    ),
+              child: AnimatedContainer(
+                curve: Curves.fastEaseInToSlowEaseOut,
+                clipBehavior: Clip.hardEdge,
+                duration: const Duration(milliseconds: 220),
+                height: expanded ? maxHeight : 110,
+                width: expanded ? maxWidth : 110,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(expanded ? 0 : 100),
+                ),
+                child: GestureDetector(
+                  onTap: onImagePressed,
+                  child: Image.network(
+                    'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -269,44 +268,70 @@ class _UserInfoContainer extends StatelessWidget {
         CupertinoTheme.of(context).textTheme.textStyle;
 
     return ClipRect(
-      child: IntrinsicHeight(
-        child: BlurredWidget(
-          blurred: expanded,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            alignment: expanded ? Alignment.centerLeft : Alignment.center,
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Column(
-                crossAxisAlignment: expanded
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Username',
-                    style: themeTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: expanded ? CupertinoColors.white : null,
-                    ),
+      child: BlurredWidget(
+        blurred: expanded,
+        child: SizedBox(
+          height: 50,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Stack(
+              children: [
+                AnimatedAlign(
+                  alignment:
+                      expanded ? Alignment.centerLeft : Alignment.bottomCenter,
+                  duration: const Duration(milliseconds: 200),
+                  child: Column(
+                    crossAxisAlignment: expanded
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Username',
+                        style: themeTextStyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: expanded ? CupertinoColors.white : null,
+                        ),
+                      ),
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 100),
+                        opacity: collapsed ? 0 : 1,
+                        child: Text(
+                          '+380 95 439 34 83 * @onemorro',
+                          style: themeTextStyle.copyWith(
+                            fontSize: 12,
+                            color: expanded
+                                ? CupertinoColors.white
+                                : CupertinoColors.inactiveGray,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity: collapsed ? 0 : 1,
-                    child: Text(
-                      '+380 95 439 34 83 * @onemorro',
-                      style: themeTextStyle.copyWith(
-                        fontSize: 12,
-                        color: expanded
-                            ? CupertinoColors.white
-                            : CupertinoColors.inactiveGray,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 200),
+                      opacity: collapsed ? 1 : 0,
+                      child: SizedBox(
+                        width: 30,
+                        child: CupertinoButton(
+                          onPressed: () {},
+                          child: Icon(
+                            CupertinoIcons.search,
+                            color: CupertinoTheme.of(context).primaryColor,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

@@ -14,15 +14,19 @@ class SettingsMenuOption extends StatefulWidget {
     this.textColor,
     this.icon,
     this.iconData,
+    this.trailingArrow = true,
+    this.trailing,
   });
 
   final bool hasDivider;
   final bool hasTopBorder;
   final bool hasBottomBorder;
+  final bool trailingArrow;
+  final Widget? trailing;
   final Icon? icon;
   final AppIcons? iconData;
   final String title;
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final Color? textColor;
 
   @override
@@ -56,10 +60,12 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
             ? AppPalette.darkSelected
             : AppPalette.lightSelected;
 
+    final bool active = widget.onPressed != null;
+
     return GestureDetector(
       onTap: widget.onPressed,
-      onTapDown: (_) => _onTap(),
-      onTapUp: (_) => _onTapCanceled(),
+      onTapDown: active ? (_) => _onTap() : null,
+      onTapUp: active ? (_) => _onTapCanceled() : null,
       onTapCancel: _onTapCanceled,
       child: AnimatedContainer(
         height: 52,
@@ -76,7 +82,8 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: widget.icon ?? (widget.iconData != null
+              child: widget.icon ??
+                  (widget.iconData != null
                       ? Image.asset(widget.iconData!.path, height: 35)
                       : const SizedBox()),
             ),
@@ -87,6 +94,8 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
                 hasTopBorder: widget.hasTopBorder,
                 hasBottomBorder: widget.hasBottomBorder,
                 textColor: widget.textColor,
+                trailingArrow: widget.trailingArrow,
+                trailing: widget.trailing,
               ),
             ),
           ],
@@ -102,9 +111,13 @@ class _OptionBodyContainer extends StatelessWidget {
     required this.title,
     required this.hasTopBorder,
     required this.hasBottomBorder,
+    required this.trailingArrow,
     this.textColor,
+    this.trailing,
   });
 
+  final bool trailingArrow;
+  final Widget? trailing;
   final String title;
   final bool hasDivider;
   final bool hasTopBorder;
@@ -147,10 +160,19 @@ class _OptionBodyContainer extends StatelessWidget {
                     .textStyle
                     .copyWith(color: textColor),
               ),
-              const Icon(
-                CupertinoIcons.forward,
-                size: 20,
-                color: CupertinoColors.inactiveGray,
+              Row(
+                children: [
+                  if (trailing != null) ...{
+                    trailing!,
+                  },
+                  if (trailingArrow) ...{
+                    const Icon(
+                      CupertinoIcons.forward,
+                      size: 20,
+                      color: CupertinoColors.inactiveGray,
+                    ),
+                  },
+                ],
               ),
             ],
           ),

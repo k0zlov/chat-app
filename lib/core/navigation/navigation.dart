@@ -11,37 +11,37 @@ class AppNavigation {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
-        routerNeglect: true,
-        initialLocation: AppRoutes.root.path,
-        navigatorKey: rootNavigatorKey,
-        refreshListenable: NavigationRefreshStream(
-          stream: getIt<AuthService>().authStateChanges,
-        ),
-        redirect: (BuildContext context, GoRouterState state) {
-          final String location = state.matchedLocation;
+    routerNeglect: true,
+    initialLocation: AppRoutes.root.path,
+    navigatorKey: rootNavigatorKey,
+    refreshListenable: NavigationRefreshStream(
+      stream: getIt<AuthService>().authStateChanges,
+    ),
+    redirect: (BuildContext context, GoRouterState state) {
+      final String location = state.matchedLocation;
 
-          final bool isAuthPage = location == AppRoutes.login.path ||
-              location == AppRoutes.registration.path ||
-              location == AppRoutes.auth.path;
+      final bool isAuthPage = location == AppRoutes.login.path ||
+          location == AppRoutes.registration.path ||
+          location == AppRoutes.auth.path;
 
-          final bool isAuthorized = getIt<AuthService>().isAuthorized;
+      final bool isAuthorized = getIt<AuthService>().isAuthorized;
 
-          if (isAuthPage && isAuthorized) {
-            return AppRoutes.chats.path;
-          }
+      if (isAuthPage && isAuthorized) {
+        return AppRoutes.chats.path;
+      }
 
-          if (!isAuthorized && !isAuthPage) {
-            return AppRoutes.auth.path;
-          }
+      if (!isAuthorized && !isAuthPage) {
+        return AppRoutes.auth.path;
+      }
 
-          if (state.matchedLocation == '/') {
-            return AppRoutes.auth.path;
-          }
+      if (state.matchedLocation == '/') {
+        return AppRoutes.auth.path;
+      }
 
-          return null;
-        },
-        routes: _routes,
-      );
+      return null;
+    },
+    routes: _routes,
+  );
 
   static final List<RouteBase> _routes = <RouteBase>[
     GoRoute(
@@ -92,6 +92,15 @@ class AppNavigation {
               name: AppRoutes.settings.name,
               path: AppRoutes.settings.path,
               builder: (context, state) => ScreenFactory.renderSettingsPage(),
+              routes: [
+                GoRoute(
+                  name: AppRoutes.appearanceSettings.name,
+                  path: AppRoutes.appearanceSettings.name,
+                  builder: (context, state) {
+                    return ScreenFactory.renderSettingsAppearancePage();
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -109,6 +118,7 @@ enum AppRoutes {
   chat('/chat/:chatId'),
   chatSettings('chat-settings'),
   settings('/settings'),
+  appearanceSettings('/settings/appearanceSettings'),
   contacts('/contacts');
 
   const AppRoutes(this.path);
