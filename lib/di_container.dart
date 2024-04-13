@@ -5,11 +5,16 @@ import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/contacts/data/providers/local/contacts_local_provider.dart';
+import 'package:chat_app/features/contacts/data/providers/remote/contacts_remote_provider.dart';
+import 'package:chat_app/features/contacts/data/repositories/contacts_repository_impl.dart';
+import 'package:chat_app/features/contacts/domain/repositories/contacts_repository.dart';
+import 'package:chat_app/features/contacts/domain/use_cases/add_contact_use_case/add_contact_use_case.dart';
+import 'package:chat_app/features/contacts/domain/use_cases/get_all_contacts_use_case/get_all_contacts_use_case.dart';
+import 'package:chat_app/features/contacts/domain/use_cases/remove_contact_use_case/remove_contact_use_case.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
-
-
 
 /// Singleton instance of GetIt for dependency injection.
 ///
@@ -22,7 +27,7 @@ final GetIt getIt = GetIt.instance;
 ///
 /// This setup function is crucial for preparing the application's infrastructure,
 /// including supabase configurations, local database setup, and the registration of
-/// both local and remote data providers.
+/// both local and remote contacts providers.
 Future<void> registerDependencies() async {
   await _database(); // Configures the database and its handler.
 
@@ -32,7 +37,7 @@ Future<void> registerDependencies() async {
   _interceptor();
   _network();
 
-  _localProviders(); // Registers data providers for different features.
+  _localProviders(); // Registers contacts providers for different features.
   _remoteProviders();
 
   _repositories();
@@ -86,21 +91,29 @@ void _network() {
   );
 }
 
-/// Placeholder for registering local data providers (currently empty).
+/// Placeholder for registering local contacts providers (currently empty).
 void _localProviders() {
-  getIt.registerLazySingleton<SettingsLocalDataProvider>(
-    () => SettingsLocalDataProviderImpl(hiveBox: getIt()),
-  );
+  getIt
+    ..registerLazySingleton<SettingsLocalDataProvider>(
+      () => SettingsLocalDataProviderImpl(hiveBox: getIt()),
+    )
+    ..registerLazySingleton<ContactsLocalProvider>(
+      () => ContactsLocalProviderImpl(database: getIt()),
+    );
 }
 
-/// Registers remote data providers, such as `AuthRemoteProvider`, as lazy singletons.
+/// Registers remote contacts providers, such as `AuthRemoteProvider`, as lazy singletons.
 void _remoteProviders() {
-  getIt.registerLazySingleton<AuthRemoteProvider>(
-    () => AuthRemoteProviderImpl(network: getIt()),
-  );
+  getIt
+    ..registerLazySingleton<AuthRemoteProvider>(
+      () => AuthRemoteProviderImpl(network: getIt()),
+    )
+    ..registerLazySingleton<ContactsRemoteProvider>(
+      () => ContactsRemoteProviderImpl(network: getIt()),
+    );
 }
 
-/// Registers repositories, such as `AuthRepository`, as lazy singletons to handle data operations.
+/// Registers repositories, such as `AuthRepository`, as lazy singletons to handle contacts operations.
 void _repositories() {
   getIt
     ..registerLazySingleton<AuthRepository>(
@@ -111,6 +124,12 @@ void _repositories() {
     )
     ..registerLazySingleton<SettingsRepository>(
       () => SettingsRepositoryImpl(localDataProvider: getIt()),
+    )
+    ..registerLazySingleton<ContactsRepository>(
+      () => ContactsRepositoryImpl(
+        remoteProvider: getIt(),
+        localProvider: getIt(),
+      ),
     );
 }
 
@@ -143,6 +162,15 @@ void _useCases() {
     )
     ..registerLazySingleton<GetUsingSystemModeUseCase>(
       () => GetUsingSystemModeUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<GetAllContactsUseCase>(
+      () => GetAllContactsUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<AddContactUseCase>(
+      () => AddContactUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<RemoveContactUseCase>(
+      () => RemoveContactUseCase(repository: getIt()),
     );
 }
 

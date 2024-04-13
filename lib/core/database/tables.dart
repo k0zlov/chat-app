@@ -6,13 +6,13 @@ abstract class Table {
   /// The name of the table.
   String get tableName;
 
-  /// A dictionary of the table's fields, mapping field names to their SQL data types.
+  /// A dictionary of the table's fields, mapping field names to their SQL contacts types.
   Map<String, String> fields();
 
   /// Constructs a SQL `CREATE TABLE` statement.
   ///
   /// This method generates the SQL command required to create the table with its fields
-  /// and associated data types, formatted according to SQL syntax standards.
+  /// and associated contacts types, formatted according to SQL syntax standards.
   String createTableQuery() {
     final String fieldsQuery = fields()
         .entries
@@ -34,11 +34,8 @@ class UsersTable extends Table {
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'user_id': 'INTEGER UNIQUE',
-        'username': 'TEXT NOT NULL',
+        'name': 'TEXT NOT NULL',
         'email': 'TEXT NOT NULL',
-        'phone_number': 'TEXT NOT NULL',
-        'password_hash': 'TEXT NOT NULL',
-        'created_at': 'TEXT NOT NULL',
       };
 }
 
@@ -75,10 +72,6 @@ class MessagesTable extends Table {
         'user_id': 'INTEGER',
         'content': 'TEXT NOT NULL',
         'created_at': 'TEXT NOT NULL',
-        'FOREIGN KEY (chat_id)':
-            'REFERENCES ${ChatsTable().tableName}(chat_id)',
-        'FOREIGN KEY (user_id)':
-            'REFERENCES ${UsersTable().tableName}(user_id)',
       };
 }
 
@@ -97,11 +90,6 @@ class ChatParticipantsTable extends Table {
         'user_id': 'INTEGER',
         'role': 'TEXT NOT NULL',
         'joined_at': 'TEXT NOT NULL',
-        'FOREIGN KEY (chat_id)':
-            'REFERENCES ${ChatsTable().tableName}(chat_id)',
-        'FOREIGN KEY (user_id)':
-            'REFERENCES ${UsersTable().tableName}(user_id)',
-        'UNIQUE': '(user_id, chat_id)',
       };
 }
 
@@ -116,14 +104,7 @@ class ContactsTable extends Table {
   @override
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'contact_user_id': 'INTEGER UNIQUE',
-        'user_id': 'INTEGER',
-        'added_at': 'TEXT NOT NULL',
-        'FOREIGN KEY (user_id)':
-            'REFERENCES ${UsersTable().tableName}(user_id)',
-        'FOREIGN KEY (contact_user_id)':
-            'REFERENCES ${UsersTable().tableName}(user_id)',
-        'CHECK': '(contact_user_id != user_id)',
-        'UNIQUE': '(contact_user_id, user_id)',
+        'name': 'TEXT NOT NULL',
+        'email': 'TEXT NOT NULL UNIQUE',
       };
 }

@@ -40,12 +40,12 @@ class DatabaseHelperImpl implements DatabaseHelper {
 
   /// List of table definitions
   List<Table> get tables => [
-    UsersTable(),
-    ChatsTable(),
-    MessagesTable(),
-    ChatParticipantsTable(),
-    ContactsTable(),
-  ];
+        UsersTable(),
+        ChatsTable(),
+        MessagesTable(),
+        ChatParticipantsTable(),
+        ContactsTable(),
+      ];
 
   /// Ensures a singleton instance of the database.
   ///
@@ -77,8 +77,10 @@ class DatabaseHelperImpl implements DatabaseHelper {
     // configuration and creation logic through the specified callbacks.
     return openDatabase(
       path,
-      version: 1, // Sets the schema version of the database.
-      onCreate: _onCreate, // Callback to create the schema if the database is new.
+      version: 1,
+      // Sets the schema version of the database.
+      onCreate: _onCreate,
+      // Callback to create the schema if the database is new.
       onConfigure: _onConfigure, // Callback to configure the database settings.
     );
   }
@@ -98,7 +100,6 @@ class DatabaseHelperImpl implements DatabaseHelper {
     // Enables foreign key constraints to ensure referential integrity.
     await db.execute('PRAGMA foreign_keys = ON');
   }
-
 
   /// Defines the schema of the database on its creation.
   ///
@@ -134,7 +135,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
       }
 
       const cacheFailure = CacheFailure(
-        errorMessage: 'Could not retrieve data from local database',
+        errorMessage: 'Could not retrieve contacts from local database.',
       );
 
       return const Left(cacheFailure);
@@ -142,62 +143,83 @@ class DatabaseHelperImpl implements DatabaseHelper {
   }
 
   @override
-  Future<void> insert<T>({
+  Future<Either<Failure, void>> insert({
     required String tableName,
-    required T data,
-    required Map<String, dynamic> Function(T data) parser,
+    required Map<String, dynamic> data,
   }) async {
     try {
       final db = await database;
-      final parsedData = parser(data);
 
-      await db.insert(tableName, parsedData);
+      final response = await db.insert(tableName, data);
+
+      if (response == 0) {
+        const cacheFailure = CacheFailure(
+          errorMessage: 'Could not insert data in database.',
+        );
+        return const Left(cacheFailure);
+      }
+
+      return const Right(null);
     } catch (e, stackTrace) {
       if (kDebugMode) {
         print('Error: $e \nStack trace:\n $stackTrace');
       }
+
+      const cacheFailure = CacheFailure(
+        errorMessage: 'There was an error while INSERTING data in database.',
+      );
+      return const Left(cacheFailure);
     }
   }
 
   @override
-  Future<void> update<T>({
+  Future<Either<Failure, void>> update({
     required String tableName,
-    required T data,
-    required Map<String, dynamic> Function(T data) parser,
+    required Map<String, dynamic> data,
     required String where,
     required List<dynamic> whereArgs,
   }) async {
     try {
       final db = await database;
-      final parsedData = parser(data);
-
       await db.update(
         tableName,
-        parsedData,
+        data,
         where: where,
         whereArgs: whereArgs,
       );
+      return const Right(null);
     } catch (e, stackTrace) {
       if (kDebugMode) {
         print('Error: $e \nStack trace:\n $stackTrace');
       }
+
+      const cacheFailure = CacheFailure(
+        errorMessage: 'There was an error while UPDATING data in database.',
+      );
+      return const Left(cacheFailure);
     }
   }
 
   @override
-  Future<void> delete({
+  Future<Either<Failure, void>> delete({
     required String tableName,
-    required String where,
-    required List<dynamic> whereArgs,
+    List<dynamic>? whereArgs,
+    String? where,
   }) async {
     try {
       final db = await database;
 
       await db.delete(tableName, where: where, whereArgs: whereArgs);
+      return const Right(null);
     } catch (e, stackTrace) {
       if (kDebugMode) {
         print('Error: $e \nStack trace:\n $stackTrace');
       }
+
+      const cacheFailure = CacheFailure(
+        errorMessage: 'There was an error while DELETING data from database.',
+      );
+      return const Left(cacheFailure);
     }
   }
 }
