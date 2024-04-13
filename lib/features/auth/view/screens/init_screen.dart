@@ -17,9 +17,8 @@ class InitialScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(height: MediaQuery.of(context).size.height / 5),
-              const SizedBox(height: 20),
               const InitialInfoPageView(),
-              const SizedBox(height: 100),
+              SizedBox(height: MediaQuery.of(context).size.height / 12),
               CupertinoSubmitButton(
                 label: 'Start Messaging',
                 onPressed: () => context.go(AppRoutes.registration.path),
