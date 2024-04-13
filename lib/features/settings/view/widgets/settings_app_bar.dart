@@ -35,6 +35,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
 
   bool get collapsed => _mode == SettingsAppBarMode.collapsed;
 
+  final double toolbarHeight = 70;
   final double expandedHeight = 400;
   final double basicHeight = 210;
 
@@ -144,7 +145,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   Widget build(BuildContext context) {
     final Color borderColor =
         CupertinoTheme.of(context).brightness == Brightness.dark
-            ? CupertinoColors.darkBackgroundGray
+            ? CupertinoColors.systemGrey
             : CupertinoColors.inactiveGray;
 
     return SliverAppBar(
@@ -160,16 +161,16 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
           child: const SettingsSearchButton(),
         ),
       ],
-      toolbarHeight: 68,
+      toolbarHeight: toolbarHeight,
       leadingWidth: 70,
       leading: Visibility(
-        visible: _mode != SettingsAppBarMode.collapsed,
+        visible: !collapsed,
         child: QrCodeButton(blur: expanded),
       ),
       elevation: 10,
-      stretch: _mode != SettingsAppBarMode.expanded,
+      stretch: !expanded,
       expandedHeight: expanded ? expandedHeight : basicHeight,
-      stretchTriggerOffset: 80,
+      stretchTriggerOffset: 30,
       onStretchTrigger: () async {
         _changeMode(SettingsAppBarMode.expanded);
         await HapticFeedback.lightImpact();
@@ -178,18 +179,15 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
           ? null
           : PreferredSize(
               preferredSize: const Size.fromHeight(0.2),
-              child: SizedBox(
+              child: Container(
                 height: 0.2,
                 width: double.infinity,
-                child: Divider(
-                  color: borderColor,
-                  thickness: 0.2,
-                ),
+                color: borderColor,
               ),
             ),
       backgroundColor: CupertinoTheme.of(context).scaffoldBackgroundColor,
       flexibleSpace: FlexibleSpaceBar(
-        titlePadding: const EdgeInsets.only(bottom: 8),
+        titlePadding: EdgeInsets.zero,
         collapseMode: CollapseMode.pin,
         background: _SettingsAppBarBackground(
           onImagePressed: () {
@@ -229,7 +227,7 @@ class _SettingsAppBarBackground extends StatelessWidget {
         child: AnimatedContainer(
           curve: Curves.fastEaseInToSlowEaseOut,
           clipBehavior: Clip.hardEdge,
-          duration: const Duration(milliseconds: 220),
+          duration: const Duration(milliseconds: 240),
           height: expanded ? screenSize.height : 110,
           width: expanded ? screenSize.width : 110,
           decoration: BoxDecoration(
@@ -265,41 +263,41 @@ class _UserInfoContainer extends StatelessWidget {
       child: SizedBox(
         height: 50,
         width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: AnimatedAlign(
-            alignment: expanded ? Alignment.centerLeft : Alignment.bottomCenter,
-            duration: const Duration(milliseconds: 200),
-            child: Column(
-              crossAxisAlignment: expanded
-                  ? CrossAxisAlignment.start
-                  : CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Username Username',
-                  textAlign: TextAlign.center,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: EdgeInsets.only(
+            left: expanded ? 8 : 0,
+          ),
+          alignment: expanded ? Alignment.centerLeft : Alignment.center,
+          child: Column(
+            crossAxisAlignment: expanded
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Username Username',
+                textAlign: TextAlign.center,
+                style: themeTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: expanded ? CupertinoColors.white : null,
+                ),
+              ),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 100),
+                opacity: collapsed ? 0 : 1,
+                child: Text(
+                  '+380 95 439 34 83 * @onemorro',
                   style: themeTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: expanded ? CupertinoColors.white : null,
+                    fontSize: 12,
+                    color: expanded
+                        ? CupertinoColors.white
+                        : CupertinoColors.inactiveGray,
                   ),
                 ),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 100),
-                  opacity: collapsed ? 0 : 1,
-                  child: Text(
-                    '+380 95 439 34 83 * @onemorro',
-                    style: themeTextStyle.copyWith(
-                      fontSize: 12,
-                      color: expanded
-                          ? CupertinoColors.white
-                          : CupertinoColors.inactiveGray,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
