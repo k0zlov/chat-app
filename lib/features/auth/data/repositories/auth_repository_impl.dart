@@ -97,14 +97,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> logout() async {
     final Either<Failure, void> response = await remoteProvider.logout();
+    await authService.logout();
 
-    return response.fold(
-      // ignore: unnecessary_lambdas
-      (failure) => Left(failure),
-      (_) async {
-        await authService.logout();
-        return Right(_);
-      },
-    );
+    return response;
   }
 }

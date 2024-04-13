@@ -73,7 +73,7 @@ class SettingsLocalDataProviderImpl implements SettingsLocalDataProvider {
         HiveBoxKeys.isUsingSystemBrightness,
       );
 
-      return Right(usingSystemBrightness ?? false);
+      return Right(usingSystemBrightness ?? true);
     } catch (e) {
       const cacheFailure = CacheFailure(
         errorMessage: 'Could not get data about using system theme mode.',
