@@ -26,4 +26,8 @@ class ApiEndpoints {
   static const String getRefreshToken = '/users/refresh';
 
   static const String getLogout = '/users/logout';
+
+  static const String getUserContacts = '/users/friends';
+  static const String postAddContact = '/users/add-friend';
+  static const String postRemoveContact = '/users/remove-friend';
 }

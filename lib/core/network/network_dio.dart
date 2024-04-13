@@ -58,7 +58,7 @@ class NetworkImplDio extends NetworkBase {
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
-  ///   or the parsed response data [T] on success.
+  ///   or the parsed response contacts [T] on success.
   @override
   Future<Either<Failure, T>> send<T>({
     required String url,
@@ -82,18 +82,22 @@ class NetworkImplDio extends NetworkBase {
 
       final Map<String, String> cookies = getCookiesFromRaw(rawCookies ?? '');
 
-      dynamic responseData = response.data;
+      dynamic responseData;
 
-      if (responseData is Map<String, dynamic>) {
+      if (response.data is Map<String, dynamic>) {
         responseData = {
           ...cookies,
           ...response.data as Map<String, dynamic>,
         };
       }
 
-      final T parsedData = parser(responseData); // Parse the response data.
+      if (response.data  is List) {
+        responseData = {'items': response.data};
+      }
 
-      return Right(parsedData); // Return success with parsed data.
+      final T parsedData = parser(responseData); // Parse the response contacts.
+
+      return Right(parsedData); // Return success with parsed contacts.
     } on DioException catch (e) {
       // Handle Dio-specific exceptions and wrap in a Failure.
       final serverFailure = ServerFailure(
