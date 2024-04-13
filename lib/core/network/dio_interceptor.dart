@@ -127,7 +127,7 @@ class DioInterceptor extends Interceptor {
     if (refreshToken == null) return;
 
     final Response<Map<String, dynamic>> response = await dio.get(
-      APIEndpoints.getRefreshToken,
+      ApiEndpoints.getRefreshToken,
       queryParameters: {},
     );
 

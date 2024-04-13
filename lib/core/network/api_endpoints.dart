@@ -5,9 +5,9 @@
 /// registration actions within the application's API. These constants can
 /// be used throughout the app to ensure consistency and reduce the likelihood
 /// of typos in endpoint strings.
-class APIEndpoints {
+class ApiEndpoints {
   // Private constructor to prevent instantiation.
-  APIEndpoints._();
+  ApiEndpoints._();
 
   /// The endpoint for user login.
   ///

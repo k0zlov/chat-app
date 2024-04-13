@@ -28,7 +28,7 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
     RegistrationParams params,
   ) async {
     final Either<Failure, TokenResponseModel> response = await network.post(
-      url: APIEndpoints.postRegistration,
+      url: ApiEndpoints.postRegistration,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
@@ -41,7 +41,7 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
   @override
   Future<Either<Failure, TokenResponseModel>> login(LoginParams params) async {
     final Either<Failure, TokenResponseModel> response = await network.post(
-      url: APIEndpoints.postLogin,
+      url: ApiEndpoints.postLogin,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
@@ -54,7 +54,7 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
   @override
   Future<Either<Failure, void>> logout() async {
     final Either<Failure, void> response = await network.get(
-      url: APIEndpoints.getLogout,
+      url: ApiEndpoints.getLogout,
       parser: (json) => json,
     );
     return response;
