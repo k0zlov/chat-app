@@ -9,11 +9,11 @@ part of 'remove_contact_use_case.dart';
 _$RemoveContactParamsImpl _$$RemoveContactParamsImplFromJson(
         Map<String, dynamic> json) =>
     _$RemoveContactParamsImpl(
-      contactUserEmail: json['contactUserEmail'] as String? ?? '',
+      contactUserId: json['contactUserId'] as int? ?? -1,
     );
 
 Map<String, dynamic> _$$RemoveContactParamsImplToJson(
         _$RemoveContactParamsImpl instance) =>
     <String, dynamic>{
-      'contactUserEmail': instance.contactUserEmail,
+      'contactUserId': instance.contactUserId,
     };

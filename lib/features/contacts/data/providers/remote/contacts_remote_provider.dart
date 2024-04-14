@@ -10,7 +10,7 @@ import 'package:dartz/dartz.dart';
 abstract interface class ContactsRemoteProvider {
   Future<Either<Failure, ContactsResponseModel>> getAllContacts();
 
-  Future<Either<Failure, ContactModel>> addContact(AddContactParams params);
+  Future<Either<Failure, void>> addContact(AddContactParams params);
 
   Future<Either<Failure, void>> removeContact(RemoveContactParams params);
 }
@@ -28,6 +28,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
       url: ApiEndpoints.getUserContacts,
       parser: (json) {
         final data = json as Map<String, dynamic>;
+
         return ContactsResponseModel.fromJson(data);
       },
     );
@@ -35,7 +36,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
   }
 
   @override
-  Future<Either<Failure, ContactModel>> addContact(
+  Future<Either<Failure, void>> addContact(
     AddContactParams params,
   ) async {
     final response = await network.post(
@@ -43,6 +44,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
+        data['id'] = data['contactUserId'];
         return ContactModel.fromJson(data);
       },
     );

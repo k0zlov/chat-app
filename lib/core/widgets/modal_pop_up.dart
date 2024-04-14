@@ -16,7 +16,7 @@ class ModalPopUpContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: CupertinoColors.extraLightBackgroundGray,
+        color: CupertinoTheme.of(context).barBackgroundColor,
         borderRadius: BorderRadius.circular(25),
       ),
       margin: const EdgeInsets.symmetric(
@@ -29,7 +29,7 @@ class ModalPopUpContainer extends StatelessWidget {
           Icon(
             iconData,
             size: 30,
-            color: CupertinoColors.darkBackgroundGray,
+            color: CupertinoColors.inactiveGray,
           ),
           const SizedBox(width: 10),
           Column(

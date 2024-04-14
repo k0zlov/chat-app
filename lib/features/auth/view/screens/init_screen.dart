@@ -14,7 +14,6 @@ class InitialScreen extends StatelessWidget {
       child: CupertinoScrollbar(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(height: MediaQuery.of(context).size.height / 8),
               const InitialInfoPageView(),

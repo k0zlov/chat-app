@@ -33,7 +33,7 @@ class UsersTable extends Table {
   @override
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'user_id': 'INTEGER UNIQUE',
+        'external_id': 'INTEGER NOT NULL UNIQUE',
         'name': 'TEXT NOT NULL',
         'email': 'TEXT NOT NULL',
       };
@@ -104,6 +104,7 @@ class ContactsTable extends Table {
   @override
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'external_id': 'INTEGER NOT NULL UNIQUE',
         'name': 'TEXT NOT NULL',
         'email': 'TEXT NOT NULL UNIQUE',
       };

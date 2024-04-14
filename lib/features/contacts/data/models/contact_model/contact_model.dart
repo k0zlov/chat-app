@@ -8,7 +8,7 @@ part 'contact_model.g.dart';
 @freezed
 class ContactModel with _$ContactModel {
   const factory ContactModel({
-    @Default(-1) int id,
+    @JsonKey(name: 'id') @Default(-1) int externalId,
     @Default('') String name,
     @Default('') String email,
   }) = _ContactModel;
@@ -20,6 +20,7 @@ class ContactModel with _$ContactModel {
 
   ContactEntity toEntity() {
     return ContactEntity(
+      id: externalId,
       name: name,
       email: email,
     );

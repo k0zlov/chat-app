@@ -20,7 +20,7 @@ RemoveContactParams _$RemoveContactParamsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RemoveContactParams {
-  String get contactUserEmail => throw _privateConstructorUsedError;
+  int get contactUserId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $RemoveContactParamsCopyWith<$Res> {
           RemoveContactParams value, $Res Function(RemoveContactParams) then) =
       _$RemoveContactParamsCopyWithImpl<$Res, RemoveContactParams>;
   @useResult
-  $Res call({String contactUserEmail});
+  $Res call({int contactUserId});
 }
 
 /// @nodoc
@@ -50,13 +50,13 @@ class _$RemoveContactParamsCopyWithImpl<$Res, $Val extends RemoveContactParams>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? contactUserEmail = null,
+    Object? contactUserId = null,
   }) {
     return _then(_value.copyWith(
-      contactUserEmail: null == contactUserEmail
-          ? _value.contactUserEmail
-          : contactUserEmail // ignore: cast_nullable_to_non_nullable
-              as String,
+      contactUserId: null == contactUserId
+          ? _value.contactUserId
+          : contactUserId // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -69,7 +69,7 @@ abstract class _$$RemoveContactParamsImplCopyWith<$Res>
       __$$RemoveContactParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String contactUserEmail});
+  $Res call({int contactUserId});
 }
 
 /// @nodoc
@@ -83,13 +83,13 @@ class __$$RemoveContactParamsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? contactUserEmail = null,
+    Object? contactUserId = null,
   }) {
     return _then(_$RemoveContactParamsImpl(
-      contactUserEmail: null == contactUserEmail
-          ? _value.contactUserEmail
-          : contactUserEmail // ignore: cast_nullable_to_non_nullable
-              as String,
+      contactUserId: null == contactUserId
+          ? _value.contactUserId
+          : contactUserId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -97,18 +97,18 @@ class __$$RemoveContactParamsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RemoveContactParamsImpl extends _RemoveContactParams {
-  const _$RemoveContactParamsImpl({this.contactUserEmail = ''}) : super._();
+  const _$RemoveContactParamsImpl({this.contactUserId = -1}) : super._();
 
   factory _$RemoveContactParamsImpl.fromJson(Map<String, dynamic> json) =>
       _$$RemoveContactParamsImplFromJson(json);
 
   @override
   @JsonKey()
-  final String contactUserEmail;
+  final int contactUserId;
 
   @override
   String toString() {
-    return 'RemoveContactParams(contactUserEmail: $contactUserEmail)';
+    return 'RemoveContactParams(contactUserId: $contactUserId)';
   }
 
   @override
@@ -116,13 +116,13 @@ class _$RemoveContactParamsImpl extends _RemoveContactParams {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RemoveContactParamsImpl &&
-            (identical(other.contactUserEmail, contactUserEmail) ||
-                other.contactUserEmail == contactUserEmail));
+            (identical(other.contactUserId, contactUserId) ||
+                other.contactUserId == contactUserId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, contactUserEmail);
+  int get hashCode => Object.hash(runtimeType, contactUserId);
 
   @JsonKey(ignore: true)
   @override
@@ -140,7 +140,7 @@ class _$RemoveContactParamsImpl extends _RemoveContactParams {
 }
 
 abstract class _RemoveContactParams extends RemoveContactParams {
-  const factory _RemoveContactParams({final String contactUserEmail}) =
+  const factory _RemoveContactParams({final int contactUserId}) =
       _$RemoveContactParamsImpl;
   const _RemoveContactParams._() : super._();
 
@@ -148,7 +148,7 @@ abstract class _RemoveContactParams extends RemoveContactParams {
       _$RemoveContactParamsImpl.fromJson;
 
   @override
-  String get contactUserEmail;
+  int get contactUserId;
   @override
   @JsonKey(ignore: true)
   _$$RemoveContactParamsImplCopyWith<_$RemoveContactParamsImpl> get copyWith =>

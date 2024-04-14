@@ -1,9 +1,10 @@
 import 'package:chat_app/application.dart';
 import 'package:chat_app/core/widgets/bottom_nav_bar.dart';
 import 'package:chat_app/core/widgets/mock_up_chats.dart';
-import 'package:chat_app/core/widgets/mock_up_contacts.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
+import 'package:chat_app/features/contacts/view/screens/contacts_screen.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
 import 'package:chat_app/features/settings/view/screens/appearance_screen.dart';
 import 'package:chat_app/features/settings/view/screens/settings_screen.dart';
@@ -43,7 +44,10 @@ class ScreenFactory {
   }
 
   static Widget renderContactsPage() {
-    return const MockUpContacts();
+    return BlocProvider(
+      create: (context) => getIt<ContactsCubit>(),
+      child: const ContactsScreen(),
+    );
   }
 
   static Widget renderApplication() {

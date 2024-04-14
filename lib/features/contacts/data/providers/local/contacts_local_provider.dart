@@ -41,6 +41,7 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
   @override
   Future<Either<Failure, void>> saveContact(ContactModel model) async {
     final Map<String, dynamic> dataToSave = {
+      'external_id': model.externalId,
       'name': model.name,
       'email': model.email,
     };
@@ -58,8 +59,8 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
   ) async {
     final response = await database.delete(
       tableName: tableName,
-      where: 'email = ?',
-      whereArgs: [params.contactUserEmail],
+      where: 'external_id = ?',
+      whereArgs: [params.contactUserId],
     );
     return response;
   }

@@ -20,7 +20,8 @@ ContactModel _$ContactModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ContactModel {
-  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'id')
+  int get externalId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
@@ -36,7 +37,7 @@ abstract class $ContactModelCopyWith<$Res> {
           ContactModel value, $Res Function(ContactModel) then) =
       _$ContactModelCopyWithImpl<$Res, ContactModel>;
   @useResult
-  $Res call({int id, String name, String email});
+  $Res call({@JsonKey(name: 'id') int externalId, String name, String email});
 }
 
 /// @nodoc
@@ -52,14 +53,14 @@ class _$ContactModelCopyWithImpl<$Res, $Val extends ContactModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? externalId = null,
     Object? name = null,
     Object? email = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -81,7 +82,7 @@ abstract class _$$ContactModelImplCopyWith<$Res>
       __$$ContactModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String email});
+  $Res call({@JsonKey(name: 'id') int externalId, String name, String email});
 }
 
 /// @nodoc
@@ -95,14 +96,14 @@ class __$$ContactModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? externalId = null,
     Object? name = null,
     Object? email = null,
   }) {
     return _then(_$ContactModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
               as int,
       name: null == name
           ? _value.name
@@ -119,15 +120,18 @@ class __$$ContactModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ContactModelImpl extends _ContactModel {
-  const _$ContactModelImpl({this.id = -1, this.name = '', this.email = ''})
+  const _$ContactModelImpl(
+      {@JsonKey(name: 'id') this.externalId = -1,
+      this.name = '',
+      this.email = ''})
       : super._();
 
   factory _$ContactModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ContactModelImplFromJson(json);
 
   @override
-  @JsonKey()
-  final int id;
+  @JsonKey(name: 'id')
+  final int externalId;
   @override
   @JsonKey()
   final String name;
@@ -137,7 +141,7 @@ class _$ContactModelImpl extends _ContactModel {
 
   @override
   String toString() {
-    return 'ContactModel(id: $id, name: $name, email: $email)';
+    return 'ContactModel(externalId: $externalId, name: $name, email: $email)';
   }
 
   @override
@@ -145,14 +149,15 @@ class _$ContactModelImpl extends _ContactModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ContactModelImpl &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.externalId, externalId) ||
+                other.externalId == externalId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email);
+  int get hashCode => Object.hash(runtimeType, externalId, name, email);
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +175,7 @@ class _$ContactModelImpl extends _ContactModel {
 
 abstract class _ContactModel extends ContactModel {
   const factory _ContactModel(
-      {final int id,
+      {@JsonKey(name: 'id') final int externalId,
       final String name,
       final String email}) = _$ContactModelImpl;
   const _ContactModel._() : super._();
@@ -179,7 +184,8 @@ abstract class _ContactModel extends ContactModel {
       _$ContactModelImpl.fromJson;
 
   @override
-  int get id;
+  @JsonKey(name: 'id')
+  int get externalId;
   @override
   String get name;
   @override

@@ -6,6 +6,7 @@ import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
+import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
@@ -176,6 +177,13 @@ void _cubits() {
         registrationUseCase: getIt(),
         loginUseCase: getIt(),
         logoutUseCase: getIt(),
+      ),
+    )
+    ..registerLazySingleton<ContactsCubit>(
+      () => ContactsCubit(
+        addContactUseCase: getIt(),
+        removeContactUseCase: getIt(),
+        getAllContactsUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(
