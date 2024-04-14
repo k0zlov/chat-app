@@ -24,6 +24,7 @@ class AppBottomNavigationBar extends StatelessWidget {
     final Color backgroundColor = CupertinoTheme.of(context).barBackgroundColor;
 
     return CupertinoPageScaffold(
+      resizeToAvoidBottomInset: false,
       child: Stack(
         children: [
           navigationShell,

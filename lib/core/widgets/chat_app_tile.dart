@@ -1,10 +1,9 @@
-import 'package:chat_app/core/resources/icons.dart';
 import 'package:chat_app/core/resources/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SettingsMenuOption extends StatefulWidget {
-  const SettingsMenuOption({
+class ChatAppTile extends StatefulWidget {
+  const ChatAppTile({
     super.key,
     required this.hasDivider,
     required this.title,
@@ -12,10 +11,14 @@ class SettingsMenuOption extends StatefulWidget {
     required this.hasBottomBorder,
     required this.onPressed,
     this.textColor,
-    this.icon,
-    this.iconData,
     this.trailingArrow = true,
     this.trailing,
+    this.leading,
+    this.backgroundColor,
+    this.height = 52,
+    this.leadingPadding = const EdgeInsets.all(10),
+    this.padding = EdgeInsets.zero,
+    this.subtitle,
   });
 
   final bool hasDivider;
@@ -23,17 +26,21 @@ class SettingsMenuOption extends StatefulWidget {
   final bool hasBottomBorder;
   final bool trailingArrow;
   final Widget? trailing;
-  final Icon? icon;
-  final AppIcons? iconData;
+  final Widget? leading;
   final String title;
   final void Function()? onPressed;
   final Color? textColor;
+  final Color? backgroundColor;
+  final double height;
+  final EdgeInsets leadingPadding;
+  final EdgeInsets padding;
+  final String? subtitle;
 
   @override
-  State<SettingsMenuOption> createState() => _SettingsMenuOptionState();
+  State<ChatAppTile> createState() => _ChatAppTileState();
 }
 
-class _SettingsMenuOptionState extends State<SettingsMenuOption> {
+class _ChatAppTileState extends State<ChatAppTile> {
   bool _tapped = false;
 
   void _onTap() {
@@ -50,8 +57,9 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
   Widget build(BuildContext context) {
     const Radius borderRadius = Radius.circular(15);
 
-    final Color backgroundColor =
-        CupertinoTheme.of(context).brightness == Brightness.dark
+    final Color backgroundColor = widget.backgroundColor != null
+        ? widget.backgroundColor!
+        : CupertinoTheme.of(context).brightness == Brightness.dark
             ? AppPalette.darkMenuOptionBackground
             : AppPalette.lightMenuOptionBackground;
 
@@ -68,9 +76,10 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
       onTapUp: active ? (_) => _onTapCanceled() : null,
       onTapCancel: _onTapCanceled,
       child: AnimatedContainer(
-        height: 52,
+        height: widget.height,
         width: MediaQuery.of(context).size.width,
         duration: const Duration(milliseconds: 10),
+        padding: widget.padding,
         decoration: BoxDecoration(
           color: _tapped ? selectedColor : backgroundColor,
           borderRadius: BorderRadius.vertical(
@@ -81,11 +90,8 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: widget.icon ??
-                  (widget.iconData != null
-                      ? Image.asset(widget.iconData!.path, height: 35)
-                      : const SizedBox()),
+              padding: widget.leadingPadding,
+              child: widget.leading ?? const SizedBox(),
             ),
             Expanded(
               child: _OptionBodyContainer(
@@ -96,6 +102,7 @@ class _SettingsMenuOptionState extends State<SettingsMenuOption> {
                 textColor: widget.textColor,
                 trailingArrow: widget.trailingArrow,
                 trailing: widget.trailing,
+                subtitle: widget.subtitle,
               ),
             ),
           ],
@@ -114,6 +121,7 @@ class _OptionBodyContainer extends StatelessWidget {
     required this.trailingArrow,
     this.textColor,
     this.trailing,
+    required this.subtitle,
   });
 
   final bool trailingArrow;
@@ -123,6 +131,7 @@ class _OptionBodyContainer extends StatelessWidget {
   final bool hasTopBorder;
   final bool hasBottomBorder;
   final Color? textColor;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +141,8 @@ class _OptionBodyContainer extends StatelessWidget {
       color: CupertinoColors.inactiveGray,
       width: 0.2,
     );
+
+    final textStyle = CupertinoTheme.of(context).textTheme.textStyle;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -153,12 +164,26 @@ class _OptionBodyContainer extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: CupertinoTheme.of(context)
-                    .textTheme
-                    .textStyle
-                    .copyWith(color: textColor),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: textStyle.copyWith(
+                      color: textColor,
+                    ),
+                  ),
+                  if (subtitle != null) ...{
+                    Text(
+                      subtitle!,
+                      style: textStyle.copyWith(
+                        fontSize: 12,
+                        color: CupertinoColors.inactiveGray,
+                      ),
+                    ),
+                  },
+                ],
               ),
               Row(
                 children: [

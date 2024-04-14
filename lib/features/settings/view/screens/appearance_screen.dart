@@ -1,6 +1,6 @@
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/features/settings/view/widgets/setting_options.dart';
-import 'package:chat_app/features/settings/view/widgets/setting_options_item.dart';
+import 'package:chat_app/core/widgets/chat_app_tile.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +38,7 @@ class SettingsAppearanceScreen extends StatelessWidget {
                 const SettingsOptionsBox(
                   children: [
                     SettingsColorPicker(),
-                    SettingsMenuOption(
+                    ChatAppTile(
                       hasDivider: true,
                       title: 'Night mode',
                       trailing: SettingsNightModeSwitch(),
@@ -47,7 +47,7 @@ class SettingsAppearanceScreen extends StatelessWidget {
                       hasBottomBorder: false,
                       onPressed: null,
                     ),
-                    SettingsMenuOption(
+                    ChatAppTile(
                       hasDivider: false,
                       title: 'System mode',
                       trailingArrow: false,

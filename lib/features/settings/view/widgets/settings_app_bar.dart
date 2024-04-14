@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_edit_button.dart';
@@ -148,6 +149,8 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
             ? CupertinoColors.systemGrey
             : CupertinoColors.inactiveGray;
 
+    final Color backgroundColor = CupertinoTheme.of(context).barBackgroundColor;
+
     return SliverAppBar(
       pinned: true,
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -168,10 +171,11 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
         child: QrCodeButton(blur: expanded),
       ),
       elevation: 10,
-      stretch: !expanded,
+      stretch: true,
       expandedHeight: expanded ? expandedHeight : basicHeight,
       stretchTriggerOffset: 30,
       onStretchTrigger: () async {
+        if(expanded) return;
         _changeMode(SettingsAppBarMode.expanded);
         await HapticFeedback.lightImpact();
       },
@@ -185,23 +189,31 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                 color: borderColor,
               ),
             ),
-      backgroundColor: CupertinoTheme.of(context).scaffoldBackgroundColor,
-      flexibleSpace: FlexibleSpaceBar(
-        titlePadding: EdgeInsets.zero,
-        collapseMode: CollapseMode.pin,
-        background: _SettingsAppBarBackground(
-          onImagePressed: () {
-            if (_mode == SettingsAppBarMode.expanded) return;
-            _mode = SettingsAppBarMode.expanded;
-            setState(() {});
-          },
-          expanded: expanded,
-        ),
-        expandedTitleScale: 1.4,
-        centerTitle: true,
-        title: _UserInfoContainer(
-          collapsed: collapsed,
-          expanded: expanded,
+      backgroundColor: collapsed ? backgroundColor : Colors.transparent,
+      flexibleSpace: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 20,
+            sigmaY: 2,
+          ),
+          child: FlexibleSpaceBar(
+            titlePadding: EdgeInsets.zero,
+            collapseMode: CollapseMode.pin,
+            background: _SettingsAppBarBackground(
+              onImagePressed: () {
+                if (_mode == SettingsAppBarMode.expanded) return;
+                _mode = SettingsAppBarMode.expanded;
+                setState(() {});
+              },
+              expanded: expanded,
+            ),
+            expandedTitleScale: 1.4,
+            centerTitle: true,
+            title: _UserInfoContainer(
+              collapsed: collapsed,
+              expanded: expanded,
+            ),
+          ),
         ),
       ),
     );
@@ -270,9 +282,8 @@ class _UserInfoContainer extends StatelessWidget {
           ),
           alignment: expanded ? Alignment.centerLeft : Alignment.center,
           child: Column(
-            crossAxisAlignment: expanded
-                ? CrossAxisAlignment.start
-                : CrossAxisAlignment.center,
+            crossAxisAlignment:
+                expanded ? CrossAxisAlignment.start : CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(

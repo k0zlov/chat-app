@@ -1,6 +1,5 @@
 import 'package:chat_app/core/resources/palette.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class ApplicationTheme {
   const ApplicationTheme._();

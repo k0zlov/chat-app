@@ -1,6 +1,6 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/resources/icons.dart';
-import 'package:chat_app/features/settings/view/widgets/setting_options_item.dart';
+import 'package:chat_app/core/widgets/chat_app_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,10 +13,10 @@ class SettingsOptions extends StatelessWidget {
       children: [
         SettingsOptionsBox(
           children: [
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: false,
-              icon: Icon(
+              leading: Icon(
                 CupertinoIcons.photo_camera,
                 color: CupertinoTheme.of(context).primaryColor,
                 size: 28,
@@ -30,34 +30,34 @@ class SettingsOptions extends StatelessWidget {
         ),
         SettingsOptionsBox(
           children: [
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.savedMessages,
+              leading: Image.asset(AppIcons.savedMessages.path, height: 35),
               title: 'Saved messages',
               hasTopBorder: true,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.resentCalls,
+              leading: Image.asset(AppIcons.resentCalls.path, height: 35),
               title: 'Recent calls',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.devices,
+              leading: Image.asset(AppIcons.devices.path, height: 35),
               title: 'Devices',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: false,
-              iconData: AppIcons.chatFolders,
+              leading: Image.asset(AppIcons.chatFolders.path, height: 35),
               title: 'Chat folders',
               hasTopBorder: false,
               hasBottomBorder: true,
@@ -66,50 +66,50 @@ class SettingsOptions extends StatelessWidget {
         ),
         SettingsOptionsBox(
           children: [
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.notificationsAndSounds,
+              leading: Image.asset(AppIcons.notificationsAndSounds.path, height: 35),
               title: 'Notifications and Sounds',
               hasTopBorder: true,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.privacyAndSecurity,
+              leading: Image.asset(AppIcons.privacyAndSecurity.path, height: 35),
               title: 'Privacy and Security',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.dataAndStorage,
+              leading: Image.asset(AppIcons.dataAndStorage.path, height: 35),
               title: 'Data and Storage',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () => context.go(AppRoutes.appearanceSettings.path),
               hasDivider: true,
-              iconData: AppIcons.appearance,
+              leading: Image.asset(AppIcons.appearance.path, height: 35),
               title: 'Appearance',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.powerSaving,
+              leading: Image.asset(AppIcons.powerSaving.path, height: 35),
               title: 'Power Saving',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: false,
-              iconData: AppIcons.language,
+              leading: Image.asset(AppIcons.language.path, height: 35),
               title: 'Language',
               hasTopBorder: false,
               hasBottomBorder: true,
@@ -118,26 +118,26 @@ class SettingsOptions extends StatelessWidget {
         ),
         SettingsOptionsBox(
           children: [
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.askQuestion,
+              leading: Image.asset(AppIcons.askQuestion.path, height: 35),
               title: 'Ask a Question',
               hasTopBorder: true,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: true,
-              iconData: AppIcons.telegramFaq,
+              leading: Image.asset(AppIcons.telegramFaq.path, height: 35),
               title: 'Telegram FAQ',
               hasTopBorder: false,
               hasBottomBorder: false,
             ),
-            SettingsMenuOption(
+            ChatAppTile(
               onPressed: () {},
               hasDivider: false,
-              iconData: AppIcons.telegramFeatures,
+              leading: Image.asset(AppIcons.telegramFeatures.path, height: 35),
               title: 'Telegram Features',
               hasTopBorder: false,
               hasBottomBorder: true,
