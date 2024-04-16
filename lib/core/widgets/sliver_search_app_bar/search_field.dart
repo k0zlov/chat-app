@@ -38,23 +38,23 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 420),
-      reverseDuration: const Duration(milliseconds: 450),
+      duration: const Duration(milliseconds: 220),
+      reverseDuration: const Duration(milliseconds: 500),
     );
 
     _widthAnimation = Tween<double>(begin: 1, end: 1.2).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeOutSine,
-        reverseCurve: Curves.ease,
+        curve: Curves.easeInOut,
+        reverseCurve: Curves.easeInOut,
       ),
     );
 
     _paddingAnimation = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.decelerate,
-        reverseCurve: Curves.ease,
+        curve: Curves.easeOut,
+        reverseCurve: Curves.easeIn,
       ),
     );
 
@@ -101,6 +101,11 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                 child: AnimatedBuilder(
                   animation: _animationController,
                   builder: (context, child) {
+                    final double left = max(
+                      10,
+                      leftPadding * _paddingAnimation.value,
+                    );
+
                     return SizedBox(
                       width: widgetWidth / _widthAnimation.value,
                       height: widget.height,
@@ -113,7 +118,7 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                         onTapOutside: (_) => widget.focusNode.unfocus(),
                         clearButtonMode: OverlayVisibilityMode.editing,
                         padding: EdgeInsets.only(
-                          left: max(10, leftPadding * _paddingAnimation.value),
+                          left: left,
                         ),
                         style: textStyle,
                         prefix: SizedBox(
@@ -122,10 +127,7 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: max(
-                                    10,
-                                    leftPadding * _paddingAnimation.value,
-                                  ),
+                                  left: left,
                                 ),
                                 child: const Icon(
                                   CupertinoIcons.search,
