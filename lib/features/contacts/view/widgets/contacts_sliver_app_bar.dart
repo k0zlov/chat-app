@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class ContactsSliverAppBar extends StatelessWidget {
-  const ContactsSliverAppBar({super.key});
+  const ContactsSliverAppBar({super.key, required this.focusNode});
+
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class ContactsSliverAppBar extends StatelessWidget {
     return SliverSearchAppBar(
       text: state.searchText,
       title: 'Contacts',
+      focusNode: focusNode,
       leading: SearchAppBarActionItem(
         child: Text(
           'Sort',

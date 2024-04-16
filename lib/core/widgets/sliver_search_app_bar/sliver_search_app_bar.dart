@@ -10,6 +10,7 @@ class SliverSearchAppBar extends StatefulWidget {
     required this.onChanged,
     required this.onSubmit,
     required this.text,
+    required this.focusNode,
     this.leading,
     this.trailing,
   });
@@ -20,6 +21,7 @@ class SliverSearchAppBar extends StatefulWidget {
   final void Function(String value) onSubmit;
   final Widget? leading;
   final Widget? trailing;
+  final FocusNode focusNode;
 
   @override
   State<SliverSearchAppBar> createState() => _SliverSearchAppBarState();
@@ -27,12 +29,11 @@ class SliverSearchAppBar extends StatefulWidget {
 
 class _SliverSearchAppBarState extends State<SliverSearchAppBar>
     with SingleTickerProviderStateMixin {
-  final FocusNode focusNode = FocusNode();
-
   bool _searchMode = false;
 
   late AnimationController _animationController;
   late final Animation<double> _paddingAnimation;
+  late final Animation<double> _heightAnimation;
 
   @override
   void initState() {
@@ -40,31 +41,39 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 240),
-      reverseDuration: const Duration(milliseconds: 440),
+      duration: const Duration(milliseconds: 220),
+      reverseDuration: const Duration(milliseconds: 180),
     );
 
     _paddingAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.decelerate,
-        reverseCurve: Curves.ease,
+        curve: Curves.fastOutSlowIn,
+        reverseCurve: Curves.fastOutSlowIn,
+      ),
+    );
+
+    _heightAnimation = Tween<double>(begin: 2.1, end: 1.1).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.fastOutSlowIn,
+        reverseCurve: Curves.fastOutSlowIn,
       ),
     );
 
     /// Starts animation when focused or unfocused
-    focusNode.addListener(_onFocus);
+    widget.focusNode.addListener(_onFocus);
   }
 
   void _onFocus() {
-    if (focusNode.hasFocus) {
+    if (widget.focusNode.hasFocus) {
       _animationController.forward();
     } else {
       _animationController.reverse();
     }
 
-    if (focusNode.hasFocus != _searchMode) {
-      _searchMode = focusNode.hasFocus;
+    if (widget.focusNode.hasFocus != _searchMode) {
+      _searchMode = widget.focusNode.hasFocus;
       setState(() {});
     }
   }
@@ -76,36 +85,35 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
             ? CupertinoColors.systemGrey
             : CupertinoColors.inactiveGray;
 
-    return SliverAppBar(
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      pinned: true,
-      centerTitle: true,
-      stretch: true,
-      clipBehavior: Clip.hardEdge,
-      backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
-      expandedHeight:
-          _searchMode ? kToolbarHeight + 15 : 2 * kToolbarHeight + 6,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(0.1),
-        child: Container(
-          height: 0.1,
-          width: double.infinity,
-          color: CupertinoTheme.of(context).barBackgroundColor,
-          child: Divider(
-            thickness: 0.1,
-            color: borderColor,
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return SliverAppBar(
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          pinned: true,
+          centerTitle: true,
+          stretch: true,
+          clipBehavior: Clip.hardEdge,
+          backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+          expandedHeight: kToolbarHeight * _heightAnimation.value,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(0.1),
+            child: Container(
+              height: 0.1,
+              width: double.infinity,
+              color: CupertinoTheme.of(context).barBackgroundColor,
+              child: Divider(
+                thickness: 0.1,
+                color: borderColor,
+              ),
+            ),
           ),
-        ),
-      ),
-      flexibleSpace: FlexibleSpaceBar(
-        expandedTitleScale: 1,
-        titlePadding: const EdgeInsets.only(top: kToolbarHeight - 10),
-        title: AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            return Transform.translate(
-              offset: Offset(0, -80 * _paddingAnimation.value),
+          flexibleSpace: FlexibleSpaceBar(
+            expandedTitleScale: 1,
+            titlePadding: const EdgeInsets.only(top: kToolbarHeight - 10),
+            title: Transform.translate(
+              offset: Offset(0, -200 * _paddingAnimation.value),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: _AppBarTitle(
@@ -115,27 +123,27 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
                   title: widget.title,
                 ),
               ),
-            );
-          },
-        ),
-        background: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: ReactiveTextField(
-              text: widget.text,
-              builder: (controller, _) {
-                return ChatAppSearchField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  onChanged: widget.onChanged,
-                  onSubmitted: widget.onSubmit,
-                );
-              },
+            ),
+            background: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 10),
+                child: ReactiveTextField(
+                  text: widget.text,
+                  builder: (controller, _) {
+                    return ChatAppSearchField(
+                      controller: controller,
+                      focusNode: widget.focusNode,
+                      onChanged: widget.onChanged,
+                      onSubmitted: widget.onSubmit,
+                    );
+                  },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
