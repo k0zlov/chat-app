@@ -17,24 +17,26 @@ class ContactsList extends StatelessWidget {
 
     return SliverList.list(
       children: [
-        const ContactsListItem(
-          title: 'Find People Nearby',
-          padding: EdgeInsets.only(right: 9),
-          hasDivider: true,
-          leading: Icon(
-            CupertinoIcons.map_pin_ellipse,
-            size: 28,
+        if (state.searchText == '') ...{
+          const ContactsListItem(
+            title: 'Find People Nearby',
+            padding: EdgeInsets.only(right: 9),
+            hasDivider: true,
+            leading: Icon(
+              CupertinoIcons.map_pin_ellipse,
+              size: 28,
+            ),
           ),
-        ),
-        ContactsListItem(
-          title: 'Invite Friends',
-          hasDivider: contacts.isNotEmpty,
-          padding: const EdgeInsets.only(right: 9),
-          leading: const Icon(
-            CupertinoIcons.person_add,
-            size: 28,
+          ContactsListItem(
+            title: 'Invite Friends',
+            hasDivider: contacts.isNotEmpty,
+            padding: const EdgeInsets.only(right: 9),
+            leading: const Icon(
+              CupertinoIcons.person_add,
+              size: 28,
+            ),
           ),
-        ),
+        },
         if (state.contactsLoading) ...{
           const Column(
             children: [
@@ -44,12 +46,14 @@ class ContactsList extends StatelessWidget {
           ),
         } else ...{
           for (int i = 0; i < contacts.length; i++) ...{
-            ContactsListItem(
-              key: ValueKey(contacts[i].email),
-              title: contacts[i].name,
-              hasDivider: i != contacts.length - 1,
-              subtitle: 'last seen 5 minutes ago',
-            ),
+            if (contacts[i].name.contains(state.searchText)) ...{
+              ContactsListItem(
+                key: ValueKey(contacts[i].email),
+                title: contacts[i].name,
+                hasDivider: i != contacts.length - 1,
+                subtitle: 'last seen 5 minutes ago',
+              ),
+            },
           },
         },
       ],

@@ -1,8 +1,8 @@
 import 'package:chat_app/application.dart';
-import 'package:chat_app/core/widgets/bottom_nav_bar.dart';
-import 'package:chat_app/core/widgets/mock_up_chats.dart';
+import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/chats/view/screens/chats_screen.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/contacts/view/screens/contacts_screen.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
@@ -24,11 +24,18 @@ class ScreenFactory {
   }
 
   static Widget renderBottomNavBar(StatefulNavigationShell navigationShell) {
-    return AppBottomNavigationBar(navigationShell: navigationShell);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<ContactsCubit>(),
+        ),
+      ],
+      child: AppBottomNavigationBar(navigationShell: navigationShell),
+    );
   }
 
   static Widget renderChatsPage() {
-    return const MockUpChats();
+    return const ChatsScreen();
   }
 
   static Widget renderInitialScreen() {
@@ -44,10 +51,7 @@ class ScreenFactory {
   }
 
   static Widget renderContactsPage() {
-    return BlocProvider(
-      create: (context) => getIt<ContactsCubit>(),
-      child: const ContactsScreen(),
-    );
+    return const ContactsScreen();
   }
 
   static Widget renderApplication() {

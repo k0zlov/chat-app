@@ -42,8 +42,12 @@ class ContactsCubit extends Cubit<ContactsState> {
     emit(_state);
   }
 
-  Future<void> addContact(String email) async {
-    if (TextInputValidator.validateEmail(email) != null) return;
+  Future<void> addContact() async {
+    final String email = _state.emailText;
+
+    if (email.isEmpty || TextInputValidator.validateEmail(email) != null) {
+      return;
+    }
 
     _state = _state.copyWith(contactsLoading: true);
     emit(_state);
@@ -81,5 +85,19 @@ class ContactsCubit extends Cubit<ContactsState> {
         emit(_state);
       },
     );
+  }
+
+  void onSearchChanged(String text) {
+    if (_state.searchText == text) return;
+
+    _state = _state.copyWith(searchText: text);
+    emit(_state);
+  }
+
+  void onEmailChanged(String text) {
+    if (_state.emailText == text) return;
+
+    _state = _state.copyWith(emailText: text);
+    emit(_state);
   }
 }
