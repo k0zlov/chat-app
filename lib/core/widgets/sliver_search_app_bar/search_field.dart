@@ -9,10 +9,12 @@ class ChatAppSearchField extends StatefulWidget {
     required this.focusNode,
     required this.onChanged,
     required this.onSubmitted,
+    required this.text,
     this.height = 42,
     this.width,
   });
 
+  final String text;
   final double height;
   final double? width;
   final TextEditingController controller;
@@ -36,8 +38,8 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 240),
-      reverseDuration: const Duration(milliseconds: 220),
+      duration: const Duration(milliseconds: 420),
+      reverseDuration: const Duration(milliseconds: 450),
     );
 
     _widthAnimation = Tween<double>(begin: 1, end: 1.2).animate(
@@ -58,12 +60,19 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
 
     /// Starts animation when focused or unfocused
     widget.focusNode.addListener(_onFocus);
+    widget.controller.addListener(_onType);
   }
 
   void _onFocus() {
     if (widget.focusNode.hasFocus) {
       _animationController.forward();
-    } else {
+    } else if (widget.controller.text == '') {
+      _animationController.reverse();
+    }
+  }
+
+  void _onType() {
+    if (!widget.focusNode.hasFocus && widget.controller.text == '') {
       _animationController.reverse();
     }
   }
@@ -96,12 +105,16 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                       width: widgetWidth / _widthAnimation.value,
                       height: widget.height,
                       child: CupertinoTextField(
+                        placeholder: 'Search',
                         controller: widget.controller,
                         focusNode: widget.focusNode,
                         onChanged: widget.onChanged,
                         onSubmitted: widget.onSubmitted,
-                        placeholder: 'Search',
+                        onTapOutside: (_) => widget.focusNode.unfocus(),
                         clearButtonMode: OverlayVisibilityMode.editing,
+                        padding: EdgeInsets.only(
+                          left: max(10, leftPadding * _paddingAnimation.value),
+                        ),
                         style: textStyle,
                         prefix: SizedBox(
                           width: 22,
@@ -121,9 +134,6 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                               ),
                             ],
                           ),
-                        ),
-                        padding: EdgeInsets.only(
-                          left: max(10, leftPadding * _paddingAnimation.value),
                         ),
                         decoration: BoxDecoration(
                           color: backgroundColor,
@@ -151,6 +161,8 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                           ),
                         ),
                         onPressed: () {
+                          widget.onChanged('');
+                          widget.controller.clear();
                           widget.focusNode.unfocus();
                         },
                       ),

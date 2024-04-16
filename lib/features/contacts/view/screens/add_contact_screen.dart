@@ -1,3 +1,4 @@
+import 'package:chat_app/core/widgets/buttons/text_input_clear_button.dart';
 import 'package:chat_app/core/widgets/reactive_text_field.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
@@ -19,7 +20,7 @@ class AddContactScreen extends StatelessWidget {
     return BlocProvider.value(
       value: getIt<ContactsCubit>(),
       child: Container(
-        margin: const EdgeInsets.only(top: 60),
+        margin: const EdgeInsets.only(top: 120),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: CupertinoTheme.of(context).scaffoldBackgroundColor,
@@ -48,7 +49,7 @@ class _AddContactScreenBody extends StatelessWidget {
             ? CupertinoColors.systemGrey
             : CupertinoColors.inactiveGray;
 
-    final BorderSide borderSide = BorderSide(color: borderColor, width: 0.2);
+    final BorderSide borderSide = BorderSide(color: borderColor, width: 0.3);
 
     final textStyle = CupertinoTheme.of(context).textTheme.textStyle.copyWith(
           fontSize: 16,
@@ -83,18 +84,11 @@ class _AddContactScreenBody extends StatelessWidget {
                 style: textStyle.copyWith(fontSize: 16),
                 padding: const EdgeInsets.all(15),
                 suffixMode: OverlayVisibilityMode.editing,
-                suffix: Padding(
-                  padding: const EdgeInsets.only(right: 18),
-                  child: CupertinoButton(
-                    child: const Icon(
-                      CupertinoIcons.clear_circled_solid,
-                      size: 18,
-                      color: CupertinoColors.systemGrey,
-                    ),
-                    onPressed: () {
-                      cubit.onEmailChanged('');
-                    },
-                  ),
+                suffix: TextInputClearButton(
+                  padding: const EdgeInsets.only(right: 9),
+                  onPressed: () {
+                    cubit.onEmailChanged('');
+                  },
                 ),
                 prefix: Container(
                   decoration: BoxDecoration(

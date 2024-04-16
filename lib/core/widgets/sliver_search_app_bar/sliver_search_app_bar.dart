@@ -1,4 +1,3 @@
-import 'package:chat_app/core/widgets/reactive_text_field.dart';
 import 'package:chat_app/core/widgets/sliver_search_app_bar/search_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +28,13 @@ class SliverSearchAppBar extends StatefulWidget {
 
 class _SliverSearchAppBarState extends State<SliverSearchAppBar>
     with SingleTickerProviderStateMixin {
-  bool _searchMode = false;
-
   late AnimationController _animationController;
   late final Animation<double> _paddingAnimation;
   late final Animation<double> _heightAnimation;
+
+  bool get _searchMode => _paddingAnimation.value == 1;
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -41,41 +42,62 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 220),
+      duration: const Duration(milliseconds: 180),
       reverseDuration: const Duration(milliseconds: 180),
     );
 
     _paddingAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.fastOutSlowIn,
-        reverseCurve: Curves.fastOutSlowIn,
+        curve: Curves.easeIn,
+        reverseCurve: Curves.easeInCirc,
       ),
     );
 
     _heightAnimation = Tween<double>(begin: 2.1, end: 1.1).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.fastOutSlowIn,
-        reverseCurve: Curves.fastOutSlowIn,
+        curve: Curves.easeIn,
+        reverseCurve: Curves.easeIn,
       ),
     );
 
     /// Starts animation when focused or unfocused
+    _controller.text = widget.text;
     widget.focusNode.addListener(_onFocus);
+    _controller.addListener(_onType);
   }
 
   void _onFocus() {
     if (widget.focusNode.hasFocus) {
       _animationController.forward();
-    } else {
+    } else if (_controller.text == '') {
       _animationController.reverse();
     }
+  }
 
-    if (widget.focusNode.hasFocus != _searchMode) {
-      _searchMode = widget.focusNode.hasFocus;
-      setState(() {});
+  void _onType() {
+    if(!widget.focusNode.hasFocus && _controller.text == '') {
+      _animationController.reverse();
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant SliverSearchAppBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (widget.text != _controller.text) {
+        _controller.text = widget.text;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -128,16 +150,12 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, bottom: 10),
-                child: ReactiveTextField(
+                child: ChatAppSearchField(
                   text: widget.text,
-                  builder: (controller, _) {
-                    return ChatAppSearchField(
-                      controller: controller,
-                      focusNode: widget.focusNode,
-                      onChanged: widget.onChanged,
-                      onSubmitted: widget.onSubmit,
-                    );
-                  },
+                  controller: _controller,
+                  focusNode: widget.focusNode,
+                  onChanged: widget.onChanged,
+                  onSubmitted: widget.onSubmit,
                 ),
               ),
             ),

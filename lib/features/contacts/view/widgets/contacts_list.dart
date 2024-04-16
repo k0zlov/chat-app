@@ -46,14 +46,12 @@ class ContactsList extends StatelessWidget {
           ),
         } else ...{
           for (int i = 0; i < contacts.length; i++) ...{
-            if (contacts[i].name.contains(state.searchText)) ...{
-              ContactsListItem(
-                key: ValueKey(contacts[i].email),
-                title: contacts[i].name,
-                hasDivider: i != contacts.length - 1,
-                subtitle: 'last seen 5 minutes ago',
-              ),
-            },
+            ContactsListItem(
+              key: ValueKey(contacts[i].email),
+              title: contacts[i].name,
+              hasDivider: i != contacts.length - 1,
+              subtitle: 'last seen 5 minutes ago',
+            ),
           },
         },
       ],

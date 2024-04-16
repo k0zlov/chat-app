@@ -10,6 +10,7 @@ class ContactsListItem extends StatelessWidget {
     this.leading,
     this.subtitle,
     this.padding = EdgeInsets.zero,
+    this.backgroundColor = Colors.transparent,
   });
 
   final Widget? leading;
@@ -17,13 +18,14 @@ class ContactsListItem extends StatelessWidget {
   final String? subtitle;
   final bool hasDivider;
   final EdgeInsets padding;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return ChatAppTile(
       hasDivider: hasDivider,
       trailingArrow: false,
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor,
       title: title,
       leading: leading ??
           const Icon(

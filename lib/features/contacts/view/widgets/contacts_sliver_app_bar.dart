@@ -5,7 +5,6 @@ import 'package:chat_app/features/contacts/view/screens/add_contact_screen.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class ContactsSliverAppBar extends StatelessWidget {
   const ContactsSliverAppBar({super.key, required this.focusNode});
 
@@ -17,13 +16,15 @@ class ContactsSliverAppBar extends StatelessWidget {
 
     final ContactsCubit cubit = context.read<ContactsCubit>();
     final ContactsState state = context.select(
-          (ContactsCubit cubit) => cubit.state,
+      (ContactsCubit cubit) => cubit.state,
     );
 
     return SliverSearchAppBar(
       text: state.searchText,
       title: 'Contacts',
       focusNode: focusNode,
+      onSubmit: (_) {},
+      onChanged: cubit.onSearchChanged,
       leading: SearchAppBarActionItem(
         child: Text(
           'Sort',
@@ -48,8 +49,6 @@ class ContactsSliverAppBar extends StatelessWidget {
           );
         },
       ),
-      onSubmit: (_) {},
-      onChanged: cubit.onSearchChanged,
     );
   }
 }

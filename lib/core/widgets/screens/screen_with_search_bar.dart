@@ -6,11 +6,15 @@ class ScreenWithSearchAppBar extends StatefulWidget {
     required this.searchAppBar,
     required this.sliverBody,
     required this.focusNode,
+    required this.searchWidget,
+    required this.showSearchWidget,
   });
 
   final Widget searchAppBar;
   final Widget sliverBody;
   final FocusNode focusNode;
+  final bool showSearchWidget;
+  final Widget searchWidget;
 
   @override
   State<ScreenWithSearchAppBar> createState() => _ScreenWithSearchAppBarState();
@@ -37,11 +41,15 @@ class _ScreenWithSearchAppBarState extends State<ScreenWithSearchAppBar> {
       child: CustomScrollView(
         slivers: [
           widget.searchAppBar,
-          SliverAnimatedOpacity(
-            opacity: opacity ? 0.5 : 1,
-            duration: const Duration(milliseconds: 220),
-            sliver: widget.sliverBody,
-          ),
+          if (widget.showSearchWidget) ...{
+            widget.searchWidget,
+          } else ...{
+            SliverAnimatedOpacity(
+              opacity: opacity ? 0.5 : 1,
+              duration: const Duration(milliseconds: 220),
+              sliver: widget.sliverBody,
+            ),
+          },
         ],
       ),
     );
