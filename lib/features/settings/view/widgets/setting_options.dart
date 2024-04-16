@@ -1,6 +1,7 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/resources/icons.dart';
 import 'package:chat_app/core/widgets/chat_app_tile.dart';
+import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -135,7 +136,11 @@ class SettingsOptions extends StatelessWidget {
               hasBottomBorder: false,
             ),
             ChatAppTile(
-              onPressed: () {},
+              onPressed: () {
+                final navBarProvider = NavBarVisibilityProvider.of(context);
+
+                navBarProvider?.setVisibility(value: !navBarProvider.isVisible);
+              },
               hasDivider: false,
               leading: Image.asset(AppIcons.telegramFeatures.path, height: 35),
               title: 'Telegram Features',

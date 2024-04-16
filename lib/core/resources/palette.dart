@@ -13,8 +13,8 @@ class AppPalette {
   static const Color lightText = CupertinoColors.black;
   static const Color darkText = CupertinoColors.white;
 
-  static const Color darkBarBackground = Color.fromRGBO(26, 26, 26, 0.9);
-  static const Color lightBarBackground = Color.fromRGBO(243, 243, 243, 0.9);
+  static const Color darkBarBackground = Color.fromRGBO(26, 26, 26, 1);
+  static const Color lightBarBackground = Color.fromRGBO(243, 243, 243, 1);
 
   static const Color darkMenuOptionBackground =
       CupertinoColors.darkBackgroundGray;

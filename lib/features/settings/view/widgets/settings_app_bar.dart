@@ -170,7 +170,6 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
         visible: !collapsed,
         child: QrCodeButton(blur: expanded),
       ),
-      elevation: 10,
       stretch: true,
       expandedHeight: expanded ? expandedHeight : basicHeight,
       stretchTriggerOffset: 30,
@@ -190,30 +189,22 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
               ),
             ),
       backgroundColor: collapsed ? backgroundColor : Colors.transparent,
-      flexibleSpace: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 20,
-            sigmaY: 2,
-          ),
-          child: FlexibleSpaceBar(
-            titlePadding: EdgeInsets.zero,
-            collapseMode: CollapseMode.pin,
-            background: _SettingsAppBarBackground(
-              onImagePressed: () {
-                if (_mode == SettingsAppBarMode.expanded) return;
-                _mode = SettingsAppBarMode.expanded;
-                setState(() {});
-              },
-              expanded: expanded,
-            ),
-            expandedTitleScale: 1.4,
-            centerTitle: true,
-            title: _UserInfoContainer(
-              collapsed: collapsed,
-              expanded: expanded,
-            ),
-          ),
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: EdgeInsets.zero,
+        collapseMode: CollapseMode.pin,
+        background: _SettingsAppBarBackground(
+          onImagePressed: () {
+            if (_mode == SettingsAppBarMode.expanded) return;
+            _mode = SettingsAppBarMode.expanded;
+            setState(() {});
+          },
+          expanded: expanded,
+        ),
+        expandedTitleScale: 1.4,
+        centerTitle: true,
+        title: _UserInfoContainer(
+          collapsed: collapsed,
+          expanded: expanded,
         ),
       ),
     );

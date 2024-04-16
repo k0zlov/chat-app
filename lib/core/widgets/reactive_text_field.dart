@@ -37,7 +37,6 @@ class _ReactiveTextFieldState extends State<ReactiveTextField> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.text != _controller.text) {
         _controller.text = widget.text;
-        _focusNode.unfocus();
       }
     });
   }
