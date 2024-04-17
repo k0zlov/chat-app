@@ -14,4 +14,10 @@ class AppImages {
   static const login = 'assets/images/login.png';
 
   static const registration = 'assets/images/registration.png';
+
+  static const chat = 'assets/images/chat.png';
+
+  static const savedMessages = 'assets/images/large_saved_messages.png';
+
+  static const archivedChats = 'assets/images/archived_chats.png';
 }
