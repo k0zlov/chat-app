@@ -15,46 +15,47 @@ class ContactsList extends StatelessWidget {
 
     final List<ContactEntity> contacts = state.contacts;
 
-    return SliverList.list(
-      children: [
-        if (state.searchText == '') ...{
-          const ContactsListItem(
-            title: 'Find People Nearby',
-            padding: EdgeInsets.only(right: 9),
-            hasDivider: true,
-            leading: Icon(
-              CupertinoIcons.map_pin_ellipse,
-              size: 28,
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      sliver: SliverList.list(
+        children: [
+          if (state.searchText == '') ...{
+            const ContactsListItem(
+              title: 'Find People Nearby',
+              divider: true,
+              leading: Icon(
+                CupertinoIcons.map_pin_ellipse,
+                size: 28,
+              ),
             ),
-          ),
-          ContactsListItem(
-            title: 'Invite Friends',
-            hasDivider: contacts.isNotEmpty,
-            padding: const EdgeInsets.only(right: 9),
-            leading: const Icon(
-              CupertinoIcons.person_add,
-              size: 28,
-            ),
-          ),
-        },
-        if (state.contactsLoading) ...{
-          const Column(
-            children: [
-              SizedBox(height: 50),
-              CupertinoActivityIndicator(),
-            ],
-          ),
-        } else ...{
-          for (int i = 0; i < contacts.length; i++) ...{
             ContactsListItem(
-              key: ValueKey(contacts[i].email),
-              title: contacts[i].name,
-              hasDivider: i != contacts.length - 1,
-              subtitle: 'last seen 5 minutes ago',
+              title: 'Invite Friends',
+              divider: contacts.isNotEmpty,
+              leading: const Icon(
+                CupertinoIcons.person_add,
+                size: 28,
+              ),
             ),
           },
-        },
-      ],
+          if (state.contactsLoading) ...{
+            const Column(
+              children: [
+                SizedBox(height: 50),
+                CupertinoActivityIndicator(),
+              ],
+            ),
+          } else ...{
+            for (int i = 0; i < contacts.length; i++) ...{
+              ContactsListItem(
+                key: ValueKey(contacts[i].email),
+                title: contacts[i].name,
+                divider: i != contacts.length - 1,
+                subtitle: 'last seen 5 minutes ago',
+              ),
+            },
+          },
+        ],
+      ),
     );
   }
 }

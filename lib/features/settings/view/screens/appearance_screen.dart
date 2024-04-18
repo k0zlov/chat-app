@@ -1,7 +1,7 @@
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/features/settings/view/widgets/setting_options.dart';
-import 'package:chat_app/core/widgets/chat_app_tile.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_color_picker.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +18,7 @@ class SettingsAppearanceScreen extends StatelessWidget {
       child: CupertinoScrollbar(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 90, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             child: Column(
               children: [
                 Align(
@@ -27,34 +27,39 @@ class SettingsAppearanceScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
                       'COLOR THEME',
-                      style:
-                          CupertinoTheme.of(context).textTheme.textStyle.copyWith(
-                                fontSize: 12,
-                                color: CupertinoColors.inactiveGray,
-                              ),
+                      style: CupertinoTheme.of(context)
+                          .textTheme
+                          .textStyle
+                          .copyWith(
+                            fontSize: 12,
+                            color: CupertinoColors.inactiveGray,
+                          ),
                     ),
                   ),
                 ),
                 const SettingsOptionsBox(
                   children: [
                     SettingsColorPicker(),
-                    ChatAppTile(
-                      hasDivider: true,
+                    SettingsOptionsItem(
+                      divider: true,
                       title: 'Night mode',
                       trailing: SettingsNightModeSwitch(),
                       trailingArrow: false,
-                      hasTopBorder: false,
-                      hasBottomBorder: false,
+                      roundedTopBorder: false,
+                      roundedBottomBorder: false,
                       onPressed: null,
+                      padding: EdgeInsets.symmetric(vertical: 4),
                     ),
-                    ChatAppTile(
-                      hasDivider: false,
+                    SettingsOptionsItem(
+                      divider: false,
                       title: 'System mode',
                       trailingArrow: false,
-                      hasTopBorder: false,
-                      hasBottomBorder: true,
+                      roundedTopBorder: false,
+                      roundedBottomBorder: true,
                       onPressed: null,
                       trailing: SettingsSystemModeSwitch(),
+                      padding: EdgeInsets.symmetric(vertical: 4),
+
                     ),
                   ],
                 ),

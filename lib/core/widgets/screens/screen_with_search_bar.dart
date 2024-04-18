@@ -45,7 +45,7 @@ class _ScreenWithSearchAppBarState extends State<ScreenWithSearchAppBar> {
             widget.searchWidget,
           } else ...{
             SliverAnimatedOpacity(
-              opacity: opacity ? 0.5 : 1,
+              opacity: opacity ? 0.6 : 1,
               duration: const Duration(milliseconds: 220),
               sliver: widget.sliverBody,
             ),

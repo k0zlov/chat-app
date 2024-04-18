@@ -16,7 +16,11 @@ class ContactsSearchWidget extends StatelessWidget {
     );
 
     final List<ContactEntity> filteredContacts = state.contacts
-        .where((contact) => contact.name.contains(state.searchText))
+        .where(
+          (contact) => contact.name
+              .toLowerCase()
+              .contains(state.searchText.toLowerCase()),
+        )
         .toList();
 
     final Color textColor =
@@ -67,7 +71,7 @@ class ContactsSearchWidget extends StatelessWidget {
                 key: ValueKey(filteredContacts[i].email),
                 backgroundColor: contactColor,
                 title: filteredContacts[i].name,
-                hasDivider: i != filteredContacts.length - 1,
+                divider: i != filteredContacts.length - 1,
                 subtitle: 'last seen 5 minutes ago',
               ),
             },
