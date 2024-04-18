@@ -2,7 +2,10 @@ import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:flutter/cupertino.dart';
 
 class QrCodeButton extends StatelessWidget {
-  const QrCodeButton({super.key, required this.blur});
+  const QrCodeButton({
+    super.key,
+    required this.blur,
+  });
 
   final bool blur;
 
@@ -14,11 +17,10 @@ class QrCodeButton extends StatelessWidget {
         child: BlurredWidget(
           blurred: blur,
           child: Container(
-            padding: const EdgeInsets.all(4),
+            alignment: Alignment.center,
             color: blur ? CupertinoColors.black.withOpacity(0.2) : null,
             child: Icon(
               CupertinoIcons.qrcode,
-              size: 30,
               color: blur
                   ? CupertinoColors.white
                   : CupertinoTheme.of(context).primaryColor,

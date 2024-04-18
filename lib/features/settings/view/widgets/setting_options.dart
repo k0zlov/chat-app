@@ -10,6 +10,7 @@ class SettingsOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // To use CupertinoListSection and its nested widgets remove SliverPadding
     return SliverPadding(
       padding: const EdgeInsets.only(
         left: 20,
@@ -19,6 +20,21 @@ class SettingsOptions extends StatelessWidget {
       ),
       sliver: SliverList.list(
         children: [
+          // TODO:(Morro): try to use CupertinoListSection instead SettingsOptionsBox
+          // CupertinoListSection.insetGrouped(
+          //   children: [
+          //     CupertinoListTile(
+          //       leading: Icon(
+          //         CupertinoIcons.photo_camera,
+          //         color: CupertinoTheme.of(context).primaryColor,
+          //         size: 28,
+          //       ),
+          //       title: Text('Change profile picture'),
+          //       trailing: CupertinoListTileChevron(),
+          //       onTap: () {},
+          //     ),
+          //   ],
+          // ),
           SettingsOptionsBox(
             children: [
               SettingsOptionsItem(
