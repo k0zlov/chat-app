@@ -127,11 +127,11 @@ class SettingsLocalDataProviderImpl implements SettingsLocalDataProvider {
     ChangeThemeColorParams params,
   ) async {
     try {
-      await hiveBox.addData(HiveBoxKeys.themeMode, params.color.name);
+      await hiveBox.addData<String>(HiveBoxKeys.themeColor, params.color.name);
       return const Right(null);
     } catch (e) {
       const cacheFailure = CacheFailure(
-        errorMessage: 'Could not set a new value for theme mode.',
+        errorMessage: 'Could not set a new value for theme color.',
       );
       return const Left(cacheFailure);
     }

@@ -10,17 +10,26 @@ class ChatAppSearchField extends StatefulWidget {
     required this.onChanged,
     required this.onSubmitted,
     required this.text,
+    this.onCancel,
     this.height = 42,
     this.width,
+    this.reverseAnimation = true,
   });
 
   final String text;
+
   final double height;
   final double? width;
+
+  final bool reverseAnimation;
+
   final TextEditingController controller;
+
   final FocusNode focusNode;
+
   final void Function(String text) onChanged;
   final void Function(String text) onSubmitted;
+  final void Function()? onCancel;
 
   @override
   State<ChatAppSearchField> createState() => _ChatAppSearchFieldState();
@@ -64,17 +73,30 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
   }
 
   void _onFocus() {
+    if (!mounted) return;
+
     if (widget.focusNode.hasFocus) {
       _animationController.forward();
     } else if (widget.controller.text == '') {
+      if (!widget.reverseAnimation) return;
       _animationController.reverse();
     }
   }
 
   void _onType() {
+    if (!mounted) return;
+
+    if (!widget.reverseAnimation) return;
+
     if (!widget.focusNode.hasFocus && widget.controller.text == '') {
       _animationController.reverse();
     }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -111,6 +133,11 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                       height: widget.height,
                       child: CupertinoTextField(
                         placeholder: 'Search',
+                        placeholderStyle: const TextStyle(
+                          inherit: false,
+                          fontWeight: FontWeight.w400,
+                          color: CupertinoColors.placeholderText,
+                        ),
                         controller: widget.controller,
                         focusNode: widget.focusNode,
                         onChanged: widget.onChanged,
@@ -166,6 +193,10 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
                           widget.onChanged('');
                           widget.controller.clear();
                           widget.focusNode.unfocus();
+                          widget.onCancel?.call();
+                          if(!widget.reverseAnimation) {
+                            _animationController.reverse();
+                          }
                         },
                       ),
                     ),

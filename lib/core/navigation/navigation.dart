@@ -63,6 +63,13 @@ class AppNavigation {
         ),
       ],
     ),
+    GoRoute(
+      name: AppRoutes.appearanceSettings.name,
+      path: AppRoutes.appearanceSettings.path,
+      builder: (context, state) {
+        return ScreenFactory.renderSettingsAppearancePage();
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScreenFactory.renderBottomNavBar(navigationShell);
@@ -93,13 +100,6 @@ class AppNavigation {
               path: AppRoutes.settings.path,
               builder: (context, state) => ScreenFactory.renderSettingsPage(),
               routes: [
-                GoRoute(
-                  name: AppRoutes.appearanceSettings.name,
-                  path: AppRoutes.appearanceSettings.name,
-                  builder: (context, state) {
-                    return ScreenFactory.renderSettingsAppearancePage();
-                  },
-                ),
               ],
             ),
           ],
@@ -118,7 +118,7 @@ enum AppRoutes {
   chat('/chat/:chatId'),
   chatSettings('chat-settings'),
   settings('/settings'),
-  appearanceSettings('/settings/appearanceSettings'),
+  appearanceSettings('/settings/appearance'),
   contacts('/contacts');
 
   const AppRoutes(this.path);

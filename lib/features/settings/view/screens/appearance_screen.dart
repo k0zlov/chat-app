@@ -1,9 +1,11 @@
+import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/features/settings/view/widgets/setting_options.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_color_picker.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsAppearanceScreen extends StatelessWidget {
   const SettingsAppearanceScreen({super.key});
@@ -11,9 +13,12 @@ class SettingsAppearanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Appearance'),
-        previousPageTitle: 'Back',
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Appearance'),
+        leading: CupertinoNavigationBarBackButton(
+          previousPageTitle: 'Back',
+          onPressed: () => context.go(AppRoutes.settings.path),
+        ),
       ),
       child: CupertinoScrollbar(
         child: SingleChildScrollView(
@@ -59,7 +64,6 @@ class SettingsAppearanceScreen extends StatelessWidget {
                       onPressed: null,
                       trailing: SettingsSystemModeSwitch(),
                       padding: EdgeInsets.symmetric(vertical: 4),
-
                     ),
                   ],
                 ),

@@ -1,4 +1,4 @@
-import 'package:chat_app/core/widgets/sliver_search_app_bar/search_field.dart';
+import 'package:chat_app/core/widgets/search/search_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
