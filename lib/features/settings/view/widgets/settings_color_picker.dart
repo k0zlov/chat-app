@@ -1,7 +1,5 @@
-import 'package:chat_app/core/resources/palette.dart';
 import 'package:chat_app/core/resources/theme.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,11 +8,6 @@ class SettingsColorPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor =
-        CupertinoTheme.of(context).brightness == Brightness.dark
-            ? AppPalette.darkMenuOptionBackground
-            : AppPalette.lightMenuOptionBackground;
-
     final SettingsCubit cubit = context.read<SettingsCubit>();
     final SettingsState state = context.select(
       (SettingsCubit cubit) => cubit.state,
@@ -23,10 +16,6 @@ class SettingsColorPicker extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       height: 60,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-      ),
       child: Row(
         children: [
           SettingsColorPickerItem(
@@ -72,7 +61,10 @@ class SettingsColorPickerItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             border: Border.fromBorderSide(
-              BorderSide(width: 2, color: selected ? color : Colors.transparent),
+              BorderSide(
+                width: 2,
+                color: selected ? color : Colors.transparent,
+              ),
             ),
           ),
           child: Container(

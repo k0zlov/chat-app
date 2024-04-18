@@ -2,6 +2,7 @@ import 'package:chat_app/features/contacts/domain/entities/contact_entity/contac
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactsList extends StatelessWidget {
@@ -15,47 +16,50 @@ class ContactsList extends StatelessWidget {
 
     final List<ContactEntity> contacts = state.contacts;
 
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      sliver: SliverList.list(
-        children: [
-          if (state.searchText == '') ...{
-            const ContactsListItem(
-              title: 'Find People Nearby',
-              divider: true,
-              leading: Icon(
-                CupertinoIcons.map_pin_ellipse,
-                size: 28,
-              ),
-            ),
-            ContactsListItem(
-              title: 'Invite Friends',
-              divider: contacts.isNotEmpty,
-              leading: const Icon(
-                CupertinoIcons.person_add,
-                size: 28,
-              ),
-            ),
-          },
-          if (state.contactsLoading) ...{
-            const Column(
-              children: [
-                SizedBox(height: 50),
-                CupertinoActivityIndicator(),
-              ],
-            ),
-          } else ...{
-            for (int i = 0; i < contacts.length; i++) ...{
+    return SliverList.list(
+      children: [
+        CupertinoListSection(
+          topMargin: 0,
+          backgroundColor: CupertinoColors.black,
+          children: [
+            if (state.searchText == '') ...{
               ContactsListItem(
-                key: ValueKey(contacts[i].email),
-                title: contacts[i].name,
-                divider: i != contacts.length - 1,
-                subtitle: 'last seen 5 minutes ago',
+                title: 'Find People Nearby',
+                onPressed: () {},
+                leading: const Icon(
+                  CupertinoIcons.map_pin_ellipse,
+                  size: 28,
+                ),
+              ),
+              ContactsListItem(
+                title: 'Invite Friends',
+                onPressed: () {},
+                leading: const Icon(
+                  CupertinoIcons.person_add,
+                  size: 28,
+                ),
               ),
             },
-          },
-        ],
-      ),
+            if (state.contactsLoading) ...{
+              const Column(
+                children: [
+                  SizedBox(height: 50),
+                  CupertinoActivityIndicator(),
+                ],
+              ),
+            } else ...{
+              for (int i = 0; i < contacts.length; i++) ...{
+                ContactsListItem(
+                  key: ValueKey(contacts[i].email),
+                  title: contacts[i].name,
+                  onPressed: () {},
+                  subtitle: 'last seen 5 minutes ago',
+                ),
+              },
+            },
+          ],
+        ),
+      ],
     );
   }
 }

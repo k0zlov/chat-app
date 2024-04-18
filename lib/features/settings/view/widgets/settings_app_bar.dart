@@ -119,7 +119,8 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   bool _onScrollDownStretched(ScrollController controller) {
     if (_mode != SettingsAppBarMode.expanded) return false;
 
-    final ScrollDirection scrollDirection = controller.position.userScrollDirection;
+    final ScrollDirection scrollDirection =
+        controller.position.userScrollDirection;
 
     final bool scrollingDownwards = scrollDirection != ScrollDirection.forward;
 
@@ -134,7 +135,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   bool _onCollapsed(ScrollController controller) {
     if (_mode == SettingsAppBarMode.collapsed) return false;
 
-    if (controller.offset > basicHeight - 50) {
+    if (controller.offset > basicHeight - 100) {
       _changeMode(SettingsAppBarMode.collapsed);
       return true;
     }
@@ -145,7 +146,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
     if (_mode == SettingsAppBarMode.basic ||
         _mode == SettingsAppBarMode.expanded) return false;
 
-    if (controller.offset < basicHeight - 50) {
+    if (controller.offset < basicHeight - 100) {
       _changeMode(SettingsAppBarMode.basic);
       return true;
     }
@@ -161,16 +162,16 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       if (!scrollController.position.isScrollingNotifier.value) {
         final currentOffset = scrollController.offset;
 
-        if (currentOffset < basicHeight / 1.7) {
+        if (currentOffset < basicHeight - 100) {
           await scrollController.animateTo(
             0,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
-        } else if (currentOffset > basicHeight / 1.7 &&
-            currentOffset < basicHeight) {
+        } else if (currentOffset > basicHeight - 100 &&
+            currentOffset < basicHeight - 50) {
           await scrollController.animateTo(
-            basicHeight,
+            basicHeight - 50,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
@@ -197,9 +198,12 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       clipBehavior: Clip.hardEdge,
       actions: [
         switch ((_mode, _searchMode)) {
-          (SettingsAppBarMode.basic, false) => SettingsEditButton(blur: _mode.isExpanded),
-          (SettingsAppBarMode.expanded, false) => SettingsEditButton(blur: _mode.isExpanded),
-          (SettingsAppBarMode.collapsed, false) => SettingsSearchButton(onPressed: _activateSearchMode),
+          (SettingsAppBarMode.basic, false) =>
+            SettingsEditButton(blur: _mode.isExpanded),
+          (SettingsAppBarMode.expanded, false) =>
+            SettingsEditButton(blur: _mode.isExpanded),
+          (SettingsAppBarMode.collapsed, false) =>
+            SettingsSearchButton(onPressed: _activateSearchMode),
           _ => const SizedBox(),
         },
       ],
@@ -244,26 +248,26 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
             ? backgroundColor
             : CupertinoTheme.of(context).scaffoldBackgroundColor,
         child: Visibility(
-              visible: !_searchMode,
-              child: FlexibleSpaceBar(
-                  titlePadding: EdgeInsets.zero,
-                  collapseMode: CollapseMode.pin,
-                  background: _SettingsAppBarBackground(
-                    onImagePressed: () {
-                      if (_mode.isExpanded) return;
-                      _mode = SettingsAppBarMode.expanded;
-                      setState(() {});
-                    },
-                    expanded: _mode.isExpanded,
-                  ),
-                  expandedTitleScale: 1.4,
-                  centerTitle: true,
-                  title: _UserInfoContainer(
-                    collapsed: _mode.isCollapsed,
-                    expanded: _mode.isExpanded,
-                  ),
-                ),
+          visible: !_searchMode,
+          child: FlexibleSpaceBar(
+            titlePadding: EdgeInsets.zero,
+            collapseMode: CollapseMode.pin,
+            background: _SettingsAppBarBackground(
+              onImagePressed: () {
+                if (_mode.isExpanded) return;
+                _mode = SettingsAppBarMode.expanded;
+                setState(() {});
+              },
+              expanded: _mode.isExpanded,
             ),
+            expandedTitleScale: 1.4,
+            centerTitle: true,
+            title: _UserInfoContainer(
+              collapsed: _mode.isCollapsed,
+              expanded: _mode.isExpanded,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -315,7 +319,8 @@ class _UserInfoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle themeTextStyle = CupertinoTheme.of(context).textTheme.textStyle;
+    final TextStyle themeTextStyle =
+        CupertinoTheme.of(context).textTheme.textStyle;
 
     return BlurredWidget(
       blurred: expanded,

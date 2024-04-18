@@ -24,29 +24,26 @@ class ContactsSearchWidget extends StatelessWidget {
         )
         .toList();
 
-    final Brightness? brightness = CupertinoTheme.of(context).brightness;
-
-    final Color contactColor = brightness == Brightness.dark
-        ? Colors.transparent
-        : CupertinoColors.white;
-
     return SliverList.list(
       children: [
-        if (filteredContacts.isNotEmpty) ...{
-          const SearchResultsHeader(title: 'CONTACTS'),
-        },
         if (filteredContacts.isEmpty) ...{
           NoResultsSearchWidget(searchText: state.searchText),
         } else ...{
-          for (int i = 0; i < filteredContacts.length; i++) ...{
-            ContactsListItem(
-              key: ValueKey(filteredContacts[i].email),
-              backgroundColor: contactColor,
-              title: filteredContacts[i].name,
-              divider: i != filteredContacts.length - 1,
-              subtitle: 'last seen 5 minutes ago',
-            ),
-          },
+          const SearchResultsHeader(title: 'Contacts'),
+          CupertinoListSection(
+            topMargin: 0,
+            children: [
+              for (int i = 0; i < filteredContacts.length; i++) ...{
+                ContactsListItem(
+                  key: ValueKey(filteredContacts[i].email),
+                  title: filteredContacts[i].name,
+                  subtitle: 'last seen 5 minutes ago',
+                  backgroundColor: Colors.transparent,
+                  onPressed: () {},
+                ),
+              },
+            ],
+          ),
         },
       ],
     );

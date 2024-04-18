@@ -1,6 +1,5 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
-import 'package:chat_app/features/settings/view/widgets/setting_options.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_color_picker.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +11,11 @@ class SettingsAppearanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+      fontSize: 10,
+      color: CupertinoColors.systemGrey,
+    );
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: const Text('Appearance'),
@@ -22,53 +26,27 @@ class SettingsAppearanceScreen extends StatelessWidget {
       ),
       child: CupertinoScrollbar(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      'COLOR THEME',
-                      style: CupertinoTheme.of(context)
-                          .textTheme
-                          .textStyle
-                          .copyWith(
-                            fontSize: 12,
-                            color: CupertinoColors.inactiveGray,
-                          ),
-                    ),
+          child: Column(
+            children: [
+              CupertinoListSection.insetGrouped(
+                header: Text('COLOR THEME', style: textStyle),
+                children: const [
+                  SettingsColorPicker(),
+                  SettingsOptionsItem(
+                    title: 'Night mode',
+                    trailing: SettingsNightModeSwitch(),
+                    trailingArrow: false,
+                    onPressed: null,
                   ),
-                ),
-                const SettingsOptionsBox(
-                  children: [
-                    SettingsColorPicker(),
-                    SettingsOptionsItem(
-                      divider: true,
-                      title: 'Night mode',
-                      trailing: SettingsNightModeSwitch(),
-                      trailingArrow: false,
-                      roundedTopBorder: false,
-                      roundedBottomBorder: false,
-                      onPressed: null,
-                      padding: EdgeInsets.symmetric(vertical: 4),
-                    ),
-                    SettingsOptionsItem(
-                      divider: false,
-                      title: 'System mode',
-                      trailingArrow: false,
-                      roundedTopBorder: false,
-                      roundedBottomBorder: true,
-                      onPressed: null,
-                      trailing: SettingsSystemModeSwitch(),
-                      padding: EdgeInsets.symmetric(vertical: 4),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  SettingsOptionsItem(
+                    title: 'System mode',
+                    trailingArrow: false,
+                    onPressed: null,
+                    trailing: SettingsSystemModeSwitch(),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

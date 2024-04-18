@@ -1,20 +1,14 @@
-import 'package:chat_app/core/resources/palette.dart';
-import 'package:chat_app/core/widgets/chat_app_tile/chat_app_tile.dart';
 import 'package:flutter/cupertino.dart';
 
 class SettingsOptionsItem extends StatelessWidget {
   const SettingsOptionsItem({
     super.key,
     required this.title,
-    required this.divider,
-    required this.roundedTopBorder,
-    required this.roundedBottomBorder,
     required this.onPressed,
     this.leading,
     this.textColor,
     this.trailing,
     this.trailingArrow = true,
-    this.padding = const EdgeInsets.only(bottom: 16),
   });
 
   final String title;
@@ -22,47 +16,30 @@ class SettingsOptionsItem extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
 
-  final bool divider;
-  final bool roundedTopBorder;
-  final bool roundedBottomBorder;
   final bool trailingArrow;
 
   final Color? textColor;
-
-  final EdgeInsets padding;
 
   final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor =
-        CupertinoTheme.of(context).brightness == Brightness.dark
-            ? AppPalette.darkMenuOptionBackground
-            : AppPalette.lightMenuOptionBackground;
-
     final textStyle = CupertinoTheme.of(context).textTheme.textStyle.copyWith(
           color: textColor,
         );
 
-    return ChatAppTile(
-      title: Padding(
-        padding: const EdgeInsets.only(left: 14),
-        child: Text(
-          title,
-          style: textStyle,
-        ),
-      ),
-      trailing: trailing,
-      trailingArrow: trailingArrow,
-      onTap: onPressed,
-      bodyPadding: padding,
+    return CupertinoListTile(
       leading: leading,
-      backgroundColor: backgroundColor,
-      leadingSpacing: leading != null ? 32 : 0,
-      leadingPadding: const EdgeInsets.only(left: 10, bottom: 12),
-      divider: divider,
-      roundedTopBorder: roundedTopBorder,
-      roundedBottomBorder: roundedBottomBorder,
+      onTap: onPressed,
+      title: Text(title, style: textStyle),
+      trailing: Row(
+        children: [
+          trailing ?? const SizedBox(),
+          if (trailingArrow) ...{
+            const CupertinoListTileChevron(),
+          },
+        ],
+      ),
     );
   }
 }

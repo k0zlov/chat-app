@@ -9,26 +9,34 @@ class ChatsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList.list(
       children: [
-        ChatsListItem(
-          title: 'Archived Messages',
-          subtitle: 'Name, chat, first, second, third...',
-          leading: Image.asset(AppImages.archivedChats),
-        ),
-        ChatsListItem(
-          title: 'Saved Messages',
-          subtitle: 'saved message',
-          trailingText: 'Mon',
-          leading: Image.asset(AppImages.savedMessages),
-        ),
-        ChatsListItem(
-          pinned: true,
-          title: 'Cool chat name',
-          subtitle: 'some message',
-          trailingText: 'Tue',
-          leading: Image.asset(
-            AppImages.chat,
-            fit: BoxFit.contain,
-          ),
+        CupertinoListSection(
+          topMargin: 0,
+          children: [
+            ChatsListItem(
+              title: 'Archived Messages',
+              subtitle: 'Name, chat, first, second, third...',
+              leading: Image.asset(AppImages.archivedChats),
+              onPressed: () {},
+            ),
+            ChatsListItem(
+              title: 'Saved Messages',
+              subtitle: 'saved message',
+              trailingText: 'Mon',
+              leading: Image.asset(AppImages.savedMessages),
+              onPressed: () {},
+            ),
+            ChatsListItem(
+              pinned: true,
+              title: 'Cool chat name',
+              subtitle: 'some message',
+              trailingText: 'Tue',
+              leading: Image.asset(
+                AppImages.chat,
+                fit: BoxFit.contain,
+              ),
+              onPressed: () {},
+            ),
+          ],
         ),
       ],
     );
