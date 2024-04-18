@@ -6,6 +6,7 @@ import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
+import 'package:chat_app/features/contacts/domain/use_cases/get_saved_contacts_use_case/get_saved_contacts_use_case.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
@@ -158,11 +159,14 @@ void _useCases() {
     ..registerLazySingleton<GetUsingSystemModeUseCase>(
       () => GetUsingSystemModeUseCase(repository: getIt()),
     )
-    ..registerLazySingleton<GetAllContactsUseCase>(
-      () => GetAllContactsUseCase(repository: getIt()),
+    ..registerLazySingleton<FetchContactsUseCase>(
+      () => FetchContactsUseCase(repository: getIt()),
     )
     ..registerLazySingleton<AddContactUseCase>(
       () => AddContactUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<GetSavedContactsUseCase>(
+      () => GetSavedContactsUseCase(repository: getIt()),
     )
     ..registerLazySingleton<RemoveContactUseCase>(
       () => RemoveContactUseCase(repository: getIt()),
@@ -183,7 +187,8 @@ void _cubits() {
       () => ContactsCubit(
         addContactUseCase: getIt(),
         removeContactUseCase: getIt(),
-        getAllContactsUseCase: getIt(),
+        fetchContactsUseCase: getIt(),
+        getSavedContactsUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(

@@ -5,7 +5,9 @@ import 'package:chat_app/features/contacts/domain/use_cases/remove_contact_use_c
 import 'package:dartz/dartz.dart';
 
 abstract interface class ContactsRepository {
-  Future<Either<Failure, ContactsResponseEntity>> getAllContacts();
+  Future<Either<Failure, ContactsResponseEntity>> fetchContacts();
+
+  Future<Either<Failure, ContactsResponseEntity>> getSavedContacts();
 
   Future<Either<Failure, void>> addContact(AddContactParams params);
 

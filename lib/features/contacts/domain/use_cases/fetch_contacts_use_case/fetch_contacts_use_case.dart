@@ -4,14 +4,14 @@ import 'package:chat_app/features/contacts/domain/entities/contacts_response_ent
 import 'package:chat_app/features/contacts/domain/repositories/contacts_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetAllContactsUseCase
+class FetchContactsUseCase
     implements UseCase<ContactsResponseEntity, NoParams> {
-  const GetAllContactsUseCase({required this.repository});
+  const FetchContactsUseCase({required this.repository});
 
   final ContactsRepository repository;
 
   @override
   Future<Either<Failure, ContactsResponseEntity>> call(NoParams params) {
-    return repository.getAllContacts();
+    return repository.fetchContacts();
   }
 }

@@ -17,25 +17,28 @@ class ContactsRepositoryImpl implements ContactsRepository {
   final ContactsLocalProvider localProvider;
 
   @override
-  Future<Either<Failure, ContactsResponseEntity>> getAllContacts() async {
+  Future<Either<Failure, ContactsResponseEntity>> fetchContacts() async {
     final response = await remoteProvider.getAllContacts();
 
     return response.fold(
-      (failure) async {
-        final localResponse = await localProvider.getSavedContacts();
-
-        return localResponse.fold(
-          // ignore: unnecessary_lambdas
-          (failure) => Left(failure),
-          (model) {
-            final ContactsResponseEntity entity = model.toEntity();
-            return Right(entity);
-          },
-        );
-      },
+      (failure) async => getSavedContacts(),
       (model) async {
         await localProvider.rewriteSavedContacts(model.contacts);
 
+        final ContactsResponseEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ContactsResponseEntity>> getSavedContacts() async {
+    final response = await localProvider.getSavedContacts();
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) {
         final ContactsResponseEntity entity = model.toEntity();
         return Right(entity);
       },
