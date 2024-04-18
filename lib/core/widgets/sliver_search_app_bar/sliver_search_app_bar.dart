@@ -42,23 +42,23 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 180),
-      reverseDuration: const Duration(milliseconds: 180),
+      duration: const Duration(milliseconds: 300),
+      reverseDuration: const Duration(milliseconds: 480),
     );
 
     _paddingAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeIn,
-        reverseCurve: Curves.easeInCirc,
+        curve: Curves.easeInOut,
+        reverseCurve: Curves.easeIn,
       ),
     );
 
     _heightAnimation = Tween<double>(begin: 2.1, end: 1.1).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeIn,
-        reverseCurve: Curves.easeIn,
+        curve: Curves.easeInToLinear,
+        reverseCurve: Curves.easeInToLinear,
       ),
     );
 

@@ -39,14 +39,14 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 220),
-      reverseDuration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 300),
     );
 
     _widthAnimation = Tween<double>(begin: 1, end: 1.2).animate(
       CurvedAnimation(
         parent: _animationController,
-        curve: Curves.easeInOut,
-        reverseCurve: Curves.easeInOut,
+        curve: Curves.linearToEaseOut,
+        reverseCurve: Curves.easeIn,
       ),
     );
 
@@ -54,7 +54,7 @@ class _ChatAppSearchFieldState extends State<ChatAppSearchField>
       CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeOut,
-        reverseCurve: Curves.easeIn,
+        reverseCurve: Curves.fastEaseInToSlowEaseOut,
       ),
     );
 
