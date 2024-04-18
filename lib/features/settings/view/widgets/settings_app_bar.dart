@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
@@ -12,9 +11,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 enum SettingsAppBarMode {
-  expanded,
   basic,
-  collapsed,
+  expanded,
+  collapsed;
+
+  const SettingsAppBarMode();
+
+  bool get isExpanded => this == expanded;
+
+  bool get isCollapsed => this == collapsed;
 }
 
 class SettingsAppBar extends StatefulWidget {
@@ -27,7 +32,6 @@ class SettingsAppBar extends StatefulWidget {
 
   final ScrollController scrollController;
   final FocusNode focusNode;
-
   final void Function() onSearchCancel;
 
   @override
@@ -39,21 +43,18 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   bool _searchMode = false;
   SettingsAppBarMode _mode = SettingsAppBarMode.basic;
 
-  bool get expanded => _mode == SettingsAppBarMode.expanded;
-
-  bool get collapsed => _mode == SettingsAppBarMode.collapsed;
-
   final double toolbarHeight = 70;
   final double expandedHeight = 400;
   final double basicHeight = 210;
 
   final TextEditingController _controller = TextEditingController();
 
-  void _changeMode(SettingsAppBarMode newMode) {
+  void _changeMode(SettingsAppBarMode newMode) async {
     if (_mode == newMode || _cooldown) return;
 
     if (_searchMode) return;
 
+    await HapticFeedback.lightImpact();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _mode = newMode;
       _cooldown = true;
@@ -73,9 +74,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
     setState(() {});
     Future.delayed(
       const Duration(milliseconds: 20),
-      () {
-        widget.focusNode.focusInDirection(TraversalDirection.up);
-      },
+      () => widget.focusNode.focusInDirection(TraversalDirection.up),
     );
   }
 
@@ -120,15 +119,15 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   bool _onScrollDownStretched(ScrollController controller) {
     if (_mode != SettingsAppBarMode.expanded) return false;
 
-    final ScrollDirection scrollDirection =
-        controller.position.userScrollDirection;
+    final ScrollDirection scrollDirection = controller.position.userScrollDirection;
 
     final bool scrollingDownwards = scrollDirection != ScrollDirection.forward;
 
-    if (scrollingDownwards && expanded) {
+    if (scrollingDownwards && _mode.isExpanded) {
       _changeMode(SettingsAppBarMode.basic);
       return true;
     }
+
     return false;
   }
 
@@ -189,68 +188,41 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final Color borderColor =
-        CupertinoTheme.of(context).brightness == Brightness.dark
-            ? CupertinoColors.systemGrey
-            : CupertinoColors.inactiveGray;
-
     final Color backgroundColor = CupertinoTheme.of(context).barBackgroundColor;
 
     return SliverAppBar(
       pinned: true,
       elevation: 0,
       scrolledUnderElevation: 0,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
+      clipBehavior: Clip.hardEdge,
       actions: [
-        Visibility(
-          visible: _mode != SettingsAppBarMode.collapsed,
-          child: SettingsEditButton(blur: expanded),
-        ),
-        Visibility(
-          visible: _mode == SettingsAppBarMode.collapsed && !_searchMode,
-          child: SettingsSearchButton(
-            onPressed: _activateSearchMode,
-          ),
-        ),
+        switch ((_mode, _searchMode)) {
+          (SettingsAppBarMode.basic, false) => SettingsEditButton(blur: _mode.isExpanded),
+          (SettingsAppBarMode.expanded, false) => SettingsEditButton(blur: _mode.isExpanded),
+          (SettingsAppBarMode.collapsed, false) => SettingsSearchButton(onPressed: _activateSearchMode),
+          _ => const SizedBox(),
+        },
       ],
       toolbarHeight: toolbarHeight,
       leadingWidth: 70,
       leading: Visibility(
-        visible: !collapsed,
-        child: QrCodeButton(blur: expanded),
+        visible: !_mode.isCollapsed,
+        child: QrCodeButton(blur: _mode.isExpanded),
       ),
       stretch: true,
       expandedHeight: _searchMode
           ? 40
-          : expanded
+          : _mode.isExpanded
               ? expandedHeight
               : basicHeight,
-      stretchTriggerOffset: 30,
-      onStretchTrigger: () async {
-        if (expanded) return;
-        _changeMode(SettingsAppBarMode.expanded);
-        await HapticFeedback.lightImpact();
-      },
-      backgroundColor: collapsed
-          ? backgroundColor
-          : CupertinoTheme.of(context).scaffoldBackgroundColor,
-      bottom: !collapsed
-          ? null
-          : PreferredSize(
-              preferredSize: const Size.fromHeight(0.2),
-              child: Container(
-                height: 0.2,
-                width: double.infinity,
-                color: borderColor,
-              ),
-            ),
-      flexibleSpace: ColoredBox(
-        color: collapsed
-            ? backgroundColor
-            : CupertinoTheme.of(context).scaffoldBackgroundColor,
-        child: _searchMode
-            ? Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20),
+      stretchTriggerOffset: 10,
+      onStretchTrigger: () async => _changeMode(SettingsAppBarMode.expanded),
+      backgroundColor: backgroundColor,
+      bottom: _searchMode
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
                 child: ChatAppSearchField(
                   height: 40,
                   text: '',
@@ -260,29 +232,38 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                   onChanged: (_) {},
                   onSubmitted: (_) {},
                   onCancel: () {
-                    widget.onSearchCancel();
+                    widget.onSearchCancel.call();
                     _deactivateSearchMode();
                   },
                 ),
-              )
-            : FlexibleSpaceBar(
-                titlePadding: EdgeInsets.zero,
-                collapseMode: CollapseMode.pin,
-                background: _SettingsAppBarBackground(
-                  onImagePressed: () {
-                    if (_mode == SettingsAppBarMode.expanded) return;
-                    _mode = SettingsAppBarMode.expanded;
-                    setState(() {});
-                  },
-                  expanded: expanded,
-                ),
-                expandedTitleScale: 1.4,
-                centerTitle: true,
-                title: _UserInfoContainer(
-                  collapsed: collapsed,
-                  expanded: expanded,
-                ),
               ),
+            )
+          : null,
+      flexibleSpace: ColoredBox(
+        color: _mode.isCollapsed
+            ? backgroundColor
+            : CupertinoTheme.of(context).scaffoldBackgroundColor,
+        child: Visibility(
+              visible: !_searchMode,
+              child: FlexibleSpaceBar(
+                  titlePadding: EdgeInsets.zero,
+                  collapseMode: CollapseMode.pin,
+                  background: _SettingsAppBarBackground(
+                    onImagePressed: () {
+                      if (_mode.isExpanded) return;
+                      _mode = SettingsAppBarMode.expanded;
+                      setState(() {});
+                    },
+                    expanded: _mode.isExpanded,
+                  ),
+                  expandedTitleScale: 1.4,
+                  centerTitle: true,
+                  title: _UserInfoContainer(
+                    collapsed: _mode.isCollapsed,
+                    expanded: _mode.isExpanded,
+                  ),
+                ),
+            ),
       ),
     );
   }
@@ -334,8 +315,7 @@ class _UserInfoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle themeTextStyle =
-        CupertinoTheme.of(context).textTheme.textStyle;
+    final TextStyle themeTextStyle = CupertinoTheme.of(context).textTheme.textStyle;
 
     return BlurredWidget(
       blurred: expanded,
