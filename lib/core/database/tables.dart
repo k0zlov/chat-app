@@ -50,9 +50,12 @@ class ChatsTable extends Table {
   @override
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'chat_id': 'INTEGER UNIQUE',
-        'chat_type': 'TEXT NOT NULL',
+        'external_id': 'INTEGER NOT NULL UNIQUE',
+        'user_id': 'INTEGER NOT NULL',
+        'title': 'TEXT NOT NULL',
+        'description': 'TEXT',
         'created_at': 'TEXT NOT NULL',
+        'updated_at': 'TEXT NOT NULL',
       };
 }
 
@@ -81,15 +84,15 @@ class MessagesTable extends Table {
 /// and the time they joined, incorporating references to 'chats' and 'users' for integrity.
 class ChatParticipantsTable extends Table {
   @override
-  String get tableName => 'chatparticipants';
+  String get tableName => 'chat_participants';
 
   @override
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'chat_id': 'INTEGER',
-        'user_id': 'INTEGER',
-        'role': 'TEXT NOT NULL',
-        'joined_at': 'TEXT NOT NULL',
+        'external_id': 'INTEGER NOT NULL UNIQUE',
+        'chat_id': 'INTEGER NOT NULL',
+        'user_id': 'INTEGER NOT NULL',
+        'created_at': 'TEXT NOT NULL',
       };
 }
 

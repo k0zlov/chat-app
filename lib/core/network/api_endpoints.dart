@@ -30,4 +30,9 @@ class ApiEndpoints {
   static const String getUserContacts = '/users/friends';
   static const String postAddContact = '/users/add-friend';
   static const String postRemoveContact = '/users/remove-friend';
+
+  static const String getChats = '/chats';
+  static const String postJoinChat = '/chats/join';
+  static const String postLeaveChat = '/chats/leave';
+  static const String postCreateChat = '/chats';
 }
