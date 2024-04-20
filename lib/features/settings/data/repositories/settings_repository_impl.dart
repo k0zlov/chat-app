@@ -9,13 +9,13 @@ import 'package:chat_app/features/settings/domain/use_cases/change_using_system_
 import 'package:dartz/dartz.dart';
 
 class SettingsRepositoryImpl implements SettingsRepository {
-  const SettingsRepositoryImpl({required this.localDataProvider});
+  const SettingsRepositoryImpl({required this.localProvider});
 
-  final SettingsLocalDataProvider localDataProvider;
+  final SettingsLocalDataProvider localProvider;
 
   @override
   Future<Either<Failure, ThemeColorEntity>> getThemeColor() async {
-    final failureOrModel = await localDataProvider.getThemeColor();
+    final failureOrModel = await localProvider.getThemeColor();
 
     return failureOrModel.fold(
       // ignore: unnecessary_lambdas
@@ -29,7 +29,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future<Either<Failure, ThemeModeEntity>> getThemeMode() async {
-    final failureOrModel = await localDataProvider.getThemeMode();
+    final failureOrModel = await localProvider.getThemeMode();
 
     return failureOrModel.fold(
       // ignore: unnecessary_lambdas
@@ -43,27 +43,27 @@ class SettingsRepositoryImpl implements SettingsRepository {
 
   @override
   Future<Either<Failure, bool>> getUsingSystemMode() {
-    return localDataProvider.getUsingSystemMode();
+    return localProvider.getUsingSystemMode();
   }
 
   @override
   Future<Either<Failure, void>> setThemeColor(
     ChangeThemeColorParams params,
   ) {
-    return localDataProvider.setThemeColor(params);
+    return localProvider.setThemeColor(params);
   }
 
   @override
   Future<Either<Failure, void>> setThemeMode(
     ChangeThemeModeParams params,
   ) {
-    return localDataProvider.setThemeMode(params);
+    return localProvider.setThemeMode(params);
   }
 
   @override
   Future<Either<Failure, void>> setUsingSystemMode(
     ChangeUsingSystemModeParams params,
   ) {
-    return localDataProvider.setUsingSystemMode(params);
+    return localProvider.setUsingSystemMode(params);
   }
 }

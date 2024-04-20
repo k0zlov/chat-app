@@ -1,7 +1,6 @@
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/network/api_endpoints.dart';
 import 'package:chat_app/core/network/network.dart';
-import 'package:chat_app/features/contacts/data/models/contact_model/contact_model.dart';
 import 'package:chat_app/features/contacts/data/models/contacts_response_model/contacts_response_model.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/add_contact_use_case/add_contact_use_case.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/remove_contact_use_case/remove_contact_use_case.dart';
@@ -42,11 +41,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
     final response = await network.post(
       url: ApiEndpoints.postAddContact,
       data: params.toJson(),
-      parser: (json) {
-        final data = json as Map<String, dynamic>;
-        data['id'] = data['contactUserId'];
-        return ContactModel.fromJson(data);
-      },
+      parser: (json) => null,
     );
     return response;
   }
@@ -58,10 +53,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
     final response = await network.post(
       url: ApiEndpoints.postRemoveContact,
       data: params.toJson(),
-      parser: (json) {
-        final data = json as Map<String, dynamic>;
-        return ContactsResponseModel.fromJson(data);
-      },
+      parser: (json) => null,
     );
     return response;
   }
