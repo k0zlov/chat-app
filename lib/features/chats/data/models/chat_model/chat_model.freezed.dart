@@ -27,6 +27,8 @@ mixin _$ChatModel {
   String get description => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
+  List<MessageModel> get messages => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Participants')
   List<ChatParticipantModel> get participants =>
       throw _privateConstructorUsedError;
 
@@ -48,7 +50,8 @@ abstract class $ChatModelCopyWith<$Res> {
       String description,
       String createdAt,
       String updatedAt,
-      List<ChatParticipantModel> participants});
+      List<MessageModel> messages,
+      @JsonKey(name: 'Participants') List<ChatParticipantModel> participants});
 }
 
 /// @nodoc
@@ -70,6 +73,7 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
     Object? description = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? messages = null,
     Object? participants = null,
   }) {
     return _then(_value.copyWith(
@@ -97,6 +101,10 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
+      messages: null == messages
+          ? _value.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<MessageModel>,
       participants: null == participants
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
@@ -120,7 +128,8 @@ abstract class _$$ChatModelImplCopyWith<$Res>
       String description,
       String createdAt,
       String updatedAt,
-      List<ChatParticipantModel> participants});
+      List<MessageModel> messages,
+      @JsonKey(name: 'Participants') List<ChatParticipantModel> participants});
 }
 
 /// @nodoc
@@ -140,6 +149,7 @@ class __$$ChatModelImplCopyWithImpl<$Res>
     Object? description = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? messages = null,
     Object? participants = null,
   }) {
     return _then(_$ChatModelImpl(
@@ -167,6 +177,10 @@ class __$$ChatModelImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
+      messages: null == messages
+          ? _value._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<MessageModel>,
       participants: null == participants
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
@@ -185,8 +199,11 @@ class _$ChatModelImpl extends _ChatModel {
       this.description = '',
       this.createdAt = '',
       this.updatedAt = '',
+      final List<MessageModel> messages = const [],
+      @JsonKey(name: 'Participants')
       final List<ChatParticipantModel> participants = const []})
-      : _participants = participants,
+      : _messages = messages,
+        _participants = participants,
         super._();
 
   factory _$ChatModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -210,9 +227,18 @@ class _$ChatModelImpl extends _ChatModel {
   @override
   @JsonKey()
   final String updatedAt;
-  final List<ChatParticipantModel> _participants;
+  final List<MessageModel> _messages;
   @override
   @JsonKey()
+  List<MessageModel> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
+
+  final List<ChatParticipantModel> _participants;
+  @override
+  @JsonKey(name: 'Participants')
   List<ChatParticipantModel> get participants {
     if (_participants is EqualUnmodifiableListView) return _participants;
     // ignore: implicit_dynamic_type
@@ -221,7 +247,7 @@ class _$ChatModelImpl extends _ChatModel {
 
   @override
   String toString() {
-    return 'ChatModel(externalId: $externalId, userId: $userId, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, participants: $participants)';
+    return 'ChatModel(externalId: $externalId, userId: $userId, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, messages: $messages, participants: $participants)';
   }
 
   @override
@@ -239,6 +265,7 @@ class _$ChatModelImpl extends _ChatModel {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants));
   }
@@ -253,6 +280,7 @@ class _$ChatModelImpl extends _ChatModel {
       description,
       createdAt,
       updatedAt,
+      const DeepCollectionEquality().hash(_messages),
       const DeepCollectionEquality().hash(_participants));
 
   @JsonKey(ignore: true)
@@ -277,6 +305,8 @@ abstract class _ChatModel extends ChatModel {
       final String description,
       final String createdAt,
       final String updatedAt,
+      final List<MessageModel> messages,
+      @JsonKey(name: 'Participants')
       final List<ChatParticipantModel> participants}) = _$ChatModelImpl;
   const _ChatModel._() : super._();
 
@@ -297,6 +327,9 @@ abstract class _ChatModel extends ChatModel {
   @override
   String get updatedAt;
   @override
+  List<MessageModel> get messages;
+  @override
+  @JsonKey(name: 'Participants')
   List<ChatParticipantModel> get participants;
   @override
   @JsonKey(ignore: true)

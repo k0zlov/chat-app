@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
-import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 
 import 'package:meta/meta.dart';
@@ -26,10 +25,9 @@ class ChatsCubit extends Cubit<ChatsState> {
   final JoinChatUseCase joinChatUseCase;
   final LeaveChatUseCase leaveChatUseCase;
 
-  Future<void> _init() async {
-    await _loadSavedChats();
-    getIt.signalReady(this);
-    await fetchChats();
+  void _init() {
+    _loadSavedChats();
+    fetchChats();
   }
 
   Future<void> _loadSavedChats() async {

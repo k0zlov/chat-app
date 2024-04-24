@@ -33,7 +33,7 @@ class ChatsListItem extends StatelessWidget {
 
     return PressableScaleWidget(
       child: CupertinoListTile(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
         backgroundColor: pinned ? pinnedColor : Colors.transparent,
         leadingSize: 60,
         onTap: onPressed,
@@ -112,11 +112,11 @@ class _ChatsListItemTrailing extends StatelessWidget {
             style: textStyle.copyWith(color: CupertinoColors.systemGrey2),
           ),
         },
-        Visibility(
-          visible: pinned,
-          replacement: const SizedBox(),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Visibility(
+            visible: pinned,
+            replacement: const SizedBox(width: 17, height: 17),
             child: Transform.rotate(
               angle: 19.5,
               child: const Icon(

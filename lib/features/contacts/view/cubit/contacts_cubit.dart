@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
-import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/contacts/domain/entities/contact_entity/contact_entity.dart';
-import 'package:chat_app/features/contacts/domain/use_cases/get_saved_contacts_use_case/get_saved_contacts_use_case.dart';
 import 'package:chat_app/utils/text_input_validator/text_input_validator.dart';
 import 'package:meta/meta.dart';
 
@@ -26,10 +24,9 @@ class ContactsCubit extends Cubit<ContactsState> {
   final RemoveContactUseCase removeContactUseCase;
   final GetSavedContactsUseCase getSavedContactsUseCase;
 
-  Future<void> _init() async {
-    await _loadSavedContacts();
-    getIt.signalReady(this);
-    await fetchContacts();
+  void _init() {
+    _loadSavedContacts();
+    fetchContacts();
   }
 
   Future<void> _loadSavedContacts() async {

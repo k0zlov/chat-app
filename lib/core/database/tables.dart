@@ -60,9 +60,6 @@ class ChatsTable extends Table {
 }
 
 /// Defines the schema for a 'messages' table in the database.
-///
-/// Captures message details within chats, including sender, content, and timestamps,
-/// with references to the 'chats' and 'users' tables to maintain relational integrity.
 class MessagesTable extends Table {
   @override
   String get tableName => 'messages';
@@ -70,18 +67,16 @@ class MessagesTable extends Table {
   @override
   Map<String, String> fields() => {
         'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'message_id': 'INTEGER UNIQUE',
+        'external_id': 'INTEGER UNIQUE',
         'chat_id': 'INTEGER',
-        'user_id': 'INTEGER',
+        'user_id': 'INTEGER NOT NULL',
         'content': 'TEXT NOT NULL',
         'created_at': 'TEXT NOT NULL',
+        'updated_at': 'TEXT NOT NULL',
       };
 }
 
 /// Specifies the schema for a 'chatparticipants' table in the database.
-///
-/// Details the association of users to chat rooms, their roles within those chats,
-/// and the time they joined, incorporating references to 'chats' and 'users' for integrity.
 class ChatParticipantsTable extends Table {
   @override
   String get tableName => 'chat_participants';
@@ -97,9 +92,6 @@ class ChatParticipantsTable extends Table {
 }
 
 /// Outlines the schema for a 'contacts' table in the database.
-///
-/// Manages user connections by storing references to user IDs and their contacts,
-/// enforcing constraints to prevent duplication and self-referencing.
 class ContactsTable extends Table {
   @override
   String get tableName => 'contacts';

@@ -58,9 +58,25 @@ class ChatParticipantsLocalProviderImpl
   }) async {
     final response = await database.get(
       tableName: tableName,
-      parser: ChatParticipantsResponseModel.fromJson,
       where: 'chat_id = ?',
       whereArgs: [chatId],
+      parser: (json) {
+        final items = json['items'] as List<Map<String, dynamic>>;
+
+        final List<ChatParticipantModel> participants = [];
+
+        for (final Map<String, dynamic> rawParticipant in items) {
+          participants.add(
+            ChatParticipantModel(
+              externalId: rawParticipant['external_id'] as int,
+              userId: rawParticipant['user_id'] as int,
+              createdAt: rawParticipant['created_at'] as String,
+            ),
+          );
+        }
+
+        return ChatParticipantsResponseModel(participants: participants);
+      },
     );
     return response;
   }

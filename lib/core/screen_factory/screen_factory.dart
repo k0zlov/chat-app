@@ -2,6 +2,7 @@ import 'package:chat_app/application.dart';
 import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
 import 'package:chat_app/features/chats/view/screens/chats_screen.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/contacts/view/screens/contacts_screen.dart';
@@ -28,6 +29,9 @@ class ScreenFactory {
       providers: [
         BlocProvider(
           create: (context) => getIt<ContactsCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ChatsCubit>(),
         ),
       ],
       child: AppBottomNavigationBar(navigationShell: navigationShell),

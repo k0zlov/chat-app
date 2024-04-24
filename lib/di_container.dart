@@ -6,6 +6,9 @@ import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
+import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
+import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
@@ -98,6 +101,9 @@ void _localProviders() {
     ..registerLazySingleton<ChatsLocalProvider>(
       () => ChatsLocalProviderImpl(database: getIt()),
     )
+    ..registerLazySingleton<MessagesLocalProvider>(
+      () => MessagesLocalProviderImpl(database: getIt()),
+    )
     ..registerLazySingleton<ContactsLocalProvider>(
       () => ContactsLocalProviderImpl(database: getIt()),
     );
@@ -111,6 +117,9 @@ void _remoteProviders() {
     )
     ..registerLazySingleton<ChatsRemoteProvider>(
       () => ChatsRemoteProviderImpl(network: getIt()),
+    )
+    ..registerLazySingleton<MessagesRemoteProvider>(
+      () => MessagesRemoteProviderImpl(network: getIt()),
     )
     ..registerLazySingleton<ContactsRemoteProvider>(
       () => ContactsRemoteProviderImpl(network: getIt()),
@@ -131,6 +140,8 @@ void _repositories() {
         localProvider: getIt(),
         remoteProvider: getIt(),
         participantsLocalProvider: getIt(),
+        messagesLocalProvider: getIt(),
+        messagesRemoteProvider: getIt(),
       ),
     )
     ..registerLazySingleton<SettingsRepository>(
@@ -198,6 +209,9 @@ void _useCases() {
     ..registerLazySingleton<LeaveChatUseCase>(
       () => LeaveChatUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<SendMessageUseCase>(
+      () => SendMessageUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<RemoveContactUseCase>(
       () => RemoveContactUseCase(repository: getIt()),
     );
@@ -213,18 +227,16 @@ void _cubits() {
         logoutUseCase: getIt(),
       ),
     )
-    ..registerSingletonAsync<ContactsCubit>(
-      signalsReady: true,
-      () async => ContactsCubit(
+    ..registerLazySingleton<ContactsCubit>(
+      () => ContactsCubit(
         addContactUseCase: getIt(),
         removeContactUseCase: getIt(),
         fetchContactsUseCase: getIt(),
         getSavedContactsUseCase: getIt(),
       ),
     )
-    ..registerSingletonAsync<ChatsCubit>(
-      signalsReady: true,
-      () async =>  ChatsCubit(
+    ..registerLazySingleton<ChatsCubit>(
+      () => ChatsCubit(
         getUserChatsUseCase: getIt(),
         getSavedChatsUseCase: getIt(),
         createChatUseCase: getIt(),

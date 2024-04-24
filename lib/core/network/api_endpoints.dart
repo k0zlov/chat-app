@@ -35,4 +35,7 @@ class ApiEndpoints {
   static const String postJoinChat = '/chats/join';
   static const String postLeaveChat = '/chats/leave';
   static const String postCreateChat = '/chats';
+
+  static const String getMessages = '/messages/chat';
+  static const String postSendMessage = '/messages/send';
 }

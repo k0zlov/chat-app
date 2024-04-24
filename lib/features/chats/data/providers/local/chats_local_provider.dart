@@ -57,7 +57,26 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
   Future<Either<Failure, ChatsResponseModel>> getSavedChats() async {
     final response = await database.get(
       tableName: tableName,
-      parser: ChatsResponseModel.fromJson,
+      parser: (json) {
+        final items = json['items'] as List<Map<String, dynamic>>;
+
+        final List<ChatModel> chats = [];
+
+        for (final Map<String, dynamic> rawChat in items) {
+          chats.add(
+            ChatModel(
+              title: rawChat['title'] as String,
+              externalId: rawChat['external_id'] as int,
+              userId: rawChat['user_id'] as int,
+              description: rawChat['description'] as String,
+              createdAt: rawChat['created_at'] as String,
+              updatedAt: rawChat['updated_at'] as String,
+            ),
+          );
+        }
+
+        return ChatsResponseModel(chats: chats);
+      },
     );
     return response;
   }

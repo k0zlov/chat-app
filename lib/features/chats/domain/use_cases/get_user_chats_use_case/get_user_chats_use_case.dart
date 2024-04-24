@@ -13,6 +13,6 @@ class GetUserChatsUseCase implements UseCase<ChatsResponseEntity, NoParams> {
 
   @override
   Future<Either<Failure, ChatsResponseEntity>> call(NoParams params) {
-    return repository.getUserChats();
+    return repository.fetchChats();
   }
 }
