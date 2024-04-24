@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
+import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 
 import 'package:meta/meta.dart';
@@ -13,11 +14,11 @@ class ChatsCubit extends Cubit<ChatsState> {
     required this.getSavedChatsUseCase,
     required this.joinChatUseCase,
     required this.leaveChatUseCase,
-  }) : super(ChatsState()) {
+  }) : super(const ChatsState()) {
     _init();
   }
 
-  ChatsState _state = ChatsState();
+  ChatsState _state = const ChatsState();
 
   final CreateChatUseCase createChatUseCase;
   final GetSavedChatsUseCase getSavedChatsUseCase;
@@ -25,9 +26,10 @@ class ChatsCubit extends Cubit<ChatsState> {
   final JoinChatUseCase joinChatUseCase;
   final LeaveChatUseCase leaveChatUseCase;
 
-  void _init() {
-    _loadSavedChats();
-    fetchChats();
+  Future<void> _init() async {
+    await _loadSavedChats();
+    getIt.signalReady(this);
+    await fetchChats();
   }
 
   Future<void> _loadSavedChats() async {
@@ -44,6 +46,34 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   Future<void> fetchChats() async {
     final failureOrChats = await getUserChatsUseCase(NoParams());
+
+    failureOrChats.fold(
+      (failure) => null,
+      (entity) {
+        _state = _state.copyWith(chats: entity.chats);
+        emit(_state);
+      },
+    );
+  }
+
+  Future<void> joinChat(int chatId) async {
+    final failureOrChats = await joinChatUseCase(
+      JoinChatParams(chatId: chatId),
+    );
+
+    failureOrChats.fold(
+      (failure) => null,
+      (entity) {
+        _state = _state.copyWith(chats: entity.chats);
+        emit(_state);
+      },
+    );
+  }
+
+  Future<void> leaveChat(int chatId) async {
+    final failureOrChats = await leaveChatUseCase(
+      LeaveChatParams(chatId: chatId),
+    );
 
     failureOrChats.fold(
       (failure) => null,

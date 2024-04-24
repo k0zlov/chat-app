@@ -5,17 +5,7 @@ import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
-import 'package:chat_app/features/chats/data/providers/local/chat_participants_local_provider.dart';
-import 'package:chat_app/features/chats/data/providers/local/chats_local_provider.dart';
-import 'package:chat_app/features/chats/data/providers/remote/chats_remote_provider.dart';
-import 'package:chat_app/features/chats/data/repositories/chats_repository_impl.dart';
-import 'package:chat_app/features/chats/domain/repositories/chats_repository.dart';
-import 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/get_saved_chats_use_case/get_saved_chats_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/get_user_chats_use_case/get_user_chats_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/join_chat_use_case/join_chat_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/leave_chat_use_case.dart';
-import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
@@ -223,16 +213,18 @@ void _cubits() {
         logoutUseCase: getIt(),
       ),
     )
-    ..registerLazySingleton<ContactsCubit>(
-      () => ContactsCubit(
+    ..registerSingletonAsync<ContactsCubit>(
+      signalsReady: true,
+      () async => ContactsCubit(
         addContactUseCase: getIt(),
         removeContactUseCase: getIt(),
         fetchContactsUseCase: getIt(),
         getSavedContactsUseCase: getIt(),
       ),
     )
-    ..registerLazySingleton<ChatsCubit>(
-      () => ChatsCubit(
+    ..registerSingletonAsync<ChatsCubit>(
+      signalsReady: true,
+      () async =>  ChatsCubit(
         getUserChatsUseCase: getIt(),
         getSavedChatsUseCase: getIt(),
         createChatUseCase: getIt(),

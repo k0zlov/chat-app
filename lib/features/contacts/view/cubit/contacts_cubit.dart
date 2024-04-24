@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
+import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/contacts/domain/entities/contact_entity/contact_entity.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/get_saved_contacts_use_case/get_saved_contacts_use_case.dart';
@@ -25,12 +26,13 @@ class ContactsCubit extends Cubit<ContactsState> {
   final RemoveContactUseCase removeContactUseCase;
   final GetSavedContactsUseCase getSavedContactsUseCase;
 
-  void _init() {
-    loadSavedContacts();
-    fetchContacts();
+  Future<void> _init() async {
+    await _loadSavedContacts();
+    getIt.signalReady(this);
+    await fetchContacts();
   }
 
-  Future<void> loadSavedContacts() async {
+  Future<void> _loadSavedContacts() async {
     _state = _state.copyWith(contactsLoading: true);
     emit(_state);
 
@@ -47,9 +49,6 @@ class ContactsCubit extends Cubit<ContactsState> {
   }
 
   Future<void> fetchContacts() async {
-    _state = _state.copyWith(contactsLoading: true);
-    emit(_state);
-
     final failureOrContacts = await fetchContactsUseCase(NoParams());
 
     failureOrContacts.fold(

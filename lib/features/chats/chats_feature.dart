@@ -1,6 +1,12 @@
+export 'package:chat_app/features/chats/data/providers/local/chat_participants_local_provider.dart';
+export 'package:chat_app/features/chats/data/providers/local/chats_local_provider.dart';
+export 'package:chat_app/features/chats/data/providers/remote/chats_remote_provider.dart';
+export 'package:chat_app/features/chats/data/repositories/chats_repository_impl.dart';
 export 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
+export 'package:chat_app/features/chats/domain/repositories/chats_repository.dart';
 export 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
 export 'package:chat_app/features/chats/domain/use_cases/get_saved_chats_use_case/get_saved_chats_use_case.dart';
 export 'package:chat_app/features/chats/domain/use_cases/get_user_chats_use_case/get_user_chats_use_case.dart';
 export 'package:chat_app/features/chats/domain/use_cases/join_chat_use_case/join_chat_use_case.dart';
 export 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/leave_chat_use_case.dart';
+export 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
