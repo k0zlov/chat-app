@@ -1,25 +1,27 @@
 import 'dart:async';
 
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
+import 'package:chat_app/core/widgets/buttons/settings_edit_button.dart';
+import 'package:chat_app/core/widgets/buttons/settings_qr_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_edit_button.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_qr_button.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_search_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-enum SettingsAppBarMode {
+enum AppBarMode {
   basic,
   expanded,
   collapsed;
 
-  const SettingsAppBarMode();
+  const AppBarMode();
 
   bool get isExpanded => this == expanded;
 
   bool get isCollapsed => this == collapsed;
+
+  bool get isBasic => this == basic;
 }
 
 class SettingsAppBar extends StatefulWidget {
@@ -41,7 +43,7 @@ class SettingsAppBar extends StatefulWidget {
 class _SettingsAppBarState extends State<SettingsAppBar> {
   bool _cooldown = false;
   bool _searchMode = false;
-  SettingsAppBarMode _mode = SettingsAppBarMode.basic;
+  AppBarMode _mode = AppBarMode.basic;
 
   final double toolbarHeight = 70;
   final double expandedHeight = 400;
@@ -49,7 +51,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
 
   final TextEditingController _controller = TextEditingController();
 
-  void _changeMode(SettingsAppBarMode newMode) async {
+  void _changeMode(AppBarMode newMode) async {
     if (_mode == newMode || _cooldown) return;
 
     if (_searchMode) return;
@@ -85,7 +87,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       const Duration(milliseconds: 300),
       () {
         _searchMode = false;
-        _mode = SettingsAppBarMode.collapsed;
+        _mode = AppBarMode.collapsed;
         setState(() {});
         widget.scrollController.jumpTo(basicHeight);
       },
@@ -117,7 +119,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   }
 
   bool _onScrollDownStretched(ScrollController controller) {
-    if (_mode != SettingsAppBarMode.expanded) return false;
+    if (_mode != AppBarMode.expanded) return false;
 
     final ScrollDirection scrollDirection =
         controller.position.userScrollDirection;
@@ -125,7 +127,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
     final bool scrollingDownwards = scrollDirection != ScrollDirection.forward;
 
     if (scrollingDownwards && _mode.isExpanded) {
-      _changeMode(SettingsAppBarMode.basic);
+      _changeMode(AppBarMode.basic);
       return true;
     }
 
@@ -133,21 +135,20 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
   }
 
   bool _onCollapsed(ScrollController controller) {
-    if (_mode == SettingsAppBarMode.collapsed) return false;
+    if (_mode == AppBarMode.collapsed) return false;
 
     if (controller.offset > basicHeight - 100) {
-      _changeMode(SettingsAppBarMode.collapsed);
+      _changeMode(AppBarMode.collapsed);
       return true;
     }
     return false;
   }
 
   bool _onBasic(ScrollController controller) {
-    if (_mode == SettingsAppBarMode.basic ||
-        _mode == SettingsAppBarMode.expanded) return false;
+    if (_mode == AppBarMode.basic || _mode == AppBarMode.expanded) return false;
 
     if (controller.offset < basicHeight - 100) {
-      _changeMode(SettingsAppBarMode.basic);
+      _changeMode(AppBarMode.basic);
       return true;
     }
     return false;
@@ -198,11 +199,11 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       clipBehavior: Clip.hardEdge,
       actions: [
         switch ((_mode, _searchMode)) {
-          (SettingsAppBarMode.basic, false) =>
+          (AppBarMode.basic, false) =>
             SettingsEditButton(blur: _mode.isExpanded),
-          (SettingsAppBarMode.expanded, false) =>
+          (AppBarMode.expanded, false) =>
             SettingsEditButton(blur: _mode.isExpanded),
-          (SettingsAppBarMode.collapsed, false) =>
+          (AppBarMode.collapsed, false) =>
             SettingsSearchButton(onPressed: _activateSearchMode),
           _ => const SizedBox(),
         },
@@ -220,7 +221,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
               ? expandedHeight
               : basicHeight,
       stretchTriggerOffset: 10,
-      onStretchTrigger: () async => _changeMode(SettingsAppBarMode.expanded),
+      onStretchTrigger: () async => _changeMode(AppBarMode.expanded),
       backgroundColor: backgroundColor,
       bottom: _searchMode
           ? PreferredSize(
@@ -255,7 +256,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
             background: _SettingsAppBarBackground(
               onImagePressed: () {
                 if (_mode.isExpanded) return;
-                _mode = SettingsAppBarMode.expanded;
+                _mode = AppBarMode.expanded;
                 setState(() {});
               },
               expanded: _mode.isExpanded,

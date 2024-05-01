@@ -20,7 +20,6 @@ class ContactsList extends StatelessWidget {
       children: [
         CupertinoListSection(
           topMargin: 0,
-          backgroundColor: CupertinoColors.black,
           children: [
             if (state.searchText == '') ...{
               ContactsListItem(

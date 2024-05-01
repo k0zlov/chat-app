@@ -58,7 +58,7 @@ class NetworkImplDio extends NetworkBase {
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
-  ///   or the parsed response contacts [T] on success.
+  ///   or the parsed response data [T] on success.
   @override
   Future<Either<Failure, T>> send<T>({
     required String url,
