@@ -236,12 +236,14 @@ void _cubits() {
       ),
     )
     ..registerLazySingleton<ChatsCubit>(
+
       () => ChatsCubit(
         getUserChatsUseCase: getIt(),
         getSavedChatsUseCase: getIt(),
         createChatUseCase: getIt(),
         joinChatUseCase: getIt(),
         leaveChatUseCase: getIt(),
+        sendMessageUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(

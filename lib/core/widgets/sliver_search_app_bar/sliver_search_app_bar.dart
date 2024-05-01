@@ -1,3 +1,4 @@
+import 'package:chat_app/core/widgets/buttons/cupertino_reload_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,9 @@ class SliverSearchAppBar extends StatefulWidget {
     required this.focusNode,
     this.leading,
     this.trailing,
+    this.loading = false,
+    this.showLoadingWidget = false,
+    this.onLoading,
   });
 
   final String title;
@@ -21,6 +25,10 @@ class SliverSearchAppBar extends StatefulWidget {
   final Widget? leading;
   final Widget? trailing;
   final FocusNode focusNode;
+
+  final bool loading;
+  final bool showLoadingWidget;
+  final void Function()? onLoading;
 
   @override
   State<SliverSearchAppBar> createState() => _SliverSearchAppBarState();
@@ -77,7 +85,7 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
   }
 
   void _onType() {
-    if(!widget.focusNode.hasFocus && _controller.text == '') {
+    if (!widget.focusNode.hasFocus && _controller.text == '') {
       _animationController.reverse();
     }
   }
@@ -143,6 +151,9 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
                   trailing: widget.trailing,
                   leading: widget.leading,
                   title: widget.title,
+                  onLoading: widget.onLoading,
+                  loading: widget.loading,
+                  showLoadingWidget: widget.showLoadingWidget,
                 ),
               ),
             ),
@@ -172,12 +183,19 @@ class _AppBarTitle extends StatelessWidget {
     required this.leading,
     required this.trailing,
     required this.title,
+    required this.loading,
+    required this.showLoadingWidget,
+    required this.onLoading,
   });
 
   final String title;
   final bool searchMode;
   final Widget? leading;
   final Widget? trailing;
+
+  final bool loading;
+  final bool showLoadingWidget;
+  final void Function()? onLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -190,12 +208,22 @@ class _AppBarTitle extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.topCenter,
-            child: Text(
-              title,
-              style: textStyle.copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (showLoadingWidget) ...{
+                 CupertinoReloadButton(loading: loading, onLoading: onLoading),
+                },
+                const SizedBox(width: 4),
+                Text(
+                  title,
+                  style: textStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
           Positioned(

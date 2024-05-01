@@ -3,7 +3,8 @@ import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
-import 'package:chat_app/features/chats/view/screens/chats_screen.dart';
+import 'package:chat_app/features/chats/view/screens/chat_screen.dart';
+import 'package:chat_app/features/chats/view/screens/chats_listing_screen.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/contacts/view/screens/contacts_screen.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
@@ -27,19 +28,28 @@ class ScreenFactory {
   static Widget renderBottomNavBar(StatefulNavigationShell navigationShell) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => getIt<ContactsCubit>(),
+        BlocProvider.value(
+          value: getIt<ContactsCubit>(),
         ),
-        BlocProvider(
-          create: (context) => getIt<ChatsCubit>(),
+        BlocProvider.value(
+          value: getIt<ChatsCubit>(),
         ),
       ],
       child: AppBottomNavigationBar(navigationShell: navigationShell),
     );
   }
 
-  static Widget renderChatsPage() {
-    return const ChatsScreen();
+  static Widget renderChatsListingPage() {
+    return const ChatsListingScreen();
+  }
+
+  static Widget renderChatPage({
+    required int chatId,
+  }) {
+    return BlocProvider.value(
+      value: getIt<ChatsCubit>(),
+      child: ChatScreen(chatId: chatId),
+    );
   }
 
   static Widget renderInitialScreen() {

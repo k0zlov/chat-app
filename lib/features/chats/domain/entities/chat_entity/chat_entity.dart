@@ -15,6 +15,8 @@ class ChatEntity with _$ChatEntity {
     @Default(null) DateTime? updatedAt,
     @Default([]) List<ChatParticipantEntity> participants,
     @Default([]) List<MessageEntity> messages,
+    @Default('') String text,
+    @Default(false) bool sendingMessage,
   }) = _ChatEntity;
 
   const ChatEntity._();

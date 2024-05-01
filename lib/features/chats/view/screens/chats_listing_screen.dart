@@ -4,14 +4,14 @@ import 'package:chat_app/features/chats/view/widgets/chats_search_widget.dart';
 import 'package:chat_app/features/chats/view/widgets/chats_sliver_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 
-class ChatsScreen extends StatefulWidget {
-  const ChatsScreen({super.key});
+class ChatsListingScreen extends StatefulWidget {
+  const ChatsListingScreen({super.key});
 
   @override
-  State<ChatsScreen> createState() => _ChatsScreenState();
+  State<ChatsListingScreen> createState() => _ChatsListingScreenState();
 }
 
-class _ChatsScreenState extends State<ChatsScreen> {
+class _ChatsListingScreenState extends State<ChatsListingScreen> {
   final FocusNode focusNode = FocusNode();
 
   @override

@@ -70,6 +70,17 @@ class AppNavigation {
         return ScreenFactory.renderSettingsAppearancePage();
       },
     ),
+    GoRoute(
+      path: AppRoutes.chat.path,
+      name: AppRoutes.chat.name,
+      builder: (context, state) {
+        final String? chatId = state.pathParameters['chatId'];
+
+        return ScreenFactory.renderChatPage(
+          chatId: int.tryParse(chatId ?? '-1') ?? -1,
+        );
+      },
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScreenFactory.renderBottomNavBar(navigationShell);
@@ -89,7 +100,8 @@ class AppNavigation {
             GoRoute(
               name: AppRoutes.chats.name,
               path: AppRoutes.chats.path,
-              builder: (context, state) => ScreenFactory.renderChatsPage(),
+              builder: (context, state) =>
+                  ScreenFactory.renderChatsListingPage(),
             ),
           ],
         ),
@@ -99,8 +111,6 @@ class AppNavigation {
               name: AppRoutes.settings.name,
               path: AppRoutes.settings.path,
               builder: (context, state) => ScreenFactory.renderSettingsPage(),
-              routes: [
-              ],
             ),
           ],
         ),

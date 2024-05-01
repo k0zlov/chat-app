@@ -119,11 +119,14 @@ class ChatsRepositoryImpl implements ChatsRepository {
               chatsWithMessages.add(
                 chat.copyWith(messages: model.messages),
               );
-              await messagesLocalProvider.rewriteMessages(
-                chatId: chat.externalId,
-                messages: model.messages,
-              );
             },
+          );
+        }
+
+        for (final ChatModel chat in chatsWithMessages) {
+          await messagesLocalProvider.rewriteMessages(
+            chatId: chat.externalId,
+            messages: chat.messages,
           );
         }
 
@@ -170,7 +173,9 @@ class ChatsRepositoryImpl implements ChatsRepository {
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
-      (model) {
+      (model) async {
+        await messagesLocalProvider.cacheMessage(model: model);
+
         final MessageEntity entity = model.toEntity();
         return Right(entity);
       },

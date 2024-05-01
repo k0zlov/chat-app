@@ -22,7 +22,7 @@ class ChatParticipantModel with _$ChatParticipantModel {
     return ChatParticipantEntity(
       id: externalId,
       userId: userId,
-      createdAt: DateTime.tryParse(createdAt) ?? DateTime.now(),
+      createdAt: DateTime.tryParse(createdAt),
     );
   }
 }

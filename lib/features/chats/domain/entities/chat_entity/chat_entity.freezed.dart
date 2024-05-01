@@ -25,6 +25,8 @@ mixin _$ChatEntity {
   List<ChatParticipantEntity> get participants =>
       throw _privateConstructorUsedError;
   List<MessageEntity> get messages => throw _privateConstructorUsedError;
+  String get text => throw _privateConstructorUsedError;
+  bool get sendingMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChatEntityCopyWith<ChatEntity> get copyWith =>
@@ -45,7 +47,9 @@ abstract class $ChatEntityCopyWith<$Res> {
       DateTime? createdAt,
       DateTime? updatedAt,
       List<ChatParticipantEntity> participants,
-      List<MessageEntity> messages});
+      List<MessageEntity> messages,
+      String text,
+      bool sendingMessage});
 }
 
 /// @nodoc
@@ -69,6 +73,8 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
     Object? updatedAt = freezed,
     Object? participants = null,
     Object? messages = null,
+    Object? text = null,
+    Object? sendingMessage = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -103,6 +109,14 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<MessageEntity>,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      sendingMessage: null == sendingMessage
+          ? _value.sendingMessage
+          : sendingMessage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -123,7 +137,9 @@ abstract class _$$ChatEntityImplCopyWith<$Res>
       DateTime? createdAt,
       DateTime? updatedAt,
       List<ChatParticipantEntity> participants,
-      List<MessageEntity> messages});
+      List<MessageEntity> messages,
+      String text,
+      bool sendingMessage});
 }
 
 /// @nodoc
@@ -145,6 +161,8 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? participants = null,
     Object? messages = null,
+    Object? text = null,
+    Object? sendingMessage = null,
   }) {
     return _then(_$ChatEntityImpl(
       id: null == id
@@ -179,6 +197,14 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<MessageEntity>,
+      text: null == text
+          ? _value.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String,
+      sendingMessage: null == sendingMessage
+          ? _value.sendingMessage
+          : sendingMessage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -194,7 +220,9 @@ class _$ChatEntityImpl extends _ChatEntity {
       this.createdAt = null,
       this.updatedAt = null,
       final List<ChatParticipantEntity> participants = const [],
-      final List<MessageEntity> messages = const []})
+      final List<MessageEntity> messages = const [],
+      this.text = '',
+      this.sendingMessage = false})
       : _participants = participants,
         _messages = messages,
         super._();
@@ -236,8 +264,15 @@ class _$ChatEntityImpl extends _ChatEntity {
   }
 
   @override
+  @JsonKey()
+  final String text;
+  @override
+  @JsonKey()
+  final bool sendingMessage;
+
+  @override
   String toString() {
-    return 'ChatEntity(id: $id, userId: $userId, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, participants: $participants, messages: $messages)';
+    return 'ChatEntity(id: $id, userId: $userId, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, participants: $participants, messages: $messages, text: $text, sendingMessage: $sendingMessage)';
   }
 
   @override
@@ -256,7 +291,10 @@ class _$ChatEntityImpl extends _ChatEntity {
                 other.updatedAt == updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.text, text) || other.text == text) &&
+            (identical(other.sendingMessage, sendingMessage) ||
+                other.sendingMessage == sendingMessage));
   }
 
   @override
@@ -269,7 +307,9 @@ class _$ChatEntityImpl extends _ChatEntity {
       createdAt,
       updatedAt,
       const DeepCollectionEquality().hash(_participants),
-      const DeepCollectionEquality().hash(_messages));
+      const DeepCollectionEquality().hash(_messages),
+      text,
+      sendingMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -287,7 +327,9 @@ abstract class _ChatEntity extends ChatEntity {
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final List<ChatParticipantEntity> participants,
-      final List<MessageEntity> messages}) = _$ChatEntityImpl;
+      final List<MessageEntity> messages,
+      final String text,
+      final bool sendingMessage}) = _$ChatEntityImpl;
   const _ChatEntity._() : super._();
 
   @override
@@ -306,6 +348,10 @@ abstract class _ChatEntity extends ChatEntity {
   List<ChatParticipantEntity> get participants;
   @override
   List<MessageEntity> get messages;
+  @override
+  String get text;
+  @override
+  bool get sendingMessage;
   @override
   @JsonKey(ignore: true)
   _$$ChatEntityImplCopyWith<_$ChatEntityImpl> get copyWith =>

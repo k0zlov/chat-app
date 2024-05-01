@@ -1,4 +1,3 @@
-import 'package:chat_app/core/resources/images.dart';
 import 'package:chat_app/core/widgets/buttons/pressable_scale_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ class ChatsListItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.onPressed,
+    this.draftText = '',
     this.subtitle,
     this.trailingText,
     this.leading,
@@ -17,6 +17,7 @@ class ChatsListItem extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? trailingText;
+  final String draftText;
 
   final bool pinned;
 
@@ -31,6 +32,12 @@ class ChatsListItem extends StatelessWidget {
             ? CupertinoColors.white.withOpacity(0.05)
             : CupertinoColors.black.withOpacity(0.02);
 
+    final textStyle = CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+          fontWeight: FontWeight.w400,
+          fontSize: 30,
+          color: CupertinoColors.white,
+        );
+
     return PressableScaleWidget(
       child: CupertinoListTile(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
@@ -38,12 +45,20 @@ class ChatsListItem extends StatelessWidget {
         leadingSize: 60,
         onTap: onPressed,
         leading: leading ??
-            Image.asset(
-              AppImages.chat,
+            Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                color: CupertinoColors.activeOrange,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              alignment: Alignment.center,
+              child: Text(title.substring(0, 1), style: textStyle),
             ),
         title: _ChatsListItemTitle(
           title: title,
           subtitle: subtitle,
+          draftText: draftText,
         ),
         trailing: _ChatsListItemTrailing(
           pinned: pinned,
@@ -57,10 +72,12 @@ class ChatsListItem extends StatelessWidget {
 class _ChatsListItemTitle extends StatelessWidget {
   const _ChatsListItemTitle({
     required this.title,
+    required this.draftText,
     this.subtitle,
   });
 
   final String title;
+  final String draftText;
   final String? subtitle;
 
   @override
@@ -76,7 +93,24 @@ class _ChatsListItemTitle extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        if (subtitle != null) ...{
+        if (draftText.isNotEmpty) ...{
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Draft: ',
+                  style: textStyle.copyWith(color: CupertinoColors.systemRed),
+                ),
+                TextSpan(
+                  text: draftText,
+                  style: textStyle.copyWith(
+                    color: CupertinoColors.systemGrey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        } else if (subtitle != null) ...{
           Text(
             subtitle!,
             style: textStyle.copyWith(

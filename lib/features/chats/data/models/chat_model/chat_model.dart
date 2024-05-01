@@ -33,8 +33,8 @@ class ChatModel with _$ChatModel {
       userId: userId,
       title: title,
       description: description,
-      createdAt: DateTime.tryParse(createdAt) ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(updatedAt) ?? DateTime.now(),
+      createdAt: DateTime.tryParse(createdAt),
+      updatedAt: DateTime.tryParse(updatedAt),
       participants: participants.map((e) => e.toEntity()).toList(),
       messages: messages.map((e) => e.toEntity()).toList(),
     );

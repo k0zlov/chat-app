@@ -20,4 +20,8 @@ class AppImages {
   static const savedMessages = 'assets/images/large_saved_messages.png';
 
   static const archivedChats = 'assets/images/archived_chats.png';
+
+  static const darkChatWallpaper = 'assets/images/dark_chat_wallpaper.jpeg';
+
+  static const lightChatWallpaper = 'assets/images/light_chat_wallpaper.jpeg';
 }

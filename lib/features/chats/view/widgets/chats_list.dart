@@ -1,9 +1,11 @@
+import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/resources/images.dart';
-import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
+import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
 import 'package:chat_app/features/chats/view/widgets/chats_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class ChatsList extends StatelessWidget {
@@ -19,7 +21,7 @@ class ChatsList extends StatelessWidget {
           topMargin: 0,
           children: [
             ChatsListItem(
-              title: 'Archived Messages',
+              title: 'Archived Chats',
               subtitle: 'Name, chat, first, second, third...',
               leading: Image.asset(AppImages.archivedChats),
               onPressed: () {},
@@ -31,23 +33,28 @@ class ChatsList extends StatelessWidget {
               leading: Image.asset(AppImages.savedMessages),
               onPressed: () {},
             ),
-            for (final ChatEntity chat in state.chats) ...{
-              ChatsListItem(
+            ...state.chats.map((chat) {
+              final MessageEntity? lastMessage = chat.messages.lastOrNull;
+
+              return ChatsListItem(
                 pinned: true,
                 title: chat.title,
-                subtitle: chat.messages.lastOrNull == null
-                    ? null
-                    : chat.messages.last.content,
-                trailingText: chat.messages.lastOrNull == null
-                    ? null
-                    : DateFormat.EEEE().format(chat.messages.last.updatedAt!),
-                leading: Image.asset(
-                  AppImages.chat,
-                  fit: BoxFit.contain,
+                draftText: chat.text,
+                subtitle: lastMessage?.content,
+                trailingText:
+                    lastMessage == null && lastMessage?.updatedAt == null
+                        ? null
+                        : DateFormat.EEEE()
+                            .format(lastMessage!.updatedAt)
+                            .substring(0, 3),
+                onPressed: () => context.goNamed(
+                  AppRoutes.chat.name,
+                  pathParameters: {
+                    'chatId': chat.id.toString(),
+                  },
                 ),
-                onPressed: () {},
-              ),
-            },
+              );
+            }),
           ],
         ),
       ],

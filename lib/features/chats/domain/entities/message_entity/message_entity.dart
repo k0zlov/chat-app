@@ -9,8 +9,8 @@ class MessageEntity with _$MessageEntity {
     @Default(-1) int chatId,
     @Default(-1) int userId,
     @Default('') String content,
-    @Default(null) DateTime? createdAt,
-    @Default(null) DateTime? updatedAt,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _MessageEntity;
 
   const MessageEntity._();
