@@ -126,7 +126,6 @@ enum AppRoutes {
   registration('/auth/registration'),
   chats('/chats'),
   chat('/chat/:chatId'),
-  chatSettings('chat-settings'),
   settings('/settings'),
   appearanceSettings('/settings/appearance'),
   contacts('/contacts');

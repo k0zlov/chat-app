@@ -20,7 +20,7 @@ class ModalPopUpContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       margin: const EdgeInsets.symmetric(
-        vertical: 50,
+        vertical: 100,
         horizontal: 22,
       ),
       padding: const EdgeInsets.all(14),

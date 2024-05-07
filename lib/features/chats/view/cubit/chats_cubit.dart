@@ -59,7 +59,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     final failureOrChats = await getSavedChatsUseCase(NoParams());
 
     failureOrChats.fold(
-      (failure) => null,
+      (failure) {
+        showError(failure.errorMessage);
+      },
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
         emit(_state);
@@ -74,7 +76,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     final failureOrChats = await getUserChatsUseCase(NoParams());
 
     failureOrChats.fold(
-      (failure) => showError(failure.errorMessage),
+      (failure) {
+        showError(failure.errorMessage);
+      },
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
       },
@@ -95,7 +99,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
 
     failureOrChats.fold(
-      (failure) => showError(failure.errorMessage),
+      (failure) {
+        showError(failure.errorMessage);
+      },
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
       },
@@ -124,7 +130,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
 
     failureOrChats.fold(
-      (failure) => showError(failure.errorMessage),
+      (failure) {
+        showError(failure.errorMessage);
+      },
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
       },
@@ -143,7 +151,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
 
     failureOrChats.fold(
-      (failure) => showError(failure.errorMessage),
+      (failure) {
+        showError(failure.errorMessage);
+      },
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
       },
@@ -169,7 +179,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
 
     failureOrMessage.fold(
-      (failure) => showError(failure.errorMessage),
+      (failure) {
+        showError(failure.errorMessage);
+      },
       (entity) {
         final ChatEntity newChat = chat.copyWith(
           text: '',

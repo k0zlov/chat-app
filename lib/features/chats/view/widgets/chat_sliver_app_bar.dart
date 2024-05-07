@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/core/widgets/buttons/app_bar_back_button.dart';
@@ -32,7 +30,6 @@ class ChatSliverAppBar extends StatefulWidget {
 
 class _ChatSliverAppBarState extends State<ChatSliverAppBar>
     with SingleTickerProviderStateMixin {
-  /// Animation for changing details mode
   late final AnimationController _animationController;
 
   AppBarMode _mode = AppBarMode.collapsed;
@@ -50,8 +47,6 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
 
     _mode = newMode;
     setState(() {});
-
-    print(_mode);
   }
 
   void _changeDetailsMode(bool newValue) {
@@ -293,7 +288,7 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
                       _TitleWidget(
                         mode: _mode,
                         detailsMode: widget.detailsMode,
-                        title: 'Chat ID: ${widget.chat.id}',
+                        title: widget.chat.title,
                         onTitlePressed: widget.detailsMode ? null : _onTitle,
                       ),
                     ],
