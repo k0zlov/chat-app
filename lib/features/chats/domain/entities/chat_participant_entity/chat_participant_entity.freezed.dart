@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ChatParticipantEntity {
   int get id => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,7 +31,7 @@ abstract class $ChatParticipantEntityCopyWith<$Res> {
           $Res Function(ChatParticipantEntity) then) =
       _$ChatParticipantEntityCopyWithImpl<$Res, ChatParticipantEntity>;
   @useResult
-  $Res call({int id, int userId, String title, DateTime? createdAt});
+  $Res call({int id, int userId, DateTime? createdAt});
 }
 
 /// @nodoc
@@ -51,7 +50,6 @@ class _$ChatParticipantEntityCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? userId = null,
-    Object? title = null,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -63,10 +61,6 @@ class _$ChatParticipantEntityCopyWithImpl<$Res,
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -84,7 +78,7 @@ abstract class _$$ChatParticipantEntityImplCopyWith<$Res>
       __$$ChatParticipantEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, int userId, String title, DateTime? createdAt});
+  $Res call({int id, int userId, DateTime? createdAt});
 }
 
 /// @nodoc
@@ -101,7 +95,6 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? userId = null,
-    Object? title = null,
     Object? createdAt = freezed,
   }) {
     return _then(_$ChatParticipantEntityImpl(
@@ -113,10 +106,6 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -129,7 +118,7 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
 
 class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
   const _$ChatParticipantEntityImpl(
-      {this.id = -1, this.userId = -1, this.title = '', this.createdAt = null})
+      {this.id = -1, this.userId = -1, this.createdAt = null})
       : super._();
 
   @override
@@ -140,14 +129,11 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
   final int userId;
   @override
   @JsonKey()
-  final String title;
-  @override
-  @JsonKey()
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'ChatParticipantEntity(id: $id, userId: $userId, title: $title, createdAt: $createdAt)';
+    return 'ChatParticipantEntity(id: $id, userId: $userId, createdAt: $createdAt)';
   }
 
   @override
@@ -157,13 +143,12 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
             other is _$ChatParticipantEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.title, title) || other.title == title) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, userId, title, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, userId, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -177,7 +162,6 @@ abstract class _ChatParticipantEntity extends ChatParticipantEntity {
   const factory _ChatParticipantEntity(
       {final int id,
       final int userId,
-      final String title,
       final DateTime? createdAt}) = _$ChatParticipantEntityImpl;
   const _ChatParticipantEntity._() : super._();
 
@@ -185,8 +169,6 @@ abstract class _ChatParticipantEntity extends ChatParticipantEntity {
   int get id;
   @override
   int get userId;
-  @override
-  String get title;
   @override
   DateTime? get createdAt;
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class ChatMessagesItem extends StatelessWidget {
   const ChatMessagesItem({
@@ -16,12 +17,14 @@ class ChatMessagesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = CupertinoTheme.of(context).textTheme.textStyle;
 
-    final Color backgroundColor = messageAuthor
-        ? CupertinoTheme.of(context).primaryColor
-        : CupertinoColors.systemGrey;
-
     final bool darkTheme =
         CupertinoTheme.of(context).brightness == Brightness.dark;
+
+    final Color backgroundColor = messageAuthor
+        ? CupertinoTheme.of(context).primaryColor
+        : darkTheme
+            ? CupertinoColors.darkBackgroundGray
+            : CupertinoColors.lightBackgroundGray;
 
     return Container(
       width: double.infinity,
@@ -41,10 +44,10 @@ class ChatMessagesItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    '${dateTime.hour}:${dateTime.minute}',
+                    DateFormat.Hm().format(dateTime),
                     style: textStyle.copyWith(
                       fontSize: 12,
-                      color: CupertinoColors.lightBackgroundGray,
+                      color: CupertinoColors.inactiveGray,
                     ),
                   ),
                 ],

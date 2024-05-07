@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
-import 'package:chat_app/core/widgets/buttons/settings_edit_button.dart';
-import 'package:chat_app/core/widgets/buttons/settings_qr_button.dart';
+import 'package:chat_app/core/widgets/buttons/edit_button.dart';
+import 'package:chat_app/core/widgets/buttons/qr_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_search_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -199,10 +199,8 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       clipBehavior: Clip.hardEdge,
       actions: [
         switch ((_mode, _searchMode)) {
-          (AppBarMode.basic, false) =>
-            SettingsEditButton(blur: _mode.isExpanded),
-          (AppBarMode.expanded, false) =>
-            SettingsEditButton(blur: _mode.isExpanded),
+          (AppBarMode.basic, false) => EditButton(blur: _mode.isExpanded),
+          (AppBarMode.expanded, false) => EditButton(blur: _mode.isExpanded),
           (AppBarMode.collapsed, false) =>
             SettingsSearchButton(onPressed: _activateSearchMode),
           _ => const SizedBox(),

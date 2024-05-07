@@ -2,7 +2,6 @@ import 'package:chat_app/features/contacts/domain/entities/contact_entity/contac
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactsList extends StatelessWidget {

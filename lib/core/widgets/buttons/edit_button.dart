@@ -1,8 +1,8 @@
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:flutter/cupertino.dart';
 
-class SettingsEditButton extends StatelessWidget {
-  const SettingsEditButton({super.key, required this.blur});
+class EditButton extends StatelessWidget {
+  const EditButton({super.key, required this.blur});
 
   final bool blur;
 
