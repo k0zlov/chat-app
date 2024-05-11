@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 class ChatMessagesItem extends StatelessWidget {
   const ChatMessagesItem({
@@ -15,46 +15,62 @@ class ChatMessagesItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = CupertinoTheme.of(context).textTheme.textStyle;
+    final theme = CupertinoTheme.of(context);
 
-    final bool darkTheme =
-        CupertinoTheme.of(context).brightness == Brightness.dark;
+    final textStyle = theme.textTheme.textStyle;
+
+    final bool darkTheme = theme.brightness == Brightness.dark;
 
     final Color backgroundColor = messageAuthor
-        ? CupertinoTheme.of(context).primaryColor
+        ? theme.primaryColor
         : darkTheme
             ? CupertinoColors.darkBackgroundGray
             : CupertinoColors.lightBackgroundGray;
 
-    return Container(
-      width: double.infinity,
-      alignment: messageAuthor ? Alignment.centerRight : Alignment.centerLeft,
+    final Color timeTextColor = messageAuthor
+        ? CupertinoColors.black.withOpacity(0.4)
+        : CupertinoColors.inactiveGray;
+
+    return Padding(
       padding: const EdgeInsets.all(8),
-      child: IntrinsicWidth(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: CupertinoListTile(
-            title: Text(message),
-            backgroundColor:
-                darkTheme ? backgroundColor : backgroundColor.withAlpha(180),
-            padding: const EdgeInsets.all(8),
-            trailing: Padding(
-              padding: const EdgeInsets.only(top: 6, left: 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    DateFormat.Hm().format(dateTime),
-                    style: textStyle.copyWith(
-                      fontSize: 12,
-                      color: CupertinoColors.inactiveGray,
+      child: Row(
+        mainAxisAlignment:
+            messageAuthor ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: 50,
+              maxWidth: MediaQuery.of(context).size.width / 1.5,
+            ),
+            child: IntrinsicWidth(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: darkTheme
+                      ? backgroundColor
+                      : backgroundColor.withAlpha(180),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Text(message, maxLines: 100),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 4),
+                    Text(
+                      DateFormat.Hm().format(dateTime),
+                      style: textStyle.copyWith(
+                        fontSize: 12,
+                        color: timeTextColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

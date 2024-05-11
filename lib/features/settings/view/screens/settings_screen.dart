@@ -3,7 +3,6 @@ import 'package:chat_app/features/settings/view/widgets/settings_screen/setting_
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_search_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,7 +20,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
