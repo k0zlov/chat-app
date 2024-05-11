@@ -373,6 +373,7 @@ class _TitleWidgetMainBody extends StatelessWidget {
                       ? 14
                       : 16,
               fontWeight: FontWeight.w500,
+              color: mode.isExpanded ? CupertinoColors.white : null,
             ),
             child: Text(title),
           ),
@@ -380,7 +381,7 @@ class _TitleWidgetMainBody extends StatelessWidget {
             duration: const Duration(milliseconds: 240),
             style: textStyle.copyWith(
               fontSize: mode.isExpanded ? 14 : 12,
-              color: mode.isExpanded ? null : CupertinoColors.inactiveGray,
+              color: mode.isExpanded ? CupertinoColors.white : CupertinoColors.inactiveGray,
             ),
             child: const Text('4 members, 2 online'),
           ),
