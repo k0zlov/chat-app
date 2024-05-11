@@ -1,9 +1,9 @@
 import 'package:chat_app/features/chats/chats_feature.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_bottom_bar.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_messages.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_sliver_app_bar.dart';
-import 'package:chat_app/features/chats/view/widgets/details_participants_list.dart';
-import 'package:chat_app/features/chats/view/widgets/details_tab_bar.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_bottom_bar.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_sliver_app_bar.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/details_participants_list.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/details_tab_bar.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -9,6 +9,7 @@ import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
 import 'package:chat_app/features/contacts/view/screens/contacts_screen.dart';
 import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
 import 'package:chat_app/features/settings/view/screens/appearance_screen.dart';
+import 'package:chat_app/features/settings/view/screens/settings_edit_screen.dart';
 import 'package:chat_app/features/settings/view/screens/settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,10 @@ class ScreenFactory {
       ],
       child: AppBottomNavigationBar(navigationShell: navigationShell),
     );
+  }
+
+  static Widget renderSettingsEditScreen() {
+    return const SettingsEditScreen();
   }
 
   static Widget renderChatsListingPage() {

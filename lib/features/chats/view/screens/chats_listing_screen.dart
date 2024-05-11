@@ -1,7 +1,7 @@
 import 'package:chat_app/core/widgets/screens/screen_with_search_bar.dart';
-import 'package:chat_app/features/chats/view/widgets/chats_list.dart';
-import 'package:chat_app/features/chats/view/widgets/chats_search_widget.dart';
-import 'package:chat_app/features/chats/view/widgets/chats_sliver_app_bar.dart';
+import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_list.dart';
+import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_search_widget.dart';
+import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_sliver_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 
 class ChatsListingScreen extends StatefulWidget {

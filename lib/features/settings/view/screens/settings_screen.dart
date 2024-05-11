@@ -1,7 +1,7 @@
 import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
-import 'package:chat_app/features/settings/view/widgets/setting_options.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_app_bar.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_search_widget.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/setting_options.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_search_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

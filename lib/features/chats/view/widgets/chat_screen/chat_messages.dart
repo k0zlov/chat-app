@@ -2,10 +2,11 @@ import 'package:chat_app/core/resources/images.dart';
 import 'package:chat_app/core/widgets/buttons/cupertino_reload_button.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_messages_date.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_messages_item.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_date.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_item.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:intl/intl.dart';
@@ -47,12 +48,12 @@ class ChatMessages extends StatelessWidget {
     }
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height - 170,
+      height: MediaQuery.of(context).size.height - kToolbarHeight - 110,
       child: Stack(
         children: [
           Image.asset(
             backgroundImageAsset,
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - kToolbarHeight,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
           ),

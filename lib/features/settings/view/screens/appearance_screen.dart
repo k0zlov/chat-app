@@ -1,6 +1,6 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_color_picker.dart';
+import 'package:chat_app/features/settings/view/widgets/appearance_screen/appearance_color_picker.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +31,7 @@ class SettingsAppearanceScreen extends StatelessWidget {
               CupertinoListSection.insetGrouped(
                 header: Text('COLOR THEME', style: textStyle),
                 children: const [
-                  SettingsColorPicker(),
+                  AppearanceColorPicker(),
                   SettingsOptionsItem(
                     title: 'Night mode',
                     trailing: SettingsNightModeSwitch(),

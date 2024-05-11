@@ -2,14 +2,19 @@ import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:flutter/cupertino.dart';
 
 class EditButton extends StatelessWidget {
-  const EditButton({super.key, required this.blur});
+  const EditButton({
+    super.key,
+    required this.blur,
+    required this.onPressed,
+  });
 
   final bool blur;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: BlurredWidget(

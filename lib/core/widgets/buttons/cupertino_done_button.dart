@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class CupertinoCancelButton extends StatelessWidget {
-  const CupertinoCancelButton({
+class CupertinoDoneButton extends StatelessWidget {
+  const CupertinoDoneButton({
     super.key,
     required this.onPressed,
   });
@@ -13,16 +13,16 @@ class CupertinoCancelButton extends StatelessWidget {
     final theme = CupertinoTheme.of(context);
 
     final textStyle = theme.textTheme.textStyle.copyWith(
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w600,
       color: theme.primaryColor,
       fontSize: 16,
+      inherit: false,
     );
-
 
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: onPressed,
-      child: Text('Cancel', style: textStyle),
+      child: Text('Done', style: textStyle),
     );
   }
 }

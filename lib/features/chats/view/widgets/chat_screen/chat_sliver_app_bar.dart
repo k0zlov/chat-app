@@ -3,8 +3,8 @@ import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/core/widgets/buttons/app_bar_back_button.dart';
 import 'package:chat_app/core/widgets/buttons/edit_button.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_actions_panel.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_app_bar.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_actions_panel.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -250,7 +250,7 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
           stretch: true,
           actions: [
             if (widget.detailsMode) ...{
-              EditButton(blur: _mode.isExpanded),
+              EditButton(blur: _mode.isExpanded, onPressed: () {}),
             },
           ],
           onStretchTrigger: () async {

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class AppPalette {
   const AppPalette._();
@@ -9,7 +8,7 @@ class AppPalette {
   static const Color lightScaffoldBackground = Color.fromRGBO(239, 238, 244, 1);
 
   static const Color blueThemePrimary = CupertinoColors.activeBlue;
-  static const Color greenThemePrimary = Colors.green;
+  static const Color greenThemePrimary = Color.fromRGBO(73, 181, 105, 0.9);
 
   static const Color lightText = CupertinoColors.black;
   static const Color darkText = CupertinoColors.white;

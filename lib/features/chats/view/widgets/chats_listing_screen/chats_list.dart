@@ -2,7 +2,7 @@ import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/resources/images.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
-import 'package:chat_app/features/chats/view/widgets/chats_list_item.dart';
+import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

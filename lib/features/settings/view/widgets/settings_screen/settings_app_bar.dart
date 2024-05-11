@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
-import 'package:chat_app/core/widgets/buttons/edit_button.dart';
 import 'package:chat_app/core/widgets/buttons/qr_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_search_button.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_edit_button.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_search_button.dart';
+import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_user_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -199,8 +200,12 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
       clipBehavior: Clip.hardEdge,
       actions: [
         switch ((_mode, _searchMode)) {
-          (AppBarMode.basic, false) => EditButton(blur: _mode.isExpanded),
-          (AppBarMode.expanded, false) => EditButton(blur: _mode.isExpanded),
+          (AppBarMode.basic, false) => SettingsEditButton(
+              blur: _mode.isExpanded,
+            ),
+          (AppBarMode.expanded, false) => SettingsEditButton(
+              blur: _mode.isExpanded,
+            ),
           (AppBarMode.collapsed, false) =>
             SettingsSearchButton(onPressed: _activateSearchMode),
           _ => const SizedBox(),
@@ -251,7 +256,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
           child: FlexibleSpaceBar(
             titlePadding: EdgeInsets.zero,
             collapseMode: CollapseMode.pin,
-            background: _SettingsAppBarBackground(
+            background: SettingsUserImage(
               onImagePressed: () {
                 if (_mode.isExpanded) return;
                 _mode = AppBarMode.expanded;
@@ -265,41 +270,6 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
               collapsed: _mode.isCollapsed,
               expanded: _mode.isExpanded,
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SettingsAppBarBackground extends StatelessWidget {
-  const _SettingsAppBarBackground({
-    required this.expanded,
-    required this.onImagePressed,
-  });
-
-  final bool expanded;
-  final void Function() onImagePressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
-    return Align(
-      child: GestureDetector(
-        onTap: onImagePressed,
-        child: AnimatedContainer(
-          curve: Curves.fastEaseInToSlowEaseOut,
-          clipBehavior: Clip.hardEdge,
-          duration: const Duration(milliseconds: 240),
-          height: expanded ? screenSize.height : 110,
-          width: expanded ? screenSize.width : 110,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(expanded ? 0 : 100),
-          ),
-          child: Image.network(
-            'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
-            fit: BoxFit.cover,
           ),
         ),
       ),

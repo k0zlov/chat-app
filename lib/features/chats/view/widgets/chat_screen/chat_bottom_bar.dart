@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:chat_app/features/chats/chats_feature.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_text_field.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

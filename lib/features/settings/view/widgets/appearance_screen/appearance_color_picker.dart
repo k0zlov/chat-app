@@ -3,8 +3,8 @@ import 'package:chat_app/features/settings/view/cubit/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SettingsColorPicker extends StatelessWidget {
-  const SettingsColorPicker({super.key});
+class AppearanceColorPicker extends StatelessWidget {
+  const AppearanceColorPicker({super.key});
 
   @override
   Widget build(BuildContext context) {

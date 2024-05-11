@@ -71,6 +71,13 @@ class AppNavigation {
       },
     ),
     GoRoute(
+      name: AppRoutes.editSettings.name,
+      path: AppRoutes.editSettings.path,
+      builder: (context, state) {
+        return ScreenFactory.renderSettingsEditScreen();
+      },
+    ),
+    GoRoute(
       path: AppRoutes.chat.path,
       name: AppRoutes.chat.name,
       builder: (context, state) {
@@ -128,6 +135,7 @@ enum AppRoutes {
   chat('/chat/:chatId'),
   settings('/settings'),
   appearanceSettings('/settings/appearance'),
+  editSettings('/settings/edit'),
   contacts('/contacts');
 
   const AppRoutes(this.path);
