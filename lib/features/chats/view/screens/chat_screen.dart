@@ -33,6 +33,12 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ChatsState state = context.select((ChatsCubit cubit) => cubit.state);
 

@@ -14,7 +14,13 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
-  final FocusNode focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +29,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
     );
 
     return ScreenWithSearchAppBar(
-      searchAppBar: ContactsSliverAppBar(focusNode: focusNode),
+      searchAppBar: ContactsSliverAppBar(focusNode: _focusNode),
       sliverBody: const ContactsList(),
-      focusNode: focusNode,
+      focusNode: _focusNode,
       showSearchWidget: state.searchText != '',
       searchWidget: const ContactsSearchWidget(),
     );

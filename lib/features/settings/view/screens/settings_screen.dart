@@ -13,20 +13,27 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final ScrollController scrollController = ScrollController();
-  final FocusNode focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
 
   bool _showSearchWidget = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
 
-    focusNode.addListener(_onFocus);
+    _focusNode.addListener(_onFocus);
   }
 
   void _onFocus() {
-    if (!focusNode.hasFocus) return;
+    if (!_focusNode.hasFocus) return;
 
     _showSearchWidget = true;
     setState(() {});
@@ -38,12 +45,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return CupertinoPageScaffold(
       resizeToAvoidBottomInset: false,
       child: CustomScrollView(
-        controller: scrollController,
+        controller: _scrollController,
         physics: const BouncingScrollPhysics(),
         slivers: [
           SettingsAppBar(
-            focusNode: focusNode,
-            scrollController: scrollController,
+            focusNode: _focusNode,
+            scrollController: _scrollController,
             onSearchCancel: () {
               Future.delayed(
                 const Duration(milliseconds: 300),

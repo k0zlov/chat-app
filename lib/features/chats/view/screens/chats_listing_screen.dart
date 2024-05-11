@@ -12,14 +12,20 @@ class ChatsListingScreen extends StatefulWidget {
 }
 
 class _ChatsListingScreenState extends State<ChatsListingScreen> {
-  final FocusNode focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ScreenWithSearchAppBar(
-      searchAppBar: ChatsSliverAppBar(focusNode: focusNode),
+      searchAppBar: ChatsSliverAppBar(focusNode: _focusNode),
       sliverBody: const ChatsList(),
-      focusNode: focusNode,
+      focusNode: _focusNode,
       searchWidget: const ChatsSearchWidget(),
       showSearchWidget: false,
     );
