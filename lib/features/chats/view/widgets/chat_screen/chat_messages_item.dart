@@ -38,7 +38,7 @@ class ChatMessagesItem extends StatelessWidget {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-              minWidth: 50,
+              minWidth: 110,
               maxWidth: MediaQuery.of(context).size.width / 1.5,
             ),
             child: IntrinsicWidth(
@@ -57,12 +57,19 @@ class ChatMessagesItem extends StatelessWidget {
                       child: Text(message.content, maxLines: 100),
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      DateFormat.Hm().format(message.createdAt),
-                      style: textStyle.copyWith(
-                        fontSize: 12,
-                        color: timeTextColor,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          DateFormat.Hm().format(message.createdAt),
+                          style: textStyle.copyWith(
+                            fontSize: 12,
+                            color: timeTextColor,
+                          ),
+                        ),
+                        const MessageStatusIndicator(
+                          status: MessageStatus.seen,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -71,6 +78,55 @@ class ChatMessagesItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+enum MessageStatus {
+  pending,
+  sent,
+  seen,
+}
+
+class MessageStatusIndicator extends StatelessWidget {
+  const MessageStatusIndicator({
+    super.key,
+    required this.status,
+  });
+
+  final MessageStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    const double iconSize = 18;
+
+    final Color iconColor = status == MessageStatus.seen
+        ? CupertinoTheme.of(context).primaryColor
+        : CupertinoColors.inactiveGray;
+
+    final double iconOpacity =
+        status == MessageStatus.sent || status == MessageStatus.seen ? 1 : 0;
+
+    return Stack(
+      children: [
+        Icon(
+          CupertinoIcons.checkmark_alt,
+          color: iconColor,
+          size: iconSize,
+        ),
+        AnimatedOpacity(
+          duration: const Duration(milliseconds: 240),
+          opacity: iconOpacity,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 6),
+            child: Icon(
+              CupertinoIcons.checkmark_alt,
+              color: iconColor,
+              size: iconSize,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
