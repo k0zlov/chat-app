@@ -6,7 +6,7 @@ import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_reload_but
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
-class ChatMessages extends StatelessWidget {
+class ChatMessages extends StatefulWidget {
   const ChatMessages({
     super.key,
     required this.messages,
@@ -20,19 +20,46 @@ class ChatMessages extends StatelessWidget {
   final List<MessageEntity> messages;
 
   @override
+  State<ChatMessages> createState() => _ChatMessagesState();
+}
+
+class _ChatMessagesState extends State<ChatMessages> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void didUpdateWidget(covariant ChatMessages oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.messages != widget.messages && _scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 240),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final List<MessageEntity> groupedMessages = [
       MessageEntity(createdAt: DateTime(1999), updatedAt: DateTime(1999)),
-      ...messages,
+      ...widget.messages,
     ];
 
     return SizedBox(
-      height: height,
-      width: width,
+      height: widget.height,
+      width: widget.width,
       child: Stack(
         children: [
           const ChatBackgroundImage(),
           GroupedListView<MessageEntity, DateTime>(
+            controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             cacheExtent: 200,
             useStickyGroupSeparators: true,
