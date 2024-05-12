@@ -49,6 +49,12 @@ class _MiniChatScreenState extends State<MiniChatScreen>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = CupertinoTheme.of(context);
 

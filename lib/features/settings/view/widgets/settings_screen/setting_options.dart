@@ -58,8 +58,8 @@ class SettingsOptions extends StatelessWidget {
             children: [
               SettingsOptionsItem(
                 onPressed: () {},
-                leading:
-                    Image.asset(AppIcons.notificationsAndSounds.path, height: 35),
+                leading: Image.asset(AppIcons.notificationsAndSounds.path,
+                    height: 35),
                 title: 'Notifications and Sounds',
               ),
               SettingsOptionsItem(
@@ -104,7 +104,8 @@ class SettingsOptions extends StatelessWidget {
               ),
               SettingsOptionsItem(
                 onPressed: () {},
-                leading: Image.asset(AppIcons.telegramFeatures.path, height: 35),
+                leading:
+                    Image.asset(AppIcons.telegramFeatures.path, height: 35),
                 title: 'Telegram Features',
               ),
             ],

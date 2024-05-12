@@ -4,8 +4,15 @@ import 'package:chat_app/utils/text_input_validator/text_input_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddContactScreen extends StatelessWidget {
+class AddContactScreen extends StatefulWidget {
   const AddContactScreen({super.key});
+
+  @override
+  State<AddContactScreen> createState() => _AddContactScreenState();
+}
+
+class _AddContactScreenState extends State<AddContactScreen> {
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +25,7 @@ class AddContactScreen extends StatelessWidget {
         TextInputValidator.validateEmail(state.emailText) == null;
 
     return AddScreen(
+      focusNode: _focusNode,
       title: 'Add Contact',
       inputName: 'Email',
       text: state.emailText,

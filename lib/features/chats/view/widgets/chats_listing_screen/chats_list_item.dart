@@ -19,6 +19,7 @@ class ChatsListItem extends StatelessWidget {
     this.trailingText,
     this.leading,
     this.pinned = false,
+    this.onLongPressWidget,
   });
 
   final String title;
@@ -31,6 +32,7 @@ class ChatsListItem extends StatelessWidget {
   final Widget? leading;
 
   final void Function() onPressed;
+  final Widget? onLongPressWidget;
 
   final List<MessageEntity> messages;
 
@@ -68,15 +70,17 @@ class ChatsListItem extends StatelessWidget {
         showCupertinoDialog<void>(
           context: context,
           barrierDismissible: true,
-          builder: (context) => BlocProvider.value(
-            value: getIt<ChatsCubit>(),
-            child: MiniChatScreen(
-              alignment: alignment,
-              title: title,
-              messages: messages,
-              chatImage: chatImage,
-            ),
-          ),
+          builder: (context) =>
+              onLongPressWidget ??
+              BlocProvider.value(
+                value: getIt<ChatsCubit>(),
+                child: MiniChatScreen(
+                  alignment: alignment,
+                  title: title,
+                  messages: messages,
+                  chatImage: chatImage,
+                ),
+              ),
         );
       },
       child: CupertinoListTile(

@@ -12,30 +12,24 @@ class AddScreen extends StatelessWidget {
     required this.isValid,
     required this.onChanged,
     required this.onSubmit,
+    required this.focusNode,
   });
 
   final String title;
   final String inputName;
   final String text;
   final bool isValid;
+  final FocusNode focusNode;
   final void Function(String text) onChanged;
   final void Function() onSubmit;
 
   @override
   Widget build(BuildContext context) {
-    final Color borderColor =
-        CupertinoTheme.of(context).brightness == Brightness.dark
-            ? CupertinoColors.systemGrey
-            : CupertinoColors.inactiveGray;
-
     return Container(
-      margin: const EdgeInsets.only(top: 120),
+      margin: const EdgeInsets.only(top: 140),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: CupertinoTheme.of(context).scaffoldBackgroundColor,
-        border: Border(
-          top: BorderSide(color: borderColor, width: 0.2),
-        ),
       ),
       child: Column(
         children: [
@@ -47,6 +41,7 @@ class AddScreen extends StatelessWidget {
           ),
           Expanded(
             child: _AddScreenBody(
+              focusNode: focusNode,
               text: text,
               inputName: inputName,
               onChanged: onChanged,
@@ -58,17 +53,40 @@ class AddScreen extends StatelessWidget {
   }
 }
 
-class _AddScreenBody extends StatelessWidget {
+class _AddScreenBody extends StatefulWidget {
   const _AddScreenBody({
     required this.text,
     required this.inputName,
     required this.onChanged,
+    required this.focusNode,
   });
 
   final String text;
   final String inputName;
 
+  final FocusNode focusNode;
+
   final void Function(String text) onChanged;
+
+  @override
+  State<_AddScreenBody> createState() => _AddScreenBodyState();
+}
+
+class _AddScreenBodyState extends State<_AddScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.focusNode.focusInDirection(TraversalDirection.up);
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,12 +111,12 @@ class _AddScreenBody extends StatelessWidget {
             vertical: 10,
           ),
           child: ReactiveTextField(
-            text: text,
-            builder: (controller, focusNode) {
+            text: widget.text,
+            builder: (controller, _) {
               return CupertinoTextField(
                 controller: controller,
-                focusNode: focusNode,
-                onChanged: onChanged,
+                focusNode: widget.focusNode,
+                onChanged: widget.onChanged,
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: borderSide,
@@ -109,7 +127,7 @@ class _AddScreenBody extends StatelessWidget {
                 suffixMode: OverlayVisibilityMode.editing,
                 suffix: TextInputClearButton(
                   padding: const EdgeInsets.only(right: 9),
-                  onPressed: () => onChanged(''),
+                  onPressed: () => widget.onChanged(''),
                 ),
                 prefix: Container(
                   decoration: BoxDecoration(
@@ -121,7 +139,7 @@ class _AddScreenBody extends StatelessWidget {
                     vertical: 8,
                   ),
                   child: Text(
-                    inputName,
+                    widget.inputName,
                     style: textStyle.copyWith(
                       color: CupertinoTheme.of(context).primaryColor,
                     ),
