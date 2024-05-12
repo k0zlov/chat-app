@@ -23,13 +23,15 @@ class ChatsList extends StatelessWidget {
             ChatsListItem(
               title: 'Archived Chats',
               subtitle: 'Name, chat, first, second, third...',
-              leading: Image.asset(AppImages.archivedChats),
+              leading: Image.asset(AppImages.archivedChats, height: 100),
+              messages: [],
               onPressed: () {},
             ),
             ChatsListItem(
               title: 'Saved Messages',
               subtitle: 'saved message',
               trailingText: 'Mon',
+              messages: [],
               leading: Image.asset(AppImages.savedMessages),
               onPressed: () {},
             ),
@@ -40,6 +42,7 @@ class ChatsList extends StatelessWidget {
                 pinned: true,
                 title: chat.title,
                 draftText: chat.text,
+                messages: chat.messages,
                 subtitle: lastMessage?.content,
                 trailingText:
                     lastMessage == null && lastMessage?.updatedAt == null

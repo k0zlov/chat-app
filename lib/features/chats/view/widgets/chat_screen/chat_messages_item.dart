@@ -1,3 +1,4 @@
+import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
@@ -5,12 +6,10 @@ class ChatMessagesItem extends StatelessWidget {
   const ChatMessagesItem({
     super.key,
     required this.message,
-    required this.dateTime,
     required this.messageAuthor,
   });
 
-  final String message;
-  final DateTime dateTime;
+  final MessageEntity message;
   final bool messageAuthor;
 
   @override
@@ -55,11 +54,11 @@ class ChatMessagesItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
-                      child: Text(message, maxLines: 100),
+                      child: Text(message.content, maxLines: 100),
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      DateFormat.Hm().format(dateTime),
+                      DateFormat.Hm().format(message.createdAt),
                       style: textStyle.copyWith(
                         fontSize: 12,
                         color: timeTextColor,

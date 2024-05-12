@@ -6,6 +6,7 @@ import 'package:chat_app/features/chats/view/widgets/chat_screen/details_partici
 import 'package:chat_app/features/chats/view/widgets/chat_screen/details_tab_bar.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -91,7 +92,10 @@ class _ChatScreenMainBody extends StatelessWidget {
       physics: const _CustomScrollPhysics(),
       child: Column(
         children: [
-          ChatMessages(messages: chat.messages),
+          ChatMessages(
+            messages: chat.messages,
+            height: MediaQuery.of(context).size.height - kToolbarHeight - 110,
+          ),
           ChatBottomBar(chat: chat),
         ],
       ),

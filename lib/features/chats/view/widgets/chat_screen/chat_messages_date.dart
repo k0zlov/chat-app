@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class ChatMessagesDate extends StatelessWidget {
   const ChatMessagesDate({
@@ -6,7 +7,7 @@ class ChatMessagesDate extends StatelessWidget {
     required this.date,
   });
 
-  final String date;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,10 @@ class ChatMessagesDate extends StatelessWidget {
           color: CupertinoColors.lightBackgroundGray,
         );
 
-    return Center(
-      child: IntrinsicWidth(
-        child: Container(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
           height: 17,
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -31,12 +33,12 @@ class ChatMessagesDate extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
           clipBehavior: Clip.hardEdge,
           child: Text(
-            date,
+            DateFormat.MMMd().format(date),
             textAlign: TextAlign.center,
             style: textStyle,
           ),
         ),
-      ),
+      ],
     );
   }
 }

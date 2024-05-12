@@ -19,7 +19,7 @@ class CupertinoReloadButton extends StatelessWidget {
         CupertinoTheme.of(context).brightness == Brightness.dark;
 
     final Color backgroundColor = loading
-        ? CupertinoTheme.of(context).primaryColor
+        ? CupertinoTheme.of(context).primaryColor.withOpacity(0.5)
         : darkTheme
             ? CupertinoColors.darkBackgroundGray
             : CupertinoColors.lightBackgroundGray;

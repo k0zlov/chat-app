@@ -3,96 +3,72 @@ import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_background
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_date.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_item.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_reload_button.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class ChatMessages extends StatelessWidget {
   const ChatMessages({
     super.key,
     required this.messages,
+    required this.height,
+    this.width,
   });
+
+  final double height;
+  final double? width;
 
   final List<MessageEntity> messages;
 
   @override
   Widget build(BuildContext context) {
-    final List<MessageEntity> sortedMessages = messages.sorted(
-      (first, second) {
-        return first.createdAt.compareTo(second.createdAt);
-      },
-    ).toList();
-
-    final Map<String, List<MessageEntity>> messagesByDays = {};
-
-    for (final MessageEntity message in sortedMessages) {
-      final String dateString = DateFormat.MMMMd().format(message.createdAt);
-
-      if (messagesByDays[dateString] == null) {
-        messagesByDays[dateString] = [];
-      }
-
-      messagesByDays[dateString]!.add(message);
-    }
+    final List<MessageEntity> groupedMessages = [
+      MessageEntity(createdAt: DateTime(1999), updatedAt: DateTime(1999)),
+      ...messages,
+    ];
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height - kToolbarHeight - 110,
+      height: height,
+      width: width,
       child: Stack(
         children: [
           const ChatBackgroundImage(),
-          CustomScrollView(
+          GroupedListView<MessageEntity, DateTime>(
+            physics: const AlwaysScrollableScrollPhysics(),
+            cacheExtent: 200,
+            useStickyGroupSeparators: true,
             reverse: true,
-            slivers: [
-              for (final entry in messagesByDays.entries.toList().reversed) ...{
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: entry.value.length,
-                    (context, index) {
-                      final MessageEntity message = entry.value[index];
+            order: GroupedListOrder.DESC,
+            floatingHeader: true,
+            elements: groupedMessages,
+            itemBuilder: (context, message) {
+              if (message == groupedMessages.first) {
+                return const SizedBox();
+              }
 
-                      return ChatMessagesItem(
-                        message: message.content,
-                        dateTime: message.createdAt,
-                        messageAuthor: false,
-                      );
-                    },
-                  ),
-                ),
-                SliverPersistentHeader(
-                  delegate: _DateHeaderDelegate(entry.key),
-                ),
-              },
-            ],
+              return ChatMessagesItem(
+                message: message,
+                messageAuthor: false,
+              );
+            },
+            stickyHeaderBackgroundColor: Colors.transparent,
+            groupComparator: (first, second) {
+              return first.compareTo(second);
+            },
+            groupSeparatorBuilder: (date) {
+              if (date == groupedMessages.first.createdAt) {
+                return const SizedBox();
+              }
+              return ChatMessagesDate(date: date);
+            },
+            groupBy: (message) {
+              final DateTime date = message.createdAt;
+
+              return DateTime(date.year, date.month, date.day);
+            },
           ),
           const ChatReloadButton(),
         ],
       ),
     );
-  }
-}
-
-class _DateHeaderDelegate extends SliverPersistentHeaderDelegate {
-  _DateHeaderDelegate(this.date);
-
-  final String date;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return ChatMessagesDate(date: date);
-  }
-
-  @override
-  double get minExtent => 50;
-
-  @override
-  double get maxExtent => 50;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return oldDelegate != this;
   }
 }
