@@ -3,6 +3,7 @@ import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_background
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_date.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_item.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_reload_button.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_scroll_down_button.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
@@ -30,19 +31,21 @@ class _ChatMessagesState extends State<ChatMessages> {
   void didUpdateWidget(covariant ChatMessages oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.messages != widget.messages && _scrollController.hasClients) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 240),
-        curve: Curves.easeOut,
-      );
-    }
+    if (oldWidget.messages != widget.messages) _scrollDown();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _scrollDown() {
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 240),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -94,6 +97,10 @@ class _ChatMessagesState extends State<ChatMessages> {
             },
           ),
           const ChatReloadButton(),
+          ChatScrollDownButton(
+            scrollController: _scrollController,
+            onPressed: _scrollDown,
+          ),
         ],
       ),
     );

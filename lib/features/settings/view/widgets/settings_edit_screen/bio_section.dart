@@ -1,6 +1,7 @@
-import 'package:chat_app/features/settings/view/widgets/settings_text_option.dart';
+import 'package:chat_app/core/widgets/screens/edit_screen/edit_text_option.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
 class SettingsEditBioSection extends StatelessWidget {
   const SettingsEditBioSection({super.key});
@@ -15,6 +16,7 @@ class SettingsEditBioSection extends StatelessWidget {
     );
 
     return CupertinoListSection.insetGrouped(
+      backgroundColor: Colors.transparent,
       footer: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: RichText(
@@ -36,7 +38,7 @@ class SettingsEditBioSection extends StatelessWidget {
         ),
       ),
       children: [
-        SettingsTextOption(
+        EditScreenTextOption(
           text: '',
           onChanged: (_) {},
           placeholder: 'Bio',

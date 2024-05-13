@@ -1,21 +1,25 @@
-import 'package:chat_app/features/settings/view/widgets/settings_edit_screen/edit_cancel_button.dart';
-import 'package:chat_app/features/settings/view/widgets/settings_edit_screen/edit_done_button.dart';
+import 'package:chat_app/core/widgets/screens/edit_screen/edit_cancel_button.dart';
+import 'package:chat_app/core/widgets/screens/edit_screen/edit_done_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SettingsEditAppBar extends StatefulWidget {
-  const SettingsEditAppBar({
+class EditScreenAppBar extends StatefulWidget {
+  const EditScreenAppBar({
     super.key,
     required this.scrollController,
+    required this.onDone,
+    required this.onCancel,
   });
 
+  final void Function()? onDone;
+  final void Function()? onCancel;
   final ScrollController scrollController;
 
   @override
-  State<SettingsEditAppBar> createState() => _SettingsEditAppBarState();
+  State<EditScreenAppBar> createState() => _EditScreenAppBarState();
 }
 
-class _SettingsEditAppBarState extends State<SettingsEditAppBar> {
+class _EditScreenAppBarState extends State<EditScreenAppBar> {
   bool _scrollAbove = false;
 
   void _setScrollAbove(bool value) {
@@ -55,12 +59,12 @@ class _SettingsEditAppBarState extends State<SettingsEditAppBar> {
     return SliverAppBar(
       pinned: true,
       leadingWidth: 70,
-      leading: const SettingsEditCancelButton(),
+      leading: EditScreenCancelButton(onPressed: widget.onCancel),
       backgroundColor: _scrollAbove
           ? theme.barBackgroundColor
           : theme.scaffoldBackgroundColor,
-      actions: const [
-        SettingsEditDoneButton(),
+      actions: [
+        EditScreenDoneButton(onPressed: widget.onDone),
       ],
     );
   }

@@ -87,6 +87,19 @@ class AppNavigation {
           chatId: int.tryParse(chatId ?? '-1') ?? -1,
         );
       },
+      routes: [
+        GoRoute(
+          path: AppRoutes.chatEdit.name,
+          name: AppRoutes.chatEdit.name,
+          builder: (context, state) {
+            final String? chatId = state.pathParameters['chatId'];
+
+            return ScreenFactory.renderChatEditPage(
+              chatId: int.tryParse(chatId ?? '-1') ?? -1,
+            );
+          },
+        ),
+      ],
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -133,6 +146,7 @@ enum AppRoutes {
   registration('/auth/registration'),
   chats('/chats'),
   chat('/chat/:chatId'),
+  chatEdit('/chat/:chatId/chatEdit'),
   settings('/settings'),
   appearanceSettings('/settings/appearance'),
   editSettings('/settings/edit'),

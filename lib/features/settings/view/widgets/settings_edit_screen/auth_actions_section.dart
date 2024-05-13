@@ -1,5 +1,6 @@
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsEditAuthActionsSection extends StatelessWidget {
@@ -20,6 +21,7 @@ class SettingsEditAuthActionsSection extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CupertinoListSection.insetGrouped(
+          backgroundColor: Colors.transparent,
           footer: Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Text(
@@ -39,6 +41,7 @@ class SettingsEditAuthActionsSection extends StatelessWidget {
           ],
         ),
         CupertinoListSection.insetGrouped(
+          backgroundColor: Colors.transparent,
           children: [
             SizedBox(
               width: double.infinity,

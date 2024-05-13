@@ -1,5 +1,6 @@
 import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SettingsEditBirthDateSection extends StatefulWidget {
   const SettingsEditBirthDateSection({super.key});
@@ -46,6 +47,7 @@ class _SettingsEditBirthDateSectionState
     return CupertinoListSection.insetGrouped(
       dividerMargin: 0,
       additionalDividerMargin: 15,
+      backgroundColor: Colors.transparent,
       footer: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Column(

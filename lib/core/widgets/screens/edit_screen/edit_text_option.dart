@@ -1,8 +1,8 @@
 import 'package:chat_app/core/widgets/reactive_text_field.dart';
 import 'package:flutter/cupertino.dart';
 
-class SettingsTextOption extends StatelessWidget {
-  const SettingsTextOption({
+class EditScreenTextOption extends StatelessWidget {
+  const EditScreenTextOption({
     super.key,
     required this.placeholder,
     required this.text,
@@ -33,8 +33,9 @@ class SettingsTextOption extends StatelessWidget {
           onChanged: onChanged,
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
           placeholderStyle: textStyle,
-          decoration: const BoxDecoration(
-            color: null,
+          clearButtonMode: OverlayVisibilityMode.editing,
+          decoration: BoxDecoration(
+            color: theme.barBackgroundColor.withOpacity(0.6),
           ),
         );
       },

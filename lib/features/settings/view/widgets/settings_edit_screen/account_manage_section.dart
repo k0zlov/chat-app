@@ -1,5 +1,6 @@
 import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SettingsEditAccountManageSection extends StatelessWidget {
   const SettingsEditAccountManageSection({super.key});
@@ -16,6 +17,7 @@ class SettingsEditAccountManageSection extends StatelessWidget {
     return CupertinoListSection.insetGrouped(
       dividerMargin: 0,
       additionalDividerMargin: 15,
+      backgroundColor: Colors.transparent,
       children: [
         SettingsOptionsItem(
           title: 'Change email',

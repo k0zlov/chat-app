@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
-class SettingsEditSetNewPhotoButton extends StatelessWidget {
-  const SettingsEditSetNewPhotoButton({super.key});
+class EditScreenSetNewPhotoButton extends StatelessWidget {
+  const EditScreenSetNewPhotoButton({
+    super.key,
+    required this.onPressed,
+  });
+
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +20,8 @@ class SettingsEditSetNewPhotoButton extends StatelessWidget {
 
     return CupertinoButton(
       padding: const EdgeInsets.all(2),
+      onPressed: onPressed,
       child: Text('Set New Photo', style: textStyle),
-      onPressed: () {},
     );
   }
 }

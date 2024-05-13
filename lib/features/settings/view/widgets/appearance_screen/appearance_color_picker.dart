@@ -52,25 +52,25 @@ class SettingsColorPickerItem extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 14),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 400),
-          height: 30,
-          width: 30,
-          padding: const EdgeInsets.all(4),
+          duration: const Duration(milliseconds: 240),
+          height: 28,
+          width: 28,
+          padding: EdgeInsets.all(selected ? 3 : 0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(40),
             border: Border.fromBorderSide(
               BorderSide(
                 width: 2,
-                color: selected ? color : Colors.transparent,
+                color: color,
               ),
             ),
           ),
           child: Container(
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(30),
             ),
           ),
         ),

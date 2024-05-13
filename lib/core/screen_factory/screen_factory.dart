@@ -3,6 +3,7 @@ import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
+import 'package:chat_app/features/chats/view/screens/chat_edit_screen.dart';
 import 'package:chat_app/features/chats/view/screens/chat_screen.dart';
 import 'package:chat_app/features/chats/view/screens/chats_listing_screen.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
@@ -54,6 +55,15 @@ class ScreenFactory {
     return BlocProvider.value(
       value: getIt<ChatsCubit>(),
       child: ChatScreen(chatId: chatId),
+    );
+  }
+
+  static Widget renderChatEditPage({
+    required int chatId,
+  }) {
+    return BlocProvider.value(
+      value: getIt<ChatsCubit>(),
+      child: ChatEditScreen(chatId: chatId),
     );
   }
 

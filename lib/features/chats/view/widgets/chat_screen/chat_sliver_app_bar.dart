@@ -4,6 +4,7 @@ import 'package:chat_app/core/widgets/buttons/app_bar_back_button.dart';
 import 'package:chat_app/core/widgets/buttons/edit_button.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_actions_panel.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_app_bar_image.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -256,7 +257,15 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
           stretch: true,
           actions: [
             if (widget.detailsMode) ...{
-              EditButton(blur: _mode.isExpanded, onPressed: () {}),
+              EditButton(
+                blur: _mode.isExpanded,
+                onPressed: () => context.goNamed(
+                  AppRoutes.chatEdit.name,
+                  pathParameters: {
+                    'chatId': widget.chat.id.toString(),
+                  },
+                ),
+              ),
             },
           ],
           onStretchTrigger: () async {
@@ -271,10 +280,13 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
             collapseMode: CollapseMode.pin,
             titlePadding: EdgeInsets.zero,
             centerTitle: true,
-            background: _BackgroundWidget(
-              mode: _mode,
-              detailsMode: widget.detailsMode,
-              onImagePressed: _onImage,
+            background: Hero(
+              tag: widget.chat.id,
+              child: ChatAppBarImage(
+                mode: _mode,
+                detailsMode: widget.detailsMode,
+                onImagePressed: _onImage,
+              ),
             ),
             expandedTitleScale: 1,
             title: SafeArea(
@@ -394,60 +406,6 @@ class _TitleWidgetMainBody extends StatelessWidget {
             child: const Text('4 members, 2 online'),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _BackgroundWidget extends StatelessWidget {
-  const _BackgroundWidget({
-    required this.detailsMode,
-    required this.mode,
-    required this.onImagePressed,
-  });
-
-  final bool detailsMode;
-  final AppBarMode mode;
-
-  final void Function() onImagePressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final double? size = mode.isBasic
-        ? 100
-        : mode.isExpanded
-            ? null
-            : 45;
-
-    final EdgeInsets margin = mode.isExpanded
-        ? EdgeInsets.zero
-        : mode.isBasic
-            ? const EdgeInsets.only(bottom: 60, right: 4)
-            : const EdgeInsets.only(bottom: 6, right: 4);
-
-    return AnimatedAlign(
-      duration: const Duration(milliseconds: 550),
-      alignment: detailsMode ? Alignment.center : Alignment.bottomRight,
-      curve: Curves.fastEaseInToSlowEaseOut,
-      child: GestureDetector(
-        onTap: onImagePressed,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 800),
-          curve: Curves.fastEaseInToSlowEaseOut,
-          clipBehavior: Clip.hardEdge,
-          height: size ?? MediaQuery.of(context).size.height,
-          width: size ?? MediaQuery.of(context).size.width,
-          margin: margin,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              mode.isExpanded ? 0 : 100,
-            ),
-          ),
-          child: Image.network(
-            'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
-            fit: BoxFit.cover,
-          ),
-        ),
       ),
     );
   }

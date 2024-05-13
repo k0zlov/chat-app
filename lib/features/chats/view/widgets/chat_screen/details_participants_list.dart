@@ -1,6 +1,7 @@
 import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ChatDetailsParticipantsList extends StatelessWidget {
   const ChatDetailsParticipantsList({
@@ -18,6 +19,7 @@ class ChatDetailsParticipantsList extends StatelessWidget {
             : CupertinoColors.white;
 
     return CupertinoListSection.insetGrouped(
+      backgroundColor: Colors.transparent,
       children: [
         ContactsListItem(
           title: 'Add Members',

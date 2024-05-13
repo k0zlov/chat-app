@@ -1,5 +1,6 @@
-import 'package:chat_app/features/settings/view/widgets/settings_text_option.dart';
+import 'package:chat_app/core/widgets/screens/edit_screen/edit_text_option.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SettingsEditNameSection extends StatelessWidget {
   const SettingsEditNameSection({super.key});
@@ -16,6 +17,7 @@ class SettingsEditNameSection extends StatelessWidget {
     return CupertinoListSection.insetGrouped(
       dividerMargin: 0,
       additionalDividerMargin: 15,
+      backgroundColor: Colors.transparent,
       footer: Padding(
         padding: const EdgeInsets.only(left: 15),
         child: Text(
@@ -24,12 +26,12 @@ class SettingsEditNameSection extends StatelessWidget {
         ),
       ),
       children: [
-        SettingsTextOption(
+        EditScreenTextOption(
           text: '',
           onChanged: (_) {},
           placeholder: 'First Name',
         ),
-        SettingsTextOption(
+        EditScreenTextOption(
           text: '',
           onChanged: (_) {},
           placeholder: 'Last Name',
