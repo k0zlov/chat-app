@@ -4,9 +4,11 @@ class PressableScaleWidget extends StatefulWidget {
   const PressableScaleWidget({
     super.key,
     required this.child,
+    this.scaleWhenPressed = 0.96,
     this.onLongPress,
   });
 
+  final double scaleWhenPressed;
   final Widget child;
   final void Function()? onLongPress;
 
@@ -19,7 +21,7 @@ class _PressableScaleWidgetState extends State<PressableScaleWidget> {
 
   void _onTapDown(TapDownDetails details) {
     setState(() {
-      _scale = 0.96;
+      _scale = widget.scaleWhenPressed;
     });
   }
 

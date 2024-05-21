@@ -1,10 +1,9 @@
 import 'package:chat_app/core/navigation/navigation.dart';
-import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/core/widgets/buttons/app_bar_back_button.dart';
 import 'package:chat_app/core/widgets/buttons/edit_button.dart';
+import 'package:chat_app/core/widgets/search/search_field.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_actions_panel.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_app_bar_image.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_app_bar_flexible_space.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +17,28 @@ class ChatSliverAppBar extends StatefulWidget {
     required this.detailsMode,
     required this.setDetailsMode,
     required this.scrollController,
+    required this.searchMode,
+    required this.focusNode,
+    required this.activateSearchMode,
+    required this.deactivateSearchMode,
+    required this.searchText,
+    required this.onSearchChanged,
   });
 
   final ChatEntity chat;
+
+  final FocusNode focusNode;
+
+  final String searchText;
+
   final bool detailsMode;
+  final bool searchMode;
+
   final void Function(bool newValue) setDetailsMode;
+  final void Function() activateSearchMode;
+  final void Function() deactivateSearchMode;
+  final void Function(String text) onSearchChanged;
+
   final ScrollController scrollController;
 
   @override
@@ -39,13 +55,30 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
   final double expandedHeight = 440;
   final double collapsedHeight = 70;
 
-  final Duration toBasicDuration = const Duration(milliseconds: 300);
+  final Duration toBasicDuration = const Duration(milliseconds: 400);
   final Duration toExpandedDuration = const Duration(milliseconds: 10);
   final Duration toCollapsedDuration = const Duration(milliseconds: 400);
+
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      lowerBound: collapsedHeight,
+      upperBound: expandedHeight,
+      vsync: this,
+    );
+
+    widget.scrollController.addListener(_scrollListener);
+  }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -90,20 +123,6 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
           duration: toCollapsedDuration,
         );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      lowerBound: collapsedHeight,
-      upperBound: expandedHeight,
-      vsync: this,
-    );
-
-    widget.scrollController.addListener(_scrollListener);
   }
 
   void _onTitle() {
@@ -233,20 +252,37 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
               ? theme.barBackgroundColor
               : theme.scaffoldBackgroundColor,
           pinned: true,
-          bottom: _mode.isCollapsed
+          bottom: widget.searchMode
               ? PreferredSize(
-                  preferredSize: const Size.fromHeight(0.1),
-                  child: Container(
-                    height: 0.1,
-                    width: double.infinity,
-                    color: borderColor,
-                    child: Divider(
-                      thickness: 0.1,
-                      color: borderColor,
+                  preferredSize: const Size.fromHeight(0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: ChatAppSearchField(
+                      height: 40,
+                      text: widget.searchText,
+                      reverseAnimation: false,
+                      controller: _controller,
+                      focusNode: widget.focusNode,
+                      onChanged: widget.onSearchChanged,
+                      onSubmitted: (_) {},
+                      onCancel: widget.deactivateSearchMode,
                     ),
                   ),
                 )
-              : null,
+              : _mode.isCollapsed
+                  ? PreferredSize(
+                      preferredSize: const Size.fromHeight(0.1),
+                      child: Container(
+                        height: 0.1,
+                        width: double.infinity,
+                        color: borderColor,
+                        child: Divider(
+                          thickness: 0.1,
+                          color: borderColor,
+                        ),
+                      ),
+                    )
+                  : null,
           toolbarHeight: 70,
           leadingWidth: _mode.isExpanded ? 70 : 95,
           expandedHeight: _animationController.value,
@@ -276,137 +312,24 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
               _reloadHeight();
             });
           },
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            titlePadding: EdgeInsets.zero,
-            centerTitle: true,
-            background: Hero(
-              tag: widget.chat.id,
-              child: ChatAppBarImage(
-                mode: _mode,
-                detailsMode: widget.detailsMode,
-                onImagePressed: _onImage,
-              ),
-            ),
-            expandedTitleScale: 1,
-            title: SafeArea(
-              child: BlurredWidget(
-                blurred: _mode.isExpanded,
-                child: SizedBox(
-                  height: _mode.isCollapsed ? collapsedHeight : 130,
-                  child: Stack(
-                    children: [
-                      AnimatedPositioned(
-                        bottom:
-                            _mode.isCollapsed || !widget.detailsMode ? 500 : 0,
-                        curve: Curves.fastEaseInToSlowEaseOut,
-                        duration: const Duration(milliseconds: 340),
-                        child: ChatActionsPanel(blurred: _mode.isExpanded),
-                      ),
-                      _TitleWidget(
-                        mode: _mode,
-                        detailsMode: widget.detailsMode,
-                        title: widget.chat.title,
-                        onTitlePressed: widget.detailsMode ? null : _onTitle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          flexibleSpace: Visibility(
+            visible: !widget.searchMode,
+            child: ChatSliverAppBarFlexibleSpace(
+              collapsedHeight: collapsedHeight,
+              chat: widget.chat,
+              mode: _mode,
+              detailsMode: widget.detailsMode,
+              onImagePressed: _onImage,
+              onTitlePressed: _onTitle,
+              activateSearchMode: () {
+                _changeMode(AppBarMode.collapsed);
+                _reloadHeight();
+                widget.activateSearchMode();
+              },
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class _TitleWidget extends StatelessWidget {
-  const _TitleWidget({
-    required this.title,
-    required this.onTitlePressed,
-    required this.mode,
-    required this.detailsMode,
-  });
-
-  final String title;
-  final bool detailsMode;
-  final AppBarMode mode;
-  final void Function()? onTitlePressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 240),
-      height: 70,
-      width: MediaQuery.of(context).size.width,
-      alignment:
-          mode.isExpanded ? Alignment.centerLeft : Alignment.bottomCenter,
-      padding: mode.isExpanded
-          ? const EdgeInsets.only(left: 14)
-          : mode.isCollapsed
-              ? EdgeInsets.zero
-              : const EdgeInsets.only(bottom: 14),
-      child: _TitleWidgetMainBody(
-        title: title,
-        mode: mode,
-        onTitlePressed: onTitlePressed,
-      ),
-    );
-  }
-}
-
-class _TitleWidgetMainBody extends StatelessWidget {
-  const _TitleWidgetMainBody({
-    required this.title,
-    required this.mode,
-    this.onTitlePressed,
-  });
-
-  final String title;
-  final AppBarMode mode;
-  final void Function()? onTitlePressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyle = CupertinoTheme.of(context).textTheme.textStyle.copyWith(
-          fontSize: 13,
-        );
-
-    return CupertinoButton(
-      padding: EdgeInsets.zero,
-      onPressed: onTitlePressed,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: mode.isExpanded
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
-        children: [
-          AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 240),
-            style: textStyle.copyWith(
-              fontSize: mode.isExpanded
-                  ? 18
-                  : mode.isCollapsed
-                      ? 14
-                      : 16,
-              fontWeight: FontWeight.w500,
-              color: mode.isExpanded ? CupertinoColors.white : null,
-            ),
-            child: Text(title),
-          ),
-          AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 240),
-            style: textStyle.copyWith(
-              fontSize: mode.isExpanded ? 14 : 12,
-              color: mode.isExpanded
-                  ? CupertinoColors.white
-                  : CupertinoColors.inactiveGray,
-            ),
-            child: const Text('4 members, 2 online'),
-          ),
-        ],
-      ),
     );
   }
 }

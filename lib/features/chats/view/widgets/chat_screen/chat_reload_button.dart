@@ -11,8 +11,16 @@ class ChatReloadButton extends StatelessWidget {
     final ChatsCubit cubit = context.read<ChatsCubit>();
     final ChatsState state = context.select((ChatsCubit cubit) => cubit.state);
 
-    return Align(
-      alignment: Alignment.topRight,
+    final mediaQuery = MediaQuery.of(context);
+
+    final double bottomPadding =
+        mediaQuery.viewInsets.bottom + mediaQuery.padding.bottom;
+
+    return AnimatedPositioned(
+      top: bottomPadding,
+      right: 0,
+      curve: Curves.decelerate,
+      duration: const Duration(milliseconds: 180),
       child: Padding(
         padding: const EdgeInsets.only(top: 20, right: 20),
         child: CupertinoReloadButton(

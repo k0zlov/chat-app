@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_text_field.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/send_message_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,14 +10,15 @@ class ChatBottomBar extends StatelessWidget {
   const ChatBottomBar({
     super.key,
     required this.chat,
+    required this.searchMode,
   });
 
   final ChatEntity chat;
 
+  final bool searchMode;
+
   @override
   Widget build(BuildContext context) {
-    final ChatsCubit cubit = context.read<ChatsCubit>();
-
     final Color backgroundColor =
         CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.9);
 
@@ -38,43 +40,11 @@ class ChatBottomBar extends StatelessWidget {
               left: 10,
               right: 10,
             ),
-            child: Row(
-              children: [
-                CupertinoButton(
-                  onPressed: () {},
-                  padding: EdgeInsets.zero,
-                  minSize: 0,
-                  child: const Icon(
-                    CupertinoIcons.paperclip,
-                    size: 28,
-                    color: CupertinoColors.systemGrey,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ChatTextField(chat: chat),
-                  ),
-                ),
-                if (chat.text.isEmpty) ...{
-                  CupertinoButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.zero,
-                    minSize: 35,
-                    child: const Icon(
-                      CupertinoIcons.mic,
-                      size: 28,
-                      color: CupertinoColors.systemGrey,
-                    ),
-                  ),
-                } else if(chat.sendingMessage)...{
-                  const CupertinoActivityIndicator(),
-                } else ...{
-                  SendMessageButton(
-                    onPressed: () async => cubit.sendMessage(chatId: chat.id),
-                  ),
-                },
-              ],
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 220),
+              child: searchMode
+                  ? const _SearchBody()
+                  : _MessageTextFieldBody(chat: chat),
             ),
           ),
         ),
@@ -83,27 +53,78 @@ class ChatBottomBar extends StatelessWidget {
   }
 }
 
-class SendMessageButton extends StatelessWidget {
-  const SendMessageButton({
-    super.key,
-    required this.onPressed,
-  });
-
-  final void Function() onPressed;
+class _SearchBody extends StatelessWidget {
+  const _SearchBody();
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      onPressed: onPressed,
-      padding: EdgeInsets.zero,
-      borderRadius: BorderRadius.circular(30),
-      color: CupertinoTheme.of(context).primaryColor,
-      minSize: 35,
-      child: const Icon(
-        CupertinoIcons.arrow_up,
-        size: 28,
-        color: CupertinoColors.white,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: [
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            minSize: 0,
+            onPressed: () {},
+            child: const Icon(
+              CupertinoIcons.calendar,
+              size: 24,
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _MessageTextFieldBody extends StatelessWidget {
+  const _MessageTextFieldBody({
+    required this.chat,
+  });
+
+  final ChatEntity chat;
+
+  @override
+  Widget build(BuildContext context) {
+    final ChatsCubit cubit = context.read<ChatsCubit>();
+
+    return Row(
+      children: [
+        CupertinoButton(
+          onPressed: () {},
+          padding: EdgeInsets.zero,
+          minSize: 0,
+          child: const Icon(
+            CupertinoIcons.paperclip,
+            size: 28,
+            color: CupertinoColors.systemGrey,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: ChatTextField(chat: chat),
+          ),
+        ),
+        if (chat.text.isEmpty) ...{
+          CupertinoButton(
+            onPressed: () {},
+            padding: EdgeInsets.zero,
+            minSize: 35,
+            child: const Icon(
+              CupertinoIcons.mic,
+              size: 28,
+              color: CupertinoColors.systemGrey,
+            ),
+          ),
+        } else if (chat.sendingMessage) ...{
+          const CupertinoActivityIndicator(),
+        } else ...{
+          SendMessageButton(
+            onPressed: () async => cubit.sendMessage(chatId: chat.id),
+          ),
+        },
+      ],
     );
   }
 }

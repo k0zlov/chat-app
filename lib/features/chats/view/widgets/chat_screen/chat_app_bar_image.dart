@@ -36,7 +36,7 @@ class ChatAppBarImage extends StatelessWidget {
       child: GestureDetector(
         onTap: onImagePressed,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 800),
+          duration: const Duration(milliseconds: 650),
           curve: Curves.fastEaseInToSlowEaseOut,
           clipBehavior: Clip.hardEdge,
           height: size ?? MediaQuery.of(context).size.height,
