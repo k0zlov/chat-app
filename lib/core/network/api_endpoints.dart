@@ -9,33 +9,29 @@ class ApiEndpoints {
   // Private constructor to prevent instantiation.
   ApiEndpoints._();
 
-  /// The endpoint for user login.
-  ///
-  /// This endpoint is used in API calls related to logging in a user.
-  /// It should be appended to the base URL of the API to construct the full
-  /// URL for the login request.
-  static const String postLogin = '/users/login';
+  /// Auth Route
+  static const authRoute = '/auth';
 
-  /// The endpoint for user registration.
-  ///
-  /// This endpoint is used in API calls related to registering a new user.
-  /// It should be combined with the base URL of the API to construct the full
-  /// URL for the registration request.
-  static const String postRegistration = '/users/sign-up';
+  static const getAuthUser = authRoute;
 
-  static const String getRefreshToken = '/users/refresh';
+  static const postLogin = '$authRoute/login';
 
-  static const String getLogout = '/users/logout';
+  static const postRegistration = '$authRoute/register';
 
-  static const String getUserContacts = '/users/friends';
-  static const String postAddContact = '/users/add-friend';
-  static const String postRemoveContact = '/users/remove-friend';
+  static const postRefreshToken = '$authRoute/refresh';
 
-  static const String getChats = '/chats';
-  static const String postJoinChat = '/chats/join';
-  static const String postLeaveChat = '/chats/leave';
-  static const String postCreateChat = '/chats';
+  static const postLogout = '$authRoute/logout';
 
-  static const String getMessages = '/messages/chat';
-  static const String postSendMessage = '/messages/send';
+  /// Contacts Route
+  static const getUserContacts = '/users/friends';
+  static const postAddContact = '/users/add-friend';
+  static const postRemoveContact = '/users/remove-friend';
+
+  static const getChats = '/chats';
+  static const postJoinChat = '/chats/join';
+  static const postLeaveChat = '/chats/leave';
+  static const postCreateChat = '/chats';
+
+  static const getMessages = '/messages/chat';
+  static const postSendMessage = '/messages/send';
 }

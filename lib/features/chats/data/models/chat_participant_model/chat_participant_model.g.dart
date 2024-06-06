@@ -9,8 +9,8 @@ part of 'chat_participant_model.dart';
 _$ChatParticipantModelImpl _$$ChatParticipantModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatParticipantModelImpl(
-      externalId: json['id'] as int? ?? -1,
-      userId: json['userId'] as int? ?? -1,
+      externalId: (json['id'] as num?)?.toInt() ?? -1,
+      userId: (json['userId'] as num?)?.toInt() ?? -1,
       createdAt: json['createdAt'] as String? ?? '',
     );
 

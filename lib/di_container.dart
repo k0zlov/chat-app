@@ -80,7 +80,7 @@ void _interceptor() {
 
 /// Sets up the network layer with a base URL and registers it as a lazy singleton.
 void _network() {
-  const String spaBaseUrl = String.fromEnvironment('SPA_BASE_URL');
+  const String spaBaseUrl = String.fromEnvironment('BASE_URL');
   getIt.registerLazySingleton<Network>(
     () => NetworkImplDio(
       baseUrl: spaBaseUrl,

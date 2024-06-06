@@ -9,7 +9,7 @@ part of 'send_message_use_case.dart';
 _$SendMessageParamsImpl _$$SendMessageParamsImplFromJson(
         Map<String, dynamic> json) =>
     _$SendMessageParamsImpl(
-      chatId: json['chatId'] as int? ?? -1,
+      chatId: (json['chatId'] as num?)?.toInt() ?? -1,
       content: json['content'] as String? ?? '',
     );
 

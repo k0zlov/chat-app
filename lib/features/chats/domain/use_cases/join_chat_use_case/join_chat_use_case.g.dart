@@ -8,7 +8,7 @@ part of 'join_chat_use_case.dart';
 
 _$JoinChatParamsImpl _$$JoinChatParamsImplFromJson(Map<String, dynamic> json) =>
     _$JoinChatParamsImpl(
-      chatId: json['chatId'] as int? ?? -1,
+      chatId: (json['chatId'] as num?)?.toInt() ?? -1,
     );
 
 Map<String, dynamic> _$$JoinChatParamsImplToJson(

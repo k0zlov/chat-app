@@ -1,5 +1,5 @@
 import 'package:chat_app/core/errors/failure.dart';
-import 'package:chat_app/features/auth/domain/entities/token_entity/token_entity.dart';
+import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
 import 'package:dartz/dartz.dart';
@@ -10,6 +10,15 @@ import 'package:dartz/dartz.dart';
 /// which must be implemented by concrete classes. It utilizes functional error handling
 /// with the Either type, allowing for clear separation of success and failure cases.
 abstract interface class AuthRepository {
+  /// Retrieves the currently authenticated user.
+  ///
+  /// This method fetches the user data for the currently authenticated user.
+  ///
+  /// Returns:
+  ///   A Future that resolves to an Either type, containing a [Failure] on error,
+  ///   or a [UserEntity] on success, representing the authenticated user's details.
+  Future<Either<Failure, UserEntity>> getCurrentUser();
+
   /// Registers a new user with the provided registration parameters.
   ///
   /// Parameters:
@@ -18,8 +27,10 @@ abstract interface class AuthRepository {
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
-  ///   or a [TokenResponseEntity] on successful registration, representing the user's authentication token.
-  Future<Either<Failure, TokenResponseEntity>> register(RegistrationParams params);
+  ///   or a [UserEntity] on successful registration, representing the registered user's details.
+  Future<Either<Failure, UserEntity>> register(
+    RegistrationParams params,
+  );
 
   /// Logs in a user with the provided login parameters.
   ///
@@ -28,8 +39,10 @@ abstract interface class AuthRepository {
   ///
   /// Returns:
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
-  ///   or a [TokenResponseEntity] on successful login, representing the user's authentication token.
-  Future<Either<Failure, TokenResponseEntity>> login(LoginParams params);
+  ///   or a [UserEntity] on successful login, representing the authenticated user's details.
+  Future<Either<Failure, UserEntity>> login(
+    LoginParams params,
+  );
 
   /// Logs out the currently authenticated user.
   ///

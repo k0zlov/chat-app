@@ -9,7 +9,7 @@ part of 'leave_chat_use_case.dart';
 _$LeaveChatParamsImpl _$$LeaveChatParamsImplFromJson(
         Map<String, dynamic> json) =>
     _$LeaveChatParamsImpl(
-      chatId: json['chatId'] as int? ?? -1,
+      chatId: (json['chatId'] as num?)?.toInt() ?? -1,
     );
 
 Map<String, dynamic> _$$LeaveChatParamsImplToJson(

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
 import 'package:chat_app/core/widgets/modal_pop_up.dart';
+import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
@@ -10,19 +11,33 @@ import 'package:flutter/cupertino.dart';
 
 part 'auth_cubit_state.dart';
 
+/// A Cubit for managing authentication state and actions.
 class AuthCubit extends Cubit<AuthState> {
+  /// Constructs an instance of [AuthCubit] with the necessary use cases.
+  ///
+  /// Parameters:
+  ///   [registrationUseCase] The use case for user registration.
+  ///   [loginUseCase] The use case for user login.
+  ///   [logoutUseCase] The use case for user logout.
   AuthCubit({
     required this.registrationUseCase,
     required this.loginUseCase,
     required this.logoutUseCase,
-  }) : super(AuthState());
+  }) : super(const AuthState());
 
+  /// The use case for user registration.
   final RegistrationUseCase registrationUseCase;
+
+  /// The use case for user login.
   final LoginUseCase loginUseCase;
+
+  /// The use case for user logout.
   final LogoutUseCase logoutUseCase;
 
+  /// The current state of the authentication process.
   AuthState _state = const AuthState();
 
+  /// Shows an authentication error message.
   void showAuthError(String authError) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (AppNavigation.rootNavigatorKey.currentContext == null) {
@@ -40,21 +55,25 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
+  /// Logs out the currently authenticated user.
   Future<void> logout() async {
     _state = _state.copyWith(authInProcess: true);
     emit(_state);
 
     final failureOrVoid = await logoutUseCase(NoParams());
     _state = const AuthState();
+
     failureOrVoid.fold(
       (failure) {
         showAuthError(failure.errorMessage);
       },
       (_) => null,
     );
+
     emit(_state);
   }
 
+  /// Checks if the login parameters are valid.
   bool checkLoginParams() {
     final LoginParams loginParams = _state.loginParams;
 
@@ -71,6 +90,7 @@ class AuthCubit extends Cubit<AuthState> {
     return true;
   }
 
+  /// Checks if the registration parameters are valid.
   bool checkRegistrationParams() {
     final RegistrationParams registrationParams = _state.registrationParams;
 
@@ -94,6 +114,7 @@ class AuthCubit extends Cubit<AuthState> {
     return true;
   }
 
+  /// Updates the email parameter for login.
   void onLoginEmail(String email) {
     final LoginParams loginParams = _state.loginParams;
     _state = _state.copyWith(
@@ -102,6 +123,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(_state);
   }
 
+  /// Updates the password parameter for login.
   void onLoginPassword(String password) {
     final LoginParams loginParams = _state.loginParams;
     _state = _state.copyWith(
@@ -110,6 +132,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(_state);
   }
 
+  /// Updates the name parameter for registration.
   void onRegistrationName(String name) {
     final RegistrationParams registrationParams = _state.registrationParams;
     _state = _state.copyWith(
@@ -118,6 +141,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(_state);
   }
 
+  /// Updates the email parameter for registration.
   void onRegistrationEmail(String email) {
     final RegistrationParams registrationParams = _state.registrationParams;
     _state = _state.copyWith(
@@ -126,6 +150,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(_state);
   }
 
+  /// Updates the password parameter for registration.
   void onRegistrationPassword(String password) {
     final RegistrationParams registrationParams = _state.registrationParams;
     _state = _state.copyWith(
@@ -134,6 +159,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(_state);
   }
 
+  /// Handles the login button press event.
   Future<void> onLoginButton() async {
     if (!checkLoginParams()) {
       _state = _state.copyWith();
@@ -147,17 +173,20 @@ class AuthCubit extends Cubit<AuthState> {
 
     final failureOrToken = await loginUseCase(_state.loginParams);
 
-    failureOrToken.fold(
+    await failureOrToken.fold(
       (failure) {
         showAuthError(failure.errorMessage);
       },
-      (tokenEntity) => null,
+      (user) async {
+        _state = _state.copyWith(currentUser: user);
+      },
     );
 
     _state = _state.copyWith(authInProcess: false);
     emit(_state);
   }
 
+  /// Handles the registration button press event.
   Future<void> onRegistrationButton() async {
     if (!checkRegistrationParams()) {
       showAuthError('The data you entered is incorrect. Please try again.');
@@ -173,13 +202,16 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) {
         showAuthError(failure.errorMessage);
       },
-      (tokenEntity) => null,
+      (user) {
+        _state = _state.copyWith(currentUser: user);
+      },
     );
 
     _state = _state.copyWith(authInProcess: false);
     emit(_state);
   }
 
+  /// Toggles the visibility of the password.
   void onHidePassword() {
     _state = _state.copyWith(hidePassword: !_state.hidePassword);
     emit(_state);

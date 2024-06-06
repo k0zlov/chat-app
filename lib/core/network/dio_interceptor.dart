@@ -84,7 +84,7 @@ class DioInterceptor extends Interceptor {
 
       case 403:
         {
-          errorMessage =
+          errorMessage = _getMessageFromServer(err) ??
               "Forbidden. You don't have access the requested resource";
           break;
         }
@@ -97,7 +97,7 @@ class DioInterceptor extends Interceptor {
 
       case 500:
         {
-          errorMessage = 'Internal Server Error';
+          errorMessage = _getMessageFromServer(err) ?? 'Internal Server Error';
           break;
         }
 
@@ -127,12 +127,11 @@ class DioInterceptor extends Interceptor {
     if (refreshToken == null) return;
 
     final Response<Map<String, dynamic>> response = await dio.get(
-      ApiEndpoints.getRefreshToken,
+      ApiEndpoints.postRefreshToken,
       queryParameters: {},
     );
 
     if (response.statusCode != 200) return;
-
 
     final String? newAccessToken = response.data?['accessToken'] as String?;
 
@@ -144,7 +143,7 @@ class DioInterceptor extends Interceptor {
 
     final String? newRefreshToken = cookies['refreshToken'];
 
-    if(newRefreshToken == null) return;
+    if (newRefreshToken == null) return;
 
     await authService.login(
       accessToken: newAccessToken,
@@ -174,8 +173,8 @@ class DioInterceptor extends Interceptor {
     final dynamic data = response?.data;
     String? errorMessage;
 
-    if (data is Map<String, dynamic> && data['message'] is String) {
-      errorMessage = data['message'] as String;
+    if (data is Map<String, dynamic> && data['errorMessage'] is String) {
+      errorMessage = data['errorMessage'] as String;
     }
 
     return errorMessage;

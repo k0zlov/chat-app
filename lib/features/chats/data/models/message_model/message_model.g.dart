@@ -8,9 +8,9 @@ part of 'message_model.dart';
 
 _$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
     _$MessageModelImpl(
-      externalId: json['id'] as int? ?? -1,
-      chatId: json['chatId'] as int? ?? -1,
-      userId: json['userId'] as int? ?? -1,
+      externalId: (json['id'] as num?)?.toInt() ?? -1,
+      chatId: (json['chatId'] as num?)?.toInt() ?? -1,
+      userId: (json['userId'] as num?)?.toInt() ?? -1,
       content: json['content'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
       updatedAt: json['updatedAt'] as String? ?? '',

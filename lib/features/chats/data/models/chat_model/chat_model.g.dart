@@ -8,8 +8,8 @@ part of 'chat_model.dart';
 
 _$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
     _$ChatModelImpl(
-      externalId: json['id'] as int? ?? -1,
-      userId: json['userId'] as int? ?? -1,
+      externalId: (json['id'] as num?)?.toInt() ?? -1,
+      userId: (json['userId'] as num?)?.toInt() ?? -1,
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',

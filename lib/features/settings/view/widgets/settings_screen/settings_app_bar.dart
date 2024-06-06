@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chat_app/core/widgets/blur/blurred_widget.dart';
 import 'package:chat_app/core/widgets/buttons/qr_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
+import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_edit_button.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_search_button.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_user_image.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum AppBarMode {
   basic,
@@ -288,6 +290,10 @@ class _UserInfoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthState authState = context.select(
+      (AuthCubit cubit) => cubit.state,
+    );
+
     final TextStyle themeTextStyle =
         CupertinoTheme.of(context).textTheme.textStyle;
 
@@ -308,7 +314,7 @@ class _UserInfoContainer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Username Username',
+                authState.currentUser.name,
                 textAlign: TextAlign.center,
                 style: themeTextStyle.copyWith(
                   fontSize: 16,
@@ -320,7 +326,7 @@ class _UserInfoContainer extends StatelessWidget {
                 duration: const Duration(milliseconds: 100),
                 opacity: collapsed ? 0 : 1,
                 child: Text(
-                  '+380 95 439 34 83 * @onemorro',
+                  authState.currentUser.email,
                   style: themeTextStyle.copyWith(
                     fontSize: 12,
                     color: expanded
