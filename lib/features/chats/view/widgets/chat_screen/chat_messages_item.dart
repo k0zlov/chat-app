@@ -24,9 +24,7 @@ class ChatMessagesItem extends StatelessWidget {
 
     final Color backgroundColor = messageAuthor
         ? theme.primaryColor
-        : darkTheme
-            ? CupertinoColors.darkBackgroundGray
-            : CupertinoColors.lightBackgroundGray;
+        : theme.barBackgroundColor;
 
     final Color timeTextColor = messageAuthor
         ? CupertinoColors.black.withOpacity(0.4)

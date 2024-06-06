@@ -236,7 +236,6 @@ void _cubits() {
       ),
     )
     ..registerLazySingleton<ChatsCubit>(
-
       () => ChatsCubit(
         getUserChatsUseCase: getIt(),
         getSavedChatsUseCase: getIt(),

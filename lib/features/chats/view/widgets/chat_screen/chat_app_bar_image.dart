@@ -30,13 +30,13 @@ class ChatAppBarImage extends StatelessWidget {
             : const EdgeInsets.only(bottom: 6, right: 4);
 
     return AnimatedAlign(
-      duration: const Duration(milliseconds: 550),
+      duration: const Duration(milliseconds: 400),
       alignment: detailsMode ? Alignment.center : Alignment.bottomRight,
       curve: Curves.fastEaseInToSlowEaseOut,
       child: GestureDetector(
         onTap: onImagePressed,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 650),
+          duration: const Duration(milliseconds: 400),
           curve: Curves.fastEaseInToSlowEaseOut,
           clipBehavior: Clip.hardEdge,
           height: size ?? MediaQuery.of(context).size.height,
