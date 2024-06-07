@@ -1,5 +1,5 @@
 import 'package:chat_app/core/errors/failure.dart';
-import 'package:chat_app/features/settings/data/data_providers/local/settings_local_data_provider.dart';
+import 'package:chat_app/features/settings/data/providers/local/settings_local_data_provider.dart';
 import 'package:chat_app/features/settings/domain/entities/theme_color_entity/theme_color_entity.dart';
 import 'package:chat_app/features/settings/domain/entities/theme_mode_entity/theme_mode_entity.dart';
 import 'package:chat_app/features/settings/domain/repositories/settings_repository.dart';
@@ -8,9 +8,15 @@ import 'package:chat_app/features/settings/domain/use_cases/change_theme_mode.da
 import 'package:chat_app/features/settings/domain/use_cases/change_using_system_mode.dart';
 import 'package:dartz/dartz.dart';
 
+/// Implementation of [SettingsRepository] that interacts with the local data provider
+/// to manage settings data.
 class SettingsRepositoryImpl implements SettingsRepository {
+  /// Creates an instance of [SettingsRepositoryImpl].
+  ///
+  /// - `localProvider`: The local data provider to handle settings-related operations.
   const SettingsRepositoryImpl({required this.localProvider});
 
+  /// The local data provider to handle settings-related operations.
   final SettingsLocalDataProvider localProvider;
 
   @override

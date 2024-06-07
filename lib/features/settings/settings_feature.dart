@@ -1,4 +1,4 @@
-export 'package:chat_app/features/settings/data/data_providers/local/settings_local_data_provider.dart';
+export 'package:chat_app/features/settings/data/providers/local/settings_local_data_provider.dart';
 export 'package:chat_app/features/settings/data/repositories/settings_repository_impl.dart';
 export 'package:chat_app/features/settings/domain/repositories/settings_repository.dart';
 export 'package:chat_app/features/settings/domain/use_cases/change_theme_color.dart';

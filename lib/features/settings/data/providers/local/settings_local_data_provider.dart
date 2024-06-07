@@ -9,27 +9,43 @@ import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
+/// Abstract class for local data provider related to settings.
+/// This class defines the contract for methods to get and set theme mode,
+/// theme color, and system mode usage.
 abstract class SettingsLocalDataProvider {
+  /// Gets the current theme mode from local storage.
   Future<Either<Failure, ThemeModeModel>> getThemeMode();
 
-  Future<Either<Failure, void>> setThemeMode(ChangeThemeModeParams params);
+  /// Sets the theme mode in local storage with the given parameters.
+  Future<Either<Failure, void>> setThemeMode(
+    ChangeThemeModeParams params,
+  );
 
+  /// Gets the current status of using system mode from local storage.
   Future<Either<Failure, bool>> getUsingSystemMode();
 
+  /// Sets the status of using system mode in local storage with the given parameters.
   Future<Either<Failure, void>> setUsingSystemMode(
     ChangeUsingSystemModeParams params,
   );
 
+  /// Gets the current theme color from local storage.
   Future<Either<Failure, ThemeColorModel>> getThemeColor();
 
+  /// Sets the theme color in local storage with the given parameters.
   Future<Either<Failure, void>> setThemeColor(
     ChangeThemeColorParams params,
   );
 }
 
+/// Implementation of [SettingsLocalDataProvider] using Hive for local storage.
 class SettingsLocalDataProviderImpl implements SettingsLocalDataProvider {
+  /// Creates an instance of [SettingsLocalDataProviderImpl].
+  ///
+  /// - `hiveBox`: The HiveBox instance to handle local storage operations.
   const SettingsLocalDataProviderImpl({required this.hiveBox});
 
+  /// The HiveBox instance to handle local storage operations.
   final HiveBox hiveBox;
 
   @override

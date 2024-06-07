@@ -16,8 +16,23 @@ enum ChatType {
   channel,
 }
 
+/// The [ChatEntity] class represents a chat entity in the domain layer.
+/// This class uses the `freezed` package to generate immutable value objects.
 @freezed
 class ChatEntity with _$ChatEntity {
+  /// Creates a [ChatEntity] instance.
+  ///
+  /// The factory constructor provides default values for the fields.
+  ///
+  /// - `id`: The unique identifier of the chat, default is -1.
+  /// - `title`: The title of the chat, default is an empty string.
+  /// - `type`: The type of chat (e.g., private, group, channel), default is [ChatType.group].
+  /// - `description`: An optional description of the chat, default is null.
+  /// - `createdAt`: The creation date of the chat, default is null.
+  /// - `participants`: A list of participants in the chat, default is an empty list.
+  /// - `messages`: A list of messages in the chat, default is an empty list.
+  /// - `text`: The current text being input by the user, default is an empty string.
+  /// - `sendingMessage`: A flag indicating if a message is being sent, default is false.
   const factory ChatEntity({
     @Default(-1) int id,
     @Default('') String title,
@@ -30,5 +45,7 @@ class ChatEntity with _$ChatEntity {
     @Default(false) bool sendingMessage,
   }) = _ChatEntity;
 
+  /// Private constructor for [ChatEntity].
+  /// This is used by the `freezed` package to generate the implementation.
   const ChatEntity._();
 }
