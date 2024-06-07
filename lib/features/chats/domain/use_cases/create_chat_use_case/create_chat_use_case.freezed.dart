@@ -21,7 +21,8 @@ CreateChatParams _$CreateChatParamsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CreateChatParams {
   String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get chatType => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $CreateChatParamsCopyWith<$Res> {
           CreateChatParams value, $Res Function(CreateChatParams) then) =
       _$CreateChatParamsCopyWithImpl<$Res, CreateChatParams>;
   @useResult
-  $Res call({String title, String description});
+  $Res call({String title, String? chatType, String? description});
 }
 
 /// @nodoc
@@ -52,17 +53,22 @@ class _$CreateChatParamsCopyWithImpl<$Res, $Val extends CreateChatParams>
   @override
   $Res call({
     Object? title = null,
-    Object? description = null,
+    Object? chatType = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      chatType: freezed == chatType
+          ? _value.chatType
+          : chatType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -75,7 +81,7 @@ abstract class _$$CreateChatParamsImplCopyWith<$Res>
       __$$CreateChatParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, String description});
+  $Res call({String title, String? chatType, String? description});
 }
 
 /// @nodoc
@@ -90,17 +96,22 @@ class __$$CreateChatParamsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? title = null,
-    Object? description = null,
+    Object? chatType = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$CreateChatParamsImpl(
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      chatType: freezed == chatType
+          ? _value.chatType
+          : chatType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -108,7 +119,8 @@ class __$$CreateChatParamsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CreateChatParamsImpl extends _CreateChatParams {
-  const _$CreateChatParamsImpl({this.title = '', this.description = ''})
+  const _$CreateChatParamsImpl(
+      {this.title = '', this.chatType = null, this.description = null})
       : super._();
 
   factory _$CreateChatParamsImpl.fromJson(Map<String, dynamic> json) =>
@@ -119,11 +131,14 @@ class _$CreateChatParamsImpl extends _CreateChatParams {
   final String title;
   @override
   @JsonKey()
-  final String description;
+  final String? chatType;
+  @override
+  @JsonKey()
+  final String? description;
 
   @override
   String toString() {
-    return 'CreateChatParams(title: $title, description: $description)';
+    return 'CreateChatParams(title: $title, chatType: $chatType, description: $description)';
   }
 
   @override
@@ -132,13 +147,15 @@ class _$CreateChatParamsImpl extends _CreateChatParams {
         (other.runtimeType == runtimeType &&
             other is _$CreateChatParamsImpl &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.chatType, chatType) ||
+                other.chatType == chatType) &&
             (identical(other.description, description) ||
                 other.description == description));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, description);
+  int get hashCode => Object.hash(runtimeType, title, chatType, description);
 
   @JsonKey(ignore: true)
   @override
@@ -157,7 +174,9 @@ class _$CreateChatParamsImpl extends _CreateChatParams {
 
 abstract class _CreateChatParams extends CreateChatParams {
   const factory _CreateChatParams(
-      {final String title, final String description}) = _$CreateChatParamsImpl;
+      {final String title,
+      final String? chatType,
+      final String? description}) = _$CreateChatParamsImpl;
   const _CreateChatParams._() : super._();
 
   factory _CreateChatParams.fromJson(Map<String, dynamic> json) =
@@ -166,7 +185,9 @@ abstract class _CreateChatParams extends CreateChatParams {
   @override
   String get title;
   @override
-  String get description;
+  String? get chatType;
+  @override
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$CreateChatParamsImplCopyWith<_$CreateChatParamsImpl> get copyWith =>

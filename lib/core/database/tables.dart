@@ -49,13 +49,12 @@ class ChatsTable extends Table {
 
   @override
   Map<String, String> fields() => {
-        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'external_id': 'INTEGER NOT NULL UNIQUE',
-        'user_id': 'INTEGER NOT NULL',
+        'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'id': 'INTEGER NOT NULL UNIQUE',
         'title': 'TEXT NOT NULL',
+        'type': 'TEXT',
         'description': 'TEXT',
-        'created_at': 'TEXT NOT NULL',
-        'updated_at': 'TEXT NOT NULL',
+        'createdAt': 'TEXT NOT NULL',
       };
 }
 
@@ -66,13 +65,13 @@ class MessagesTable extends Table {
 
   @override
   Map<String, String> fields() => {
-        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'external_id': 'INTEGER UNIQUE',
-        'chat_id': 'INTEGER',
-        'user_id': 'INTEGER NOT NULL',
+        'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'id': 'INTEGER UNIQUE',
+        'chatId': 'INTEGER',
+        'userId': 'INTEGER NOT NULL',
         'content': 'TEXT NOT NULL',
-        'created_at': 'TEXT NOT NULL',
-        'updated_at': 'TEXT NOT NULL',
+        'createdAt': 'TEXT NOT NULL',
+        'updatedAt': 'TEXT NOT NULL',
       };
 }
 
@@ -83,11 +82,11 @@ class ChatParticipantsTable extends Table {
 
   @override
   Map<String, String> fields() => {
-        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'external_id': 'INTEGER NOT NULL UNIQUE',
-        'chat_id': 'INTEGER NOT NULL',
-        'user_id': 'INTEGER NOT NULL',
-        'created_at': 'TEXT NOT NULL',
+        'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'chatId': 'INTEGER NOT NULL',
+        'userId': 'INTEGER NOT NULL',
+        'role': 'TEXT NOT NULL',
+        'joinedAt': 'TEXT NOT NULL',
       };
 }
 
@@ -98,10 +97,10 @@ class ContactsTable extends Table {
 
   @override
   Map<String, String> fields() => {
-        'id': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'external_id': 'INTEGER NOT NULL UNIQUE',
+        'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'contactUserId': 'INTEGER NOT NULL UNIQUE',
         'name': 'TEXT NOT NULL',
         'email': 'TEXT NOT NULL UNIQUE',
-        'addedAt': 'TEXT',
+        'addedAt': 'TEXT NOT NULL',
       };
 }

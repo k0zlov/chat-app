@@ -7,13 +7,17 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
 abstract interface class ChatsLocalProvider {
-  Future<Either<Failure, void>> rewriteSavedChats(List<ChatModel> chats);
-
   Future<Either<Failure, ChatsResponseModel>> getSavedChats();
 
   Future<Either<Failure, void>> cacheChat(ChatModel model);
 
-  Future<Either<Failure, void>> deleteChat();
+  Future<Either<Failure, void>> deleteChat(int chatId);
+
+  Future<Either<Failure, void>> rewriteSavedChats(
+    List<ChatModel> chats,
+  );
+
+  Future<void> deleteAllChats();
 }
 
 class ChatsLocalProviderImpl implements ChatsLocalProvider {
@@ -27,29 +31,21 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
   @override
   Future<Either<Failure, void>> cacheChat(ChatModel model) async {
-    final Map<String, dynamic> dataToSave = {
-      'external_id': model.externalId,
-      'user_id': model.userId,
-      'title': model.title,
-      'description': model.description,
-      'created_at': model.createdAt,
-      'updated_at': model.updatedAt,
-    };
-
     final response = await database.insert(
       tableName: tableName,
-      data: dataToSave,
+      data: model.toJson()..remove('participants')..remove('messages'),
     );
     return response;
   }
 
   @override
-  Future<Either<Failure, void>> deleteChat() async {
+  Future<Either<Failure, void>> deleteChat(int chatId) async {
     final response = await database.delete(
       tableName: tableName,
-      where: 'external_id = ?',
-      whereArgs: [],
+      where: 'id = ?',
+      whereArgs: [chatId],
     );
+
     return response;
   }
 
@@ -57,27 +53,9 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
   Future<Either<Failure, ChatsResponseModel>> getSavedChats() async {
     final response = await database.get(
       tableName: tableName,
-      parser: (json) {
-        final items = json['items'] as List<Map<String, dynamic>>;
-
-        final List<ChatModel> chats = [];
-
-        for (final Map<String, dynamic> rawChat in items) {
-          chats.add(
-            ChatModel(
-              title: rawChat['title'] as String,
-              externalId: rawChat['external_id'] as int,
-              userId: rawChat['user_id'] as int,
-              description: rawChat['description'] as String,
-              createdAt: rawChat['created_at'] as String,
-              updatedAt: rawChat['updated_at'] as String,
-            ),
-          );
-        }
-
-        return ChatsResponseModel(chats: chats);
-      },
+      parser: ChatsResponseModel.fromJson,
     );
+
     return response;
   }
 
@@ -102,5 +80,10 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
       return const Left(cacheFailure);
     }
+  }
+
+  @override
+  Future<void> deleteAllChats() async {
+    await database.delete(tableName: tableName);
   }
 }

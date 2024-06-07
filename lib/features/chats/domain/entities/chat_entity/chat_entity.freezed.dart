@@ -17,11 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChatEntity {
   int get id => throw _privateConstructorUsedError;
-  int get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  ChatType get type => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
   List<ChatParticipantEntity> get participants =>
       throw _privateConstructorUsedError;
   List<MessageEntity> get messages => throw _privateConstructorUsedError;
@@ -41,11 +40,10 @@ abstract class $ChatEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int userId,
       String title,
+      ChatType type,
       String? description,
       DateTime? createdAt,
-      DateTime? updatedAt,
       List<ChatParticipantEntity> participants,
       List<MessageEntity> messages,
       String text,
@@ -66,11 +64,10 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
   @override
   $Res call({
     Object? id = null,
-    Object? userId = null,
     Object? title = null,
+    Object? type = null,
     Object? description = freezed,
     Object? createdAt = freezed,
-    Object? updatedAt = freezed,
     Object? participants = null,
     Object? messages = null,
     Object? text = null,
@@ -81,14 +78,14 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatType,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -96,10 +93,6 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       participants: null == participants
           ? _value.participants
@@ -131,11 +124,10 @@ abstract class _$$ChatEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      int userId,
       String title,
+      ChatType type,
       String? description,
       DateTime? createdAt,
-      DateTime? updatedAt,
       List<ChatParticipantEntity> participants,
       List<MessageEntity> messages,
       String text,
@@ -154,11 +146,10 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? userId = null,
     Object? title = null,
+    Object? type = null,
     Object? description = freezed,
     Object? createdAt = freezed,
-    Object? updatedAt = freezed,
     Object? participants = null,
     Object? messages = null,
     Object? text = null,
@@ -169,14 +160,14 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ChatType,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -184,10 +175,6 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       participants: null == participants
           ? _value._participants
@@ -214,11 +201,10 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
 class _$ChatEntityImpl extends _ChatEntity {
   const _$ChatEntityImpl(
       {this.id = -1,
-      this.userId = -1,
       this.title = '',
+      this.type = ChatType.group,
       this.description = null,
       this.createdAt = null,
-      this.updatedAt = null,
       final List<ChatParticipantEntity> participants = const [],
       final List<MessageEntity> messages = const [],
       this.text = '',
@@ -232,19 +218,16 @@ class _$ChatEntityImpl extends _ChatEntity {
   final int id;
   @override
   @JsonKey()
-  final int userId;
+  final String title;
   @override
   @JsonKey()
-  final String title;
+  final ChatType type;
   @override
   @JsonKey()
   final String? description;
   @override
   @JsonKey()
   final DateTime? createdAt;
-  @override
-  @JsonKey()
-  final DateTime? updatedAt;
   final List<ChatParticipantEntity> _participants;
   @override
   @JsonKey()
@@ -272,7 +255,7 @@ class _$ChatEntityImpl extends _ChatEntity {
 
   @override
   String toString() {
-    return 'ChatEntity(id: $id, userId: $userId, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, participants: $participants, messages: $messages, text: $text, sendingMessage: $sendingMessage)';
+    return 'ChatEntity(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, participants: $participants, messages: $messages, text: $text, sendingMessage: $sendingMessage)';
   }
 
   @override
@@ -281,14 +264,12 @@ class _$ChatEntityImpl extends _ChatEntity {
         (other.runtimeType == runtimeType &&
             other is _$ChatEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
@@ -301,11 +282,10 @@ class _$ChatEntityImpl extends _ChatEntity {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      userId,
       title,
+      type,
       description,
       createdAt,
-      updatedAt,
       const DeepCollectionEquality().hash(_participants),
       const DeepCollectionEquality().hash(_messages),
       text,
@@ -321,11 +301,10 @@ class _$ChatEntityImpl extends _ChatEntity {
 abstract class _ChatEntity extends ChatEntity {
   const factory _ChatEntity(
       {final int id,
-      final int userId,
       final String title,
+      final ChatType type,
       final String? description,
       final DateTime? createdAt,
-      final DateTime? updatedAt,
       final List<ChatParticipantEntity> participants,
       final List<MessageEntity> messages,
       final String text,
@@ -335,15 +314,13 @@ abstract class _ChatEntity extends ChatEntity {
   @override
   int get id;
   @override
-  int get userId;
-  @override
   String get title;
+  @override
+  ChatType get type;
   @override
   String? get description;
   @override
   DateTime? get createdAt;
-  @override
-  DateTime? get updatedAt;
   @override
   List<ChatParticipantEntity> get participants;
   @override

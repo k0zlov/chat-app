@@ -7,12 +7,12 @@ part 'message_model.g.dart';
 @freezed
 class MessageModel with _$MessageModel {
   const factory MessageModel({
-    @JsonKey(name: 'id') @Default(-1) int externalId,
+    @Default(-1) int id,
     @Default(-1) int chatId,
     @Default(-1) int userId,
     @Default('') String content,
-    @Default('') String createdAt,
     @Default('') String updatedAt,
+    @Default('') String createdAt,
   }) = _MessageModel;
 
   const MessageModel._();
@@ -22,7 +22,7 @@ class MessageModel with _$MessageModel {
 
   MessageEntity toEntity() {
     return MessageEntity(
-      id: externalId,
+      id: id,
       userId: userId,
       chatId: chatId,
       content: content,

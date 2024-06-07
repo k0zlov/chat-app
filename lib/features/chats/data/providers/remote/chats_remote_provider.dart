@@ -9,13 +9,19 @@ import 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/lea
 import 'package:dartz/dartz.dart';
 
 abstract interface class ChatsRemoteProvider {
-  Future<Either<Failure, ChatsResponseModel>> fetchUserChats();
+  Future<Either<Failure, ChatsResponseModel>> fetchChats();
 
-  Future<Either<Failure, void>> joinChat(JoinChatParams params);
+  Future<Either<Failure, ChatModel>> joinChat(
+    JoinChatParams params,
+  );
 
-  Future<Either<Failure, void>> leaveChat(LeaveChatParams params);
+  Future<Either<Failure, void>> leaveChat(
+    LeaveChatParams params,
+  );
 
-  Future<Either<Failure, ChatModel>> createChat(CreateChatParams params);
+  Future<Either<Failure, ChatModel>> createChat(
+    CreateChatParams params,
+  );
 }
 
 class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
@@ -26,20 +32,23 @@ class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
   final Network network;
 
   @override
-  Future<Either<Failure, ChatModel>> createChat(CreateChatParams params) async {
+  Future<Either<Failure, ChatModel>> createChat(
+    CreateChatParams params,
+  ) async {
     final response = await network.post(
-      url: ApiEndpoints.postCreateChat,
+      url: ApiEndpoints.postChatCreate,
       data: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
         return ChatModel.fromJson(data);
       },
     );
+
     return response;
   }
 
   @override
-  Future<Either<Failure, ChatsResponseModel>> fetchUserChats() async {
+  Future<Either<Failure, ChatsResponseModel>> fetchChats() async {
     final response = await network.get(
       url: ApiEndpoints.getChats,
       parser: (json) {
@@ -47,26 +56,36 @@ class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
         return ChatsResponseModel.fromJson(data);
       },
     );
+
     return response;
   }
 
   @override
-  Future<Either<Failure, void>> joinChat(
+  Future<Either<Failure, ChatModel>> joinChat(
     JoinChatParams params,
   ) async {
     final response = await network.post(
-      url: '${ApiEndpoints.postJoinChat}/${params.chatId}',
-      parser: (json) => null,
+      url: ApiEndpoints.postChatJoin,
+      data: params.toJson(),
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return ChatModel.fromJson(data);
+      },
     );
+
     return response;
   }
 
   @override
-  Future<Either<Failure, void>> leaveChat(LeaveChatParams params) async {
+  Future<Either<Failure, void>> leaveChat(
+    LeaveChatParams params,
+  ) async {
     final response = await network.post(
-      url: '${ApiEndpoints.postLeaveChat}/${params.chatId}',
+      url: ApiEndpoints.postChatLeave,
+      data: params.toJson(),
       parser: (json) => null,
     );
+
     return response;
   }
 }

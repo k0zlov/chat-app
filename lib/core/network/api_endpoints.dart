@@ -34,11 +34,28 @@ class ApiEndpoints {
   static const getContactsSearch = '$contactsRoute/search';
 
   /// Chats
-  static const getChats = '/chats';
-  static const postJoinChat = '/chats/join';
-  static const postLeaveChat = '/chats/leave';
-  static const postCreateChat = '/chats';
+  static const chatsRoute = '/chats';
 
-  static const getMessages = '/messages/chat';
-  static const postSendMessage = '/messages/send';
+  static const getChats = chatsRoute;
+
+  static const postChatCreate = '$chatsRoute/create';
+
+  static const deleteChatDelete = '$chatsRoute/delete';
+
+  static const putChatUpdate = '$chatsRoute/update';
+
+  static const postChatJoin = '$chatsRoute/join';
+
+  static const postChatLeave = '$chatsRoute/leave';
+
+  static const getChatSearch = '$chatsRoute/search';
+
+  /// Messages
+  static const messagesRoute = '/messages';
+
+  static const postMessageSend = '$messagesRoute/send';
+
+  static const deleteMessageDelete = '$messagesRoute/delete';
+
+  static const putMessageUpdate = '$messagesRoute/update';
 }

@@ -3,11 +3,10 @@ import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
 import 'package:chat_app/core/widgets/modal_pop_up.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/domain/use_cases/erase_chats_use_case/erase_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'package:meta/meta.dart';
 
 part 'chats_state.dart';
 
@@ -19,9 +18,8 @@ class ChatsCubit extends Cubit<ChatsState> {
     required this.joinChatUseCase,
     required this.leaveChatUseCase,
     required this.sendMessageUseCase,
-  }) : super(const ChatsState()) {
-    _init();
-  }
+    required this.eraseChatsUseCase,
+  }) : super(const ChatsState());
 
   ChatsState _state = const ChatsState();
 
@@ -30,8 +28,18 @@ class ChatsCubit extends Cubit<ChatsState> {
   final GetUserChatsUseCase getUserChatsUseCase;
   final JoinChatUseCase joinChatUseCase;
   final LeaveChatUseCase leaveChatUseCase;
+  final EraseChatsUseCase eraseChatsUseCase;
 
   final SendMessageUseCase sendMessageUseCase;
+
+  Future<void> onLogin() async {
+    await _loadSavedChats();
+    await fetchChats();
+  }
+
+  Future<void> onLogout() async {
+    await eraseChatsUseCase(NoParams());
+  }
 
   void showError(String message) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -50,18 +58,11 @@ class ChatsCubit extends Cubit<ChatsState> {
     });
   }
 
-  void _init() {
-    _loadSavedChats();
-    fetchChats();
-  }
-
   Future<void> _loadSavedChats() async {
     final failureOrChats = await getSavedChatsUseCase(NoParams());
 
     failureOrChats.fold(
-      (failure) {
-        showError(failure.errorMessage);
-      },
+      (failure) => showError(failure.errorMessage),
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
         emit(_state);
@@ -76,9 +77,7 @@ class ChatsCubit extends Cubit<ChatsState> {
     final failureOrChats = await getUserChatsUseCase(NoParams());
 
     failureOrChats.fold(
-      (failure) {
-        showError(failure.errorMessage);
-      },
+      (failure) => showError(failure.errorMessage),
       (entity) {
         _state = _state.copyWith(chats: entity.chats);
       },
@@ -99,11 +98,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
 
     failureOrChats.fold(
-      (failure) {
-        showError(failure.errorMessage);
-      },
+      (failure) => showError(failure.errorMessage),
       (entity) {
-        _state = _state.copyWith(chats: entity.chats);
+        _state = _state.copyWith(chats: [..._state.chats, entity]);
       },
     );
     _state = _state.copyWith(loadingChats: false);
@@ -134,7 +131,7 @@ class ChatsCubit extends Cubit<ChatsState> {
         showError(failure.errorMessage);
       },
       (entity) {
-        _state = _state.copyWith(chats: entity.chats);
+        _state = _state.copyWith(chats: [..._state.chats, entity]);
       },
     );
 
@@ -154,8 +151,11 @@ class ChatsCubit extends Cubit<ChatsState> {
       (failure) {
         showError(failure.errorMessage);
       },
-      (entity) {
-        _state = _state.copyWith(chats: entity.chats);
+      (_) {
+        final List<ChatEntity> newChats =
+            _state.chats.where((chat) => chat.id != chatId).toList();
+
+        _state = _state.copyWith(chats: newChats);
       },
     );
     _state = _state.copyWith(loadingChats: false);
@@ -185,6 +185,7 @@ class ChatsCubit extends Cubit<ChatsState> {
       (entity) {
         final ChatEntity newChat = chat.copyWith(
           text: '',
+          sendingMessage: false,
           messages: [...chat.messages, entity],
         );
 

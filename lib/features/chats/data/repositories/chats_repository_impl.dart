@@ -1,18 +1,13 @@
 import 'package:chat_app/core/errors/failure.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/models/chat_model/chat_model.dart';
-import 'package:chat_app/features/chats/data/providers/local/chat_participants_local_provider.dart';
-import 'package:chat_app/features/chats/data/providers/local/chats_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
-import 'package:chat_app/features/chats/data/providers/remote/chats_remote_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
 import 'package:chat_app/features/chats/domain/entities/chats_response_entity/chats_response_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
-import 'package:chat_app/features/chats/domain/repositories/chats_repository.dart';
-import 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/join_chat_use_case/join_chat_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/leave_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 
 class ChatsRepositoryImpl implements ChatsRepository {
   const ChatsRepositoryImpl({
@@ -32,7 +27,7 @@ class ChatsRepositoryImpl implements ChatsRepository {
   final MessagesRemoteProvider messagesRemoteProvider;
 
   @override
-  Future<Either<Failure, ChatsResponseEntity>> createChat(
+  Future<Either<Failure, ChatEntity>> createChat(
     CreateChatParams params,
   ) async {
     final response = await remoteProvider.createChat(params);
@@ -41,9 +36,9 @@ class ChatsRepositoryImpl implements ChatsRepository {
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
       (model) async {
-        final JoinChatParams params = JoinChatParams(chatId: model.externalId);
+        final ChatEntity entity = model.toEntity();
 
-        return joinChat(params);
+        return Right(entity);
       },
     );
   }
@@ -59,10 +54,8 @@ class ChatsRepositoryImpl implements ChatsRepository {
         final List<ChatModel> chats = [];
 
         for (ChatModel chat in model.chats) {
-          final participantsResponse =
-              await participantsLocalProvider.getSavedParticipants(
-            chatId: chat.externalId,
-          );
+          final participantsResponse = await participantsLocalProvider
+              .getSavedParticipants(chatId: chat.id);
 
           participantsResponse.fold(
             (failure) => null,
@@ -72,7 +65,7 @@ class ChatsRepositoryImpl implements ChatsRepository {
           );
 
           final messagesResponse = await messagesLocalProvider.getSavedMessages(
-            chatId: chat.externalId,
+            chatId: chat.id,
           );
 
           messagesResponse.fold(
@@ -84,6 +77,7 @@ class ChatsRepositoryImpl implements ChatsRepository {
 
           chats.add(chat);
         }
+
         final ChatsResponseEntity entity =
             model.copyWith(chats: chats).toEntity();
 
@@ -94,44 +88,25 @@ class ChatsRepositoryImpl implements ChatsRepository {
 
   @override
   Future<Either<Failure, ChatsResponseEntity>> fetchChats() async {
-    final response = await remoteProvider.fetchUserChats();
+    final response = await remoteProvider.fetchChats();
 
     return response.fold(
       (failure) async => getSavedChats(),
       (model) async {
-        final List<ChatModel> chatsWithMessages = [];
+        for (final chat in model.chats) {
+          await localProvider.cacheChat(chat);
 
-        await localProvider.rewriteSavedChats(model.chats);
+          for (final participant in chat.participants) {
+            await participantsLocalProvider.cacheParticipant(
+                model: participant);
+          }
 
-        for (final ChatModel chat in model.chats) {
-          await participantsLocalProvider.rewriteChatParticipants(
-            chatId: chat.externalId,
-            participants: chat.participants,
-          );
-
-          final messagesResponse = await messagesRemoteProvider.getMessages(
-            chat.externalId,
-          );
-
-          messagesResponse.fold(
-            (failure) => chatsWithMessages.add(chat),
-            (model) async {
-              chatsWithMessages.add(
-                chat.copyWith(messages: model.messages),
-              );
-            },
-          );
+          for (final message in chat.messages) {
+            await messagesLocalProvider.cacheMessage(model: message);
+          }
         }
 
-        for (final ChatModel chat in chatsWithMessages) {
-          await messagesLocalProvider.rewriteMessages(
-            chatId: chat.externalId,
-            messages: chat.messages,
-          );
-        }
-
-        final ChatsResponseEntity entity =
-            model.copyWith(chats: chatsWithMessages).toEntity();
+        final ChatsResponseEntity entity = model.toEntity();
 
         return Right(entity);
       },
@@ -139,7 +114,7 @@ class ChatsRepositoryImpl implements ChatsRepository {
   }
 
   @override
-  Future<Either<Failure, ChatsResponseEntity>> joinChat(
+  Future<Either<Failure, ChatEntity>> joinChat(
     JoinChatParams params,
   ) async {
     final response = await remoteProvider.joinChat(params);
@@ -147,12 +122,15 @@ class ChatsRepositoryImpl implements ChatsRepository {
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
-      (_) async => fetchChats(),
+      (model) {
+        final ChatEntity entity = model.toEntity();
+        return Right(entity);
+      },
     );
   }
 
   @override
-  Future<Either<Failure, ChatsResponseEntity>> leaveChat(
+  Future<Either<Failure, void>> leaveChat(
     LeaveChatParams params,
   ) async {
     final response = await remoteProvider.leaveChat(params);
@@ -160,7 +138,10 @@ class ChatsRepositoryImpl implements ChatsRepository {
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
-      (_) async => fetchChats(),
+      (_) async {
+        await localProvider.deleteChat(params.chatId);
+        return const Right(null);
+      },
     );
   }
 
@@ -180,5 +161,26 @@ class ChatsRepositoryImpl implements ChatsRepository {
         return Right(entity);
       },
     );
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAllChats() async {
+    try {
+      await localProvider.deleteAllChats();
+      await participantsLocalProvider.deleteAllParticipants();
+      await messagesLocalProvider.deleteAllMessages();
+
+      return const Right(null);
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error: $e \nStack trace:\n $stackTrace');
+      }
+
+      const cacheFailure = CacheFailure(
+        errorMessage: 'Could not delete saved chats.',
+      );
+
+      return const Left(cacheFailure);
+    }
   }
 }

@@ -18,12 +18,12 @@ class ContactModel with _$ContactModel {
   /// the provided values.
   ///
   /// Parameters:
-  ///   [externalId] The external ID of the contact, defaults to -1.
+  ///   [contactUserId] The external ID of the contact, defaults to -1.
   ///   [name] The name of the contact, defaults to an empty string.
   ///   [email] The email of the contact, defaults to an empty string.
   ///   [addedAt] The date when the contact was added, defaults to an empty string.
   const factory ContactModel({
-    @JsonKey(name: 'contactUserId') @Default(-1) int externalId,
+    @Default(-1) int contactUserId,
     @Default('') String name,
     @Default('') String email,
     @Default('') String addedAt,
@@ -57,7 +57,7 @@ class ContactModel with _$ContactModel {
   ///   A [ContactEntity] instance with the data from this [ContactModel].
   ContactEntity toEntity() {
     return ContactEntity(
-      id: externalId,
+      id: contactUserId,
       name: name,
       email: email,
       addedAt: DateTime.tryParse(addedAt),

@@ -173,7 +173,7 @@ class ContactsCubit extends Cubit<ContactsState> {
       emit(_state);
 
       final failureOrContacts = await searchContactsUseCase(
-        SearchContactsParams(name: searchText),
+        SearchContactsParams(username: searchText),
       );
 
       failureOrContacts.fold(

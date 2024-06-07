@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 
 abstract interface class ChatParticipantsLocalProvider {
   Future<Either<Failure, void>> cacheParticipant({
-    required int chatId,
     required ChatParticipantModel model,
   });
 
@@ -20,6 +19,8 @@ abstract interface class ChatParticipantsLocalProvider {
     required int chatId,
     required List<ChatParticipantModel> participants,
   });
+
+  Future<void> deleteAllParticipants();
 }
 
 class ChatParticipantsLocalProviderImpl
@@ -34,19 +35,11 @@ class ChatParticipantsLocalProviderImpl
 
   @override
   Future<Either<Failure, void>> cacheParticipant({
-    required int chatId,
     required ChatParticipantModel model,
   }) async {
-    final Map<String, dynamic> dataToSave = {
-      'external_id': model.externalId,
-      'chat_id': chatId,
-      'user_id': model.userId,
-      'created_at': model.createdAt,
-    };
-
     final response = await database.insert(
       tableName: tableName,
-      data: dataToSave,
+      data: model.toJson(),
     );
 
     return response;
@@ -58,25 +51,9 @@ class ChatParticipantsLocalProviderImpl
   }) async {
     final response = await database.get(
       tableName: tableName,
-      where: 'chat_id = ?',
+      where: 'chatId = ?',
       whereArgs: [chatId],
-      parser: (json) {
-        final items = json['items'] as List<Map<String, dynamic>>;
-
-        final List<ChatParticipantModel> participants = [];
-
-        for (final Map<String, dynamic> rawParticipant in items) {
-          participants.add(
-            ChatParticipantModel(
-              externalId: rawParticipant['external_id'] as int,
-              userId: rawParticipant['user_id'] as int,
-              createdAt: rawParticipant['created_at'] as String,
-            ),
-          );
-        }
-
-        return ChatParticipantsResponseModel(participants: participants);
-      },
+      parser: ChatParticipantsResponseModel.fromJson,
     );
     return response;
   }
@@ -88,12 +65,13 @@ class ChatParticipantsLocalProviderImpl
   }) async {
     try {
       await database.delete(
-        where: 'chat_id = ?',
+        where: 'chatId = ?',
         whereArgs: [chatId],
         tableName: tableName,
       );
+
       for (final ChatParticipantModel model in participants) {
-        await cacheParticipant(chatId: chatId, model: model);
+        await cacheParticipant(model: model);
       }
       return const Right(null);
     } catch (e, stackTrace) {
@@ -107,5 +85,10 @@ class ChatParticipantsLocalProviderImpl
 
       return const Left(cacheFailure);
     }
+  }
+
+  @override
+  Future<void> deleteAllParticipants() async {
+    await database.delete(tableName: tableName);
   }
 }

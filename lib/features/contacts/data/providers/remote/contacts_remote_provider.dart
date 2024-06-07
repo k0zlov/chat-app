@@ -121,9 +121,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
   ) async {
     final response = await network.get(
       url: ApiEndpoints.getContactsSearch,
-      queryParameters: {
-        'username': params.name,
-      },
+      queryParameters: params.toJson(),
       parser: (json) {
         final data = json as Map<String, dynamic>;
         return ContactsResponseModel.fromJson(data);

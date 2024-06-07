@@ -20,13 +20,12 @@ MessageModel _$MessageModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MessageModel {
-  @JsonKey(name: 'id')
-  int get externalId => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   int get chatId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
+  String get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,12 +40,12 @@ abstract class $MessageModelCopyWith<$Res> {
       _$MessageModelCopyWithImpl<$Res, MessageModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int externalId,
+      {int id,
       int chatId,
       int userId,
       String content,
-      String createdAt,
-      String updatedAt});
+      String updatedAt,
+      String createdAt});
 }
 
 /// @nodoc
@@ -62,17 +61,17 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? externalId = null,
+    Object? id = null,
     Object? chatId = null,
     Object? userId = null,
     Object? content = null,
-    Object? createdAt = null,
     Object? updatedAt = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      externalId: null == externalId
-          ? _value.externalId
-          : externalId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       chatId: null == chatId
           ? _value.chatId
@@ -86,13 +85,13 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -107,12 +106,12 @@ abstract class _$$MessageModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int externalId,
+      {int id,
       int chatId,
       int userId,
       String content,
-      String createdAt,
-      String updatedAt});
+      String updatedAt,
+      String createdAt});
 }
 
 /// @nodoc
@@ -126,17 +125,17 @@ class __$$MessageModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? externalId = null,
+    Object? id = null,
     Object? chatId = null,
     Object? userId = null,
     Object? content = null,
-    Object? createdAt = null,
     Object? updatedAt = null,
+    Object? createdAt = null,
   }) {
     return _then(_$MessageModelImpl(
-      externalId: null == externalId
-          ? _value.externalId
-          : externalId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       chatId: null == chatId
           ? _value.chatId
@@ -150,13 +149,13 @@ class __$$MessageModelImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -166,20 +165,20 @@ class __$$MessageModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageModelImpl extends _MessageModel {
   const _$MessageModelImpl(
-      {@JsonKey(name: 'id') this.externalId = -1,
+      {this.id = -1,
       this.chatId = -1,
       this.userId = -1,
       this.content = '',
-      this.createdAt = '',
-      this.updatedAt = ''})
+      this.updatedAt = '',
+      this.createdAt = ''})
       : super._();
 
   factory _$MessageModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'id')
-  final int externalId;
+  @JsonKey()
+  final int id;
   @override
   @JsonKey()
   final int chatId;
@@ -191,14 +190,14 @@ class _$MessageModelImpl extends _MessageModel {
   final String content;
   @override
   @JsonKey()
-  final String createdAt;
+  final String updatedAt;
   @override
   @JsonKey()
-  final String updatedAt;
+  final String createdAt;
 
   @override
   String toString() {
-    return 'MessageModel(externalId: $externalId, chatId: $chatId, userId: $userId, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MessageModel(id: $id, chatId: $chatId, userId: $userId, content: $content, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 
   @override
@@ -206,21 +205,20 @@ class _$MessageModelImpl extends _MessageModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageModelImpl &&
-            (identical(other.externalId, externalId) ||
-                other.externalId == externalId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, externalId, chatId, userId, content, createdAt, updatedAt);
+      runtimeType, id, chatId, userId, content, updatedAt, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -238,20 +236,19 @@ class _$MessageModelImpl extends _MessageModel {
 
 abstract class _MessageModel extends MessageModel {
   const factory _MessageModel(
-      {@JsonKey(name: 'id') final int externalId,
+      {final int id,
       final int chatId,
       final int userId,
       final String content,
-      final String createdAt,
-      final String updatedAt}) = _$MessageModelImpl;
+      final String updatedAt,
+      final String createdAt}) = _$MessageModelImpl;
   const _MessageModel._() : super._();
 
   factory _MessageModel.fromJson(Map<String, dynamic> json) =
       _$MessageModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'id')
-  int get externalId;
+  int get id;
   @override
   int get chatId;
   @override
@@ -259,9 +256,9 @@ abstract class _MessageModel extends MessageModel {
   @override
   String get content;
   @override
-  String get createdAt;
-  @override
   String get updatedAt;
+  @override
+  String get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$MessageModelImplCopyWith<_$MessageModelImpl> get copyWith =>

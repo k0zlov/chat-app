@@ -97,16 +97,9 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
 
   @override
   Future<Either<Failure, void>> saveContact(ContactModel model) async {
-    final Map<String, dynamic> dataToSave = {
-      'external_id': model.externalId,
-      'name': model.name,
-      'email': model.email,
-      'addedAt': model.addedAt,
-    };
-
     final response = await database.insert(
       tableName: tableName,
-      data: dataToSave,
+      data: model.toJson(),
     );
 
     return response;

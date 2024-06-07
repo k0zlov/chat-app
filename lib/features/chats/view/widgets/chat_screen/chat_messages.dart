@@ -1,3 +1,4 @@
+import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_background_image.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_date.dart';
@@ -5,6 +6,7 @@ import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_i
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_reload_button.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_scroll_down_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class ChatMessages extends StatefulWidget {
@@ -55,6 +57,10 @@ class _ChatMessagesState extends State<ChatMessages> {
       ...widget.messages,
     ];
 
+    final AuthState authState = context.select(
+      (AuthCubit cubit) => cubit.state,
+    );
+
     return SizedBox(
       height: widget.height,
       width: widget.width,
@@ -77,7 +83,7 @@ class _ChatMessagesState extends State<ChatMessages> {
 
               return ChatMessagesItem(
                 message: message,
-                messageAuthor: false,
+                messageAuthor: authState.currentUser.id == message.userId,
               );
             },
             stickyHeaderBackgroundColor: Colors.transparent,

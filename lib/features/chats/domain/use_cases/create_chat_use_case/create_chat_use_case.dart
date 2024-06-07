@@ -1,7 +1,6 @@
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
-import 'package:chat_app/features/chats/domain/entities/chats_response_entity/chats_response_entity.dart';
-import 'package:chat_app/features/chats/domain/repositories/chats_repository.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,8 +8,7 @@ part 'create_chat_use_case.freezed.dart';
 
 part 'create_chat_use_case.g.dart';
 
-class CreateChatUseCase
-    implements UseCase<ChatsResponseEntity, CreateChatParams> {
+class CreateChatUseCase implements UseCase<ChatEntity, CreateChatParams> {
   const CreateChatUseCase({
     required this.repository,
   });
@@ -18,7 +16,7 @@ class CreateChatUseCase
   final ChatsRepository repository;
 
   @override
-  Future<Either<Failure, ChatsResponseEntity>> call(CreateChatParams params) {
+  Future<Either<Failure, ChatEntity>> call(CreateChatParams params) {
     return repository.createChat(params);
   }
 }
@@ -27,7 +25,8 @@ class CreateChatUseCase
 class CreateChatParams with _$CreateChatParams {
   const factory CreateChatParams({
     @Default('') String title,
-    @Default('') String description,
+    @Default(null) String? chatType,
+    @Default(null) String? description,
   }) = _CreateChatParams;
 
   const CreateChatParams._();

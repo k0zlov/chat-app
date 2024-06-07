@@ -20,10 +20,11 @@ ChatParticipantModel _$ChatParticipantModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatParticipantModel {
-  @JsonKey(name: 'id')
-  int get externalId => throw _privateConstructorUsedError;
+  int get chatId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
-  String get createdAt => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get role => throw _privateConstructorUsedError;
+  String get joinedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +39,7 @@ abstract class $ChatParticipantModelCopyWith<$Res> {
       _$ChatParticipantModelCopyWithImpl<$Res, ChatParticipantModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int externalId, int userId, String createdAt});
+      {int chatId, int userId, String name, String role, String joinedAt});
 }
 
 /// @nodoc
@@ -55,22 +56,32 @@ class _$ChatParticipantModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? externalId = null,
+    Object? chatId = null,
     Object? userId = null,
-    Object? createdAt = null,
+    Object? name = null,
+    Object? role = null,
+    Object? joinedAt = null,
   }) {
     return _then(_value.copyWith(
-      externalId: null == externalId
-          ? _value.externalId
-          : externalId // ignore: cast_nullable_to_non_nullable
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
               as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String,
+      joinedAt: null == joinedAt
+          ? _value.joinedAt
+          : joinedAt // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -85,7 +96,7 @@ abstract class _$$ChatParticipantModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int externalId, int userId, String createdAt});
+      {int chatId, int userId, String name, String role, String joinedAt});
 }
 
 /// @nodoc
@@ -99,22 +110,32 @@ class __$$ChatParticipantModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? externalId = null,
+    Object? chatId = null,
     Object? userId = null,
-    Object? createdAt = null,
+    Object? name = null,
+    Object? role = null,
+    Object? joinedAt = null,
   }) {
     return _then(_$ChatParticipantModelImpl(
-      externalId: null == externalId
-          ? _value.externalId
-          : externalId // ignore: cast_nullable_to_non_nullable
+      chatId: null == chatId
+          ? _value.chatId
+          : chatId // ignore: cast_nullable_to_non_nullable
               as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: null == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String,
+      joinedAt: null == joinedAt
+          ? _value.joinedAt
+          : joinedAt // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -124,27 +145,35 @@ class __$$ChatParticipantModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatParticipantModelImpl extends _ChatParticipantModel {
   const _$ChatParticipantModelImpl(
-      {@JsonKey(name: 'id') this.externalId = -1,
+      {this.chatId = -1,
       this.userId = -1,
-      this.createdAt = ''})
+      this.name = '',
+      this.role = '',
+      this.joinedAt = ''})
       : super._();
 
   factory _$ChatParticipantModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatParticipantModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'id')
-  final int externalId;
+  @JsonKey()
+  final int chatId;
   @override
   @JsonKey()
   final int userId;
   @override
   @JsonKey()
-  final String createdAt;
+  final String name;
+  @override
+  @JsonKey()
+  final String role;
+  @override
+  @JsonKey()
+  final String joinedAt;
 
   @override
   String toString() {
-    return 'ChatParticipantModel(externalId: $externalId, userId: $userId, createdAt: $createdAt)';
+    return 'ChatParticipantModel(chatId: $chatId, userId: $userId, name: $name, role: $role, joinedAt: $joinedAt)';
   }
 
   @override
@@ -152,16 +181,18 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatParticipantModelImpl &&
-            (identical(other.externalId, externalId) ||
-                other.externalId == externalId) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.joinedAt, joinedAt) ||
+                other.joinedAt == joinedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, externalId, userId, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, chatId, userId, name, role, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -181,21 +212,26 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
 
 abstract class _ChatParticipantModel extends ChatParticipantModel {
   const factory _ChatParticipantModel(
-      {@JsonKey(name: 'id') final int externalId,
+      {final int chatId,
       final int userId,
-      final String createdAt}) = _$ChatParticipantModelImpl;
+      final String name,
+      final String role,
+      final String joinedAt}) = _$ChatParticipantModelImpl;
   const _ChatParticipantModel._() : super._();
 
   factory _ChatParticipantModel.fromJson(Map<String, dynamic> json) =
       _$ChatParticipantModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'id')
-  int get externalId;
+  int get chatId;
   @override
   int get userId;
   @override
-  String get createdAt;
+  String get name;
+  @override
+  String get role;
+  @override
+  String get joinedAt;
   @override
   @JsonKey(ignore: true)
   _$$ChatParticipantModelImplCopyWith<_$ChatParticipantModelImpl>

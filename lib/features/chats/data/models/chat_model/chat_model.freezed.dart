@@ -20,15 +20,12 @@ ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatModel {
-  @JsonKey(name: 'id')
-  int get externalId => throw _privateConstructorUsedError;
-  int get userId => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
-  String get updatedAt => throw _privateConstructorUsedError;
   List<MessageModel> get messages => throw _privateConstructorUsedError;
-  @JsonKey(name: 'Participants')
   List<ChatParticipantModel> get participants =>
       throw _privateConstructorUsedError;
 
@@ -44,14 +41,13 @@ abstract class $ChatModelCopyWith<$Res> {
       _$ChatModelCopyWithImpl<$Res, ChatModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int externalId,
-      int userId,
+      {int id,
       String title,
-      String description,
+      String type,
+      String? description,
       String createdAt,
-      String updatedAt,
       List<MessageModel> messages,
-      @JsonKey(name: 'Participants') List<ChatParticipantModel> participants});
+      List<ChatParticipantModel> participants});
 }
 
 /// @nodoc
@@ -67,39 +63,34 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? externalId = null,
-    Object? userId = null,
+    Object? id = null,
     Object? title = null,
-    Object? description = null,
+    Object? type = null,
+    Object? description = freezed,
     Object? createdAt = null,
-    Object? updatedAt = null,
     Object? messages = null,
     Object? participants = null,
   }) {
     return _then(_value.copyWith(
-      externalId: null == externalId
-          ? _value.externalId
-          : externalId // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
       messages: null == messages
           ? _value.messages
@@ -122,14 +113,13 @@ abstract class _$$ChatModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int externalId,
-      int userId,
+      {int id,
       String title,
-      String description,
+      String type,
+      String? description,
       String createdAt,
-      String updatedAt,
       List<MessageModel> messages,
-      @JsonKey(name: 'Participants') List<ChatParticipantModel> participants});
+      List<ChatParticipantModel> participants});
 }
 
 /// @nodoc
@@ -143,39 +133,34 @@ class __$$ChatModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? externalId = null,
-    Object? userId = null,
+    Object? id = null,
     Object? title = null,
-    Object? description = null,
+    Object? type = null,
+    Object? description = freezed,
     Object? createdAt = null,
-    Object? updatedAt = null,
     Object? messages = null,
     Object? participants = null,
   }) {
     return _then(_$ChatModelImpl(
-      externalId: null == externalId
-          ? _value.externalId
-          : externalId // ignore: cast_nullable_to_non_nullable
-              as int,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
               as String,
       messages: null == messages
           ? _value._messages
@@ -193,14 +178,12 @@ class __$$ChatModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatModelImpl extends _ChatModel {
   const _$ChatModelImpl(
-      {@JsonKey(name: 'id') this.externalId = -1,
-      this.userId = -1,
+      {this.id = -1,
       this.title = '',
-      this.description = '',
+      this.type = '',
+      this.description = null,
       this.createdAt = '',
-      this.updatedAt = '',
       final List<MessageModel> messages = const [],
-      @JsonKey(name: 'Participants')
       final List<ChatParticipantModel> participants = const []})
       : _messages = messages,
         _participants = participants,
@@ -210,23 +193,20 @@ class _$ChatModelImpl extends _ChatModel {
       _$$ChatModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'id')
-  final int externalId;
-  @override
   @JsonKey()
-  final int userId;
+  final int id;
   @override
   @JsonKey()
   final String title;
   @override
   @JsonKey()
-  final String description;
+  final String type;
+  @override
+  @JsonKey()
+  final String? description;
   @override
   @JsonKey()
   final String createdAt;
-  @override
-  @JsonKey()
-  final String updatedAt;
   final List<MessageModel> _messages;
   @override
   @JsonKey()
@@ -238,7 +218,7 @@ class _$ChatModelImpl extends _ChatModel {
 
   final List<ChatParticipantModel> _participants;
   @override
-  @JsonKey(name: 'Participants')
+  @JsonKey()
   List<ChatParticipantModel> get participants {
     if (_participants is EqualUnmodifiableListView) return _participants;
     // ignore: implicit_dynamic_type
@@ -247,7 +227,7 @@ class _$ChatModelImpl extends _ChatModel {
 
   @override
   String toString() {
-    return 'ChatModel(externalId: $externalId, userId: $userId, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, messages: $messages, participants: $participants)';
+    return 'ChatModel(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, messages: $messages, participants: $participants)';
   }
 
   @override
@@ -255,16 +235,13 @@ class _$ChatModelImpl extends _ChatModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatModelImpl &&
-            (identical(other.externalId, externalId) ||
-                other.externalId == externalId) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants));
@@ -274,12 +251,11 @@ class _$ChatModelImpl extends _ChatModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      externalId,
-      userId,
+      id,
       title,
+      type,
       description,
       createdAt,
-      updatedAt,
       const DeepCollectionEquality().hash(_messages),
       const DeepCollectionEquality().hash(_participants));
 
@@ -299,14 +275,12 @@ class _$ChatModelImpl extends _ChatModel {
 
 abstract class _ChatModel extends ChatModel {
   const factory _ChatModel(
-      {@JsonKey(name: 'id') final int externalId,
-      final int userId,
+      {final int id,
       final String title,
-      final String description,
+      final String type,
+      final String? description,
       final String createdAt,
-      final String updatedAt,
       final List<MessageModel> messages,
-      @JsonKey(name: 'Participants')
       final List<ChatParticipantModel> participants}) = _$ChatModelImpl;
   const _ChatModel._() : super._();
 
@@ -314,22 +288,18 @@ abstract class _ChatModel extends ChatModel {
       _$ChatModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'id')
-  int get externalId;
-  @override
-  int get userId;
+  int get id;
   @override
   String get title;
   @override
-  String get description;
+  String get type;
+  @override
+  String? get description;
   @override
   String get createdAt;
   @override
-  String get updatedAt;
-  @override
   List<MessageModel> get messages;
   @override
-  @JsonKey(name: 'Participants')
   List<ChatParticipantModel> get participants;
   @override
   @JsonKey(ignore: true)

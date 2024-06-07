@@ -1,4 +1,5 @@
 import 'package:chat_app/core/errors/failure.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/chats_response_entity/chats_response_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
@@ -12,15 +13,17 @@ abstract interface class ChatsRepository {
 
   Future<Either<Failure, ChatsResponseEntity>> getSavedChats();
 
-  Future<Either<Failure, ChatsResponseEntity>> joinChat(
+  Future<Either<Failure, void>> deleteAllChats();
+
+  Future<Either<Failure, ChatEntity>> joinChat(
     JoinChatParams params,
   );
 
-  Future<Either<Failure, ChatsResponseEntity>> leaveChat(
+  Future<Either<Failure, void>> leaveChat(
     LeaveChatParams params,
   );
 
-  Future<Either<Failure, ChatsResponseEntity>> createChat(
+  Future<Either<Failure, ChatEntity>> createChat(
     CreateChatParams params,
   );
 

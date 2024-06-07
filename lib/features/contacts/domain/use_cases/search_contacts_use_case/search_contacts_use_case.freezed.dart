@@ -20,7 +20,7 @@ SearchContactsParams _$SearchContactsParamsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SearchContactsParams {
-  String get name => throw _privateConstructorUsedError;
+  String get username => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $SearchContactsParamsCopyWith<$Res> {
           $Res Function(SearchContactsParams) then) =
       _$SearchContactsParamsCopyWithImpl<$Res, SearchContactsParams>;
   @useResult
-  $Res call({String name});
+  $Res call({String username});
 }
 
 /// @nodoc
@@ -51,12 +51,12 @@ class _$SearchContactsParamsCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? username = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +70,7 @@ abstract class _$$SearchContactsParamsImplCopyWith<$Res>
       __$$SearchContactsParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name});
+  $Res call({String username});
 }
 
 /// @nodoc
@@ -84,12 +84,12 @@ class __$$SearchContactsParamsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? username = null,
   }) {
     return _then(_$SearchContactsParamsImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      username: null == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -98,18 +98,18 @@ class __$$SearchContactsParamsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SearchContactsParamsImpl extends _SearchContactsParams {
-  const _$SearchContactsParamsImpl({this.name = ''}) : super._();
+  const _$SearchContactsParamsImpl({this.username = ''}) : super._();
 
   factory _$SearchContactsParamsImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchContactsParamsImplFromJson(json);
 
   @override
   @JsonKey()
-  final String name;
+  final String username;
 
   @override
   String toString() {
-    return 'SearchContactsParams(name: $name)';
+    return 'SearchContactsParams(username: $username)';
   }
 
   @override
@@ -117,12 +117,13 @@ class _$SearchContactsParamsImpl extends _SearchContactsParams {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchContactsParamsImpl &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.username, username) ||
+                other.username == username));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name);
+  int get hashCode => Object.hash(runtimeType, username);
 
   @JsonKey(ignore: true)
   @override
@@ -141,7 +142,7 @@ class _$SearchContactsParamsImpl extends _SearchContactsParams {
 }
 
 abstract class _SearchContactsParams extends SearchContactsParams {
-  const factory _SearchContactsParams({final String name}) =
+  const factory _SearchContactsParams({final String username}) =
       _$SearchContactsParamsImpl;
   const _SearchContactsParams._() : super._();
 
@@ -149,7 +150,7 @@ abstract class _SearchContactsParams extends SearchContactsParams {
       _$SearchContactsParamsImpl.fromJson;
 
   @override
-  String get name;
+  String get username;
   @override
   @JsonKey(ignore: true)
   _$$SearchContactsParamsImplCopyWith<_$SearchContactsParamsImpl>

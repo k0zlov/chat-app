@@ -23,7 +23,7 @@ class ChatMessagesItem extends StatelessWidget {
     final bool darkTheme = theme.brightness == Brightness.dark;
 
     final Color backgroundColor = messageAuthor
-        ? theme.primaryColor
+        ? theme.primaryColor.withOpacity(0.8)
         : theme.barBackgroundColor;
 
     final Color timeTextColor = messageAuthor
@@ -137,7 +137,7 @@ class MessageStatusIndicator extends StatelessWidget {
     const double iconSize = 18;
 
     final Color iconColor = status == MessageStatus.seen
-        ? CupertinoTheme.of(context).primaryColor
+        ? CupertinoColors.darkBackgroundGray
         : CupertinoColors.inactiveGray;
 
     final double iconOpacity =

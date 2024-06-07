@@ -44,9 +44,9 @@ class SearchContactsParams with _$SearchContactsParams {
   /// Creates an instance of [SearchContactsParams].
   ///
   /// Parameters:
-  ///   [name] The name of the contact to search for, defaults to an empty string.
+  ///   [username] The name of the contact to search for, defaults to an empty string.
   const factory SearchContactsParams({
-    @Default('') String name,
+    @Default('') String username,
   }) = _SearchContactsParams;
 
   /// Private constructor for [SearchContactsParams].

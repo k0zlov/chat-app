@@ -20,8 +20,8 @@ mixin _$MessageEntity {
   int get chatId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MessageEntityCopyWith<MessageEntity> get copyWith =>
@@ -39,8 +39,8 @@ abstract class $MessageEntityCopyWith<$Res> {
       int chatId,
       int userId,
       String content,
-      DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -60,8 +60,8 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
     Object? chatId = null,
     Object? userId = null,
     Object? content = null,
-    Object? createdAt = null,
     Object? updatedAt = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -80,13 +80,13 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
@@ -105,8 +105,8 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
       int chatId,
       int userId,
       String content,
-      DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -124,8 +124,8 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
     Object? chatId = null,
     Object? userId = null,
     Object? content = null,
-    Object? createdAt = null,
     Object? updatedAt = null,
+    Object? createdAt = null,
   }) {
     return _then(_$MessageEntityImpl(
       id: null == id
@@ -144,13 +144,13 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
   }
@@ -164,8 +164,8 @@ class _$MessageEntityImpl extends _MessageEntity {
       this.chatId = -1,
       this.userId = -1,
       this.content = '',
-      required this.createdAt,
-      required this.updatedAt})
+      required this.updatedAt,
+      required this.createdAt})
       : super._();
 
   @override
@@ -181,13 +181,13 @@ class _$MessageEntityImpl extends _MessageEntity {
   @JsonKey()
   final String content;
   @override
-  final DateTime createdAt;
-  @override
   final DateTime updatedAt;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'MessageEntity(id: $id, chatId: $chatId, userId: $userId, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MessageEntity(id: $id, chatId: $chatId, userId: $userId, content: $content, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 
   @override
@@ -199,15 +199,15 @@ class _$MessageEntityImpl extends _MessageEntity {
             (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, chatId, userId, content, createdAt, updatedAt);
+      runtimeType, id, chatId, userId, content, updatedAt, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -222,8 +222,8 @@ abstract class _MessageEntity extends MessageEntity {
       final int chatId,
       final int userId,
       final String content,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$MessageEntityImpl;
+      required final DateTime updatedAt,
+      required final DateTime createdAt}) = _$MessageEntityImpl;
   const _MessageEntity._() : super._();
 
   @override
@@ -235,9 +235,9 @@ abstract class _MessageEntity extends MessageEntity {
   @override
   String get content;
   @override
-  DateTime get createdAt;
-  @override
   DateTime get updatedAt;
+  @override
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$MessageEntityImplCopyWith<_$MessageEntityImpl> get copyWith =>

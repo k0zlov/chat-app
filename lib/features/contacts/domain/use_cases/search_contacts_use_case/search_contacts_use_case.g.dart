@@ -9,11 +9,11 @@ part of 'search_contacts_use_case.dart';
 _$SearchContactsParamsImpl _$$SearchContactsParamsImplFromJson(
         Map<String, dynamic> json) =>
     _$SearchContactsParamsImpl(
-      name: json['name'] as String? ?? '',
+      username: json['username'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$SearchContactsParamsImplToJson(
         _$SearchContactsParamsImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'username': instance.username,
     };

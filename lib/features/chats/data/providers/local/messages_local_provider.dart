@@ -19,6 +19,8 @@ abstract interface class MessagesLocalProvider {
     required int chatId,
     required List<MessageModel> messages,
   });
+
+  Future<void> deleteAllMessages();
 }
 
 class MessagesLocalProviderImpl implements MessagesLocalProvider {
@@ -34,18 +36,9 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
   Future<Either<Failure, void>> cacheMessage({
     required MessageModel model,
   }) async {
-    final Map<String, dynamic> dataToSave = {
-      'external_id': model.externalId,
-      'chat_id': model.chatId,
-      'user_id': model.userId,
-      'content': model.content,
-      'created_at': model.createdAt,
-      'updated_at': model.updatedAt,
-    };
-
     final response = await database.insert(
       tableName: tableName,
-      data: dataToSave,
+      data: model.toJson(),
     );
 
     return response;
@@ -57,29 +50,11 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
   }) async {
     final response = await database.get(
       tableName: tableName,
-      where: 'chat_id = ?',
+      where: 'chatId = ?',
       whereArgs: [chatId],
-      parser: (json) {
-        final items = json['items'] as List<Map<String, dynamic>>;
-
-        final List<MessageModel> messages = [];
-
-        for (final Map<String, dynamic> rawMessage in items) {
-          messages.add(
-            MessageModel(
-              externalId: rawMessage['external_id'] as int,
-              userId: rawMessage['user_id'] as int,
-              chatId: rawMessage['chat_id'] as int,
-              content: rawMessage['content'] as String,
-              createdAt: rawMessage['created_at'] as String,
-              updatedAt: rawMessage['updated_at'] as String,
-            ),
-          );
-        }
-
-        return MessagesResponseModel(messages: messages);
-      },
+      parser: MessagesResponseModel.fromJson,
     );
+
     return response;
   }
 
@@ -90,7 +65,7 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
   }) async {
     try {
       await database.delete(
-        where: 'chat_id = ?',
+        where: 'chatId = ?',
         whereArgs: [chatId],
         tableName: tableName,
       );
@@ -109,5 +84,10 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
 
       return const Left(cacheFailure);
     }
+  }
+
+  @override
+  Future<void> deleteAllMessages() async {
+    await database.delete(tableName: tableName);
   }
 }

@@ -9,6 +9,7 @@ import 'package:chat_app/features/auth/domain/use_cases/get_user_use_case/get_us
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
+import 'package:chat_app/features/chats/domain/use_cases/erase_chats_use_case/erase_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/erase_contacts_use_case/erase_contacts_use_case.dart';
@@ -212,6 +213,9 @@ void _useCases() {
     ..registerLazySingleton<GetSavedChatsUseCase>(
       () => GetSavedChatsUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<EraseChatsUseCase>(
+      () => EraseChatsUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<CreateChatUseCase>(
       () => CreateChatUseCase(repository: getIt()),
     )
@@ -250,6 +254,7 @@ void _cubits() {
         joinChatUseCase: getIt(),
         leaveChatUseCase: getIt(),
         sendMessageUseCase: getIt(),
+        eraseChatsUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(
@@ -272,9 +277,11 @@ void _cubits() {
         getUserUseCase: getIt(),
         onLogin: () {
           getIt<ContactsCubit>().onLogin();
+          getIt<ChatsCubit>().onLogin();
         },
         onLogout: () {
           getIt<ContactsCubit>().onLogout();
+          getIt<ChatsCubit>().onLogout();
         },
       ),
     );
