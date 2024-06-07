@@ -22,7 +22,7 @@ class RemoveContactUseCase implements UseCase<void, RemoveContactParams> {
 @freezed
 class RemoveContactParams with _$RemoveContactParams {
   const factory RemoveContactParams({
-    @Default(-1) int contactUserId,
+    @Default('') String contactUserEmail,
   }) = _RemoveContactParams;
 
   const RemoveContactParams._();

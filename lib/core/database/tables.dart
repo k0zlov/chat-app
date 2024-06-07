@@ -102,5 +102,6 @@ class ContactsTable extends Table {
         'external_id': 'INTEGER NOT NULL UNIQUE',
         'name': 'TEXT NOT NULL',
         'email': 'TEXT NOT NULL UNIQUE',
+        'addedAt': 'TEXT',
       };
 }

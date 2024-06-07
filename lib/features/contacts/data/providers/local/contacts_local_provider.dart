@@ -14,9 +14,15 @@ abstract interface class ContactsLocalProvider {
     List<ContactModel> contacts,
   );
 
-  Future<Either<Failure, void>> saveContact(ContactModel model);
+  Future<Either<Failure, void>> saveContact(
+    ContactModel model,
+  );
 
-  Future<Either<Failure, void>> deleteContact(RemoveContactParams params);
+  Future<Either<Failure, void>> deleteContact(
+    RemoveContactParams params,
+  );
+
+  Future<Either<Failure, void>> deleteAllContacts();
 }
 
 class ContactsLocalProviderImpl implements ContactsLocalProvider {
@@ -35,6 +41,8 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
       parser: ContactsResponseModel.fromJson,
     );
 
+    print(response);
+
     return response;
   }
 
@@ -44,6 +52,7 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
       'external_id': model.externalId,
       'name': model.name,
       'email': model.email,
+      'addedAt': model.addedAt,
     };
 
     final response = await database.insert(
@@ -59,8 +68,8 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
   ) async {
     final response = await database.delete(
       tableName: tableName,
-      where: 'external_id = ?',
-      whereArgs: [params.contactUserId],
+      where: 'email = ?',
+      whereArgs: [params.contactUserEmail],
     );
     return response;
   }
@@ -70,7 +79,7 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
     List<ContactModel> contacts,
   ) async {
     try {
-      await database.delete(tableName: tableName);
+      await deleteAllContacts();
       for (final ContactModel model in contacts) {
         await saveContact(model);
       }
@@ -82,6 +91,25 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
 
       const cacheFailure = CacheFailure(
         errorMessage: 'Could not rewrite saved contacts.',
+      );
+
+      return const Left(cacheFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAllContacts() async {
+    try {
+      await database.delete(tableName: tableName);
+
+      return const Right(null);
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error: $e \nStack trace:\n $stackTrace');
+      }
+
+      const cacheFailure = CacheFailure(
+        errorMessage: 'Could not delete all saved contacts.',
       );
 
       return const Left(cacheFailure);

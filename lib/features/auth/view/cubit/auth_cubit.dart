@@ -2,7 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/use_cases/use_case.dart';
 import 'package:chat_app/core/widgets/modal_pop_up.dart';
+import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.dart';
+import 'package:chat_app/features/auth/domain/use_cases/get_user_use_case/get_user_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/logout_use_case/logout_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
@@ -23,7 +25,12 @@ class AuthCubit extends Cubit<AuthState> {
     required this.registrationUseCase,
     required this.loginUseCase,
     required this.logoutUseCase,
-  }) : super(const AuthState());
+    required this.getUserUseCase,
+    required this.onLogin,
+    required this.onLogout,
+  }) : super(const AuthState()) {
+    _init();
+  }
 
   /// The use case for user registration.
   final RegistrationUseCase registrationUseCase;
@@ -34,8 +41,33 @@ class AuthCubit extends Cubit<AuthState> {
   /// The use case for user logout.
   final LogoutUseCase logoutUseCase;
 
+  /// The use case for retrieving user.
+  final GetUserUseCase getUserUseCase;
+
+  /// Function that will be triggered when new user logs in
+  final void Function() onLogin;
+
+  /// Function that will be triggered when the current user logs out
+  final void Function() onLogout;
+
   /// The current state of the authentication process.
   AuthState _state = const AuthState();
+
+  Future<void> _init() async {
+    final failureOrUser = await getUserUseCase(NoParams());
+
+    failureOrUser.fold(
+      (failure) => onLogout(),
+      (entity) {
+        _state = _state.copyWith(currentUser: entity);
+        onLogin();
+      },
+    );
+
+    emit(_state);
+
+    getIt.signalReady(this);
+  }
 
   /// Shows an authentication error message.
   void showAuthError(String authError) {
@@ -71,6 +103,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     emit(_state);
+    onLogout();
   }
 
   /// Checks if the login parameters are valid.
@@ -184,6 +217,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     _state = _state.copyWith(authInProcess: false);
     emit(_state);
+    onLogin();
   }
 
   /// Handles the registration button press event.
@@ -209,6 +243,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     _state = _state.copyWith(authInProcess: false);
     emit(_state);
+    onLogin();
   }
 
   /// Toggles the visibility of the password.

@@ -5,11 +5,14 @@ import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/auth/domain/use_cases/get_user_use_case/get_user_use_case.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
+import 'package:chat_app/features/contacts/domain/use_cases/erase_contacts_use_case/erase_contacts_use_case.dart';
+import 'package:chat_app/features/contacts/domain/use_cases/search_contacts_use_case/search_contacts_use_case.dart';
 import 'package:chat_app/features/settings/settings_feature.dart';
 import 'package:chat_app/utils/hive/hive_box.dart';
 import 'package:get_it/get_it.dart';
@@ -167,6 +170,9 @@ void _useCases() {
     ..registerLazySingleton<LogoutUseCase>(
       () => LogoutUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<GetUserUseCase>(
+      () => GetUserUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<ChangeThemeColorUseCase>(
       () => ChangeThemeColorUseCase(repository: getIt()),
     )
@@ -194,6 +200,12 @@ void _useCases() {
     ..registerLazySingleton<GetSavedContactsUseCase>(
       () => GetSavedContactsUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<SearchContactsUseCase>(
+      () => SearchContactsUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<EraseContactsUseCase>(
+      () => EraseContactsUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<GetUserChatsUseCase>(
       () => GetUserChatsUseCase(repository: getIt()),
     )
@@ -220,19 +232,14 @@ void _useCases() {
 /// Registers Cubits (state management) as lazy singletons to manage and distribute application state.
 void _cubits() {
   getIt
-    ..registerLazySingleton<AuthCubit>(
-      () => AuthCubit(
-        registrationUseCase: getIt(),
-        loginUseCase: getIt(),
-        logoutUseCase: getIt(),
-      ),
-    )
     ..registerLazySingleton<ContactsCubit>(
       () => ContactsCubit(
         addContactUseCase: getIt(),
         removeContactUseCase: getIt(),
         fetchContactsUseCase: getIt(),
         getSavedContactsUseCase: getIt(),
+        searchContactsUseCase: getIt(),
+        eraseContactsUseCase: getIt(),
       ),
     )
     ..registerLazySingleton<ChatsCubit>(
@@ -254,6 +261,21 @@ void _cubits() {
         getThemeColor: getIt(),
         getThemeMode: getIt(),
         getUsingSystemMode: getIt(),
+      ),
+    )
+    ..registerSingletonAsync<AuthCubit>(
+      signalsReady: true,
+      () async => AuthCubit(
+        registrationUseCase: getIt(),
+        loginUseCase: getIt(),
+        logoutUseCase: getIt(),
+        getUserUseCase: getIt(),
+        onLogin: () {
+          getIt<ContactsCubit>().onLogin();
+        },
+        onLogout: () {
+          getIt<ContactsCubit>().onLogout();
+        },
       ),
     );
 }

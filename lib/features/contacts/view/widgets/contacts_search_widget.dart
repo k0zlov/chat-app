@@ -26,23 +26,48 @@ class ContactsSearchWidget extends StatelessWidget {
 
     return SliverList.list(
       children: [
-        if (filteredContacts.isEmpty) ...{
+        if (filteredContacts.isEmpty &&
+            state.searchedContacts.isEmpty &&
+            !state.searchingContacts) ...{
           NoResultsSearchWidget(searchText: state.searchText),
         } else ...{
-          const SearchResultsHeader(title: 'Contacts'),
-          CupertinoListSection(
-            topMargin: 0,
-            children: [
-              for (int i = 0; i < filteredContacts.length; i++) ...{
-                ContactsListItem(
-                  key: ValueKey(filteredContacts[i].email),
-                  title: filteredContacts[i].name,
-                  subtitle: 'last seen 5 minutes ago',
-                  backgroundColor: Colors.transparent,
-                  onPressed: () {},
-                ),
-              },
-            ],
+          if (state.searchedContacts.isNotEmpty) ...{
+            const SearchResultsHeader(title: 'Global search'),
+            CupertinoListSection(
+              topMargin: 0,
+              children: [
+                for (final contact in state.searchedContacts) ...{
+                  ContactsListItem(
+                    title: contact.name,
+                    subtitle: 'last seen 5 minutes ago',
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {},
+                  ),
+                },
+              ],
+            ),
+          },
+          if (filteredContacts.isNotEmpty) ...{
+            const SearchResultsHeader(title: 'Your contacts'),
+            CupertinoListSection(
+              topMargin: 0,
+              children: [
+                for (final contact in filteredContacts) ...{
+                  ContactsListItem(
+                    title: contact.name,
+                    subtitle: 'last seen 5 minutes ago',
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {},
+                  ),
+                },
+              ],
+            ),
+          },
+        },
+        if (state.searchingContacts) ...{
+          const Padding(
+            padding: EdgeInsets.only(top: 100),
+            child: CupertinoActivityIndicator(),
           ),
         },
       ],

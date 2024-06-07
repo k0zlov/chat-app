@@ -23,10 +23,17 @@ class ApiEndpoints {
   static const postLogout = '$authRoute/logout';
 
   /// Contacts Route
-  static const getUserContacts = '/users/friends';
-  static const postAddContact = '/users/add-friend';
-  static const postRemoveContact = '/users/remove-friend';
+  static const contactsRoute = '/contacts';
 
+  static const getContacts = contactsRoute;
+
+  static const postContactAdd = '$contactsRoute/add';
+
+  static const deleteContactRemove = '$contactsRoute/remove';
+
+  static const getContactsSearch = '$contactsRoute/search';
+
+  /// Chats
   static const getChats = '/chats';
   static const postJoinChat = '/chats/join';
   static const postLeaveChat = '/chats/leave';

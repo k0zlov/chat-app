@@ -123,7 +123,10 @@ class _AddScreenBodyState extends State<_AddScreenBody> {
                   ),
                 ),
                 style: textStyle.copyWith(fontSize: 16),
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(
+                  left: 15,
+                  top: 10,
+                ),
                 suffixMode: OverlayVisibilityMode.editing,
                 suffix: TextInputClearButton(
                   padding: const EdgeInsets.only(right: 9),

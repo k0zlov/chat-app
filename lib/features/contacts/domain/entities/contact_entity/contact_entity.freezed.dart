@@ -19,6 +19,7 @@ mixin _$ContactEntity {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  DateTime? get addedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ContactEntityCopyWith<ContactEntity> get copyWith =>
@@ -31,7 +32,7 @@ abstract class $ContactEntityCopyWith<$Res> {
           ContactEntity value, $Res Function(ContactEntity) then) =
       _$ContactEntityCopyWithImpl<$Res, ContactEntity>;
   @useResult
-  $Res call({int id, String name, String email});
+  $Res call({int id, String name, String email, DateTime? addedAt});
 }
 
 /// @nodoc
@@ -50,6 +51,7 @@ class _$ContactEntityCopyWithImpl<$Res, $Val extends ContactEntity>
     Object? id = null,
     Object? name = null,
     Object? email = null,
+    Object? addedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -64,6 +66,10 @@ class _$ContactEntityCopyWithImpl<$Res, $Val extends ContactEntity>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      addedAt: freezed == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -76,7 +82,7 @@ abstract class _$$ContactEntityImplCopyWith<$Res>
       __$$ContactEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String email});
+  $Res call({int id, String name, String email, DateTime? addedAt});
 }
 
 /// @nodoc
@@ -93,6 +99,7 @@ class __$$ContactEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? email = null,
+    Object? addedAt = freezed,
   }) {
     return _then(_$ContactEntityImpl(
       id: null == id
@@ -107,6 +114,10 @@ class __$$ContactEntityImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      addedAt: freezed == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -114,7 +125,8 @@ class __$$ContactEntityImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ContactEntityImpl extends _ContactEntity {
-  const _$ContactEntityImpl({this.id = -1, this.name = '', this.email = ''})
+  const _$ContactEntityImpl(
+      {this.id = -1, this.name = '', this.email = '', this.addedAt = null})
       : super._();
 
   @override
@@ -126,10 +138,13 @@ class _$ContactEntityImpl extends _ContactEntity {
   @override
   @JsonKey()
   final String email;
+  @override
+  @JsonKey()
+  final DateTime? addedAt;
 
   @override
   String toString() {
-    return 'ContactEntity(id: $id, name: $name, email: $email)';
+    return 'ContactEntity(id: $id, name: $name, email: $email, addedAt: $addedAt)';
   }
 
   @override
@@ -139,11 +154,12 @@ class _$ContactEntityImpl extends _ContactEntity {
             other is _$ContactEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.addedAt, addedAt) || other.addedAt == addedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email);
+  int get hashCode => Object.hash(runtimeType, id, name, email, addedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -156,7 +172,8 @@ abstract class _ContactEntity extends ContactEntity {
   const factory _ContactEntity(
       {final int id,
       final String name,
-      final String email}) = _$ContactEntityImpl;
+      final String email,
+      final DateTime? addedAt}) = _$ContactEntityImpl;
   const _ContactEntity._() : super._();
 
   @override
@@ -165,6 +182,8 @@ abstract class _ContactEntity extends ContactEntity {
   String get name;
   @override
   String get email;
+  @override
+  DateTime? get addedAt;
   @override
   @JsonKey(ignore: true)
   _$$ContactEntityImplCopyWith<_$ContactEntityImpl> get copyWith =>

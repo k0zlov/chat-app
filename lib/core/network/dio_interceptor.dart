@@ -1,7 +1,6 @@
 import 'package:chat_app/core/network/api_endpoints.dart';
 import 'package:chat_app/core/network/network.dart';
 import 'package:chat_app/core/services/auth_service.dart';
-import 'package:chat_app/utils/cookies/get_cookies.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -134,16 +133,9 @@ class DioInterceptor extends Interceptor {
     if (response.statusCode != 200) return;
 
     final String? newAccessToken = response.data?['accessToken'] as String?;
+    final String? newRefreshToken = response.data?['refreshToken'] as String?;
 
-    if (newAccessToken == null) return;
-
-    final String? rawCookies = response.headers.value('set-cookie');
-
-    final Map<String, String> cookies = getCookiesFromRaw(rawCookies ?? '');
-
-    final String? newRefreshToken = cookies['refreshToken'];
-
-    if (newRefreshToken == null) return;
+    if (newAccessToken == null || newRefreshToken == null) return;
 
     await authService.login(
       accessToken: newAccessToken,

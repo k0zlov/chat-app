@@ -8,6 +8,7 @@ class ContactEntity with _$ContactEntity {
     @Default(-1) int id,
     @Default('') String name,
     @Default('') String email,
+    @Default(null) DateTime? addedAt,
   }) = _ContactEntity;
 
   const ContactEntity._();

@@ -8,9 +8,10 @@ part 'contact_model.g.dart';
 @freezed
 class ContactModel with _$ContactModel {
   const factory ContactModel({
-    @JsonKey(name: 'id') @Default(-1) int externalId,
+    @JsonKey(name: 'contactUserId') @Default(-1) int externalId,
     @Default('') String name,
     @Default('') String email,
+    @Default('') String addedAt,
   }) = _ContactModel;
 
   const ContactModel._();
@@ -23,6 +24,7 @@ class ContactModel with _$ContactModel {
       id: externalId,
       name: name,
       email: email,
+      addedAt: DateTime.tryParse(addedAt),
     );
   }
 }
