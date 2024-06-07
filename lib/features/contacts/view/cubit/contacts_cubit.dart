@@ -11,7 +11,9 @@ import 'package:flutter/cupertino.dart';
 
 part 'contacts_state.dart';
 
+/// Manages the state for contacts, handling fetching, adding, and removing contacts.
 class ContactsCubit extends Cubit<ContactsState> {
+  /// Creates an instance of [ContactsCubit]
   ContactsCubit({
     required this.addContactUseCase,
     required this.fetchContactsUseCase,
@@ -23,14 +25,25 @@ class ContactsCubit extends Cubit<ContactsState> {
 
   ContactsState _state = const ContactsState();
 
+  /// Use case for adding a contact.
   final AddContactUseCase addContactUseCase;
+
+  /// Use case for fetching contacts.
   final FetchContactsUseCase fetchContactsUseCase;
+
+  /// Use case for removing a contact.
   final RemoveContactUseCase removeContactUseCase;
+
+  /// Use case for getting saved contacts.
   final GetSavedContactsUseCase getSavedContactsUseCase;
+
+  /// Use case for searching contacts.
   final SearchContactsUseCase searchContactsUseCase;
+
+  /// Use case for erasing all contacts.
   final EraseContactsUseCase eraseContactsUseCase;
 
-  /// Shows an error message.
+  /// Shows an error message using a modal popup.
   void showError(String error) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (AppNavigation.rootNavigatorKey.currentContext == null) {
@@ -48,6 +61,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     });
   }
 
+  /// Loads saved contacts from local storage.
   Future<void> _loadSavedContacts() async {
     _state = _state.copyWith(contactsLoading: true);
     emit(_state);
@@ -64,6 +78,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     emit(_state);
   }
 
+  /// Fetches contacts from the remote source.
   Future<void> fetchContacts() async {
     final failureOrContacts = await fetchContactsUseCase(NoParams());
 
@@ -77,6 +92,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     emit(_state);
   }
 
+  /// Adds a contact using the add contact use case.
   Future<void> addContact() async {
     final String email = _state.emailText;
 
@@ -104,6 +120,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     emit(_state);
   }
 
+  /// Removes a contact using the remove contact use case.
   Future<void> removeContact(ContactEntity entity) async {
     final response = await removeContactUseCase(
       RemoveContactParams(contactUserEmail: entity.email),
@@ -122,6 +139,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     );
   }
 
+  /// Handles changes to the search input.
   void onSearchChanged(String text) {
     if (_state.searchText == text) return;
 
@@ -136,6 +154,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     }
   }
 
+  /// Handles changes to the email input.
   void onEmailChanged(String text) {
     if (_state.emailText == text) return;
 
@@ -143,6 +162,7 @@ class ContactsCubit extends Cubit<ContactsState> {
     emit(_state);
   }
 
+  /// Searches for contacts based on the search input.
   Future<void> getSearchContacts() async {
     final String searchText = _state.searchText;
 
@@ -168,11 +188,13 @@ class ContactsCubit extends Cubit<ContactsState> {
     });
   }
 
+  /// Loads saved contacts and fetches contacts on login.
   Future<void> onLogin() async {
     await _loadSavedContacts();
     await fetchContacts();
   }
 
+  /// Erases contacts on logout.
   Future<void> onLogout() async {
     await eraseContactsUseCase(NoParams());
   }

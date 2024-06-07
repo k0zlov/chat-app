@@ -4,10 +4,19 @@ import 'package:chat_app/features/contacts/domain/entities/contacts_response_ent
 import 'package:chat_app/features/contacts/domain/repositories/contacts_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class FetchContactsUseCase
-    implements UseCase<ContactsResponseEntity, NoParams> {
+/// A use case for fetching all contacts.
+///
+/// This use case encapsulates the logic required to fetch contacts from the
+/// repository. It uses the provided [ContactsRepository] to perform the fetch
+/// operation.
+class FetchContactsUseCase implements UseCase<ContactsResponseEntity, NoParams> {
+  /// Creates an instance of [FetchContactsUseCase].
+  ///
+  /// Parameters:
+  ///   [repository] The repository used to fetch the contacts.
   const FetchContactsUseCase({required this.repository});
 
+  /// The repository used to fetch the contacts.
   final ContactsRepository repository;
 
   @override

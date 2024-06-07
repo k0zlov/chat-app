@@ -9,13 +9,26 @@ import 'package:chat_app/features/contacts/domain/use_cases/remove_contact_use_c
 import 'package:chat_app/features/contacts/domain/use_cases/search_contacts_use_case/search_contacts_use_case.dart';
 import 'package:dartz/dartz.dart';
 
+/// Implementation of [ContactsRepository] that interacts with remote and local providers.
+///
+/// This class provides concrete implementations for fetching, saving, adding, removing,
+/// and searching contacts using both remote and local data sources. It ensures that
+/// data is synchronized between the remote server and local storage.
 class ContactsRepositoryImpl implements ContactsRepository {
+  /// Creates an instance of [ContactsRepositoryImpl].
+  ///
+  /// Parameters:
+  ///   [remoteProvider] The remote provider for network operations.
+  ///   [localProvider] The local provider for local database operations.
   const ContactsRepositoryImpl({
     required this.remoteProvider,
     required this.localProvider,
   });
 
+  /// The remote provider for network operations.
   final ContactsRemoteProvider remoteProvider;
+
+  /// The local provider for local database operations.
   final ContactsLocalProvider localProvider;
 
   @override

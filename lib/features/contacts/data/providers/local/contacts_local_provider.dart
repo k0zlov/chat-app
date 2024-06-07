@@ -7,31 +7,82 @@ import 'package:chat_app/features/contacts/domain/use_cases/remove_contact_use_c
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
+/// Defines the contract for local storage operations for contacts.
+///
+/// This abstract class provides methods to interact with the local database
+/// for saving, retrieving, and deleting contacts.
 abstract interface class ContactsLocalProvider {
+  /// Retrieves the saved contacts from the local database.
+  ///
+  /// Returns:
+  ///   A Future that resolves to an Either type, containing a [Failure] in case of
+  ///   an error, or a [ContactsResponseModel] instance in case of success.
   Future<Either<Failure, ContactsResponseModel>> getSavedContacts();
 
+  /// Rewrites the saved contacts in the local database.
+  ///
+  /// This method deletes all existing contacts and replaces them with the provided list.
+  ///
+  /// Parameters:
+  ///   [contacts] The list of contacts to save.
+  ///
+  /// Returns:
+  ///   A Future that resolves to an Either type, containing a [Failure] in case of
+  ///   an error, or void in case of success.
   Future<Either<Failure, void>> rewriteSavedContacts(
     List<ContactModel> contacts,
   );
 
+  /// Saves a contact to the local database.
+  ///
+  /// Parameters:
+  ///   [model] The contact model to save.
+  ///
+  /// Returns:
+  ///   A Future that resolves to an Either type, containing a [Failure] in case of
+  ///   an error, or void in case of success.
   Future<Either<Failure, void>> saveContact(
     ContactModel model,
   );
 
+  /// Deletes a contact from the local database.
+  ///
+  /// Parameters:
+  ///   [params] The parameters containing the contact's email to delete.
+  ///
+  /// Returns:
+  ///   A Future that resolves to an Either type, containing a [Failure] in case of
+  ///   an error, or void in case of success.
   Future<Either<Failure, void>> deleteContact(
     RemoveContactParams params,
   );
 
+  /// Deletes all contacts from the local database.
+  ///
+  /// Returns:
+  ///   A Future that resolves to an Either type, containing a [Failure] in case of
+  ///   an error, or void in case of success.
   Future<Either<Failure, void>> deleteAllContacts();
 }
 
+/// Implementation of [ContactsLocalProvider] that interacts with a local database.
+///
+/// This class provides concrete implementations for saving, retrieving, and deleting
+/// contacts using a local database. It leverages the [DatabaseHelper] class for
+/// database operations.
 class ContactsLocalProviderImpl implements ContactsLocalProvider {
+  /// Creates an instance of [ContactsLocalProviderImpl].
+  ///
+  /// Parameters:
+  ///   [database] The [DatabaseHelper] instance to use for database operations.
   const ContactsLocalProviderImpl({
     required this.database,
   });
 
+  /// The [DatabaseHelper] instance for database operations.
   final DatabaseHelper database;
 
+  /// The name of the table storing the contacts.
   String get tableName => ContactsTable().tableName;
 
   @override
@@ -40,8 +91,6 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
       tableName: tableName,
       parser: ContactsResponseModel.fromJson,
     );
-
-    print(response);
 
     return response;
   }
@@ -59,6 +108,7 @@ class ContactsLocalProviderImpl implements ContactsLocalProvider {
       tableName: tableName,
       data: dataToSave,
     );
+
     return response;
   }
 
