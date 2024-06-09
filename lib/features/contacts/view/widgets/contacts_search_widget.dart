@@ -32,7 +32,7 @@ class ContactsSearchWidget extends StatelessWidget {
           NoResultsSearchWidget(searchText: state.searchText),
         } else ...{
           if (state.searchedContacts.isNotEmpty) ...{
-            const SearchResultsHeader(title: 'Global search'),
+            const SearchResultsHeader(title: 'Global users search'),
             CupertinoListSection(
               topMargin: 0,
               children: [

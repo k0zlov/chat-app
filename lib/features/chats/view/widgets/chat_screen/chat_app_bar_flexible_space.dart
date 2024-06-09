@@ -69,7 +69,7 @@ class ChatSliverAppBarFlexibleSpace extends StatelessWidget {
                   child: _TitleWidget(
                     mode: mode,
                     detailsMode: detailsMode,
-                    title: chat.title,
+                    chat: chat,
                     onTitlePressed: detailsMode ? null : onTitlePressed,
                   ),
                 ),
@@ -84,13 +84,13 @@ class ChatSliverAppBarFlexibleSpace extends StatelessWidget {
 
 class _TitleWidget extends StatelessWidget {
   const _TitleWidget({
-    required this.title,
+    required this.chat,
     required this.onTitlePressed,
     required this.mode,
     required this.detailsMode,
   });
 
-  final String title;
+  final ChatEntity chat;
   final bool detailsMode;
   final AppBarMode mode;
   final void Function()? onTitlePressed;
@@ -110,7 +110,7 @@ class _TitleWidget extends StatelessWidget {
         padding:
             mode.isExpanded ? const EdgeInsets.only(left: 14) : EdgeInsets.zero,
         child: _TitleWidgetMainBody(
-          title: title,
+          chat: chat,
           mode: mode,
           onTitlePressed: onTitlePressed,
         ),
@@ -121,12 +121,12 @@ class _TitleWidget extends StatelessWidget {
 
 class _TitleWidgetMainBody extends StatelessWidget {
   const _TitleWidgetMainBody({
-    required this.title,
+    required this.chat,
     required this.mode,
     this.onTitlePressed,
   });
 
-  final String title;
+  final ChatEntity chat;
   final AppBarMode mode;
   final void Function()? onTitlePressed;
 
@@ -155,7 +155,7 @@ class _TitleWidgetMainBody extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: mode.isExpanded ? CupertinoColors.white : null,
               ),
-              child: Text(title),
+              child: Text(chat.title),
             ),
           ),
           Expanded(
@@ -168,7 +168,7 @@ class _TitleWidgetMainBody extends StatelessWidget {
                     ? CupertinoColors.white
                     : CupertinoColors.inactiveGray,
               ),
-              child: const Text('4 members, 2 online'),
+              child: Text('${chat.participants.length} members'),
             ),
           ),
           const SizedBox(height: 10),

@@ -48,7 +48,7 @@ class ApiEndpoints {
 
   static const postChatLeave = '$chatsRoute/leave';
 
-  static const getChatSearch = '$chatsRoute/search';
+  static const getChatsSearch = '$chatsRoute/search';
 
   /// Messages
   static const messagesRoute = '/messages';

@@ -67,16 +67,23 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final ChatsState state = context.select((ChatsCubit cubit) => cubit.state);
 
-    final ChatEntity? chat = state.chats.firstWhereOrNull(
+    bool viewingSearchedChat = false;
+
+    ChatEntity? chat = state.chats.firstWhereOrNull(
       (chat) => chat.id == widget.chatId,
     );
+
+    if (chat == null) {
+      chat = state.searchedChats.firstWhereOrNull(
+        (chat) => chat.id == widget.chatId,
+      );
+      viewingSearchedChat = true;
+    }
 
     final mediaQuery = MediaQuery.of(context);
 
     final double bottomPadding =
         mediaQuery.viewInsets.bottom + mediaQuery.padding.bottom;
-
-    print(bottomPadding);
 
     return CupertinoPageScaffold(
       resizeToAvoidBottomInset: false,
@@ -122,6 +129,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       chat: chat,
                       searchText: _searchText,
                       searchMode: _searchMode,
+                      showJoinChat: viewingSearchedChat,
                     ),
                   ),
                   AnimatedPositioned(
@@ -145,12 +153,14 @@ class _ChatScreenMainBody extends StatelessWidget {
     required this.chat,
     required this.searchMode,
     required this.searchText,
+    required this.showJoinChat,
   });
 
   final String searchText;
 
   final ChatEntity chat;
   final bool searchMode;
+  final bool showJoinChat;
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +177,11 @@ class _ChatScreenMainBody extends StatelessWidget {
           messages: searchMode ? messages : chat.messages,
           height: MediaQuery.of(context).size.height - kToolbarHeight - 110,
         ),
-        ChatBottomBar(chat: chat, searchMode: searchMode),
+        ChatBottomBar(
+          chat: chat,
+          searchMode: searchMode,
+          showJoinChat: showJoinChat,
+        ),
       ],
     );
   }

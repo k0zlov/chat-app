@@ -4,6 +4,7 @@ import 'package:chat_app/core/use_cases/use_case.dart';
 import 'package:chat_app/core/widgets/modal_pop_up.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/domain/use_cases/erase_chats_use_case/erase_chats_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ class ChatsCubit extends Cubit<ChatsState> {
     required this.leaveChatUseCase,
     required this.sendMessageUseCase,
     required this.eraseChatsUseCase,
+    required this.searchChatsUseCase,
   }) : super(const ChatsState());
 
   ChatsState _state = const ChatsState();
@@ -31,6 +33,8 @@ class ChatsCubit extends Cubit<ChatsState> {
   final EraseChatsUseCase eraseChatsUseCase;
 
   final SendMessageUseCase sendMessageUseCase;
+
+  final SearchChatsUseCase searchChatsUseCase;
 
   Future<void> onLogin() async {
     await _loadSavedChats();
@@ -107,18 +111,7 @@ class ChatsCubit extends Cubit<ChatsState> {
     emit(_state);
   }
 
-  Future<void> joinChat() async {
-    if (_state.searchText.isEmpty) return;
-
-    final int? chatId = int.tryParse(_state.searchText);
-
-    onSearchText('');
-
-    if (chatId == null) {
-      showError('Invalid Chat ID');
-      return;
-    }
-
+  Future<void> joinChat(int chatId) async {
     _state = _state.copyWith(loadingChats: true);
     emit(_state);
 
@@ -127,11 +120,12 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
 
     failureOrChats.fold(
-      (failure) {
-        showError(failure.errorMessage);
-      },
+      (failure) => showError(failure.errorMessage),
       (entity) {
-        _state = _state.copyWith(chats: [..._state.chats, entity]);
+        _state = _state.copyWith(
+          chats: [..._state.chats, entity],
+          searchedChats: [],
+        );
       },
     );
 
@@ -194,6 +188,31 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
   }
 
+  Future<void> getSearchChats() async {
+    final String searchText = _state.searchText;
+
+    Future.delayed(const Duration(milliseconds: 300), () async {
+      if (searchText != _state.searchText) return;
+
+      _state = _state.copyWith(searchingChats: true);
+      emit(_state);
+
+      final failureOrContacts = await searchChatsUseCase(
+        SearchChatsParams(title: searchText),
+      );
+
+      failureOrContacts.fold(
+        (failure) => showError(failure.errorMessage),
+        (entity) {
+          _state = _state.copyWith(searchedChats: entity.chats);
+        },
+      );
+
+      _state = _state.copyWith(searchingChats: false);
+      emit(_state);
+    });
+  }
+
   void onChatText({required int chatId, required String text}) {
     final ChatEntity? chat = _state.chats.firstWhereOrNull(
       (chat) => chat.id == chatId,
@@ -217,6 +236,13 @@ class ChatsCubit extends Cubit<ChatsState> {
 
     _state = _state.copyWith(searchText: text);
     emit(_state);
+
+    if (text != '') {
+      getSearchChats();
+    } else {
+      _state = _state.copyWith(searchedChats: []);
+      emit(_state);
+    }
   }
 
   void emitChat({required ChatEntity emitChat}) {

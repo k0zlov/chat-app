@@ -11,14 +11,18 @@ class ChatBottomBar extends StatelessWidget {
     super.key,
     required this.chat,
     required this.searchMode,
+    required this.showJoinChat,
   });
 
   final ChatEntity chat;
 
+  final bool showJoinChat;
   final bool searchMode;
 
   @override
   Widget build(BuildContext context) {
+    final ChatsCubit cubit = context.read<ChatsCubit>();
+
     final Color backgroundColor =
         CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.9);
 
@@ -44,11 +48,43 @@ class ChatBottomBar extends StatelessWidget {
               duration: const Duration(milliseconds: 220),
               child: searchMode
                   ? const _SearchBody()
-                  : _MessageTextFieldBody(chat: chat),
+                  : showJoinChat
+                      ? _JoinChatButton(
+                          onPressed: () async => cubit.joinChat(chat.id),
+                        )
+                      : _MessageTextFieldBody(chat: chat),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _JoinChatButton extends StatelessWidget {
+  const _JoinChatButton({
+    required this.onPressed,
+  });
+
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = CupertinoTheme.of(context);
+
+    final textStyle = theme.textTheme.textStyle.copyWith(
+      color: theme.primaryColor,
+      fontSize: 18,
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CupertinoButton(
+          onPressed: onPressed,
+          child: Text('Join Chat', style: textStyle),
+        ),
+      ],
     );
   }
 }

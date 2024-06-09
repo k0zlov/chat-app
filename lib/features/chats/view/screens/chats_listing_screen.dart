@@ -1,8 +1,10 @@
 import 'package:chat_app/core/widgets/screens/screen_with_search_bar.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_list.dart';
 import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_search_widget.dart';
 import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_sliver_app_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatsListingScreen extends StatefulWidget {
   const ChatsListingScreen({super.key});
@@ -22,12 +24,16 @@ class _ChatsListingScreenState extends State<ChatsListingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ChatsState state = context.select(
+      (ChatsCubit cubit) => cubit.state,
+    );
+
     return ScreenWithSearchAppBar(
       searchAppBar: ChatsSliverAppBar(focusNode: _focusNode),
       sliverBody: const ChatsList(),
       focusNode: _focusNode,
       searchWidget: const ChatsSearchWidget(),
-      showSearchWidget: false,
+      showSearchWidget: state.searchText != '',
     );
   }
 }

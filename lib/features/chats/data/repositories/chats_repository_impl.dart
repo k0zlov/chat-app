@@ -5,6 +5,7 @@ import 'package:chat_app/features/chats/data/providers/local/messages_local_prov
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
 import 'package:chat_app/features/chats/domain/entities/chats_response_entity/chats_response_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
+import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
@@ -36,6 +37,13 @@ class ChatsRepositoryImpl implements ChatsRepository {
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
       (model) async {
+        await localProvider.cacheChat(model);
+
+        await participantsLocalProvider.rewriteChatParticipants(
+          chatId: model.id,
+          participants: model.participants,
+        );
+
         final ChatEntity entity = model.toEntity();
 
         return Right(entity);
@@ -96,14 +104,15 @@ class ChatsRepositoryImpl implements ChatsRepository {
         for (final chat in model.chats) {
           await localProvider.cacheChat(chat);
 
-          for (final participant in chat.participants) {
-            await participantsLocalProvider.cacheParticipant(
-                model: participant);
-          }
+          await participantsLocalProvider.rewriteChatParticipants(
+            chatId: chat.id,
+            participants: chat.participants,
+          );
 
-          for (final message in chat.messages) {
-            await messagesLocalProvider.cacheMessage(model: message);
-          }
+          await messagesLocalProvider.rewriteMessages(
+            chatId: chat.id,
+            messages: chat.messages,
+          );
         }
 
         final ChatsResponseEntity entity = model.toEntity();
@@ -122,7 +131,19 @@ class ChatsRepositoryImpl implements ChatsRepository {
     return response.fold(
       // ignore: unnecessary_lambdas
       (failure) => Left(failure),
-      (model) {
+      (model) async {
+        await localProvider.cacheChat(model);
+
+        await participantsLocalProvider.rewriteChatParticipants(
+          chatId: model.id,
+          participants: model.participants,
+        );
+
+        await messagesLocalProvider.rewriteMessages(
+          chatId: model.id,
+          messages: model.messages,
+        );
+
         final ChatEntity entity = model.toEntity();
         return Right(entity);
       },
@@ -140,6 +161,17 @@ class ChatsRepositoryImpl implements ChatsRepository {
       (failure) => Left(failure),
       (_) async {
         await localProvider.deleteChat(params.chatId);
+
+        await participantsLocalProvider.rewriteChatParticipants(
+          chatId: params.chatId,
+          participants: [],
+        );
+
+        await messagesLocalProvider.rewriteMessages(
+          chatId: params.chatId,
+          messages: [],
+        );
+
         return const Right(null);
       },
     );
@@ -182,5 +214,22 @@ class ChatsRepositoryImpl implements ChatsRepository {
 
       return const Left(cacheFailure);
     }
+  }
+
+  @override
+  Future<Either<Failure, ChatsResponseEntity>> searchChats(
+    SearchChatsParams params,
+  ) async {
+    final response = await remoteProvider.searchChats(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) {
+        final ChatsResponseEntity entity = model.toEntity();
+
+        return Right(entity);
+      },
+    );
   }
 }

@@ -5,6 +5,7 @@ import 'package:chat_app/features/chats/domain/entities/message_entity/message_e
 import 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/join_chat_use_case/join_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/leave_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:dartz/dartz.dart';
 
@@ -29,5 +30,9 @@ abstract interface class ChatsRepository {
 
   Future<Either<Failure, MessageEntity>> sendMessage(
     SendMessageParams params,
+  );
+
+  Future<Either<Failure, ChatsResponseEntity>> searchChats(
+    SearchChatsParams params,
   );
 }

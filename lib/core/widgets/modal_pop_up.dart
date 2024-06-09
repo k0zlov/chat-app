@@ -14,48 +14,52 @@ class ModalPopUpContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: CupertinoTheme.of(context).barBackgroundColor,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      margin: const EdgeInsets.symmetric(
-        vertical: 100,
-        horizontal: 22,
-      ),
-      padding: const EdgeInsets.all(14),
-      child: Row(
-        children: [
-          Icon(
-            iconData,
-            size: 30,
-            color: CupertinoColors.inactiveGray,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: CupertinoTheme.of(context).barBackgroundColor,
+            borderRadius: BorderRadius.circular(25),
           ),
-          const SizedBox(width: 10),
-          Column(
-            mainAxisSize: MainAxisSize.min,
+          padding: const EdgeInsets.all(14),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (title != null) ...{
-                Text(
-                  title!,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              },
-              const SizedBox(height: 5),
-              if (message != null) ...{
-                Text(
-                  message ?? '',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              },
+              Icon(
+                iconData,
+                size: 30,
+                color: CupertinoColors.inactiveGray,
+              ),
+              const SizedBox(width: 10),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (title != null) ...{
+                    Text(
+                      title!,
+                      maxLines: 3,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  },
+                  const SizedBox(height: 5),
+                  if (message != null) ...{
+                    Text(
+                      message ?? '',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  },
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 100),
+      ],
     );
   }
 }

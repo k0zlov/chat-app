@@ -10,6 +10,7 @@ import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
 import 'package:chat_app/features/chats/domain/use_cases/erase_chats_use_case/erase_chats_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/erase_contacts_use_case/erase_contacts_use_case.dart';
@@ -225,6 +226,9 @@ void _useCases() {
     ..registerLazySingleton<LeaveChatUseCase>(
       () => LeaveChatUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<SearchChatsUseCase>(
+      () => SearchChatsUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<SendMessageUseCase>(
       () => SendMessageUseCase(repository: getIt()),
     )
@@ -255,6 +259,7 @@ void _cubits() {
         leaveChatUseCase: getIt(),
         sendMessageUseCase: getIt(),
         eraseChatsUseCase: getIt(),
+        searchChatsUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(

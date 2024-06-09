@@ -85,6 +85,7 @@ class ChatParticipantsTable extends Table {
         'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'chatId': 'INTEGER NOT NULL',
         'userId': 'INTEGER NOT NULL',
+        'name': 'TEXT',
         'role': 'TEXT NOT NULL',
         'joinedAt': 'TEXT NOT NULL',
       };

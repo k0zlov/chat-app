@@ -22,11 +22,8 @@ class ChatsSliverAppBar extends StatelessWidget {
     return SliverSearchAppBar(
       title: 'Chats',
       onChanged: cubit.onSearchText,
-      onSubmit: (_) async {
-        focusNode.unfocus();
-        await cubit.joinChat();
-      },
       text: state.searchText,
+      onSubmit: (String value) {},
       onLoading: cubit.fetchChats,
       showLoadingWidget: true,
       loading: state.loadingChats,

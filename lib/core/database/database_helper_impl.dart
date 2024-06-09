@@ -150,7 +150,11 @@ class DatabaseHelperImpl implements DatabaseHelper {
     try {
       final db = await database;
 
-      final response = await db.insert(tableName, data);
+      final response = await db.insert(
+        tableName,
+        data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
 
       if (response == 0) {
         const cacheFailure = CacheFailure(

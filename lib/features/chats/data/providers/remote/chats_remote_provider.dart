@@ -6,6 +6,7 @@ import 'package:chat_app/features/chats/data/models/chats_response_model/chats_r
 import 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/join_chat_use_case/join_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/leave_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:dartz/dartz.dart';
 
 abstract interface class ChatsRemoteProvider {
@@ -21,6 +22,10 @@ abstract interface class ChatsRemoteProvider {
 
   Future<Either<Failure, ChatModel>> createChat(
     CreateChatParams params,
+  );
+
+  Future<Either<Failure, ChatsResponseModel>> searchChats(
+    SearchChatsParams params,
   );
 }
 
@@ -84,6 +89,23 @@ class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
       url: ApiEndpoints.postChatLeave,
       data: params.toJson(),
       parser: (json) => null,
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatsResponseModel>> searchChats(
+    SearchChatsParams params,
+  ) async {
+    final response = await network.get(
+      url: ApiEndpoints.getChatsSearch,
+      queryParameters: params.toJson(),
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+
+        return ChatsResponseModel.fromJson(data);
+      },
     );
 
     return response;
