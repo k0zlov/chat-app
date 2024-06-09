@@ -61,6 +61,17 @@ class ContactsCubit extends Cubit<ContactsState> {
     });
   }
 
+  /// Loads saved contacts and fetches contacts on login.
+  Future<void> onLogin() async {
+    await _loadSavedContacts();
+    await fetchContacts();
+  }
+
+  /// Erases contacts on logout.
+  Future<void> onLogout() async {
+    await eraseContactsUseCase(NoParams());
+  }
+
   /// Loads saved contacts from local storage.
   Future<void> _loadSavedContacts() async {
     _state = _state.copyWith(contactsLoading: true);
@@ -80,6 +91,9 @@ class ContactsCubit extends Cubit<ContactsState> {
 
   /// Fetches contacts from the remote source.
   Future<void> fetchContacts() async {
+    _state = _state.copyWith(contactsLoading: true);
+    emit(_state);
+
     final failureOrContacts = await fetchContactsUseCase(NoParams());
 
     failureOrContacts.fold(
@@ -139,29 +153,6 @@ class ContactsCubit extends Cubit<ContactsState> {
     );
   }
 
-  /// Handles changes to the search input.
-  void onSearchChanged(String text) {
-    if (_state.searchText == text) return;
-
-    _state = _state.copyWith(searchText: text);
-    emit(_state);
-
-    if (text != '') {
-      getSearchContacts();
-    } else {
-      _state = _state.copyWith(searchedContacts: []);
-      emit(_state);
-    }
-  }
-
-  /// Handles changes to the email input.
-  void onEmailChanged(String text) {
-    if (_state.emailText == text) return;
-
-    _state = _state.copyWith(emailText: text);
-    emit(_state);
-  }
-
   /// Searches for contacts based on the search input.
   Future<void> getSearchContacts() async {
     final String searchText = _state.searchText;
@@ -188,14 +179,34 @@ class ContactsCubit extends Cubit<ContactsState> {
     });
   }
 
-  /// Loads saved contacts and fetches contacts on login.
-  Future<void> onLogin() async {
-    await _loadSavedContacts();
-    await fetchContacts();
+  /// Sets new sorting mechanism
+  void setContactsSorting(ContactsSort sort) {
+    if (sort == _state.sortOption) return;
+
+    _state = _state.copyWith(sortOption: sort);
+    emit(_state);
   }
 
-  /// Erases contacts on logout.
-  Future<void> onLogout() async {
-    await eraseContactsUseCase(NoParams());
+  /// Handles changes to the search input.
+  void onSearchChanged(String text) {
+    if (_state.searchText == text) return;
+
+    _state = _state.copyWith(searchText: text);
+    emit(_state);
+
+    if (text != '') {
+      getSearchContacts();
+    } else {
+      _state = _state.copyWith(searchedContacts: []);
+      emit(_state);
+    }
+  }
+
+  /// Handles changes to the email input.
+  void onEmailChanged(String text) {
+    if (_state.emailText == text) return;
+
+    _state = _state.copyWith(emailText: text);
+    emit(_state);
   }
 }

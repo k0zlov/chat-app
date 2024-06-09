@@ -39,7 +39,7 @@ class ContactsSearchWidget extends StatelessWidget {
                 for (final contact in state.searchedContacts) ...{
                   ContactsListItem(
                     title: contact.name,
-                    subtitle: 'last seen 5 minutes ago',
+                    lastActivity: contact.lastActivityAt,
                     backgroundColor: Colors.transparent,
                     onPressed: () {},
                   ),
@@ -55,7 +55,7 @@ class ContactsSearchWidget extends StatelessWidget {
                 for (final contact in filteredContacts) ...{
                   ContactsListItem(
                     title: contact.name,
-                    subtitle: 'last seen 5 minutes ago',
+                    lastActivity: contact.lastActivityAt,
                     backgroundColor: Colors.transparent,
                     onPressed: () {},
                   ),

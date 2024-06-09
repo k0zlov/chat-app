@@ -2,6 +2,7 @@ import 'package:chat_app/features/contacts/domain/entities/contact_entity/contac
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'contact_model.freezed.dart';
+
 part 'contact_model.g.dart';
 
 /// A data model for contact information.
@@ -22,11 +23,13 @@ class ContactModel with _$ContactModel {
   ///   [name] The name of the contact, defaults to an empty string.
   ///   [email] The email of the contact, defaults to an empty string.
   ///   [addedAt] The date when the contact was added, defaults to an empty string.
+  ///   [lastActivityAt] The date when the contact had last activity at, defaults to an empty string.
   const factory ContactModel({
     @Default(-1) int contactUserId,
     @Default('') String name,
     @Default('') String email,
     @Default('') String addedAt,
+    @Default('') String lastActivityAt,
   }) = _ContactModel;
 
   /// Private constructor for [ContactModel].
@@ -61,6 +64,7 @@ class ContactModel with _$ContactModel {
       name: name,
       email: email,
       addedAt: DateTime.tryParse(addedAt),
+      lastActivityAt: DateTime.tryParse(lastActivityAt),
     );
   }
 }

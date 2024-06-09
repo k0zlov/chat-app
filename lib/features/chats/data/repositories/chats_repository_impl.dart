@@ -101,9 +101,9 @@ class ChatsRepositoryImpl implements ChatsRepository {
     return response.fold(
       (failure) async => getSavedChats(),
       (model) async {
-        for (final chat in model.chats) {
-          await localProvider.cacheChat(chat);
+        await localProvider.rewriteSavedChats(model.chats);
 
+        for (final chat in model.chats) {
           await participantsLocalProvider.rewriteChatParticipants(
             chatId: chat.id,
             participants: chat.participants,

@@ -24,6 +24,7 @@ mixin _$ContactModel {
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get addedAt => throw _privateConstructorUsedError;
+  String get lastActivityAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,12 @@ abstract class $ContactModelCopyWith<$Res> {
           ContactModel value, $Res Function(ContactModel) then) =
       _$ContactModelCopyWithImpl<$Res, ContactModel>;
   @useResult
-  $Res call({int contactUserId, String name, String email, String addedAt});
+  $Res call(
+      {int contactUserId,
+      String name,
+      String email,
+      String addedAt,
+      String lastActivityAt});
 }
 
 /// @nodoc
@@ -57,6 +63,7 @@ class _$ContactModelCopyWithImpl<$Res, $Val extends ContactModel>
     Object? name = null,
     Object? email = null,
     Object? addedAt = null,
+    Object? lastActivityAt = null,
   }) {
     return _then(_value.copyWith(
       contactUserId: null == contactUserId
@@ -75,6 +82,10 @@ class _$ContactModelCopyWithImpl<$Res, $Val extends ContactModel>
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as String,
+      lastActivityAt: null == lastActivityAt
+          ? _value.lastActivityAt
+          : lastActivityAt // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -87,7 +98,12 @@ abstract class _$$ContactModelImplCopyWith<$Res>
       __$$ContactModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int contactUserId, String name, String email, String addedAt});
+  $Res call(
+      {int contactUserId,
+      String name,
+      String email,
+      String addedAt,
+      String lastActivityAt});
 }
 
 /// @nodoc
@@ -105,6 +121,7 @@ class __$$ContactModelImplCopyWithImpl<$Res>
     Object? name = null,
     Object? email = null,
     Object? addedAt = null,
+    Object? lastActivityAt = null,
   }) {
     return _then(_$ContactModelImpl(
       contactUserId: null == contactUserId
@@ -123,6 +140,10 @@ class __$$ContactModelImplCopyWithImpl<$Res>
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as String,
+      lastActivityAt: null == lastActivityAt
+          ? _value.lastActivityAt
+          : lastActivityAt // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -134,7 +155,8 @@ class _$ContactModelImpl extends _ContactModel {
       {this.contactUserId = -1,
       this.name = '',
       this.email = '',
-      this.addedAt = ''})
+      this.addedAt = '',
+      this.lastActivityAt = ''})
       : super._();
 
   factory _$ContactModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -152,10 +174,13 @@ class _$ContactModelImpl extends _ContactModel {
   @override
   @JsonKey()
   final String addedAt;
+  @override
+  @JsonKey()
+  final String lastActivityAt;
 
   @override
   String toString() {
-    return 'ContactModel(contactUserId: $contactUserId, name: $name, email: $email, addedAt: $addedAt)';
+    return 'ContactModel(contactUserId: $contactUserId, name: $name, email: $email, addedAt: $addedAt, lastActivityAt: $lastActivityAt)';
   }
 
   @override
@@ -167,13 +192,15 @@ class _$ContactModelImpl extends _ContactModel {
                 other.contactUserId == contactUserId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.addedAt, addedAt) || other.addedAt == addedAt));
+            (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
+            (identical(other.lastActivityAt, lastActivityAt) ||
+                other.lastActivityAt == lastActivityAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, contactUserId, name, email, addedAt);
+  int get hashCode => Object.hash(
+      runtimeType, contactUserId, name, email, addedAt, lastActivityAt);
 
   @JsonKey(ignore: true)
   @override
@@ -194,7 +221,8 @@ abstract class _ContactModel extends ContactModel {
       {final int contactUserId,
       final String name,
       final String email,
-      final String addedAt}) = _$ContactModelImpl;
+      final String addedAt,
+      final String lastActivityAt}) = _$ContactModelImpl;
   const _ContactModel._() : super._();
 
   factory _ContactModel.fromJson(Map<String, dynamic> json) =
@@ -208,6 +236,8 @@ abstract class _ContactModel extends ContactModel {
   String get email;
   @override
   String get addedAt;
+  @override
+  String get lastActivityAt;
   @override
   @JsonKey(ignore: true)
   _$$ContactModelImplCopyWith<_$ContactModelImpl> get copyWith =>

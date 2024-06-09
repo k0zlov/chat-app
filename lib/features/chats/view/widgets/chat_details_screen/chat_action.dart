@@ -87,7 +87,6 @@ class ChatAction extends StatelessWidget {
                 alignment: alignment,
                 child: ContextMenu(
                   duration: duration,
-                  visible: selected,
                   animationAlignment: Alignment.topCenter,
                   actions: contextMenuActions!,
                 ),

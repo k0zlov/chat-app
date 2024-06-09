@@ -24,7 +24,8 @@ class SearchResultsHeader extends StatelessWidget {
 
     return Container(
       height: 30,
-      color: CupertinoTheme.of(context).barBackgroundColor,
+      color: CupertinoTheme.of(context).scaffoldBackgroundColor,
+      width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Text(title, style: textStyle),

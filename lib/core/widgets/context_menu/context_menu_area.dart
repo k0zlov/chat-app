@@ -4,7 +4,6 @@ import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContextMenuArea extends StatefulWidget {
@@ -57,6 +56,9 @@ class _ContextMenuAreaState extends State<ContextMenuArea> {
         ? position.dy - (contextMenuHeight - spaceBelow) - 50
         : position.dy;
 
+    final double adjustedChildXPosition =
+        screenWidth - 10 <= position.dx ? position.dx - 10 : position.dx - 130;
+
     final Alignment alignment = Alignment(
       (xCenter / screenWidth) * 2 - 1,
       ((adjustedChildYPosition + size.height / 2) / screenHeight) * 2 - 1,
@@ -76,31 +78,32 @@ class _ContextMenuAreaState extends State<ContextMenuArea> {
             },
             child: CupertinoPopupSurface(
               isSurfacePainted: false,
-              child: Stack(
-                children: [
-                  AnimatedPositioned(
-                    duration: const Duration(milliseconds: 220),
-                    left: position.dx,
-                    top: adjustedChildYPosition,
-                    child: Visibility(
-                      visible: _showMenu,
-                      child: Hero(
-                        tag: widget.heroTag,
-                        child: widget.child,
+              child: SafeArea(
+                child: Stack(
+                  children: [
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 220),
+                      left: position.dx,
+                      top: adjustedChildYPosition,
+                      child: Visibility(
+                        visible: _showMenu,
+                        child: Hero(
+                          tag: widget.heroTag,
+                          child: widget.child,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: position.dx - 20,
-                    top: adjustedChildYPosition + size.height - 10,
-                    child: ContextMenu(
-                      animationAlignment: alignment,
-                      visible: _showMenu,
-                      duration: _duration,
-                      actions: widget.actions,
+                    Positioned(
+                      left: adjustedChildXPosition,
+                      top: adjustedChildYPosition + size.height - 10,
+                      child: ContextMenu(
+                        animationAlignment: alignment,
+                        duration: _duration,
+                        actions: widget.actions,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

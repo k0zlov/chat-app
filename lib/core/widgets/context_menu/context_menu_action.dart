@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 
 class ContextMenuAction extends StatelessWidget {
   const ContextMenuAction({
@@ -36,7 +37,10 @@ class ContextMenuAction extends StatelessWidget {
               size: 19,
               color: textStyle.color,
             ),
-      onTap: onPressed,
+      onTap: () {
+        onPressed();
+        context.pop();
+      },
     );
   }
 }

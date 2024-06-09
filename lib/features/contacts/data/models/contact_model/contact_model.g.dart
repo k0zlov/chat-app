@@ -12,6 +12,7 @@ _$ContactModelImpl _$$ContactModelImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String? ?? '',
       email: json['email'] as String? ?? '',
       addedAt: json['addedAt'] as String? ?? '',
+      lastActivityAt: json['lastActivityAt'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$ContactModelImplToJson(_$ContactModelImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$ContactModelImplToJson(_$ContactModelImpl instance) =>
       'name': instance.name,
       'email': instance.email,
       'addedAt': instance.addedAt,
+      'lastActivityAt': instance.lastActivityAt,
     };

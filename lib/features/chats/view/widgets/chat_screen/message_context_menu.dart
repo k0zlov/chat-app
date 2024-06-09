@@ -16,7 +16,6 @@ class MessageContextMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return ContextMenu(
       duration: duration,
-      visible: visible,
       actions: [],
     );
   }

@@ -20,11 +20,13 @@ class ContactEntity with _$ContactEntity {
   ///   [name] The name of the contact, defaults to an empty string.
   ///   [email] The email of the contact, defaults to an empty string.
   ///   [addedAt] The date and time when the contact was added, defaults to null.
+  ///   [lastActivityAt] The date and time when the contact had last activity at, defaults to null.
   const factory ContactEntity({
     @Default(-1) int id,
     @Default('') String name,
     @Default('') String email,
     @Default(null) DateTime? addedAt,
+    @Default(null) DateTime? lastActivityAt,
   }) = _ContactEntity;
 
   /// Private constructor for [ContactEntity].

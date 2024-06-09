@@ -136,6 +136,8 @@ class _TitleWidgetMainBody extends StatelessWidget {
           fontSize: 13,
         );
 
+    final int membersAmount = chat.participants.length;
+
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: onTitlePressed,
@@ -168,7 +170,9 @@ class _TitleWidgetMainBody extends StatelessWidget {
                     ? CupertinoColors.white
                     : CupertinoColors.inactiveGray,
               ),
-              child: Text('${chat.participants.length} members'),
+              child: Text(
+                '$membersAmount member${membersAmount == 1 ? '' : 's'}',
+              ),
             ),
           ),
           const SizedBox(height: 10),

@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 class ContextMenu extends StatefulWidget {
   const ContextMenu({
     super.key,
-    required this.visible,
     required this.actions,
     this.actionHeight = 50,
     this.animationAlignment,
     this.duration = const Duration(milliseconds: 220),
   });
 
-  final bool visible;
 
   final Alignment? animationAlignment;
 
@@ -48,22 +46,7 @@ class _ContextMenuState extends State<ContextMenu>
       ),
     );
 
-    if (widget.visible) {
-      _animationController.forward();
-    }
-  }
-
-  @override
-  void didUpdateWidget(covariant ContextMenu oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.visible == oldWidget.visible) return;
-
-    if (widget.visible) {
-      _animationController.forward();
-    } else {
-      _animationController.reverse();
-    }
+    _animationController.forward();
   }
 
   @override
@@ -74,17 +57,22 @@ class _ContextMenuState extends State<ContextMenu>
 
   @override
   Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scaleAnimation,
-      alignment: widget.animationAlignment ?? Alignment.center,
-      child: SizedBox(
-        height: widget.actionHeight * widget.actions.length + 13,
-        width: 270,
-        child: CupertinoListSection.insetGrouped(
-          dividerMargin: 0,
-          additionalDividerMargin: 0,
-          backgroundColor: Colors.transparent,
-          children: widget.actions,
+    return PopScope(
+      onPopInvoked: (_) async {
+        await _animationController.reverse();
+      },
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        alignment: widget.animationAlignment ?? Alignment.center,
+        child: SizedBox(
+          height: widget.actionHeight * widget.actions.length + 20,
+          width: 270,
+          child: CupertinoListSection.insetGrouped(
+            dividerMargin: 0,
+            additionalDividerMargin: 0,
+            backgroundColor: Colors.transparent,
+            children: widget.actions,
+          ),
         ),
       ),
     );

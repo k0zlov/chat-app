@@ -56,8 +56,8 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
   final double collapsedHeight = 70;
 
   final Duration toBasicDuration = const Duration(milliseconds: 400);
-  final Duration toExpandedDuration = const Duration(milliseconds: 10);
-  final Duration toCollapsedDuration = const Duration(milliseconds: 400);
+  final Duration toExpandedDuration = const Duration(milliseconds: 20);
+  final Duration toCollapsedDuration = const Duration(milliseconds: 240);
 
   final TextEditingController _controller = TextEditingController();
 

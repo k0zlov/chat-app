@@ -103,5 +103,6 @@ class ContactsTable extends Table {
         'name': 'TEXT NOT NULL',
         'email': 'TEXT NOT NULL UNIQUE',
         'addedAt': 'TEXT NOT NULL',
+        'lastActivityAt': 'TEXT NOT NULL',
       };
 }

@@ -18,7 +18,6 @@ class MiniChatContextMenu extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: ContextMenu(
-        visible: visible,
         animationAlignment: Alignment.bottomCenter,
         duration: duration,
         actions: [

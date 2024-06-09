@@ -39,7 +39,7 @@ class ChatDetailsParticipantsList extends StatelessWidget {
               pressable: false,
               backgroundColor: backgroundColor,
               title: participant.name,
-              subtitle: 'last seen 4 hours ago',
+              lastActivity: DateTime.now(),
             );
           },
         ),

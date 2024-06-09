@@ -41,6 +41,7 @@ class ChatsSearchWidget extends StatelessWidget {
                 for (final chat in state.searchedChats) ...{
                   ContactsListItem(
                     title: chat.title,
+                    showStatus: false,
                     backgroundColor: Colors.transparent,
                     leading: ChatDefaultImage(
                       title: chat.title,
@@ -65,6 +66,7 @@ class ChatsSearchWidget extends StatelessWidget {
                 for (final chat in filteredChats) ...{
                   ContactsListItem(
                     title: chat.title,
+                    showStatus: false,
                     backgroundColor: Colors.transparent,
                     leading: ChatDefaultImage(
                       title: chat.title,
