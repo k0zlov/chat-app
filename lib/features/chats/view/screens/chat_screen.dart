@@ -134,8 +134,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   AnimatedPositioned(
                     left: _detailsMode ? 0 : mediaQuery.size.width,
-                    curve: Curves.easeOutQuad,
-                    duration: const Duration(milliseconds: 240),
+                    curve: Curves.easeInOut,
+                    duration: const Duration(milliseconds: 300),
                     child: _ChatScreenDetailsBody(chat: chat),
                   ),
                 ],

@@ -24,6 +24,8 @@ mixin _$MessageModel {
   int get chatId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  String get authorName => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
 
@@ -44,6 +46,8 @@ abstract class $MessageModelCopyWith<$Res> {
       int chatId,
       int userId,
       String content,
+      String authorName,
+      String type,
       String updatedAt,
       String createdAt});
 }
@@ -65,6 +69,8 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
     Object? chatId = null,
     Object? userId = null,
     Object? content = null,
+    Object? authorName = null,
+    Object? type = null,
     Object? updatedAt = null,
     Object? createdAt = null,
   }) {
@@ -84,6 +90,14 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      authorName: null == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
       updatedAt: null == updatedAt
           ? _value.updatedAt
@@ -110,6 +124,8 @@ abstract class _$$MessageModelImplCopyWith<$Res>
       int chatId,
       int userId,
       String content,
+      String authorName,
+      String type,
       String updatedAt,
       String createdAt});
 }
@@ -129,6 +145,8 @@ class __$$MessageModelImplCopyWithImpl<$Res>
     Object? chatId = null,
     Object? userId = null,
     Object? content = null,
+    Object? authorName = null,
+    Object? type = null,
     Object? updatedAt = null,
     Object? createdAt = null,
   }) {
@@ -148,6 +166,14 @@ class __$$MessageModelImplCopyWithImpl<$Res>
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      authorName: null == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
       updatedAt: null == updatedAt
           ? _value.updatedAt
@@ -169,6 +195,8 @@ class _$MessageModelImpl extends _MessageModel {
       this.chatId = -1,
       this.userId = -1,
       this.content = '',
+      this.authorName = '',
+      this.type = '',
       this.updatedAt = '',
       this.createdAt = ''})
       : super._();
@@ -190,6 +218,12 @@ class _$MessageModelImpl extends _MessageModel {
   final String content;
   @override
   @JsonKey()
+  final String authorName;
+  @override
+  @JsonKey()
+  final String type;
+  @override
+  @JsonKey()
   final String updatedAt;
   @override
   @JsonKey()
@@ -197,7 +231,7 @@ class _$MessageModelImpl extends _MessageModel {
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, chatId: $chatId, userId: $userId, content: $content, updatedAt: $updatedAt, createdAt: $createdAt)';
+    return 'MessageModel(id: $id, chatId: $chatId, userId: $userId, content: $content, authorName: $authorName, type: $type, updatedAt: $updatedAt, createdAt: $createdAt)';
   }
 
   @override
@@ -209,6 +243,9 @@ class _$MessageModelImpl extends _MessageModel {
             (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.authorName, authorName) ||
+                other.authorName == authorName) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.createdAt, createdAt) ||
@@ -217,8 +254,8 @@ class _$MessageModelImpl extends _MessageModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, chatId, userId, content, updatedAt, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, chatId, userId, content,
+      authorName, type, updatedAt, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -240,6 +277,8 @@ abstract class _MessageModel extends MessageModel {
       final int chatId,
       final int userId,
       final String content,
+      final String authorName,
+      final String type,
       final String updatedAt,
       final String createdAt}) = _$MessageModelImpl;
   const _MessageModel._() : super._();
@@ -255,6 +294,10 @@ abstract class _MessageModel extends MessageModel {
   int get userId;
   @override
   String get content;
+  @override
+  String get authorName;
+  @override
+  String get type;
   @override
   String get updatedAt;
   @override

@@ -20,6 +20,7 @@ mixin _$ChatParticipantEntity {
   int get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   ChatParticipantRole get role => throw _privateConstructorUsedError;
+  DateTime? get lastActivityAt => throw _privateConstructorUsedError;
   DateTime? get joinedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,6 +39,7 @@ abstract class $ChatParticipantEntityCopyWith<$Res> {
       int userId,
       String name,
       ChatParticipantRole role,
+      DateTime? lastActivityAt,
       DateTime? joinedAt});
 }
 
@@ -59,6 +61,7 @@ class _$ChatParticipantEntityCopyWithImpl<$Res,
     Object? userId = null,
     Object? name = null,
     Object? role = null,
+    Object? lastActivityAt = freezed,
     Object? joinedAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +81,10 @@ class _$ChatParticipantEntityCopyWithImpl<$Res,
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatParticipantRole,
+      lastActivityAt: freezed == lastActivityAt
+          ? _value.lastActivityAt
+          : lastActivityAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       joinedAt: freezed == joinedAt
           ? _value.joinedAt
           : joinedAt // ignore: cast_nullable_to_non_nullable
@@ -100,6 +107,7 @@ abstract class _$$ChatParticipantEntityImplCopyWith<$Res>
       int userId,
       String name,
       ChatParticipantRole role,
+      DateTime? lastActivityAt,
       DateTime? joinedAt});
 }
 
@@ -119,6 +127,7 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? name = null,
     Object? role = null,
+    Object? lastActivityAt = freezed,
     Object? joinedAt = freezed,
   }) {
     return _then(_$ChatParticipantEntityImpl(
@@ -138,6 +147,10 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as ChatParticipantRole,
+      lastActivityAt: freezed == lastActivityAt
+          ? _value.lastActivityAt
+          : lastActivityAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       joinedAt: freezed == joinedAt
           ? _value.joinedAt
           : joinedAt // ignore: cast_nullable_to_non_nullable
@@ -154,6 +167,7 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
       this.userId = -1,
       this.name = '',
       this.role = ChatParticipantRole.member,
+      this.lastActivityAt = null,
       this.joinedAt = null})
       : super._();
 
@@ -171,11 +185,14 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
   final ChatParticipantRole role;
   @override
   @JsonKey()
+  final DateTime? lastActivityAt;
+  @override
+  @JsonKey()
   final DateTime? joinedAt;
 
   @override
   String toString() {
-    return 'ChatParticipantEntity(chatId: $chatId, userId: $userId, name: $name, role: $role, joinedAt: $joinedAt)';
+    return 'ChatParticipantEntity(chatId: $chatId, userId: $userId, name: $name, role: $role, lastActivityAt: $lastActivityAt, joinedAt: $joinedAt)';
   }
 
   @override
@@ -187,13 +204,15 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.role, role) || other.role == role) &&
+            (identical(other.lastActivityAt, lastActivityAt) ||
+                other.lastActivityAt == lastActivityAt) &&
             (identical(other.joinedAt, joinedAt) ||
                 other.joinedAt == joinedAt));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, chatId, userId, name, role, joinedAt);
+  int get hashCode => Object.hash(
+      runtimeType, chatId, userId, name, role, lastActivityAt, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -209,6 +228,7 @@ abstract class _ChatParticipantEntity extends ChatParticipantEntity {
       final int userId,
       final String name,
       final ChatParticipantRole role,
+      final DateTime? lastActivityAt,
       final DateTime? joinedAt}) = _$ChatParticipantEntityImpl;
   const _ChatParticipantEntity._() : super._();
 
@@ -220,6 +240,8 @@ abstract class _ChatParticipantEntity extends ChatParticipantEntity {
   String get name;
   @override
   ChatParticipantRole get role;
+  @override
+  DateTime? get lastActivityAt;
   @override
   DateTime? get joinedAt;
   @override

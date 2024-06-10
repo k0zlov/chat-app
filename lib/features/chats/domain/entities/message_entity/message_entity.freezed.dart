@@ -16,12 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MessageEntity {
+  DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
   int get chatId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
+  MessageType get type => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  String get authorName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MessageEntityCopyWith<MessageEntity> get copyWith =>
@@ -35,12 +37,14 @@ abstract class $MessageEntityCopyWith<$Res> {
       _$MessageEntityCopyWithImpl<$Res, MessageEntity>;
   @useResult
   $Res call(
-      {int id,
+      {DateTime updatedAt,
+      DateTime createdAt,
+      int id,
       int chatId,
       int userId,
+      MessageType type,
       String content,
-      DateTime updatedAt,
-      DateTime createdAt});
+      String authorName});
 }
 
 /// @nodoc
@@ -56,14 +60,24 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? updatedAt = null,
+    Object? createdAt = null,
     Object? id = null,
     Object? chatId = null,
     Object? userId = null,
+    Object? type = null,
     Object? content = null,
-    Object? updatedAt = null,
-    Object? createdAt = null,
+    Object? authorName = null,
   }) {
     return _then(_value.copyWith(
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -76,18 +90,18 @@ class _$MessageEntityCopyWithImpl<$Res, $Val extends MessageEntity>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageType,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      authorName: null == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -101,12 +115,14 @@ abstract class _$$MessageEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {DateTime updatedAt,
+      DateTime createdAt,
+      int id,
       int chatId,
       int userId,
+      MessageType type,
       String content,
-      DateTime updatedAt,
-      DateTime createdAt});
+      String authorName});
 }
 
 /// @nodoc
@@ -120,14 +136,24 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? updatedAt = null,
+    Object? createdAt = null,
     Object? id = null,
     Object? chatId = null,
     Object? userId = null,
+    Object? type = null,
     Object? content = null,
-    Object? updatedAt = null,
-    Object? createdAt = null,
+    Object? authorName = null,
   }) {
     return _then(_$MessageEntityImpl(
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -140,18 +166,18 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as MessageType,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+      authorName: null == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -160,14 +186,20 @@ class __$$MessageEntityImplCopyWithImpl<$Res>
 
 class _$MessageEntityImpl extends _MessageEntity {
   const _$MessageEntityImpl(
-      {this.id = -1,
+      {required this.updatedAt,
+      required this.createdAt,
+      this.id = -1,
       this.chatId = -1,
       this.userId = -1,
+      this.type = MessageType.basic,
       this.content = '',
-      required this.updatedAt,
-      required this.createdAt})
+      this.authorName = ''})
       : super._();
 
+  @override
+  final DateTime updatedAt;
+  @override
+  final DateTime createdAt;
   @override
   @JsonKey()
   final int id;
@@ -179,15 +211,17 @@ class _$MessageEntityImpl extends _MessageEntity {
   final int userId;
   @override
   @JsonKey()
+  final MessageType type;
+  @override
+  @JsonKey()
   final String content;
   @override
-  final DateTime updatedAt;
-  @override
-  final DateTime createdAt;
+  @JsonKey()
+  final String authorName;
 
   @override
   String toString() {
-    return 'MessageEntity(id: $id, chatId: $chatId, userId: $userId, content: $content, updatedAt: $updatedAt, createdAt: $createdAt)';
+    return 'MessageEntity(updatedAt: $updatedAt, createdAt: $createdAt, id: $id, chatId: $chatId, userId: $userId, type: $type, content: $content, authorName: $authorName)';
   }
 
   @override
@@ -195,19 +229,22 @@ class _$MessageEntityImpl extends _MessageEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageEntityImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.chatId, chatId) || other.chatId == chatId) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.content, content) || other.content == content) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.authorName, authorName) ||
+                other.authorName == authorName));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, chatId, userId, content, updatedAt, createdAt);
+  int get hashCode => Object.hash(runtimeType, updatedAt, createdAt, id, chatId,
+      userId, type, content, authorName);
 
   @JsonKey(ignore: true)
   @override
@@ -218,14 +255,20 @@ class _$MessageEntityImpl extends _MessageEntity {
 
 abstract class _MessageEntity extends MessageEntity {
   const factory _MessageEntity(
-      {final int id,
+      {required final DateTime updatedAt,
+      required final DateTime createdAt,
+      final int id,
       final int chatId,
       final int userId,
+      final MessageType type,
       final String content,
-      required final DateTime updatedAt,
-      required final DateTime createdAt}) = _$MessageEntityImpl;
+      final String authorName}) = _$MessageEntityImpl;
   const _MessageEntity._() : super._();
 
+  @override
+  DateTime get updatedAt;
+  @override
+  DateTime get createdAt;
   @override
   int get id;
   @override
@@ -233,11 +276,11 @@ abstract class _MessageEntity extends MessageEntity {
   @override
   int get userId;
   @override
+  MessageType get type;
+  @override
   String get content;
   @override
-  DateTime get updatedAt;
-  @override
-  DateTime get createdAt;
+  String get authorName;
   @override
   @JsonKey(ignore: true)
   _$$MessageEntityImplCopyWith<_$MessageEntityImpl> get copyWith =>

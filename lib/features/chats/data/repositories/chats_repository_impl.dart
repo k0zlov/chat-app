@@ -5,6 +5,8 @@ import 'package:chat_app/features/chats/data/providers/local/messages_local_prov
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
 import 'package:chat_app/features/chats/domain/entities/chats_response_entity/chats_response_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
+import 'package:chat_app/features/chats/domain/use_cases/archive_chat_use_case/archive_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/pin_chat_use_case/pin_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:dartz/dartz.dart';
@@ -196,7 +198,7 @@ class ChatsRepositoryImpl implements ChatsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteAllChats() async {
+  Future<Either<Failure, void>> eraseAllChats() async {
     try {
       await localProvider.deleteAllChats();
       await participantsLocalProvider.deleteAllParticipants();
@@ -228,6 +230,50 @@ class ChatsRepositoryImpl implements ChatsRepository {
       (model) {
         final ChatsResponseEntity entity = model.toEntity();
 
+        return Right(entity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ChatEntity>> updateArchiveChat(
+    ArchiveChatParams params,
+  ) async {
+    final Either<Failure, ChatModel> response;
+
+    if (params.isArchived) {
+      response = await remoteProvider.archiveChat(params.chatId);
+    } else {
+      response = await remoteProvider.unarchiveChat(params.chatId);
+    }
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) {
+        final ChatEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ChatEntity>> updatePinChat(
+    PinChatParams params,
+  ) async {
+    final Either<Failure, ChatModel> response;
+
+    if (params.isPinned) {
+      response = await remoteProvider.pinChat(params.chatId);
+    } else {
+      response = await remoteProvider.unpinChat(params.chatId);
+    }
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) {
+        final ChatEntity entity = model.toEntity();
         return Right(entity);
       },
     );

@@ -23,6 +23,6 @@ class EraseChatsUseCase implements UseCase<void, NoParams> {
   /// of [Either] containing [Failure] or `void`.
   @override
   Future<Either<Failure, void>> call(NoParams params) {
-    return repository.deleteAllChats();
+    return repository.eraseAllChats();
   }
 }

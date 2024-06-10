@@ -27,6 +27,22 @@ abstract interface class ChatsRemoteProvider {
   Future<Either<Failure, ChatsResponseModel>> searchChats(
     SearchChatsParams params,
   );
+
+  Future<Either<Failure, ChatModel>> pinChat(
+    int chatId,
+  );
+
+  Future<Either<Failure, ChatModel>> unpinChat(
+    int chatId,
+  );
+
+  Future<Either<Failure, ChatModel>> archiveChat(
+    int chatId,
+  );
+
+  Future<Either<Failure, ChatModel>> unarchiveChat(
+    int chatId,
+  );
 }
 
 class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
@@ -105,6 +121,62 @@ class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
         final data = json as Map<String, dynamic>;
 
         return ChatsResponseModel.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatModel>> archiveChat(int chatId) async {
+    final response = await network.post(
+      url: ApiEndpoints.postChatArchive,
+      queryParameters: {'chatId': chatId},
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return ChatModel.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatModel>> unarchiveChat(int chatId) async {
+    final response = await network.delete(
+      url: ApiEndpoints.deleteChatUnarchive,
+      queryParameters: {'chatId': chatId},
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return ChatModel.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatModel>> pinChat(int chatId) async {
+    final response = await network.post(
+      url: ApiEndpoints.postChatPin,
+      queryParameters: {'chatId': chatId},
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return ChatModel.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatModel>> unpinChat(int chatId) async {
+    final response = await network.delete(
+      url: ApiEndpoints.deleteChatUnpin,
+      queryParameters: {'chatId': chatId},
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return ChatModel.fromJson(data);
       },
     );
 

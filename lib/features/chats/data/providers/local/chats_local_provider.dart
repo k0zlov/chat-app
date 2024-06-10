@@ -31,9 +31,17 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
 
   @override
   Future<Either<Failure, void>> cacheChat(ChatModel model) async {
+    final Map<String, dynamic> toSave = {
+      ...model.toJson(),
+      'isPinned': model.isPinned ? 1 : 0,
+      'isArchived': model.isArchived ? 1 : 0,
+    };
+
     final response = await database.insert(
       tableName: tableName,
-      data: model.toJson()..remove('participants')..remove('messages'),
+      data: toSave
+        ..remove('participants')
+        ..remove('messages'),
     );
     return response;
   }
@@ -53,7 +61,24 @@ class ChatsLocalProviderImpl implements ChatsLocalProvider {
   Future<Either<Failure, ChatsResponseModel>> getSavedChats() async {
     final response = await database.get(
       tableName: tableName,
-      parser: ChatsResponseModel.fromJson,
+      parser: (data) {
+        final items = data['items'] as List<Map<String, dynamic>>;
+
+        final List<Map<String, dynamic>> parsedData = [];
+
+        for (final Map<String, dynamic> rawChat in items) {
+          final bool isArchived = rawChat['isArchived'] != 0;
+          final bool isPinned = rawChat['isPinned'] != 0;
+
+          parsedData.add({
+            ...rawChat,
+            'isPinned': isPinned,
+            'isArchived': isArchived,
+          });
+        }
+
+        return ChatsResponseModel.fromJson({'items': parsedData});
+      },
     );
 
     return response;

@@ -24,6 +24,7 @@ mixin _$ChatParticipantModel {
   int get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
+  String get lastActivityAt => throw _privateConstructorUsedError;
   String get joinedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,12 @@ abstract class $ChatParticipantModelCopyWith<$Res> {
       _$ChatParticipantModelCopyWithImpl<$Res, ChatParticipantModel>;
   @useResult
   $Res call(
-      {int chatId, int userId, String name, String role, String joinedAt});
+      {int chatId,
+      int userId,
+      String name,
+      String role,
+      String lastActivityAt,
+      String joinedAt});
 }
 
 /// @nodoc
@@ -60,6 +66,7 @@ class _$ChatParticipantModelCopyWithImpl<$Res,
     Object? userId = null,
     Object? name = null,
     Object? role = null,
+    Object? lastActivityAt = null,
     Object? joinedAt = null,
   }) {
     return _then(_value.copyWith(
@@ -79,6 +86,10 @@ class _$ChatParticipantModelCopyWithImpl<$Res,
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String,
+      lastActivityAt: null == lastActivityAt
+          ? _value.lastActivityAt
+          : lastActivityAt // ignore: cast_nullable_to_non_nullable
+              as String,
       joinedAt: null == joinedAt
           ? _value.joinedAt
           : joinedAt // ignore: cast_nullable_to_non_nullable
@@ -96,7 +107,12 @@ abstract class _$$ChatParticipantModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int chatId, int userId, String name, String role, String joinedAt});
+      {int chatId,
+      int userId,
+      String name,
+      String role,
+      String lastActivityAt,
+      String joinedAt});
 }
 
 /// @nodoc
@@ -114,6 +130,7 @@ class __$$ChatParticipantModelImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? name = null,
     Object? role = null,
+    Object? lastActivityAt = null,
     Object? joinedAt = null,
   }) {
     return _then(_$ChatParticipantModelImpl(
@@ -133,6 +150,10 @@ class __$$ChatParticipantModelImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as String,
+      lastActivityAt: null == lastActivityAt
+          ? _value.lastActivityAt
+          : lastActivityAt // ignore: cast_nullable_to_non_nullable
+              as String,
       joinedAt: null == joinedAt
           ? _value.joinedAt
           : joinedAt // ignore: cast_nullable_to_non_nullable
@@ -149,6 +170,7 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
       this.userId = -1,
       this.name = '',
       this.role = '',
+      this.lastActivityAt = '',
       this.joinedAt = ''})
       : super._();
 
@@ -169,11 +191,14 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
   final String role;
   @override
   @JsonKey()
+  final String lastActivityAt;
+  @override
+  @JsonKey()
   final String joinedAt;
 
   @override
   String toString() {
-    return 'ChatParticipantModel(chatId: $chatId, userId: $userId, name: $name, role: $role, joinedAt: $joinedAt)';
+    return 'ChatParticipantModel(chatId: $chatId, userId: $userId, name: $name, role: $role, lastActivityAt: $lastActivityAt, joinedAt: $joinedAt)';
   }
 
   @override
@@ -185,14 +210,16 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.role, role) || other.role == role) &&
+            (identical(other.lastActivityAt, lastActivityAt) ||
+                other.lastActivityAt == lastActivityAt) &&
             (identical(other.joinedAt, joinedAt) ||
                 other.joinedAt == joinedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, chatId, userId, name, role, joinedAt);
+  int get hashCode => Object.hash(
+      runtimeType, chatId, userId, name, role, lastActivityAt, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -216,6 +243,7 @@ abstract class _ChatParticipantModel extends ChatParticipantModel {
       final int userId,
       final String name,
       final String role,
+      final String lastActivityAt,
       final String joinedAt}) = _$ChatParticipantModelImpl;
   const _ChatParticipantModel._() : super._();
 
@@ -230,6 +258,8 @@ abstract class _ChatParticipantModel extends ChatParticipantModel {
   String get name;
   @override
   String get role;
+  @override
+  String get lastActivityAt;
   @override
   String get joinedAt;
   @override

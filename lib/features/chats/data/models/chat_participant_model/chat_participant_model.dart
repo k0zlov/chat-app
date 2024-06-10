@@ -3,6 +3,7 @@ import 'package:chat_app/utils/enum_parsing/enum_parsing_extension.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chat_participant_model.freezed.dart';
+
 part 'chat_participant_model.g.dart';
 
 /// The [ChatParticipantModel] class represents the data model for a chat participant.
@@ -18,12 +19,14 @@ class ChatParticipantModel with _$ChatParticipantModel {
   /// - `userId`: The unique identifier of the user, default is -1.
   /// - `name`: The name of the participant, default is an empty string.
   /// - `role`: The role of the participant in the chat (e.g., member or admin), default is an empty string.
+  /// - `lastActivityAt`: The date the participant had last activity in ISO 8601 format, default is an empty string.
   /// - `joinedAt`: The date the participant joined the chat in ISO 8601 format, default is an empty string.
   const factory ChatParticipantModel({
     @Default(-1) int chatId,
     @Default(-1) int userId,
     @Default('') String name,
     @Default('') String role,
+    @Default('') String lastActivityAt,
     @Default('') String joinedAt,
   }) = _ChatParticipantModel;
 
@@ -50,6 +53,7 @@ class ChatParticipantModel with _$ChatParticipantModel {
       name: name,
       role: ChatParticipantRole.values.valueFromString(role) ??
           ChatParticipantRole.member,
+      lastActivityAt: DateTime.tryParse(lastActivityAt),
       joinedAt: DateTime.tryParse(joinedAt),
     );
   }

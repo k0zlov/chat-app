@@ -50,6 +50,14 @@ class ApiEndpoints {
 
   static const getChatsSearch = '$chatsRoute/search';
 
+  static const postChatPin = '$chatsRoute/pin';
+
+  static const postChatArchive = '$chatsRoute/archive';
+
+  static const deleteChatUnpin = '$chatsRoute/unpin';
+
+  static const deleteChatUnarchive = '$chatsRoute/unarchive';
+
   /// Messages
   static const messagesRoute = '/messages';
 

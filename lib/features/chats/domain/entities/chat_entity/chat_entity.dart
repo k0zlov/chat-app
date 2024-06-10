@@ -14,6 +14,9 @@ enum ChatType {
 
   /// Is open for all users, but read-only
   channel,
+
+  /// Special chat type for chat with saved messages of users
+  savedMessages,
 }
 
 /// The [ChatEntity] class represents a chat entity in the domain layer.
@@ -31,6 +34,8 @@ class ChatEntity with _$ChatEntity {
   /// - `createdAt`: The creation date of the chat, default is null.
   /// - `participants`: A list of participants in the chat, default is an empty list.
   /// - `messages`: A list of messages in the chat, default is an empty list.
+  /// - `isPinned`: Indicates if chat is pinned by user, default is false.
+  /// - `messages`: Indicates if chat is archived by user, default is false.
   /// - `text`: The current text being input by the user, default is an empty string.
   /// - `sendingMessage`: A flag indicating if a message is being sent, default is false.
   const factory ChatEntity({
@@ -41,6 +46,8 @@ class ChatEntity with _$ChatEntity {
     @Default(null) DateTime? createdAt,
     @Default([]) List<ChatParticipantEntity> participants,
     @Default([]) List<MessageEntity> messages,
+    @Default(false) bool isPinned,
+    @Default(false) bool isArchived,
     @Default('') String text,
     @Default(false) bool sendingMessage,
   }) = _ChatEntity;

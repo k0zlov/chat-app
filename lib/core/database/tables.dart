@@ -52,7 +52,9 @@ class ChatsTable extends Table {
         'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'id': 'INTEGER NOT NULL UNIQUE',
         'title': 'TEXT NOT NULL',
-        'type': 'TEXT',
+        'type': 'TEXT NOT NULL',
+        'isPinned': 'INTEGER NOT NULL',
+        'isArchived': 'INTEGER NOT NULL',
         'description': 'TEXT',
         'createdAt': 'TEXT NOT NULL',
       };
@@ -68,6 +70,8 @@ class MessagesTable extends Table {
         'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'id': 'INTEGER UNIQUE',
         'chatId': 'INTEGER',
+        'type': 'TEXT NOT NULL',
+        'authorName': 'TEXT NOT NULL',
         'userId': 'INTEGER NOT NULL',
         'content': 'TEXT NOT NULL',
         'createdAt': 'TEXT NOT NULL',
@@ -85,9 +89,10 @@ class ChatParticipantsTable extends Table {
         'internalId': 'INTEGER PRIMARY KEY AUTOINCREMENT',
         'chatId': 'INTEGER NOT NULL',
         'userId': 'INTEGER NOT NULL',
-        'name': 'TEXT',
+        'name': 'TEXT NOT NULL',
         'role': 'TEXT NOT NULL',
         'joinedAt': 'TEXT NOT NULL',
+        'lastActivityAt': 'TEXT NOT NULL',
       };
 }
 

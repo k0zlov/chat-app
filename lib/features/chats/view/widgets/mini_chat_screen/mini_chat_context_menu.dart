@@ -1,13 +1,18 @@
 import 'package:chat_app/core/widgets/context_menu/context_menu.dart';
 import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MiniChatContextMenu extends StatelessWidget {
   const MiniChatContextMenu({
     super.key,
     required this.visible,
     required this.duration,
+    required this.chat,
   });
+
+  final ChatEntity chat;
 
   final bool visible;
 
@@ -15,6 +20,8 @@ class MiniChatContextMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ChatsCubit cubit = context.read<ChatsCubit>();
+
     return Align(
       alignment: Alignment.bottomRight,
       child: ContextMenu(
@@ -22,24 +29,20 @@ class MiniChatContextMenu extends StatelessWidget {
         duration: duration,
         actions: [
           ContextMenuAction(
-            title: 'Add to Folder',
-            iconData: CupertinoIcons.folder_open,
-            onPressed: () {},
-          ),
-          ContextMenuAction(
-            title: 'Mark as Read',
-            iconData: CupertinoIcons.eye,
-            onPressed: () {},
-          ),
-          ContextMenuAction(
-            title: 'Unpin',
+            title: chat.isPinned ? 'Unpin' : 'Pin',
             iconData: CupertinoIcons.pin_slash,
-            onPressed: () {},
+            onPressed: () => cubit.updatePinChat(
+              chatId: chat.id,
+              isPinned: !chat.isPinned,
+            ),
           ),
           ContextMenuAction(
-            title: 'Unmute',
-            iconData: CupertinoIcons.bell,
-            onPressed: () {},
+            title: chat.isArchived ? 'Unarchive' : 'Archive',
+            iconData: CupertinoIcons.archivebox,
+            onPressed: () => cubit.updateArchiveChat(
+              chatId: chat.id,
+              isArchived: !chat.isArchived,
+            ),
           ),
           ContextMenuAction(
             title: 'Delete',

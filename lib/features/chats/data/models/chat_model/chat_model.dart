@@ -5,6 +5,7 @@ import 'package:chat_app/utils/enum_parsing/enum_parsing_extension.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chat_model.freezed.dart';
+
 part 'chat_model.g.dart';
 
 /// The [ChatModel] class represents the data model for a chat.
@@ -22,6 +23,8 @@ class ChatModel with _$ChatModel {
   /// - `description`: An optional description of the chat, default is null.
   /// - `createdAt`: The creation date of the chat in ISO 8601 format, default is an empty string.
   /// - `messages`: A list of messages in the chat, default is an empty list.
+  /// - `isPinned`: Indicates if chat is pinned by user, default is false.
+  /// - `messages`: Indicates if chat is archived by user, default is false.
   /// - `participants`: A list of participants in the chat, default is an empty list.
   const factory ChatModel({
     @Default(-1) int id,
@@ -29,6 +32,8 @@ class ChatModel with _$ChatModel {
     @Default('') String type,
     @Default(null) String? description,
     @Default('') String createdAt,
+    @Default(false) bool isPinned,
+    @Default(false) bool isArchived,
     @Default([]) List<MessageModel> messages,
     @Default([]) List<ChatParticipantModel> participants,
   }) = _ChatModel;
@@ -53,6 +58,8 @@ class ChatModel with _$ChatModel {
     return ChatEntity(
       id: id,
       title: title,
+      isPinned: isPinned,
+      isArchived: isArchived,
       type: ChatType.values.valueFromString(type) ?? ChatType.group,
       description: description,
       createdAt: DateTime.tryParse(createdAt),

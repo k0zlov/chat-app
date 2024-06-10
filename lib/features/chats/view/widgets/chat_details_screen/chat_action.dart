@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatActionData {
-  const ChatActionData(
-      {required this.title,
-      required this.iconData,
-      required this.contextMenuActions,
-      this.onPressed});
+  const ChatActionData({
+    required this.title,
+    required this.iconData,
+    required this.contextMenuActions,
+    this.onPressed,
+  });
 
   final String title;
   final IconData iconData;

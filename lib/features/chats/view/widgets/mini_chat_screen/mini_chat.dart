@@ -84,11 +84,11 @@ class _MiniChatState extends State<MiniChat>
       scale: _scaleAnimation,
       alignment: widget.animationAlignment ?? Alignment.center,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 MiniChatScreenHeader(
                   image: widget.chatImage,

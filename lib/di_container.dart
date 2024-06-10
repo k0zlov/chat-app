@@ -9,7 +9,9 @@ import 'package:chat_app/features/auth/domain/use_cases/get_user_use_case/get_us
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
+import 'package:chat_app/features/chats/domain/use_cases/archive_chat_use_case/archive_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/erase_chats_use_case/erase_chats_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/pin_chat_use_case/pin_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
@@ -229,6 +231,12 @@ void _useCases() {
     ..registerLazySingleton<SearchChatsUseCase>(
       () => SearchChatsUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<PinChatUseCase>(
+      () => PinChatUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<ArchiveChatUseCase>(
+      () => ArchiveChatUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<SendMessageUseCase>(
       () => SendMessageUseCase(repository: getIt()),
     )
@@ -260,6 +268,8 @@ void _cubits() {
         sendMessageUseCase: getIt(),
         eraseChatsUseCase: getIt(),
         searchChatsUseCase: getIt(),
+        pinChatUseCase: getIt(),
+        archiveChatUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(

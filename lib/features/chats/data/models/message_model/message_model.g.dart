@@ -12,6 +12,8 @@ _$MessageModelImpl _$$MessageModelImplFromJson(Map<String, dynamic> json) =>
       chatId: (json['chatId'] as num?)?.toInt() ?? -1,
       userId: (json['userId'] as num?)?.toInt() ?? -1,
       content: json['content'] as String? ?? '',
+      authorName: json['authorName'] as String? ?? '',
+      type: json['type'] as String? ?? '',
       updatedAt: json['updatedAt'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
     );
@@ -22,6 +24,8 @@ Map<String, dynamic> _$$MessageModelImplToJson(_$MessageModelImpl instance) =>
       'chatId': instance.chatId,
       'userId': instance.userId,
       'content': instance.content,
+      'authorName': instance.authorName,
+      'type': instance.type,
       'updatedAt': instance.updatedAt,
       'createdAt': instance.createdAt,
     };

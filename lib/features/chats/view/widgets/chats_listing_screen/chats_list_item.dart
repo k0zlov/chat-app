@@ -1,12 +1,7 @@
 import 'package:chat_app/core/widgets/buttons/pressable_scale_widget.dart';
-import 'package:chat_app/di_container.dart';
-import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
-import 'package:chat_app/features/chats/view/screens/mini_chat_screen.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_default_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatsListItem extends StatelessWidget {
   const ChatsListItem({
@@ -14,12 +9,12 @@ class ChatsListItem extends StatelessWidget {
     required this.title,
     required this.onPressed,
     required this.messages,
+    required this.onLongPressWidget,
     this.draftText = '',
     this.subtitle,
     this.trailingText,
-    this.leading,
+    required this.leading,
     this.pinned = false,
-    this.onLongPressWidget,
   });
 
   final String title;
@@ -29,10 +24,11 @@ class ChatsListItem extends StatelessWidget {
 
   final bool pinned;
 
-  final Widget? leading;
+  final Widget leading;
 
   final void Function() onPressed;
-  final Widget? onLongPressWidget;
+
+  final Widget Function(Alignment alignment) onLongPressWidget;
 
   final List<MessageEntity> messages;
 
@@ -42,12 +38,6 @@ class ChatsListItem extends StatelessWidget {
         CupertinoTheme.of(context).brightness == Brightness.dark
             ? CupertinoColors.white.withOpacity(0.05)
             : CupertinoColors.black.withOpacity(0.02);
-
-    final Widget chatImage = leading ??
-        ChatDefaultImage(
-          title: title,
-          size: 60,
-        );
 
     return PressableScaleWidget(
       onLongPress: () {
@@ -70,17 +60,7 @@ class ChatsListItem extends StatelessWidget {
         showCupertinoDialog<void>(
           context: context,
           barrierDismissible: true,
-          builder: (context) =>
-              onLongPressWidget ??
-              BlocProvider.value(
-                value: getIt<ChatsCubit>(),
-                child: MiniChatScreen(
-                  alignment: alignment,
-                  title: title,
-                  messages: messages,
-                  chatImage: chatImage,
-                ),
-              ),
+          builder: (context) => onLongPressWidget(alignment),
         );
       },
       child: CupertinoListTile(
@@ -88,7 +68,7 @@ class ChatsListItem extends StatelessWidget {
         backgroundColor: pinned ? pinnedColor : Colors.transparent,
         leadingSize: 60,
         onTap: onPressed,
-        leading: chatImage,
+        leading: leading,
         title: _ChatsListItemTitle(
           title: title,
           subtitle: subtitle,

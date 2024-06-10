@@ -78,4 +78,19 @@ abstract class NetworkBase implements Network {
         data: data,
         queryParameters: queryParameters,
       );
+
+  @override
+  Future<Either<Failure, T>> put<T>({
+    required String url,
+    required T Function(dynamic json) parser,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? data,
+  }) =>
+      send(
+        url: url,
+        method: 'PUT',
+        parser: parser,
+        data: data,
+        queryParameters: queryParameters,
+      );
 }

@@ -77,22 +77,18 @@ class _SortByName extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ...contactMap.entries.map((e) {
-          return Column(
+          return CupertinoListSection(
+            topMargin: 0,
+            margin: EdgeInsets.zero,
             children: [
-              CupertinoListSection(
-                topMargin: 0,
-                margin: EdgeInsets.zero,
-                children: [
-                  SearchResultsHeader(title: e.key),
-                  ...e.value.map((contact) {
-                    return ContactsListItem(
-                      title: contact.name,
-                      lastActivity: contact.lastActivityAt,
-                      onPressed: () {},
-                    );
-                  }),
-                ],
-              ),
+              SearchResultsHeader(title: e.key),
+              ...e.value.map((contact) {
+                return ContactsListItem(
+                  title: contact.name,
+                  lastActivity: contact.lastActivityAt,
+                  onPressed: () {},
+                );
+              }),
             ],
           );
         }),
@@ -123,17 +119,19 @@ class _SortByLastActivity extends StatelessWidget {
       return second.compareTo(first);
     });
 
-    return CupertinoListSection(
-      topMargin: 0,
-      children: [
-        for (final ContactEntity contact in sortedContacts) ...{
-          ContactsListItem(
-            title: contact.name,
-            lastActivity: contact.lastActivityAt,
-            onPressed: () {},
-          ),
-        },
-      ],
-    );
+    return contacts.isEmpty
+        ? const SizedBox()
+        : CupertinoListSection(
+            topMargin: 0,
+            children: [
+              for (final ContactEntity contact in sortedContacts) ...{
+                ContactsListItem(
+                  title: contact.name,
+                  lastActivity: contact.lastActivityAt,
+                  onPressed: () {},
+                ),
+              },
+            ],
+          );
   }
 }

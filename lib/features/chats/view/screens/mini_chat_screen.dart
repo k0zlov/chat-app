@@ -1,3 +1,4 @@
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/mini_chat_screen/mini_chat.dart';
 import 'package:chat_app/features/chats/view/widgets/mini_chat_screen/mini_chat_context_menu.dart';
@@ -10,8 +11,10 @@ class MiniChatScreen extends StatefulWidget {
     required this.messages,
     required this.alignment,
     required this.chatImage,
+    required this.chat,
   });
 
+  final ChatEntity chat;
   final String title;
   final Widget chatImage;
   final List<MessageEntity> messages;
@@ -44,7 +47,8 @@ class _MiniChatScreenState extends State<MiniChatScreen> {
         child: Padding(
           padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MiniChat(
                 visible: _showMenu,
@@ -55,6 +59,7 @@ class _MiniChatScreenState extends State<MiniChatScreen> {
                 duration: _duration,
               ),
               MiniChatContextMenu(
+                chat: widget.chat,
                 visible: _showMenu,
                 duration: _duration,
               ),

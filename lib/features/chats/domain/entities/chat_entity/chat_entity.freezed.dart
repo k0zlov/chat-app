@@ -24,6 +24,8 @@ mixin _$ChatEntity {
   List<ChatParticipantEntity> get participants =>
       throw _privateConstructorUsedError;
   List<MessageEntity> get messages => throw _privateConstructorUsedError;
+  bool get isPinned => throw _privateConstructorUsedError;
+  bool get isArchived => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   bool get sendingMessage => throw _privateConstructorUsedError;
 
@@ -46,6 +48,8 @@ abstract class $ChatEntityCopyWith<$Res> {
       DateTime? createdAt,
       List<ChatParticipantEntity> participants,
       List<MessageEntity> messages,
+      bool isPinned,
+      bool isArchived,
       String text,
       bool sendingMessage});
 }
@@ -70,6 +74,8 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
     Object? createdAt = freezed,
     Object? participants = null,
     Object? messages = null,
+    Object? isPinned = null,
+    Object? isArchived = null,
     Object? text = null,
     Object? sendingMessage = null,
   }) {
@@ -102,6 +108,14 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<MessageEntity>,
+      isPinned: null == isPinned
+          ? _value.isPinned
+          : isPinned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isArchived: null == isArchived
+          ? _value.isArchived
+          : isArchived // ignore: cast_nullable_to_non_nullable
+              as bool,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -130,6 +144,8 @@ abstract class _$$ChatEntityImplCopyWith<$Res>
       DateTime? createdAt,
       List<ChatParticipantEntity> participants,
       List<MessageEntity> messages,
+      bool isPinned,
+      bool isArchived,
       String text,
       bool sendingMessage});
 }
@@ -152,6 +168,8 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? participants = null,
     Object? messages = null,
+    Object? isPinned = null,
+    Object? isArchived = null,
     Object? text = null,
     Object? sendingMessage = null,
   }) {
@@ -184,6 +202,14 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<MessageEntity>,
+      isPinned: null == isPinned
+          ? _value.isPinned
+          : isPinned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isArchived: null == isArchived
+          ? _value.isArchived
+          : isArchived // ignore: cast_nullable_to_non_nullable
+              as bool,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -207,6 +233,8 @@ class _$ChatEntityImpl extends _ChatEntity {
       this.createdAt = null,
       final List<ChatParticipantEntity> participants = const [],
       final List<MessageEntity> messages = const [],
+      this.isPinned = false,
+      this.isArchived = false,
       this.text = '',
       this.sendingMessage = false})
       : _participants = participants,
@@ -248,6 +276,12 @@ class _$ChatEntityImpl extends _ChatEntity {
 
   @override
   @JsonKey()
+  final bool isPinned;
+  @override
+  @JsonKey()
+  final bool isArchived;
+  @override
+  @JsonKey()
   final String text;
   @override
   @JsonKey()
@@ -255,7 +289,7 @@ class _$ChatEntityImpl extends _ChatEntity {
 
   @override
   String toString() {
-    return 'ChatEntity(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, participants: $participants, messages: $messages, text: $text, sendingMessage: $sendingMessage)';
+    return 'ChatEntity(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, participants: $participants, messages: $messages, isPinned: $isPinned, isArchived: $isArchived, text: $text, sendingMessage: $sendingMessage)';
   }
 
   @override
@@ -273,6 +307,10 @@ class _$ChatEntityImpl extends _ChatEntity {
             const DeepCollectionEquality()
                 .equals(other._participants, _participants) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.isPinned, isPinned) ||
+                other.isPinned == isPinned) &&
+            (identical(other.isArchived, isArchived) ||
+                other.isArchived == isArchived) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.sendingMessage, sendingMessage) ||
                 other.sendingMessage == sendingMessage));
@@ -288,6 +326,8 @@ class _$ChatEntityImpl extends _ChatEntity {
       createdAt,
       const DeepCollectionEquality().hash(_participants),
       const DeepCollectionEquality().hash(_messages),
+      isPinned,
+      isArchived,
       text,
       sendingMessage);
 
@@ -307,6 +347,8 @@ abstract class _ChatEntity extends ChatEntity {
       final DateTime? createdAt,
       final List<ChatParticipantEntity> participants,
       final List<MessageEntity> messages,
+      final bool isPinned,
+      final bool isArchived,
       final String text,
       final bool sendingMessage}) = _$ChatEntityImpl;
   const _ChatEntity._() : super._();
@@ -325,6 +367,10 @@ abstract class _ChatEntity extends ChatEntity {
   List<ChatParticipantEntity> get participants;
   @override
   List<MessageEntity> get messages;
+  @override
+  bool get isPinned;
+  @override
+  bool get isArchived;
   @override
   String get text;
   @override

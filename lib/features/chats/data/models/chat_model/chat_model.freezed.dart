@@ -25,6 +25,8 @@ mixin _$ChatModel {
   String get type => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
+  bool get isPinned => throw _privateConstructorUsedError;
+  bool get isArchived => throw _privateConstructorUsedError;
   List<MessageModel> get messages => throw _privateConstructorUsedError;
   List<ChatParticipantModel> get participants =>
       throw _privateConstructorUsedError;
@@ -46,6 +48,8 @@ abstract class $ChatModelCopyWith<$Res> {
       String type,
       String? description,
       String createdAt,
+      bool isPinned,
+      bool isArchived,
       List<MessageModel> messages,
       List<ChatParticipantModel> participants});
 }
@@ -68,6 +72,8 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
     Object? type = null,
     Object? description = freezed,
     Object? createdAt = null,
+    Object? isPinned = null,
+    Object? isArchived = null,
     Object? messages = null,
     Object? participants = null,
   }) {
@@ -92,6 +98,14 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      isPinned: null == isPinned
+          ? _value.isPinned
+          : isPinned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isArchived: null == isArchived
+          ? _value.isArchived
+          : isArchived // ignore: cast_nullable_to_non_nullable
+              as bool,
       messages: null == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -118,6 +132,8 @@ abstract class _$$ChatModelImplCopyWith<$Res>
       String type,
       String? description,
       String createdAt,
+      bool isPinned,
+      bool isArchived,
       List<MessageModel> messages,
       List<ChatParticipantModel> participants});
 }
@@ -138,6 +154,8 @@ class __$$ChatModelImplCopyWithImpl<$Res>
     Object? type = null,
     Object? description = freezed,
     Object? createdAt = null,
+    Object? isPinned = null,
+    Object? isArchived = null,
     Object? messages = null,
     Object? participants = null,
   }) {
@@ -162,6 +180,14 @@ class __$$ChatModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
+      isPinned: null == isPinned
+          ? _value.isPinned
+          : isPinned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isArchived: null == isArchived
+          ? _value.isArchived
+          : isArchived // ignore: cast_nullable_to_non_nullable
+              as bool,
       messages: null == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -183,6 +209,8 @@ class _$ChatModelImpl extends _ChatModel {
       this.type = '',
       this.description = null,
       this.createdAt = '',
+      this.isPinned = false,
+      this.isArchived = false,
       final List<MessageModel> messages = const [],
       final List<ChatParticipantModel> participants = const []})
       : _messages = messages,
@@ -207,6 +235,12 @@ class _$ChatModelImpl extends _ChatModel {
   @override
   @JsonKey()
   final String createdAt;
+  @override
+  @JsonKey()
+  final bool isPinned;
+  @override
+  @JsonKey()
+  final bool isArchived;
   final List<MessageModel> _messages;
   @override
   @JsonKey()
@@ -227,7 +261,7 @@ class _$ChatModelImpl extends _ChatModel {
 
   @override
   String toString() {
-    return 'ChatModel(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, messages: $messages, participants: $participants)';
+    return 'ChatModel(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, isPinned: $isPinned, isArchived: $isArchived, messages: $messages, participants: $participants)';
   }
 
   @override
@@ -242,6 +276,10 @@ class _$ChatModelImpl extends _ChatModel {
                 other.description == description) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.isPinned, isPinned) ||
+                other.isPinned == isPinned) &&
+            (identical(other.isArchived, isArchived) ||
+                other.isArchived == isArchived) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants));
@@ -256,6 +294,8 @@ class _$ChatModelImpl extends _ChatModel {
       type,
       description,
       createdAt,
+      isPinned,
+      isArchived,
       const DeepCollectionEquality().hash(_messages),
       const DeepCollectionEquality().hash(_participants));
 
@@ -280,6 +320,8 @@ abstract class _ChatModel extends ChatModel {
       final String type,
       final String? description,
       final String createdAt,
+      final bool isPinned,
+      final bool isArchived,
       final List<MessageModel> messages,
       final List<ChatParticipantModel> participants}) = _$ChatModelImpl;
   const _ChatModel._() : super._();
@@ -297,6 +339,10 @@ abstract class _ChatModel extends ChatModel {
   String? get description;
   @override
   String get createdAt;
+  @override
+  bool get isPinned;
+  @override
+  bool get isArchived;
   @override
   List<MessageModel> get messages;
   @override

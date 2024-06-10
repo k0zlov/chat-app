@@ -35,6 +35,7 @@ class ChatParticipantEntity with _$ChatParticipantEntity {
     @Default(-1) int userId,
     @Default('') String name,
     @Default(ChatParticipantRole.member) ChatParticipantRole role,
+    @Default(null) DateTime? lastActivityAt,
     @Default(null) DateTime? joinedAt,
   }) = _ChatParticipantEntity;
 

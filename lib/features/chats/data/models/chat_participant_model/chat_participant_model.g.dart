@@ -13,6 +13,7 @@ _$ChatParticipantModelImpl _$$ChatParticipantModelImplFromJson(
       userId: (json['userId'] as num?)?.toInt() ?? -1,
       name: json['name'] as String? ?? '',
       role: json['role'] as String? ?? '',
+      lastActivityAt: json['lastActivityAt'] as String? ?? '',
       joinedAt: json['joinedAt'] as String? ?? '',
     );
 
@@ -23,5 +24,6 @@ Map<String, dynamic> _$$ChatParticipantModelImplToJson(
       'userId': instance.userId,
       'name': instance.name,
       'role': instance.role,
+      'lastActivityAt': instance.lastActivityAt,
       'joinedAt': instance.joinedAt,
     };

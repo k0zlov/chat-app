@@ -13,6 +13,8 @@ _$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String? ?? '',
       description: json['description'] as String? ?? null,
       createdAt: json['createdAt'] as String? ?? '',
+      isPinned: json['isPinned'] as bool? ?? false,
+      isArchived: json['isArchived'] as bool? ?? false,
       messages: (json['messages'] as List<dynamic>?)
               ?.map((e) => MessageModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -31,6 +33,8 @@ Map<String, dynamic> _$$ChatModelImplToJson(_$ChatModelImpl instance) =>
       'type': instance.type,
       'description': instance.description,
       'createdAt': instance.createdAt,
+      'isPinned': instance.isPinned,
+      'isArchived': instance.isArchived,
       'messages': instance.messages,
       'participants': instance.participants,
     };
