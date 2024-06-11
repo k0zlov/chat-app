@@ -7,6 +7,7 @@ import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.d
 import 'package:chat_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/update_user_use_case/update_user_use_case.dart';
 import 'package:dartz/dartz.dart';
 
 /// An implementation of [AuthRepository] that uses a remote provider and an
@@ -79,14 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
           refreshToken: tokenModel.refreshToken,
         );
 
-        final failureOrUser = await getCurrentUser();
-
-        return failureOrUser.fold(
-          // ignore: unnecessary_lambdas
-          (failure) => Left(failure),
-          // ignore: unnecessary_lambdas
-          (user) => Right(user),
-        );
+        return getCurrentUser();
       },
     );
   }
@@ -117,14 +111,7 @@ class AuthRepositoryImpl implements AuthRepository {
           refreshToken: tokenModel.refreshToken,
         );
 
-        final failureOrUser = await getCurrentUser();
-
-        return failureOrUser.fold(
-          // ignore: unnecessary_lambdas
-          (failure) => Left(failure),
-          // ignore: unnecessary_lambdas
-          (user) => Right(user),
-        );
+        return getCurrentUser();
       },
     );
   }
@@ -142,5 +129,32 @@ class AuthRepositoryImpl implements AuthRepository {
     await authService.logout();
 
     return response;
+  }
+
+  /// Updates the user information by calling the remote provider with the given parameters.
+  ///
+  /// This method overrides the base class implementation of [updateUser].
+  /// It makes an asynchronous call to [remoteProvider] and returns an [Either] type
+  /// which contains a [Failure] on the left side in case of an error, or a [UserEntity] on the right side upon success.
+  ///
+  /// Parameters:
+  /// - [params]: An instance of [UpdateUserParams] containing the user information to be updated.
+  ///
+  /// Returns:
+  /// - A [Future] which completes with either a [Failure] or a [UserEntity].
+  @override
+  Future<Either<Failure, UserEntity>> updateUser(
+    UpdateUserParams params,
+  ) async {
+    final response = await remoteProvider.updateUser(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) {
+        final UserEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
   }
 }

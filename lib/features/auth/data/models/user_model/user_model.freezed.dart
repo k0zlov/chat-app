@@ -23,6 +23,7 @@ mixin _$UserModel {
   @JsonKey(name: 'id')
   int get externalId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   bool get isActivated => throw _privateConstructorUsedError;
   String get createdAt => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'id') int externalId,
       String name,
+      String bio,
       String email,
       bool isActivated,
       String createdAt});
@@ -61,6 +63,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? externalId = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? isActivated = null,
     Object? createdAt = null,
@@ -73,6 +76,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -101,6 +108,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'id') int externalId,
       String name,
+      String bio,
       String email,
       bool isActivated,
       String createdAt});
@@ -119,6 +127,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? externalId = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? isActivated = null,
     Object? createdAt = null,
@@ -131,6 +140,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -154,6 +167,7 @@ class _$UserModelImpl extends _UserModel {
   const _$UserModelImpl(
       {@JsonKey(name: 'id') this.externalId = -1,
       this.name = '',
+      this.bio = '',
       this.email = '',
       this.isActivated = false,
       this.createdAt = ''})
@@ -170,6 +184,9 @@ class _$UserModelImpl extends _UserModel {
   final String name;
   @override
   @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
   final String email;
   @override
   @JsonKey()
@@ -180,7 +197,7 @@ class _$UserModelImpl extends _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(externalId: $externalId, name: $name, email: $email, isActivated: $isActivated, createdAt: $createdAt)';
+    return 'UserModel(externalId: $externalId, name: $name, bio: $bio, email: $email, isActivated: $isActivated, createdAt: $createdAt)';
   }
 
   @override
@@ -191,6 +208,7 @@ class _$UserModelImpl extends _UserModel {
             (identical(other.externalId, externalId) ||
                 other.externalId == externalId) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.isActivated, isActivated) ||
                 other.isActivated == isActivated) &&
@@ -200,8 +218,8 @@ class _$UserModelImpl extends _UserModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, externalId, name, email, isActivated, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, externalId, name, bio, email, isActivated, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -221,6 +239,7 @@ abstract class _UserModel extends UserModel {
   const factory _UserModel(
       {@JsonKey(name: 'id') final int externalId,
       final String name,
+      final String bio,
       final String email,
       final bool isActivated,
       final String createdAt}) = _$UserModelImpl;
@@ -234,6 +253,8 @@ abstract class _UserModel extends UserModel {
   int get externalId;
   @override
   String get name;
+  @override
+  String get bio;
   @override
   String get email;
   @override

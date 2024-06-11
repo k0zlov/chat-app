@@ -6,6 +6,7 @@ import 'package:chat_app/core/network/network_dio.dart';
 import 'package:chat_app/core/services/auth_service.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/auth/domain/use_cases/get_user_use_case/get_user_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/update_user_use_case/update_user_use_case.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
@@ -177,6 +178,9 @@ void _useCases() {
     ..registerLazySingleton<GetUserUseCase>(
       () => GetUserUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<UpdateUserUseCase>(
+      () => UpdateUserUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<ChangeThemeColorUseCase>(
       () => ChangeThemeColorUseCase(repository: getIt()),
     )
@@ -290,6 +294,7 @@ void _cubits() {
         loginUseCase: getIt(),
         logoutUseCase: getIt(),
         getUserUseCase: getIt(),
+        updateUserUseCase: getIt(),
         onLogin: () {
           getIt<ContactsCubit>().onLogin();
           getIt<ChatsCubit>().onLogin();

@@ -5,6 +5,7 @@ import 'package:chat_app/features/auth/data/models/token_model/token_model.dart'
 import 'package:chat_app/features/auth/data/models/user_model/user_model.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/update_user_use_case/update_user_use_case.dart';
 import 'package:dartz/dartz.dart';
 
 /// An interface that defines the contract for remote authentication provider.
@@ -33,6 +34,8 @@ abstract interface class AuthRemoteProvider {
   ///
   /// Returns a [Future] that completes with either a [Failure] or [void].
   Future<Either<Failure, void>> logout();
+
+  Future<Either<Failure, UserModel>> updateUser(UpdateUserParams params);
 }
 
 /// Implementation of [AuthRemoteProvider] that uses a [Network] instance
@@ -98,6 +101,22 @@ class AuthRemoteProviderImpl implements AuthRemoteProvider {
       url: ApiEndpoints.postLogout,
       parser: (json) {},
     );
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> updateUser(
+    UpdateUserParams params,
+  ) async {
+    final response = await network.put(
+      url: ApiEndpoints.putUserUpdate,
+      data: params.toJson(),
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return UserModel.fromJson(data);
+      },
+    );
+
     return response;
   }
 }

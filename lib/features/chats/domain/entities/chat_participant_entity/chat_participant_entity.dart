@@ -12,9 +12,6 @@ enum ChatParticipantRole {
 
   /// Simple member
   member,
-
-  /// Can only read messages in chat
-  readonly,
 }
 
 /// The [ChatParticipantEntity] class represents a chat participant entity in the domain layer.

@@ -59,6 +59,7 @@ class ChatSliverAppBarFlexibleSpace extends StatelessWidget {
                   child: ChatActionsPanel(
                     blurred: mode.isExpanded,
                     activateSearchMode: activateSearchMode,
+                    chat: chat,
                   ),
                 ),
                 AnimatedAlign(

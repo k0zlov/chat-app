@@ -35,7 +35,7 @@ class _EditScreenState extends State<EditScreen> {
         slivers: [
           EditScreenAppBar(
             onCancel: widget.onCancel,
-            onDone: () {},
+            onDone: widget.onDone,
             scrollController: _scrollController,
           ),
           widget.sliverBody,

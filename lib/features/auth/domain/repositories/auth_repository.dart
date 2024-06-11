@@ -2,6 +2,7 @@ import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:chat_app/features/auth/domain/use_cases/login_use_case/login_use_case.dart';
 import 'package:chat_app/features/auth/domain/use_cases/registration_use_case/registration_use_case.dart';
+import 'package:chat_app/features/auth/domain/use_cases/update_user_use_case/update_user_use_case.dart';
 import 'package:dartz/dartz.dart';
 
 /// Represents the contract for authentication-related data operations.
@@ -53,4 +54,19 @@ abstract interface class AuthRepository {
   ///   A Future that resolves to an Either type, containing a [Failure] on error,
   ///   or a void type on successful logout, indicating that the operation completed successfully.
   Future<Either<Failure, void>> logout();
+
+  /// Abstract method to update user information with the given parameters.
+  ///
+  /// This method should be implemented to call a remote provider or another
+  /// data source to update the user details.
+  ///
+  /// Parameters:
+  /// - [params]: An instance of [UpdateUserParams] containing the user information to be updated.
+  ///
+  /// Returns:
+  /// - A [Future] which completes with an [Either] containing a [Failure] on the left side
+  ///   in case of an error, or a [UserEntity] on the right side upon success.
+  Future<Either<Failure, UserEntity>> updateUser(
+    UpdateUserParams params,
+  );
 }

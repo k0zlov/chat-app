@@ -20,6 +20,7 @@ class UserModel with _$UserModel {
   const factory UserModel({
     @JsonKey(name: 'id') @Default(-1) int externalId,
     @Default('') String name,
+    @Default('') String bio,
     @Default('') String email,
     @Default(false) bool isActivated,
     @Default('') String createdAt,
@@ -44,6 +45,7 @@ class UserModel with _$UserModel {
   UserEntity toEntity() => UserEntity(
     id: externalId,
     name: name,
+    bio: bio,
     email: email,
     isActivated: isActivated,
     createdAt: DateTime.tryParse(createdAt),

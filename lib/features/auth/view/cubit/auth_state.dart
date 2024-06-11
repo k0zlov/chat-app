@@ -20,6 +20,7 @@ class AuthState {
     this.authInProcess = false,
     this.hidePassword = true,
     this.currentUser = const UserEntity(),
+    this.updateUserParams = const UpdateUserParams(),
   });
 
   /// Indicates if an authentication process is currently in progress.
@@ -37,6 +38,9 @@ class AuthState {
   /// The currently authenticated user.
   final UserEntity currentUser;
 
+  /// The params for updating user details.
+  final UpdateUserParams updateUserParams;
+
   /// Creates a copy of the current state with updated values.
   ///
   /// Parameters:
@@ -45,6 +49,7 @@ class AuthState {
   ///   [loginParams] The new value for [loginParams].
   ///   [hidePassword] The new value for [hidePassword].
   ///   [currentUser] The new value for [currentUser].
+  ///   [updateUserParams] The new value for [updateUserParams].
   ///
   /// Returns:
   ///   A new instance of [AuthState] with the updated values.
@@ -54,6 +59,7 @@ class AuthState {
     LoginParams? loginParams,
     bool? hidePassword,
     UserEntity? currentUser,
+    UpdateUserParams? updateUserParams,
   }) {
     return AuthState(
       authInProcess: authInProcess ?? this.authInProcess,
@@ -61,6 +67,7 @@ class AuthState {
       loginParams: loginParams ?? this.loginParams,
       hidePassword: hidePassword ?? this.hidePassword,
       currentUser: currentUser ?? this.currentUser,
+      updateUserParams: updateUserParams ?? this.updateUserParams,
     );
   }
 }

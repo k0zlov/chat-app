@@ -51,7 +51,7 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
-      reverseDuration: const Duration(milliseconds: 480),
+      reverseDuration: const Duration(milliseconds: 320),
     );
 
     _paddingAnimation = Tween<double>(begin: 0, end: 1).animate(

@@ -1,4 +1,5 @@
 import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/chat_action.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -7,7 +8,10 @@ class ChatActionsPanel extends StatefulWidget {
     super.key,
     required this.blurred,
     required this.activateSearchMode,
+    required this.chat,
   });
+
+  final ChatEntity chat;
 
   final bool blurred;
 
@@ -86,7 +90,6 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
         ],
       ),
     ];
-
 
     return SizedBox(
       height: 74,

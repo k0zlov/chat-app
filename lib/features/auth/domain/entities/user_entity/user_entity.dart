@@ -18,6 +18,7 @@ class UserEntity with _$UserEntity {
   const factory UserEntity({
     @Default(-1) int id,
     @Default('') String name,
+    @Default('') String bio,
     @Default('') String email,
     @Default(false) bool isActivated,
     @Default(null) DateTime? createdAt,

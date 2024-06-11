@@ -1,7 +1,9 @@
 import 'package:chat_app/core/widgets/screens/edit_screen/edit_text_option.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsEditBioSection extends StatelessWidget {
   const SettingsEditBioSection({super.key});
@@ -13,6 +15,12 @@ class SettingsEditBioSection extends StatelessWidget {
     final textStyle = theme.textTheme.textStyle.copyWith(
       fontSize: 12,
       color: CupertinoColors.systemGrey.withOpacity(0.6),
+    );
+
+    final AuthCubit authCubit = context.read<AuthCubit>();
+
+    final AuthState authState = context.select(
+      (AuthCubit cubit) => cubit.state,
     );
 
     return CupertinoListSection.insetGrouped(
@@ -39,8 +47,8 @@ class SettingsEditBioSection extends StatelessWidget {
       ),
       children: [
         EditScreenTextOption(
-          text: '',
-          onChanged: (_) {},
+          text: authState.updateUserParams.bio ?? '',
+          onChanged: authCubit.onUpdateBio,
           placeholder: 'Bio',
         ),
       ],

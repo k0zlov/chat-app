@@ -22,6 +22,8 @@ class ApiEndpoints {
 
   static const postLogout = '$authRoute/logout';
 
+  static const putUserUpdate = '$authRoute/user/update';
+
   /// Contacts Route
   static const contactsRoute = '/contacts';
 

@@ -1,6 +1,9 @@
 import 'package:chat_app/core/widgets/context_menu/context_menu.dart';
 import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,6 +24,15 @@ class MiniChatContextMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ChatsCubit cubit = context.read<ChatsCubit>();
+
+    final int userId =
+        context.select((AuthCubit cubit) => cubit.state).currentUser.id;
+
+    final ChatParticipantEntity? participant =
+        chat.participants.firstWhereOrNull((p) => p.userId == userId);
+
+    final bool canDeleteChat = chat.type != ChatType.savedMessages &&
+        participant?.role == ChatParticipantRole.owner;
 
     return Align(
       alignment: Alignment.bottomRight,
@@ -44,12 +56,14 @@ class MiniChatContextMenu extends StatelessWidget {
               isArchived: !chat.isArchived,
             ),
           ),
-          ContextMenuAction(
-            title: 'Delete',
-            destructive: true,
-            iconData: CupertinoIcons.delete,
-            onPressed: () {},
-          ),
+          if (canDeleteChat) ...{
+            ContextMenuAction(
+              title: 'Delete',
+              destructive: true,
+              iconData: CupertinoIcons.delete,
+              onPressed: () {},
+            ),
+          },
         ],
       ),
     );

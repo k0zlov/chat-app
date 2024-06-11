@@ -1,8 +1,11 @@
 import 'dart:ui';
 
+import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_text_field.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/send_message_button.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +28,18 @@ class ChatBottomBar extends StatelessWidget {
 
     final Color backgroundColor =
         CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.9);
+
+    final int userId =
+        context.select((AuthCubit cubit) => cubit.state).currentUser.id;
+
+    final ChatParticipantEntity? participant =
+        chat.participants.firstWhereOrNull((p) => p.userId == userId);
+
+    bool canSendMessages = true;
+
+    if (participant != null && chat.type == ChatType.channel) {
+      canSendMessages = participant.role != ChatParticipantRole.member;
+    }
 
     return Container(
       height: 80,
@@ -52,11 +67,31 @@ class ChatBottomBar extends StatelessWidget {
                       ? _JoinChatButton(
                           onPressed: () async => cubit.joinChat(chat.id),
                         )
-                      : _MessageTextFieldBody(chat: chat),
+                      : !canSendMessages
+                          ? const _CantSendMessagesBody()
+                          : _MessageTextFieldBody(chat: chat),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CantSendMessagesBody extends StatelessWidget {
+  const _CantSendMessagesBody();
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+          color: CupertinoColors.inactiveGray,
+        );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("You can't send messages in this chat", style: textStyle),
+      ],
     );
   }
 }

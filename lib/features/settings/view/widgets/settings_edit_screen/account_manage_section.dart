@@ -1,6 +1,8 @@
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_options_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsEditAccountManageSection extends StatelessWidget {
   const SettingsEditAccountManageSection({super.key});
@@ -14,6 +16,10 @@ class SettingsEditAccountManageSection extends StatelessWidget {
       color: CupertinoColors.systemGrey.withOpacity(0.6),
     );
 
+    final AuthState authState = context.select(
+      (AuthCubit cubit) => cubit.state,
+    );
+
     return CupertinoListSection.insetGrouped(
       dividerMargin: 0,
       additionalDividerMargin: 15,
@@ -21,7 +27,10 @@ class SettingsEditAccountManageSection extends StatelessWidget {
       children: [
         SettingsOptionsItem(
           title: 'Change email',
-          trailing: Text('example@gmail.com', style: textStyle),
+          trailing: Text(
+            authState.currentUser.email,
+            style: textStyle,
+          ),
           onPressed: () {},
         ),
         SettingsOptionsItem(

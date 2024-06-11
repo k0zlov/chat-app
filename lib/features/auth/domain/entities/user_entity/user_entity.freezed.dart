@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$UserEntity {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   bool get isActivated => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $UserEntityCopyWith<$Res> {
   $Res call(
       {int id,
       String name,
+      String bio,
       String email,
       bool isActivated,
       DateTime? createdAt});
@@ -56,6 +58,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? isActivated = null,
     Object? createdAt = freezed,
@@ -68,6 +71,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -96,6 +103,7 @@ abstract class _$$UserEntityImplCopyWith<$Res>
   $Res call(
       {int id,
       String name,
+      String bio,
       String email,
       bool isActivated,
       DateTime? createdAt});
@@ -114,6 +122,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? isActivated = null,
     Object? createdAt = freezed,
@@ -126,6 +135,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -149,6 +162,7 @@ class _$UserEntityImpl extends _UserEntity {
   const _$UserEntityImpl(
       {this.id = -1,
       this.name = '',
+      this.bio = '',
       this.email = '',
       this.isActivated = false,
       this.createdAt = null})
@@ -162,6 +176,9 @@ class _$UserEntityImpl extends _UserEntity {
   final String name;
   @override
   @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
   final String email;
   @override
   @JsonKey()
@@ -172,7 +189,7 @@ class _$UserEntityImpl extends _UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, name: $name, email: $email, isActivated: $isActivated, createdAt: $createdAt)';
+    return 'UserEntity(id: $id, name: $name, bio: $bio, email: $email, isActivated: $isActivated, createdAt: $createdAt)';
   }
 
   @override
@@ -182,6 +199,7 @@ class _$UserEntityImpl extends _UserEntity {
             other is _$UserEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.isActivated, isActivated) ||
                 other.isActivated == isActivated) &&
@@ -191,7 +209,7 @@ class _$UserEntityImpl extends _UserEntity {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, email, isActivated, createdAt);
+      Object.hash(runtimeType, id, name, bio, email, isActivated, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -204,6 +222,7 @@ abstract class _UserEntity extends UserEntity {
   const factory _UserEntity(
       {final int id,
       final String name,
+      final String bio,
       final String email,
       final bool isActivated,
       final DateTime? createdAt}) = _$UserEntityImpl;
@@ -213,6 +232,8 @@ abstract class _UserEntity extends UserEntity {
   int get id;
   @override
   String get name;
+  @override
+  String get bio;
   @override
   String get email;
   @override

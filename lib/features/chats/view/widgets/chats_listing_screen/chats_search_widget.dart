@@ -4,6 +4,7 @@ import 'package:chat_app/core/widgets/search/search_results_header.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_default_image.dart';
 import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,19 +27,26 @@ class ChatsSearchWidget extends StatelessWidget {
         )
         .toList();
 
+    final List<ChatEntity> searchedChats = state.searchedChats
+        .where(
+          (chat) =>
+              filteredChats.singleWhereOrNull((e) => e.id == chat.id) == null,
+        )
+        .toList();
+
     return SliverList.list(
       children: [
         if (filteredChats.isEmpty &&
-            state.searchedChats.isEmpty &&
+            searchedChats.isEmpty &&
             !state.searchingChats) ...{
           NoResultsSearchWidget(searchText: state.searchText),
         } else ...{
-          if (state.searchedChats.isNotEmpty) ...{
+          if (searchedChats.isNotEmpty) ...{
             const SearchResultsHeader(title: 'Global chats search'),
             CupertinoListSection(
               topMargin: 0,
               children: [
-                for (final chat in state.searchedChats) ...{
+                for (final chat in searchedChats) ...{
                   ContactsListItem(
                     title: chat.title,
                     showStatus: false,
