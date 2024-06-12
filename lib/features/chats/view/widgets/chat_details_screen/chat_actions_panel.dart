@@ -1,7 +1,11 @@
 import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/chat_action.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatActionsPanel extends StatefulWidget {
   const ChatActionsPanel({
@@ -33,6 +37,23 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
 
   @override
   Widget build(BuildContext context) {
+    final int userId =
+        context
+            .select((AuthCubit cubit) => cubit.state)
+            .currentUser
+            .id;
+
+    final ChatParticipantEntity? participant =
+    widget.chat.participants.firstWhereOrNull(
+          (p) => p.userId == userId,
+    );
+
+    final bool showLeaveOption = widget.chat.type != ChatType.private;
+
+    final bool showDeleteOption = participant != null &&
+        participant.role == ChatParticipantRole.owner &&
+        widget.chat.type != ChatType.private;
+
     final List<ChatActionData> actions = [
       ChatActionData(
         title: 'mute',
@@ -67,33 +88,30 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
         onPressed: widget.activateSearchMode,
         contextMenuActions: [],
       ),
-      ChatActionData(
-        title: 'more',
-        iconData: CupertinoIcons.ellipsis,
-        contextMenuActions: [
-          ContextMenuAction(
-            title: 'Enable Auto-Delete',
-            iconData: CupertinoIcons.timer,
-            onPressed: () {},
-          ),
-          ContextMenuAction(
-            title: 'Clear Messages',
-            iconData: CupertinoIcons.clear,
-            onPressed: () {},
-          ),
-          ContextMenuAction(
-            title: 'Leave Group',
-            destructive: true,
-            iconData: CupertinoIcons.arrow_right_to_line,
-            onPressed: () {},
-          ),
-        ],
-      ),
+      if (showLeaveOption) ...{
+        ChatActionData(
+          title: 'leave',
+          iconData: CupertinoIcons.escape,
+          contextMenuActions: [],
+          onPressed: () {},
+        ),
+      },
+      if (showDeleteOption) ...{
+        ChatActionData(
+          title: 'delete',
+          iconData: CupertinoIcons.delete,
+          onPressed: () {},
+          contextMenuActions: [],
+        ),
+      },
     ];
 
     return SizedBox(
       height: 74,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(

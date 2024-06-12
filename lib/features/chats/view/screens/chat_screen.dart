@@ -3,6 +3,7 @@ import 'package:chat_app/features/chats/domain/entities/message_entity/message_e
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/details_participants_list.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/details_tab_bar.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_bottom_bar.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_details_screen/chat_description.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_sliver_app_bar.dart';
 import 'package:collection/collection.dart';
@@ -70,12 +71,12 @@ class _ChatScreenState extends State<ChatScreen> {
     bool viewingSearchedChat = false;
 
     ChatEntity? chat = state.chats.firstWhereOrNull(
-      (chat) => chat.id == widget.chatId,
+          (chat) => chat.id == widget.chatId,
     );
 
     if (chat == null) {
       chat = state.searchedChats.firstWhereOrNull(
-        (chat) => chat.id == widget.chatId,
+            (chat) => chat.id == widget.chatId,
       );
       viewingSearchedChat = true;
     }
@@ -90,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: CustomScrollView(
         controller: _scrollController,
         physics:
-            _detailsMode ? const ScrollPhysics() : const _CustomScrollPhysics(),
+        _detailsMode ? const ScrollPhysics() : const _CustomScrollPhysics(),
         slivers: [
           ChatSliverAppBar(
             chat: chat!,
@@ -115,15 +116,27 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               child: Stack(
                 children: [
                   AnimatedPositioned(
                     curve: Curves.decelerate,
                     bottom: bottomPadding,
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     duration: const Duration(milliseconds: 240),
                     child: _ChatScreenMainBody(
                       chat: chat,
@@ -165,7 +178,7 @@ class _ChatScreenMainBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<MessageEntity> messages = chat.messages.where(
-      (message) {
+          (message) {
         return message.content.toLowerCase().contains(searchText.toLowerCase());
       },
     ).toList();
@@ -175,7 +188,10 @@ class _ChatScreenMainBody extends StatelessWidget {
       children: [
         ChatMessages(
           messages: searchMode ? messages : chat.messages,
-          height: MediaQuery.of(context).size.height - kToolbarHeight - 110,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height - kToolbarHeight - 110,
         ),
         ChatBottomBar(
           chat: chat,
@@ -198,14 +214,28 @@ class _ChatScreenDetailsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
+    final bool showParticipantsList = chat.type == ChatType.group;
+
+    final bool showDescription = chat.type != ChatType.savedMessages &&
+        chat.description != null;
+
     return SingleChildScrollView(
       child: Container(
-        color: CupertinoTheme.of(context).scaffoldBackgroundColor,
+        color: CupertinoTheme
+            .of(context)
+            .scaffoldBackgroundColor,
         height: mediaQuery.size.height,
         width: mediaQuery.size.width,
         child: Column(
           children: [
-            ChatDetailsParticipantsList(participants: chat.participants),
+            if (showParticipantsList) ...{
+              ChatDetailsParticipantsList(participants: chat.participants),
+              const SizedBox(height: 10),
+            },
+            if (showDescription) ...{
+              ChatDescription(description: chat.description!),
+              const SizedBox(height: 10),
+            },
             const SizedBox(height: 10),
             Expanded(child: ChatDetailsTabBar(chat: chat)),
           ],

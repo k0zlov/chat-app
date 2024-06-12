@@ -3,6 +3,7 @@ import 'package:chat_app/core/widgets/buttons/app_bar_back_button.dart';
 import 'package:chat_app/core/widgets/buttons/edit_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_details_screen/mini_messages_search_button.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_app_bar_flexible_space.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -84,6 +85,8 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
 
   void _changeMode(AppBarMode newMode) {
     if (newMode == _mode) return;
+
+    if (widget.chat.type == ChatType.savedMessages) return;
 
     _mode = newMode;
     setState(() {});
@@ -244,6 +247,8 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
             ? CupertinoColors.systemGrey
             : CupertinoColors.inactiveGray;
 
+    final bool isSavedMessages = widget.chat.type == ChatType.savedMessages;
+
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
@@ -285,14 +290,15 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
                   : null,
           toolbarHeight: 70,
           leadingWidth: _mode.isExpanded ? 70 : 95,
-          expandedHeight: _animationController.value,
+          expandedHeight:
+              isSavedMessages ? collapsedHeight : _animationController.value,
           leading: AppBarBackButton(
             blurred: _mode.isExpanded,
             onPressed: _onBack,
           ),
-          stretch: true,
+          stretch: !isSavedMessages,
           actions: [
-            if (widget.detailsMode) ...{
+            if (widget.detailsMode && !isSavedMessages) ...{
               EditButton(
                 blur: _mode.isExpanded,
                 onPressed: () => context.goNamed(
@@ -301,6 +307,10 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
                     'chatId': widget.chat.id.toString(),
                   },
                 ),
+              ),
+            } else if(isSavedMessages)...{
+              MiniMessagesSearchButton(
+                onPressed: widget.activateSearchMode,
               ),
             },
           ],

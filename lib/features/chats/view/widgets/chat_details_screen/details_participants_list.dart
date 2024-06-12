@@ -26,6 +26,7 @@ class ChatDetailsParticipantsList extends StatelessWidget {
           onPressed: () {},
           titleColor: CupertinoTheme.of(context).primaryColor,
           pressable: false,
+          showStatus: false,
           backgroundColor: backgroundColor,
           leading: const Icon(
             CupertinoIcons.person_add,
@@ -39,7 +40,7 @@ class ChatDetailsParticipantsList extends StatelessWidget {
               pressable: false,
               backgroundColor: backgroundColor,
               title: participant.name,
-              lastActivity: DateTime.now(),
+              lastActivity: participant.lastActivityAt,
             );
           },
         ),

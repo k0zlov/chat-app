@@ -65,7 +65,7 @@ class _ContextMenuState extends State<ContextMenu>
         scale: _scaleAnimation,
         alignment: widget.animationAlignment ?? Alignment.center,
         child: SizedBox(
-          height: widget.actionHeight * widget.actions.length + 20,
+          height: widget.actionHeight * widget.actions.length + 24,
           width: 270,
           child: CupertinoListSection.insetGrouped(
             dividerMargin: 0,

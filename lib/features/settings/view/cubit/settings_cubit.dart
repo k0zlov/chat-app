@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  /// fd
   SettingsCubit({
     required this.changeThemeColor,
     required this.changeThemeMode,
