@@ -16,7 +16,15 @@ enum ChatType {
   channel,
 
   /// Special chat type for chat with saved messages of users
-  savedMessages,
+  savedMessages;
+
+  bool get isPrivate => this == ChatType.private;
+
+  bool get isSavedMessages => this == ChatType.savedMessages;
+
+  bool get isGroup => this == ChatType.group;
+
+  bool get isChannel => this == ChatType.channel;
 }
 
 /// The [ChatEntity] class represents a chat entity in the domain layer.

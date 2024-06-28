@@ -2,9 +2,10 @@ import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_background_image.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_date.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_screen/messages_item.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_reload_button.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_scroll_down_button.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/messages_item.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/messages_item_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -81,10 +82,12 @@ class _ChatMessagesState extends State<ChatMessages> {
                 return const SizedBox();
               }
 
-              return ChatMessagesItem(
-                message: message,
-                messageAuthor: authState.currentUser.id == message.userId,
-              );
+              return message.type.isInfo
+                  ? ChatMessagesInfoItem(message: message)
+                  : ChatMessagesItem(
+                      message: message,
+                      messageAuthor: authState.currentUser.id == message.userId,
+                    );
             },
             stickyHeaderBackgroundColor: Colors.transparent,
             groupComparator: (first, second) {

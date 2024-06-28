@@ -1,4 +1,4 @@
-import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages.dart';
 import 'package:chat_app/features/chats/view/widgets/mini_chat_screen/mini_chat_header.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,9 +7,8 @@ class MiniChat extends StatefulWidget {
   const MiniChat({
     super.key,
     required this.visible,
-    required this.title,
+    required this.chat,
     required this.chatImage,
-    required this.messages,
     this.animationAlignment,
     this.duration = const Duration(milliseconds: 220),
   });
@@ -18,11 +17,9 @@ class MiniChat extends StatefulWidget {
 
   final Alignment? animationAlignment;
 
-  final String title;
+  final ChatEntity chat;
 
   final Widget chatImage;
-
-  final List<MessageEntity> messages;
 
   final Duration duration;
 
@@ -91,13 +88,13 @@ class _MiniChatState extends State<MiniChat>
               mainAxisSize: MainAxisSize.min,
               children: [
                 MiniChatScreenHeader(
+                  chat: widget.chat,
                   image: widget.chatImage,
-                  title: widget.title,
                 ),
                 ChatMessages(
                   height: 350,
                   width: width,
-                  messages: widget.messages,
+                  messages: widget.chat.messages,
                 ),
               ],
             ),

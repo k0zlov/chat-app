@@ -20,6 +20,10 @@ abstract interface class MessagesLocalProvider {
     required List<MessageModel> messages,
   });
 
+  Future<Either<Failure, void>> deleteMessage({
+    required int messageId,
+  });
+
   Future<void> deleteAllMessages();
 }
 
@@ -89,5 +93,18 @@ class MessagesLocalProviderImpl implements MessagesLocalProvider {
   @override
   Future<void> deleteAllMessages() async {
     await database.delete(tableName: tableName);
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteMessage({
+    required int messageId,
+  }) async {
+    final response = await database.delete(
+      tableName: tableName,
+      where: 'id = ?',
+      whereArgs: [messageId],
+    );
+
+    return response;
   }
 }

@@ -1,7 +1,9 @@
 import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
 import 'package:chat_app/core/widgets/context_menu/context_menu_area.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_screen/message_status_indicator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 class ChatMessagesItem extends StatelessWidget {
@@ -40,23 +42,15 @@ class ChatMessagesItem extends StatelessWidget {
             heroTag: 'msg${message.id}',
             actions: [
               ContextMenuAction(
-                iconData: CupertinoIcons.arrowshape_turn_up_left,
-                title: 'Reply',
-                onPressed: () {},
-              ),
-              ContextMenuAction(
                 iconData: CupertinoIcons.square_on_square,
                 title: 'Copy',
-                onPressed: () {},
-              ),
-              ContextMenuAction(
-                iconData: CupertinoIcons.pin,
-                title: 'Pin',
-                onPressed: () {},
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: message.content));
+                },
               ),
               ContextMenuAction(
                 iconData: CupertinoIcons.arrowshape_turn_up_right,
-                title: 'Forward',
+                title: 'Save',
                 onPressed: () {},
               ),
               ContextMenuAction(
@@ -65,16 +59,11 @@ class ChatMessagesItem extends StatelessWidget {
                 title: 'Delete',
                 onPressed: () {},
               ),
-              ContextMenuAction(
-                iconData: CupertinoIcons.check_mark_circled,
-                title: 'Select',
-                onPressed: () {},
-              ),
             ],
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minWidth: 110,
-                maxWidth: MediaQuery.of(context).size.width / 1.5,
+                maxWidth: MediaQuery.of(context).size.width / 1.3,
               ),
               child: IntrinsicWidth(
                 child: Container(
@@ -91,7 +80,7 @@ class ChatMessagesItem extends StatelessWidget {
                       Expanded(
                         child: Text(message.content, maxLines: 100),
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 10),
                       Row(
                         children: [
                           Text(
@@ -114,55 +103,6 @@ class ChatMessagesItem extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-enum MessageStatus {
-  pending,
-  sent,
-  seen,
-}
-
-class MessageStatusIndicator extends StatelessWidget {
-  const MessageStatusIndicator({
-    super.key,
-    required this.status,
-  });
-
-  final MessageStatus status;
-
-  @override
-  Widget build(BuildContext context) {
-    const double iconSize = 18;
-
-    final Color iconColor = status == MessageStatus.seen
-        ? CupertinoColors.darkBackgroundGray
-        : CupertinoColors.inactiveGray;
-
-    final double iconOpacity =
-        status == MessageStatus.sent || status == MessageStatus.seen ? 1 : 0;
-
-    return Stack(
-      children: [
-        Icon(
-          CupertinoIcons.checkmark_alt,
-          color: iconColor,
-          size: iconSize,
-        ),
-        AnimatedOpacity(
-          duration: const Duration(milliseconds: 240),
-          opacity: iconOpacity,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: Icon(
-              CupertinoIcons.checkmark_alt,
-              color: iconColor,
-              size: iconSize,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

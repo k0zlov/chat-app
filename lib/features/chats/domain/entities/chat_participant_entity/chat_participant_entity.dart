@@ -1,3 +1,5 @@
+import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chat_participant_entity.freezed.dart';
@@ -11,7 +13,12 @@ enum ChatParticipantRole {
   admin,
 
   /// Simple member
-  member,
+  member;
+
+  bool get isAdmin =>
+      this == ChatParticipantRole.admin || this == ChatParticipantRole.owner;
+
+  bool get isOwner => this == ChatParticipantRole.owner;
 }
 
 /// The [ChatParticipantEntity] class represents a chat participant entity in the domain layer.
@@ -35,6 +42,12 @@ class ChatParticipantEntity with _$ChatParticipantEntity {
     @Default(null) DateTime? lastActivityAt,
     @Default(null) DateTime? joinedAt,
   }) = _ChatParticipantEntity;
+
+  static ChatParticipantEntity? getFromChat(ChatEntity chat, int userId) {
+    return chat.participants.firstWhereOrNull(
+      (p) => p.userId == userId,
+    );
+  }
 
   /// Private constructor for [ChatParticipantEntity].
   /// This is used by the `freezed` package to generate the implementation.

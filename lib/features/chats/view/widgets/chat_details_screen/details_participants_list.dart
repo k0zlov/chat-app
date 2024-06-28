@@ -21,18 +21,6 @@ class ChatDetailsParticipantsList extends StatelessWidget {
     return CupertinoListSection.insetGrouped(
       backgroundColor: Colors.transparent,
       children: [
-        ContactsListItem(
-          title: 'Add Members',
-          onPressed: () {},
-          titleColor: CupertinoTheme.of(context).primaryColor,
-          pressable: false,
-          showStatus: false,
-          backgroundColor: backgroundColor,
-          leading: const Icon(
-            CupertinoIcons.person_add,
-            size: 28,
-          ),
-        ),
         ...participants.map(
           (participant) {
             return ContactsListItem(

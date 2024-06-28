@@ -8,10 +8,13 @@ extension MessagesExtension on ChatsCubit {
       (chat) => chat.id == chatId,
     );
 
-    if (chat == null || chat.text.isEmpty) return;
+    if (chat == null || chat.text.isEmpty) {
+      showError('Could not find chat with that id');
+      return;
+    }
 
     final ChatEntity loadingChat = chat.copyWith(sendingMessage: true);
-    emitChat(emitChat: loadingChat);
+    emitChat(loadingChat);
 
     final failureOrMessage = await sendMessageUseCase(
       SendMessageParams(chatId: chatId, content: chat.text),
@@ -28,8 +31,47 @@ extension MessagesExtension on ChatsCubit {
           messages: [...chat.messages, entity],
         );
 
-        emitChat(emitChat: newChat);
+        emitChat(newChat);
       },
     );
+  }
+
+  Future<void> deleteMessage({
+    required int chatId,
+    required int messageId,
+  }) async {
+    final ChatEntity? chat = _state.chats.firstWhereOrNull(
+      (chat) => chat.id == chatId,
+    );
+
+    if (chat == null) return;
+
+    final MessageEntity? message = chat.messages.firstWhereOrNull(
+      (e) => e.id == messageId,
+    );
+
+    if (message == null) return;
+
+    _state = _state.copyWith(loadingChats: true);
+    emit(_state);
+
+    final failureOrSuccess = await deleteMessageUseCase(
+      DeleteMessageParams(messageId: messageId),
+    );
+
+    failureOrSuccess.fold(
+      (failure) => showError(failure.errorMessage),
+      (_) {
+        final List<MessageEntity> newMessages =
+            chat.messages.where((e) => e.id != messageId).toList();
+
+        final ChatEntity newChat = chat.copyWith(messages: newMessages);
+
+        emitChat(newChat);
+      },
+    );
+
+    _state = _state.copyWith(loadingChats: false);
+    emit(_state);
   }
 }

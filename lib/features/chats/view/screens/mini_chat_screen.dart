@@ -52,9 +52,8 @@ class _MiniChatScreenState extends State<MiniChatScreen> {
             children: [
               MiniChat(
                 visible: _showMenu,
-                title: widget.title,
+                chat: widget.chat,
                 chatImage: widget.chatImage,
-                messages: widget.messages,
                 animationAlignment: widget.alignment,
                 duration: _duration,
               ),

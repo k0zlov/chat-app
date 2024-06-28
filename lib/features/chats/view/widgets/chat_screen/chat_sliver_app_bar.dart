@@ -2,13 +2,16 @@ import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/widgets/buttons/app_bar_back_button.dart';
 import 'package:chat_app/core/widgets/buttons/edit_button.dart';
 import 'package:chat_app/core/widgets/search/search_field.dart';
+import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/mini_messages_search_button.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_app_bar_flexible_space.dart';
 import 'package:chat_app/features/settings/view/widgets/settings_screen/settings_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ChatSliverAppBar extends StatefulWidget {
@@ -247,7 +250,18 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
             ? CupertinoColors.systemGrey
             : CupertinoColors.inactiveGray;
 
-    final bool isSavedMessages = widget.chat.type == ChatType.savedMessages;
+    final ChatType type = widget.chat.type;
+
+    final int userId =
+        context.select((AuthCubit cubit) => cubit.state).currentUser.id;
+
+    final ChatParticipantEntity? participant =
+        ChatParticipantEntity.getFromChat(widget.chat, userId);
+
+    final bool canEditChat = participant != null &&
+        !type.isSavedMessages &&
+        !type.isPrivate &&
+        participant.role.isAdmin;
 
     return AnimatedBuilder(
       animation: _animationController,
@@ -290,15 +304,16 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
                   : null,
           toolbarHeight: 70,
           leadingWidth: _mode.isExpanded ? 70 : 95,
-          expandedHeight:
-              isSavedMessages ? collapsedHeight : _animationController.value,
+          expandedHeight: type.isSavedMessages
+              ? collapsedHeight
+              : _animationController.value,
           leading: AppBarBackButton(
             blurred: _mode.isExpanded,
             onPressed: _onBack,
           ),
-          stretch: !isSavedMessages,
+          stretch: !type.isSavedMessages,
           actions: [
-            if (widget.detailsMode && !isSavedMessages) ...{
+            if (widget.detailsMode && canEditChat) ...{
               EditButton(
                 blur: _mode.isExpanded,
                 onPressed: () => context.goNamed(
@@ -308,7 +323,7 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
                   },
                 ),
               ),
-            } else if(isSavedMessages)...{
+            } else if (type.isSavedMessages) ...{
               MiniMessagesSearchButton(
                 onPressed: widget.activateSearchMode,
               ),

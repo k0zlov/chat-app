@@ -8,7 +8,9 @@ enum MessageType {
   basic,
 
   /// Info message such as user joining, leaving notification etc.
-  info
+  info;
+
+  bool get isInfo => this == info;
 }
 
 /// The [MessageEntity] class represents a message entity in the domain layer.

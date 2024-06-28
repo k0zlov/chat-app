@@ -1,12 +1,14 @@
 import 'package:chat_app/core/errors/failure.dart';
 import 'package:chat_app/core/network/api_endpoints.dart';
 import 'package:chat_app/core/network/network.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/models/chat_model/chat_model.dart';
+import 'package:chat_app/features/chats/data/models/chat_participants_response_model/chat_participants_response_model.dart';
 import 'package:chat_app/features/chats/data/models/chats_response_model/chats_response_model.dart';
-import 'package:chat_app/features/chats/domain/use_cases/create_chat_use_case/create_chat_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/join_chat_use_case/join_chat_use_case.dart';
-import 'package:chat_app/features/chats/domain/use_cases/leave_chat_use_case/leave_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/delete_chat_use_case/delete_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_chat_use_case/update_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_participant_use_case/update_participant_use_case.dart';
 import 'package:dartz/dartz.dart';
 
 abstract interface class ChatsRemoteProvider {
@@ -42,6 +44,18 @@ abstract interface class ChatsRemoteProvider {
 
   Future<Either<Failure, ChatModel>> unarchiveChat(
     int chatId,
+  );
+
+  Future<Either<Failure, void>> deleteChat(
+    DeleteChatParams params,
+  );
+
+  Future<Either<Failure, ChatModel>> updateChat(
+    UpdateChatParams params,
+  );
+
+  Future<Either<Failure, ChatParticipantsResponseModel>> updateParticipant(
+    UpdateParticipantParams params,
   );
 }
 
@@ -177,6 +191,51 @@ class ChatsRemoteProviderImpl implements ChatsRemoteProvider {
       parser: (json) {
         final data = json as Map<String, dynamic>;
         return ChatModel.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteChat(
+    DeleteChatParams params,
+  ) async {
+    final response = await network.delete(
+      url: ApiEndpoints.deleteChatDelete,
+      queryParameters: params.toJson(),
+      parser: (_) => null,
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatModel>> updateChat(
+    UpdateChatParams params,
+  ) async {
+    final response = await network.put(
+      url: ApiEndpoints.putChatUpdate,
+      data: params.toJson(),
+      parser: (json) {
+        final data = json as Map<String, dynamic>;
+        return ChatModel.fromJson(data);
+      },
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, ChatParticipantsResponseModel>> updateParticipant(
+    UpdateParticipantParams params,
+  ) async {
+    final response = await network.put(
+      url: ApiEndpoints.putParticipantUpdate,
+      data: params.toJson(),
+      parser: (json) {
+        json as Map<String, dynamic>;
+        return ChatParticipantsResponseModel.fromJson(json);
       },
     );
 

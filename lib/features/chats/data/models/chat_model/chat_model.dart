@@ -62,7 +62,7 @@ class ChatModel with _$ChatModel {
       isArchived: isArchived,
       type: ChatType.values.valueFromString(type) ?? ChatType.group,
       description: description,
-      createdAt: DateTime.tryParse(createdAt),
+      createdAt: DateTime.tryParse(createdAt)?.toLocal(),
       participants: participants.map((e) => e.toEntity()).toList(),
       messages: messages.map((e) => e.toEntity()).toList(),
     );

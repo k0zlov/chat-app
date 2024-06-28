@@ -21,7 +21,7 @@ class ChatDescription extends StatelessWidget {
         : CupertinoColors.white;
 
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       padding: const EdgeInsets.all(14),
       width: double.infinity,
       decoration: BoxDecoration(

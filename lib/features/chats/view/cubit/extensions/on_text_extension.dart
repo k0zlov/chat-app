@@ -34,7 +34,7 @@ extension OnTextExtension on ChatsCubit {
     if (chat == null || text == chat.text) return;
 
     final ChatEntity newChat = chat.copyWith(text: text);
-    emitChat(emitChat: newChat);
+    emitChat(newChat);
   }
 
   void onCreateChatText(String text) {

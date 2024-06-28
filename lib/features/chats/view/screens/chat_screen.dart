@@ -230,13 +230,10 @@ class _ChatScreenDetailsBody extends StatelessWidget {
           children: [
             if (showParticipantsList) ...{
               ChatDetailsParticipantsList(participants: chat.participants),
-              const SizedBox(height: 10),
             },
             if (showDescription) ...{
               ChatDescription(description: chat.description!),
-              const SizedBox(height: 10),
             },
-            const SizedBox(height: 10),
             Expanded(child: ChatDetailsTabBar(chat: chat)),
           ],
         ),

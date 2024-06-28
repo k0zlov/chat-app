@@ -53,8 +53,8 @@ class ChatParticipantModel with _$ChatParticipantModel {
       name: name,
       role: ChatParticipantRole.values.valueFromString(role) ??
           ChatParticipantRole.member,
-      lastActivityAt: DateTime.tryParse(lastActivityAt),
-      joinedAt: DateTime.tryParse(joinedAt),
+      lastActivityAt: DateTime.tryParse(lastActivityAt)?.toLocal(),
+      joinedAt: DateTime.tryParse(joinedAt)?.toLocal(),
     );
   }
 }

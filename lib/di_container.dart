@@ -11,10 +11,15 @@ import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
 import 'package:chat_app/features/chats/domain/use_cases/archive_chat_use_case/archive_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/delete_chat_use_case/delete_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/delete_message_use_case/delete_message_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/erase_chats_use_case/erase_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/pin_chat_use_case/pin_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_chat_use_case/update_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_message_use_case/update_message_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_participant_use_case/update_participant_use_case.dart';
 import 'package:chat_app/features/contacts/contacts_feature.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/erase_contacts_use_case/erase_contacts_use_case.dart';
 import 'package:chat_app/features/contacts/domain/use_cases/search_contacts_use_case/search_contacts_use_case.dart';
@@ -226,11 +231,20 @@ void _useCases() {
     ..registerLazySingleton<CreateChatUseCase>(
       () => CreateChatUseCase(repository: getIt()),
     )
+    ..registerLazySingleton<UpdateChatUseCase>(
+      () => UpdateChatUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<DeleteChatUseCase>(
+      () => DeleteChatUseCase(repository: getIt()),
+    )
     ..registerLazySingleton<JoinChatUseCase>(
       () => JoinChatUseCase(repository: getIt()),
     )
     ..registerLazySingleton<LeaveChatUseCase>(
       () => LeaveChatUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<UpdateParticipantUseCase>(
+      () => UpdateParticipantUseCase(repository: getIt()),
     )
     ..registerLazySingleton<SearchChatsUseCase>(
       () => SearchChatsUseCase(repository: getIt()),
@@ -243,6 +257,12 @@ void _useCases() {
     )
     ..registerLazySingleton<SendMessageUseCase>(
       () => SendMessageUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<DeleteMessageUseCase>(
+      () => DeleteMessageUseCase(repository: getIt()),
+    )
+    ..registerLazySingleton<UpdateMessageUseCase>(
+      () => UpdateMessageUseCase(repository: getIt()),
     )
     ..registerLazySingleton<RemoveContactUseCase>(
       () => RemoveContactUseCase(repository: getIt()),
@@ -274,6 +294,11 @@ void _cubits() {
         searchChatsUseCase: getIt(),
         pinChatUseCase: getIt(),
         archiveChatUseCase: getIt(),
+        deleteMessageUseCase: getIt(),
+        deleteChatUseCase: getIt(),
+        updateChatUseCase: getIt(),
+        updateMessageUseCase: getIt(),
+        updateParticipantUseCase: getIt(),
       ),
     )
     ..registerSingletonAsync<SettingsCubit>(

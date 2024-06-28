@@ -38,7 +38,7 @@ class ChatSliverAppBarFlexibleSpace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSavedMessages = chat.type == ChatType.savedMessages;
+    final bool isSavedMessages = chat.type.isSavedMessages;
 
     return FlexibleSpaceBar(
       collapseMode: CollapseMode.pin,

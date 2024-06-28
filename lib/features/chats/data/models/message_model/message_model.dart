@@ -59,8 +59,8 @@ class MessageModel with _$MessageModel {
       content: content,
       authorName: authorName,
       type: MessageType.values.valueFromString(type) ?? MessageType.basic,
-      createdAt: DateTime.tryParse(createdAt) ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(updatedAt) ?? DateTime.now(),
+      createdAt: DateTime.tryParse(createdAt)?.toLocal() ?? DateTime.now(),
+      updatedAt: DateTime.tryParse(updatedAt)?.toLocal() ?? DateTime.now(),
     );
   }
 }

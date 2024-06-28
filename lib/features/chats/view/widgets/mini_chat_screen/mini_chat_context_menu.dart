@@ -31,8 +31,11 @@ class MiniChatContextMenu extends StatelessWidget {
     final ChatParticipantEntity? participant =
         chat.participants.firstWhereOrNull((p) => p.userId == userId);
 
-    final bool canDeleteChat = chat.type != ChatType.savedMessages &&
-        participant?.role == ChatParticipantRole.owner;
+    final ChatType type = chat.type;
+
+    final bool canDeleteChat = participant != null &&
+        participant.role.isOwner &&
+        !type.isSavedMessages;
 
     return Align(
       alignment: Alignment.bottomRight,

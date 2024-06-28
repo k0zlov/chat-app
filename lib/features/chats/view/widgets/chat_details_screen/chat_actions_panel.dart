@@ -3,7 +3,6 @@ import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
 import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/chat_action.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,21 +37,18 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
   @override
   Widget build(BuildContext context) {
     final int userId =
-        context
-            .select((AuthCubit cubit) => cubit.state)
-            .currentUser
-            .id;
+        context.select((AuthCubit cubit) => cubit.state).currentUser.id;
 
     final ChatParticipantEntity? participant =
-    widget.chat.participants.firstWhereOrNull(
-          (p) => p.userId == userId,
-    );
+        ChatParticipantEntity.getFromChat(widget.chat, userId);
 
-    final bool showLeaveOption = widget.chat.type != ChatType.private;
+    final ChatType type = widget.chat.type;
+
+    final bool showLeaveOption = !type.isPrivate;
 
     final bool showDeleteOption = participant != null &&
-        participant.role == ChatParticipantRole.owner &&
-        widget.chat.type != ChatType.private;
+        participant.role.isOwner &&
+        !type.isPrivate;
 
     final List<ChatActionData> actions = [
       ChatActionData(
@@ -108,10 +104,7 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
 
     return SizedBox(
       height: 74,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(

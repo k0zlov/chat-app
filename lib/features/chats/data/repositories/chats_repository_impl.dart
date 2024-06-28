@@ -3,12 +3,18 @@ import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/data/models/chat_model/chat_model.dart';
 import 'package:chat_app/features/chats/data/providers/local/messages_local_provider.dart';
 import 'package:chat_app/features/chats/data/providers/remote/messages_remote_provider.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participants_response_entity/chat_participants_response_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/chats_response_entity/chats_response_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/domain/use_cases/archive_chat_use_case/archive_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/delete_chat_use_case/delete_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/delete_message_use_case/delete_message_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/pin_chat_use_case/pin_chat_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/search_chats_use_case/search_chats_use_case.dart';
 import 'package:chat_app/features/chats/domain/use_cases/send_message_use_case/send_message_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_chat_use_case/update_chat_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_message_use_case/update_message_use_case.dart';
+import 'package:chat_app/features/chats/domain/use_cases/update_participant_use_case/update_participant_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
@@ -274,6 +280,99 @@ class ChatsRepositoryImpl implements ChatsRepository {
       (failure) => Left(failure),
       (model) {
         final ChatEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteChat(
+    DeleteChatParams params,
+  ) async {
+    final response = await remoteProvider.deleteChat(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (_) async {
+        await localProvider.deleteChat(params.chatId);
+
+        return const Right(null);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteMessage(
+    DeleteMessageParams params,
+  ) async {
+    final response = await messagesRemoteProvider.deleteMessage(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (_) async {
+        await messagesLocalProvider.deleteMessage(
+          messageId: params.messageId,
+        );
+        return const Right(null);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ChatEntity>> updateChat(
+    UpdateChatParams params,
+  ) async {
+    final response = await remoteProvider.updateChat(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) async {
+        await localProvider.cacheChat(model);
+
+        final ChatEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, MessageEntity>> updateMessage(
+    UpdateMessageParams params,
+  ) async {
+    final response = await messagesRemoteProvider.updateMessage(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) async {
+        await messagesLocalProvider.cacheMessage(model: model);
+
+        final MessageEntity entity = model.toEntity();
+        return Right(entity);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, ChatParticipantsResponseEntity>> updateParticipant(
+    UpdateParticipantParams params,
+  ) async {
+    final response = await remoteProvider.updateParticipant(params);
+
+    return response.fold(
+      // ignore: unnecessary_lambdas
+      (failure) => Left(failure),
+      (model) async {
+        await participantsLocalProvider.rewriteChatParticipants(
+          chatId: params.chatId,
+          participants: model.participants,
+        );
+
+        final ChatParticipantsResponseEntity entity = model.toEntity();
+
         return Right(entity);
       },
     );

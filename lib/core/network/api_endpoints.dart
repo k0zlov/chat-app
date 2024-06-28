@@ -46,6 +46,8 @@ class ApiEndpoints {
 
   static const putChatUpdate = '$chatsRoute/update';
 
+  static const putParticipantUpdate = '$chatsRoute/update-participant';
+
   static const postChatJoin = '$chatsRoute/join';
 
   static const postChatLeave = '$chatsRoute/leave';
