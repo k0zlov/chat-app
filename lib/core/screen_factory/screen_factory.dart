@@ -3,6 +3,7 @@ import 'package:chat_app/core/widgets/screens/bottom_nav_bar.dart';
 import 'package:chat_app/di_container.dart';
 import 'package:chat_app/features/auth/auth_feature.dart';
 import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
+import 'package:chat_app/features/chats/view/screens/archived_chats_screen.dart';
 import 'package:chat_app/features/chats/view/screens/chat_edit_screen.dart';
 import 'package:chat_app/features/chats/view/screens/chat_screen.dart';
 import 'package:chat_app/features/chats/view/screens/chats_listing_screen.dart';
@@ -47,6 +48,10 @@ class ScreenFactory {
 
   static Widget renderChatsListingPage() {
     return const ChatsListingScreen();
+  }
+
+  static Widget renderArchivedChatsPage() {
+    return const ArchivedChatsScreen();
   }
 
   static Widget renderChatPage({

@@ -1,6 +1,7 @@
 import 'package:chat_app/core/widgets/search/search_results_header.dart';
 import 'package:chat_app/features/contacts/domain/entities/contact_entity/contact_entity.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
+import 'package:chat_app/features/contacts/view/widgets/contact_list_item_wrapper.dart';
 import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,7 @@ class ContactsList extends StatelessWidget {
               title: 'Find People Nearby',
               onPressed: () {},
               showStatus: false,
+              pressable: false,
               leading: const Icon(
                 CupertinoIcons.map_pin_ellipse,
                 size: 28,
@@ -35,6 +37,7 @@ class ContactsList extends StatelessWidget {
             ContactsListItem(
               title: 'Invite Friends',
               onPressed: () {},
+              pressable: false,
               showStatus: false,
               leading: const Icon(
                 CupertinoIcons.person_add,
@@ -83,10 +86,8 @@ class _SortByName extends StatelessWidget {
             children: [
               SearchResultsHeader(title: e.key),
               ...e.value.map((contact) {
-                return ContactsListItem(
-                  title: contact.name,
-                  lastActivity: contact.lastActivityAt,
-                  onPressed: () {},
+                return ContactListItemWrapper(
+                  contact: contact,
                 );
               }),
             ],
@@ -125,10 +126,8 @@ class _SortByLastActivity extends StatelessWidget {
             topMargin: 0,
             children: [
               for (final ContactEntity contact in sortedContacts) ...{
-                ContactsListItem(
-                  title: contact.name,
-                  lastActivity: contact.lastActivityAt,
-                  onPressed: () {},
+                ContactListItemWrapper(
+                  contact: contact,
                 ),
               },
             ],

@@ -4,8 +4,10 @@ class ChatDescription extends StatelessWidget {
   const ChatDescription({
     super.key,
     required this.description,
+    required this.isBio,
   });
 
+  final bool isBio;
   final String description;
 
   @override
@@ -31,7 +33,7 @@ class ChatDescription extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('description', style: textStyle),
+          Text(isBio ? 'bio' : 'description', style: textStyle),
           const SizedBox(height: 10),
           Text(description),
         ],

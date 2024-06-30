@@ -13,6 +13,7 @@ class AddScreen extends StatelessWidget {
     required this.onChanged,
     required this.onSubmit,
     required this.focusNode,
+    this.body,
   });
 
   final String title;
@@ -22,6 +23,8 @@ class AddScreen extends StatelessWidget {
   final FocusNode focusNode;
   final void Function(String text) onChanged;
   final void Function() onSubmit;
+
+  final Widget? body;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,7 @@ class AddScreen extends StatelessWidget {
               text: text,
               inputName: inputName,
               onChanged: onChanged,
+              body: body,
             ),
           ),
         ],
@@ -59,12 +63,15 @@ class _AddScreenBody extends StatefulWidget {
     required this.inputName,
     required this.onChanged,
     required this.focusNode,
+    this.body,
   });
 
   final String text;
   final String inputName;
 
   final FocusNode focusNode;
+
+  final Widget? body;
 
   final void Function(String text) onChanged;
 
@@ -102,15 +109,15 @@ class _AddScreenBodyState extends State<_AddScreenBody> {
           fontWeight: FontWeight.w500,
         );
 
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30,
-            vertical: 10,
-          ),
-          child: ReactiveTextField(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 10,
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 20),
+          ReactiveTextField(
             text: widget.text,
             builder: (controller, _) {
               return CupertinoTextField(
@@ -151,8 +158,11 @@ class _AddScreenBodyState extends State<_AddScreenBody> {
               );
             },
           ),
-        ),
-      ],
+          if (widget.body != null) ...{
+            widget.body!,
+          },
+        ],
+      ),
     );
   }
 }

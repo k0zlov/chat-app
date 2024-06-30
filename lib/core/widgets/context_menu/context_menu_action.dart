@@ -9,9 +9,11 @@ class ContextMenuAction extends StatelessWidget {
     this.color,
     this.iconData,
     this.destructive = false,
+    this.shouldPop = true,
   });
 
   final bool destructive;
+  final bool shouldPop;
 
   final String title;
   final IconData? iconData;
@@ -39,7 +41,9 @@ class ContextMenuAction extends StatelessWidget {
             ),
       onTap: () {
         onPressed();
-        context.pop();
+        if (shouldPop) {
+          context.pop();
+        }
       },
     );
   }

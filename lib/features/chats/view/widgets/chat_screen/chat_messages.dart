@@ -1,4 +1,5 @@
 import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_background_image.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages_date.dart';
@@ -15,11 +16,14 @@ class ChatMessages extends StatefulWidget {
     super.key,
     required this.messages,
     required this.height,
+    required this.chatType,
     this.width,
   });
 
   final double height;
   final double? width;
+
+  final ChatType chatType;
 
   final List<MessageEntity> messages;
 
@@ -85,6 +89,7 @@ class _ChatMessagesState extends State<ChatMessages> {
               return message.type.isInfo
                   ? ChatMessagesInfoItem(message: message)
                   : ChatMessagesItem(
+                      chatType: widget.chatType,
                       message: message,
                       messageAuthor: authState.currentUser.id == message.userId,
                     );

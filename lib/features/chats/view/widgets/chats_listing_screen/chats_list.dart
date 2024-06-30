@@ -1,23 +1,24 @@
-import 'package:chat_app/core/resources/images.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
-import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_list_item.dart';
+import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/archived_chat_item.dart';
 import 'package:chat_app/features/chats/view/widgets/chats_listing_screen/chats_list_item_wrapper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatsList extends StatelessWidget {
-  const ChatsList({super.key});
+  const ChatsList({
+    super.key,
+    required this.chats,
+    required this.showArchivedChats,
+  });
+
+  final List<ChatEntity> chats;
+
+  final bool showArchivedChats;
 
   @override
   Widget build(BuildContext context) {
-    final ChatsState state = context.select((ChatsCubit cubit) => cubit.state);
-
-    final List<ChatEntity> withoutArchived =
-        state.chats.whereNot((e) => e.isArchived).toList();
-
-    final List<ChatEntity> chats = withoutArchived.sorted((a, b) {
+    final List<ChatEntity> chatList = chats.sorted((a, b) {
       if (a.isPinned == b.isPinned) return 0;
 
       if (a.isPinned) return -1;
@@ -34,31 +35,22 @@ class ChatsList extends StatelessWidget {
       return bLastMessage.createdAt.compareTo(aLastMessage.createdAt);
     });
 
-    final List<ChatEntity> archivedChats =
-        state.chats.where((e) => e.isArchived).toList();
-
-    final String archivedChatsString =
-        archivedChats.map((e) => e.title).join(', ');
-
-    return SliverList.list(
-      children: [
-        CupertinoListSection(
-          topMargin: 0,
-          children: [
-            ChatsListItem(
-              leading: Image.asset(AppImages.archivedChats, height: 100),
-              onPressed: () {},
-              title: 'Archived Chats',
-              subtitle: archivedChatsString,
-              messages: const [],
-              onLongPressWidget: (_) => const SizedBox(),
-            ),
-            ...chats.map((chat) {
-              return ChatsListItemWrapper(chat: chat);
-            }),
-          ],
-        ),
-      ],
-    );
+    return chatList.isEmpty
+        ? SliverList.list(children: const [])
+        : SliverList.list(
+            children: [
+              CupertinoListSection(
+                topMargin: 0,
+                children: [
+                  if (showArchivedChats) ...{
+                    const ArchivedChatItem(),
+                  },
+                  ...chatList.map((chat) {
+                    return ChatsListItemWrapper(chat: chat);
+                  }),
+                ],
+              ),
+            ],
+          );
   }
 }

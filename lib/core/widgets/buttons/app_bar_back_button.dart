@@ -22,6 +22,8 @@ class AppBarBackButton extends StatelessWidget {
 
     return CupertinoButton(
       onPressed: onPressed,
+      minSize: 20,
+      padding: EdgeInsets.zero,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: BlurredWidget(

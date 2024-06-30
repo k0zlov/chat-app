@@ -106,6 +106,8 @@ class _ChatSliverAppBarState extends State<ChatSliverAppBar>
       _changeMode(AppBarMode.collapsed);
       _changeDetailsMode(false);
       _reloadHeight();
+    } else if (widget.chat.isArchived) {
+      context.go(AppRoutes.archivedChats.path);
     } else {
       context.go(AppRoutes.chats.path);
     }

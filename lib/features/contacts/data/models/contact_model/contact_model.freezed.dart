@@ -22,6 +22,7 @@ ContactModel _$ContactModelFromJson(Map<String, dynamic> json) {
 mixin _$ContactModel {
   int get contactUserId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get addedAt => throw _privateConstructorUsedError;
   String get lastActivityAt => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $ContactModelCopyWith<$Res> {
   $Res call(
       {int contactUserId,
       String name,
+      String bio,
       String email,
       String addedAt,
       String lastActivityAt});
@@ -61,6 +63,7 @@ class _$ContactModelCopyWithImpl<$Res, $Val extends ContactModel>
   $Res call({
     Object? contactUserId = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? addedAt = null,
     Object? lastActivityAt = null,
@@ -73,6 +76,10 @@ class _$ContactModelCopyWithImpl<$Res, $Val extends ContactModel>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -101,6 +108,7 @@ abstract class _$$ContactModelImplCopyWith<$Res>
   $Res call(
       {int contactUserId,
       String name,
+      String bio,
       String email,
       String addedAt,
       String lastActivityAt});
@@ -119,6 +127,7 @@ class __$$ContactModelImplCopyWithImpl<$Res>
   $Res call({
     Object? contactUserId = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? addedAt = null,
     Object? lastActivityAt = null,
@@ -131,6 +140,10 @@ class __$$ContactModelImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -154,6 +167,7 @@ class _$ContactModelImpl extends _ContactModel {
   const _$ContactModelImpl(
       {this.contactUserId = -1,
       this.name = '',
+      this.bio = '',
       this.email = '',
       this.addedAt = '',
       this.lastActivityAt = ''})
@@ -170,6 +184,9 @@ class _$ContactModelImpl extends _ContactModel {
   final String name;
   @override
   @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
   final String email;
   @override
   @JsonKey()
@@ -180,7 +197,7 @@ class _$ContactModelImpl extends _ContactModel {
 
   @override
   String toString() {
-    return 'ContactModel(contactUserId: $contactUserId, name: $name, email: $email, addedAt: $addedAt, lastActivityAt: $lastActivityAt)';
+    return 'ContactModel(contactUserId: $contactUserId, name: $name, bio: $bio, email: $email, addedAt: $addedAt, lastActivityAt: $lastActivityAt)';
   }
 
   @override
@@ -191,6 +208,7 @@ class _$ContactModelImpl extends _ContactModel {
             (identical(other.contactUserId, contactUserId) ||
                 other.contactUserId == contactUserId) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
             (identical(other.lastActivityAt, lastActivityAt) ||
@@ -200,7 +218,7 @@ class _$ContactModelImpl extends _ContactModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, contactUserId, name, email, addedAt, lastActivityAt);
+      runtimeType, contactUserId, name, bio, email, addedAt, lastActivityAt);
 
   @JsonKey(ignore: true)
   @override
@@ -220,6 +238,7 @@ abstract class _ContactModel extends ContactModel {
   const factory _ContactModel(
       {final int contactUserId,
       final String name,
+      final String bio,
       final String email,
       final String addedAt,
       final String lastActivityAt}) = _$ContactModelImpl;
@@ -232,6 +251,8 @@ abstract class _ContactModel extends ContactModel {
   int get contactUserId;
   @override
   String get name;
+  @override
+  String get bio;
   @override
   String get email;
   @override

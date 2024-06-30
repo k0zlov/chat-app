@@ -23,7 +23,7 @@ UpdateParticipantParams _$UpdateParticipantParamsFromJson(
 mixin _$UpdateParticipantParams {
   int get chatId => throw _privateConstructorUsedError;
   int get targetId => throw _privateConstructorUsedError;
-  ChatParticipantRole get role => throw _privateConstructorUsedError;
+  String get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +37,7 @@ abstract class $UpdateParticipantParamsCopyWith<$Res> {
           $Res Function(UpdateParticipantParams) then) =
       _$UpdateParticipantParamsCopyWithImpl<$Res, UpdateParticipantParams>;
   @useResult
-  $Res call({int chatId, int targetId, ChatParticipantRole role});
+  $Res call({int chatId, int targetId, String role});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ class _$UpdateParticipantParamsCopyWithImpl<$Res,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as ChatParticipantRole,
+              as String,
     ) as $Val);
   }
 }
@@ -84,7 +84,7 @@ abstract class _$$UpdateParticipantParamsImplCopyWith<$Res>
       __$$UpdateParticipantParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int chatId, int targetId, ChatParticipantRole role});
+  $Res call({int chatId, int targetId, String role});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$UpdateParticipantParamsImplCopyWithImpl<$Res>
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as ChatParticipantRole,
+              as String,
     ));
   }
 }
@@ -136,7 +136,7 @@ class _$UpdateParticipantParamsImpl extends _UpdateParticipantParams {
   @override
   final int targetId;
   @override
-  final ChatParticipantRole role;
+  final String role;
 
   @override
   String toString() {
@@ -177,7 +177,7 @@ abstract class _UpdateParticipantParams extends UpdateParticipantParams {
   const factory _UpdateParticipantParams(
       {required final int chatId,
       required final int targetId,
-      required final ChatParticipantRole role}) = _$UpdateParticipantParamsImpl;
+      required final String role}) = _$UpdateParticipantParamsImpl;
   const _UpdateParticipantParams._() : super._();
 
   factory _UpdateParticipantParams.fromJson(Map<String, dynamic> json) =
@@ -188,7 +188,7 @@ abstract class _UpdateParticipantParams extends UpdateParticipantParams {
   @override
   int get targetId;
   @override
-  ChatParticipantRole get role;
+  String get role;
   @override
   @JsonKey(ignore: true)
   _$$UpdateParticipantParamsImplCopyWith<_$UpdateParticipantParamsImpl>

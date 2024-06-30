@@ -28,10 +28,6 @@ class ChatsSliverAppBar extends StatelessWidget {
       showLoadingWidget: true,
       loading: state.loadingChats,
       focusNode: focusNode,
-      leading: SearchAppBarActionItem(
-        child: const Text('Edit'),
-        onPressed: () {},
-      ),
       trailing: SearchAppBarActionItem(
         child: const Icon(CupertinoIcons.chat_bubble_text),
         onPressed: () {

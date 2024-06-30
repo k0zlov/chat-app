@@ -11,7 +11,7 @@ _$UpdateParticipantParamsImpl _$$UpdateParticipantParamsImplFromJson(
     _$UpdateParticipantParamsImpl(
       chatId: (json['chatId'] as num).toInt(),
       targetId: (json['targetId'] as num).toInt(),
-      role: $enumDecode(_$ChatParticipantRoleEnumMap, json['role']),
+      role: json['role'] as String,
     );
 
 Map<String, dynamic> _$$UpdateParticipantParamsImplToJson(
@@ -19,11 +19,5 @@ Map<String, dynamic> _$$UpdateParticipantParamsImplToJson(
     <String, dynamic>{
       'chatId': instance.chatId,
       'targetId': instance.targetId,
-      'role': _$ChatParticipantRoleEnumMap[instance.role]!,
+      'role': instance.role,
     };
-
-const _$ChatParticipantRoleEnumMap = {
-  ChatParticipantRole.owner: 'owner',
-  ChatParticipantRole.admin: 'admin',
-  ChatParticipantRole.member: 'member',
-};

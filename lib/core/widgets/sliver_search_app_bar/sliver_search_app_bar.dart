@@ -119,6 +119,7 @@ class _SliverSearchAppBarState extends State<SliverSearchAppBar>
       animation: _animationController,
       builder: (context, child) {
         return SliverAppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           scrolledUnderElevation: 0,
           pinned: true,

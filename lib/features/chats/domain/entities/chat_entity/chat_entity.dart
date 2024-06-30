@@ -45,6 +45,8 @@ class ChatEntity with _$ChatEntity {
   /// - `isPinned`: Indicates if chat is pinned by user, default is false.
   /// - `messages`: Indicates if chat is archived by user, default is false.
   /// - `text`: The current text being input by the user, default is an empty string.
+  /// - `editTitleText`: The text being input by the user in edit title, default is an empty string.
+  /// - `editDescriptionText`: The text being input by the user in edit description, default is an empty string.
   /// - `sendingMessage`: A flag indicating if a message is being sent, default is false.
   const factory ChatEntity({
     @Default(-1) int id,
@@ -57,6 +59,8 @@ class ChatEntity with _$ChatEntity {
     @Default(false) bool isPinned,
     @Default(false) bool isArchived,
     @Default('') String text,
+    @Default('') String editTitleText,
+    @Default('') String editDescriptionText,
     @Default(false) bool sendingMessage,
   }) = _ChatEntity;
 

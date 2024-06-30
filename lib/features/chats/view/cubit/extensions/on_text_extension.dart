@@ -57,4 +57,32 @@ extension OnTextExtension on ChatsCubit {
       emit(_state);
     }
   }
+
+  void onCreateChatType(ChatType type) {
+    if (_state.createChatType == type) return;
+
+    _state = _state.copyWith(createChatType: type);
+    emit(_state);
+  }
+
+  void onEditChatTitle(String title, ChatEntity chat) {
+    if (chat.editTitleText == title) return;
+
+    final ChatEntity newChat = chat.copyWith(editTitleText: title);
+    emitChat(newChat);
+  }
+
+  void onEditChatDescription(String description, ChatEntity chat) {
+    if (chat.editDescriptionText == description) return;
+
+    final ChatEntity newChat = chat.copyWith(editDescriptionText: description);
+    emitChat(newChat);
+  }
+
+  void onArchivedChatsSearch(String text) {
+    if (text == _state.searchArchivedText) return;
+
+    _state = _state.copyWith(searchArchivedText: text);
+    emit(_state);
+  }
 }

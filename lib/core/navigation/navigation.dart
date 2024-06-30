@@ -120,8 +120,18 @@ class AppNavigation {
             GoRoute(
               name: AppRoutes.chats.name,
               path: AppRoutes.chats.path,
-              builder: (context, state) =>
-                  ScreenFactory.renderChatsListingPage(),
+              builder: (context, state) {
+                return ScreenFactory.renderChatsListingPage();
+              },
+              routes: [
+                GoRoute(
+                  path: AppRoutes.archivedChats.name,
+                  name: AppRoutes.archivedChats.name,
+                  builder: (context, state) {
+                    return ScreenFactory.renderArchivedChatsPage();
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -145,6 +155,7 @@ enum AppRoutes {
   login('/auth/login'),
   registration('/auth/registration'),
   chats('/chats'),
+  archivedChats('/chats/archivedChats'),
   chat('/chat/:chatId'),
   chatEdit('/chat/:chatId/chatEdit'),
   settings('/settings'),

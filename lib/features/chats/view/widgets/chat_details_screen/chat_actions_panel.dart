@@ -1,6 +1,6 @@
 import 'package:chat_app/core/widgets/context_menu/context_menu_action.dart';
 import 'package:chat_app/features/auth/view/cubit/auth_cubit.dart';
-import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
 import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/chat_action.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,9 +46,10 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
 
     final bool showLeaveOption = !type.isPrivate;
 
-    final bool showDeleteOption = participant != null &&
-        participant.role.isOwner &&
-        !type.isPrivate;
+    final bool showDeleteOption =
+        participant != null && participant.role.isOwner && !type.isPrivate;
+
+    final ChatsCubit cubit = context.read<ChatsCubit>();
 
     final List<ChatActionData> actions = [
       ChatActionData(
@@ -89,15 +90,19 @@ class _ChatActionsPanelState extends State<ChatActionsPanel> {
           title: 'leave',
           iconData: CupertinoIcons.escape,
           contextMenuActions: [],
-          onPressed: () {},
+          onPressed: () => cubit.leaveChat(
+            widget.chat.id,
+          ),
         ),
       },
       if (showDeleteOption) ...{
         ChatActionData(
           title: 'delete',
           iconData: CupertinoIcons.delete,
-          onPressed: () {},
           contextMenuActions: [],
+          onPressed: () => cubit.deleteChat(
+            chatId: widget.chat.id,
+          ),
         ),
       },
     ];

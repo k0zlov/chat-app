@@ -31,7 +31,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
       text: state.emailText,
       isValid: validEmail,
       onChanged: cubit.onEmailChanged,
-      onSubmit: cubit.addContact,
+      onSubmit: () => cubit.addContact(state.emailText),
     );
   }
 }

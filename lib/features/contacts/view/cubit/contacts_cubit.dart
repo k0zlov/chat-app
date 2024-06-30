@@ -107,9 +107,7 @@ class ContactsCubit extends Cubit<ContactsState> {
   }
 
   /// Adds a contact using the add contact use case.
-  Future<void> addContact() async {
-    final String email = _state.emailText;
-
+  Future<void> addContact(String email) async {
     if (email.isEmpty || TextInputValidator.validateEmail(email) != null) {
       return;
     }
@@ -130,12 +128,15 @@ class ContactsCubit extends Cubit<ContactsState> {
       },
     );
 
-    _state = _state.copyWith(contactsLoading: false);
+    _state = _state.copyWith(contactsLoading: false, emailText: '');
     emit(_state);
   }
 
   /// Removes a contact using the remove contact use case.
   Future<void> removeContact(ContactEntity entity) async {
+    _state = _state.copyWith(contactsLoading: true);
+    emit(_state);
+
     final response = await removeContactUseCase(
       RemoveContactParams(contactUserEmail: entity.email),
     );
@@ -148,9 +149,11 @@ class ContactsCubit extends Cubit<ContactsState> {
             .toList();
 
         _state = _state.copyWith(contacts: contacts);
-        emit(_state);
       },
     );
+
+    _state = _state.copyWith(contactsLoading: false);
+    emit(_state);
   }
 
   /// Searches for contacts based on the search input.

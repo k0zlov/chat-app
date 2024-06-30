@@ -18,6 +18,7 @@ class ChatParticipantModel with _$ChatParticipantModel {
   /// - `chatId`: The unique identifier of the chat the participant belongs to, default is -1.
   /// - `userId`: The unique identifier of the user, default is -1.
   /// - `name`: The name of the participant, default is an empty string.
+  /// - `bio`: The bio of the user participant, default is an empty string.
   /// - `role`: The role of the participant in the chat (e.g., member or admin), default is an empty string.
   /// - `lastActivityAt`: The date the participant had last activity in ISO 8601 format, default is an empty string.
   /// - `joinedAt`: The date the participant joined the chat in ISO 8601 format, default is an empty string.
@@ -26,6 +27,7 @@ class ChatParticipantModel with _$ChatParticipantModel {
     @Default(-1) int userId,
     @Default('') String name,
     @Default('') String role,
+    @Default('') String bio,
     @Default('') String lastActivityAt,
     @Default('') String joinedAt,
   }) = _ChatParticipantModel;
@@ -51,6 +53,7 @@ class ChatParticipantModel with _$ChatParticipantModel {
       chatId: chatId,
       userId: userId,
       name: name,
+      bio: bio,
       role: ChatParticipantRole.values.valueFromString(role) ??
           ChatParticipantRole.member,
       lastActivityAt: DateTime.tryParse(lastActivityAt)?.toLocal(),

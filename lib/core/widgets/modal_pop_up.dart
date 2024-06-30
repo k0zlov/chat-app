@@ -32,28 +32,30 @@ class ModalPopUpContainer extends StatelessWidget {
                 color: CupertinoColors.inactiveGray,
               ),
               const SizedBox(width: 10),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (title != null) ...{
-                    Text(
-                      title!,
-                      maxLines: 3,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (title != null) ...{
+                      Text(
+                        title!,
+                        maxLines: 3,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  },
-                  const SizedBox(height: 5),
-                  if (message != null) ...{
-                    Text(
-                      message ?? '',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  },
-                ],
+                    },
+                    const SizedBox(height: 5),
+                    if (message != null) ...{
+                      Text(
+                        message ?? '',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    },
+                  ],
+                ),
               ),
             ],
           ),

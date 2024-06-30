@@ -74,4 +74,36 @@ extension MessagesExtension on ChatsCubit {
     _state = _state.copyWith(loadingChats: false);
     emit(_state);
   }
+
+  Future<void> saveMessage(MessageEntity message) async {
+    final ChatEntity? saveChat = _state.chats.firstWhereOrNull(
+      (e) => e.type == ChatType.savedMessages,
+    );
+
+    if (saveChat == null) {
+      showError('Could not find chat with saved messages');
+      return;
+    }
+
+    _state = _state.copyWith(loadingChats: true);
+    emit(_state);
+
+    final failureOrEntity = await sendMessageUseCase(
+      SendMessageParams(chatId: saveChat.id, content: message.content),
+    );
+
+    failureOrEntity.fold(
+      (failure) => showError(failure.errorMessage),
+      (entity) {
+        final ChatEntity newChat = saveChat.copyWith(
+          messages: [...saveChat.messages, entity],
+        );
+
+        emitChat(newChat);
+      },
+    );
+
+    _state = _state.copyWith(loadingChats: false);
+    emit(_state);
+  }
 }

@@ -1,7 +1,10 @@
 import 'package:chat_app/core/navigation/navigation.dart';
 import 'package:chat_app/core/widgets/search/no_results_search.dart';
 import 'package:chat_app/core/widgets/search/search_results_header.dart';
+import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_default_image.dart';
 import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
 import 'package:collection/collection.dart';
@@ -13,8 +16,22 @@ import 'package:go_router/go_router.dart';
 class ChatsSearchWidget extends StatelessWidget {
   const ChatsSearchWidget({super.key});
 
+  String _getName(ChatEntity chat, UserEntity user) {
+    final ChatParticipantEntity? participant =
+        chat.participants.firstWhereOrNull(
+      (e) => e.userId != user.id,
+    );
+
+    if (participant == null) return chat.title;
+
+    return participant.name;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final UserEntity currentUser =
+        context.select((AuthCubit cubit) => cubit.state).currentUser;
+
     final ChatsState state = context.select(
       (ChatsCubit cubit) => cubit.state,
     );
@@ -48,7 +65,9 @@ class ChatsSearchWidget extends StatelessWidget {
               children: [
                 for (final chat in searchedChats) ...{
                   ContactsListItem(
-                    title: chat.title,
+                    title: chat.type.isPrivate
+                        ? _getName(chat, currentUser)
+                        : chat.title,
                     showStatus: false,
                     backgroundColor: Colors.transparent,
                     leading: ChatDefaultImage(
@@ -73,7 +92,9 @@ class ChatsSearchWidget extends StatelessWidget {
               children: [
                 for (final chat in filteredChats) ...{
                   ContactsListItem(
-                    title: chat.title,
+                    title: chat.type.isPrivate
+                        ? _getName(chat, currentUser)
+                        : chat.title,
                     showStatus: false,
                     backgroundColor: Colors.transparent,
                     leading: ChatDefaultImage(

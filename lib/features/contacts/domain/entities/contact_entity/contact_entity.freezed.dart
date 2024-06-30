@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ContactEntity {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   DateTime? get addedAt => throw _privateConstructorUsedError;
   DateTime? get lastActivityAt => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $ContactEntityCopyWith<$Res> {
   $Res call(
       {int id,
       String name,
+      String bio,
       String email,
       DateTime? addedAt,
       DateTime? lastActivityAt});
@@ -56,6 +58,7 @@ class _$ContactEntityCopyWithImpl<$Res, $Val extends ContactEntity>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? addedAt = freezed,
     Object? lastActivityAt = freezed,
@@ -68,6 +71,10 @@ class _$ContactEntityCopyWithImpl<$Res, $Val extends ContactEntity>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -96,6 +103,7 @@ abstract class _$$ContactEntityImplCopyWith<$Res>
   $Res call(
       {int id,
       String name,
+      String bio,
       String email,
       DateTime? addedAt,
       DateTime? lastActivityAt});
@@ -114,6 +122,7 @@ class __$$ContactEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? bio = null,
     Object? email = null,
     Object? addedAt = freezed,
     Object? lastActivityAt = freezed,
@@ -126,6 +135,10 @@ class __$$ContactEntityImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -149,6 +162,7 @@ class _$ContactEntityImpl extends _ContactEntity {
   const _$ContactEntityImpl(
       {this.id = -1,
       this.name = '',
+      this.bio = '',
       this.email = '',
       this.addedAt = null,
       this.lastActivityAt = null})
@@ -162,6 +176,9 @@ class _$ContactEntityImpl extends _ContactEntity {
   final String name;
   @override
   @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
   final String email;
   @override
   @JsonKey()
@@ -172,7 +189,7 @@ class _$ContactEntityImpl extends _ContactEntity {
 
   @override
   String toString() {
-    return 'ContactEntity(id: $id, name: $name, email: $email, addedAt: $addedAt, lastActivityAt: $lastActivityAt)';
+    return 'ContactEntity(id: $id, name: $name, bio: $bio, email: $email, addedAt: $addedAt, lastActivityAt: $lastActivityAt)';
   }
 
   @override
@@ -182,6 +199,7 @@ class _$ContactEntityImpl extends _ContactEntity {
             other is _$ContactEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
             (identical(other.lastActivityAt, lastActivityAt) ||
@@ -190,7 +208,7 @@ class _$ContactEntityImpl extends _ContactEntity {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, email, addedAt, lastActivityAt);
+      Object.hash(runtimeType, id, name, bio, email, addedAt, lastActivityAt);
 
   @JsonKey(ignore: true)
   @override
@@ -203,6 +221,7 @@ abstract class _ContactEntity extends ContactEntity {
   const factory _ContactEntity(
       {final int id,
       final String name,
+      final String bio,
       final String email,
       final DateTime? addedAt,
       final DateTime? lastActivityAt}) = _$ContactEntityImpl;
@@ -212,6 +231,8 @@ abstract class _ContactEntity extends ContactEntity {
   int get id;
   @override
   String get name;
+  @override
+  String get bio;
   @override
   String get email;
   @override

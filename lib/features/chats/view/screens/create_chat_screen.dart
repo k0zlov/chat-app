@@ -1,5 +1,6 @@
 import 'package:chat_app/core/widgets/screens/add_screen.dart';
-import 'package:chat_app/features/chats/view/cubit/chats_cubit.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/view/widgets/chat_details_screen/chat_type_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +27,10 @@ class _CreateChatScreenState extends State<CreateChatScreen> {
       isValid: state.createChatText.length > 2,
       onChanged: cubit.onCreateChatText,
       onSubmit: cubit.createChat,
+      body: ChatTypeField(
+        type: state.createChatType,
+        onPressed: cubit.onCreateChatType,
+      ),
     );
   }
 }

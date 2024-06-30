@@ -1,4 +1,8 @@
+import 'package:chat_app/core/navigation/navigation.dart';
+import 'package:chat_app/features/auth/auth_feature.dart';
+import 'package:chat_app/features/auth/domain/entities/user_entity/user_entity.dart';
 import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/domain/entities/chat_participant_entity/chat_participant_entity.dart';
 import 'package:chat_app/features/chats/domain/entities/message_entity/message_entity.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/details_participants_list.dart';
 import 'package:chat_app/features/chats/view/widgets/chat_details_screen/details_tab_bar.dart';
@@ -10,6 +14,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -71,14 +76,21 @@ class _ChatScreenState extends State<ChatScreen> {
     bool viewingSearchedChat = false;
 
     ChatEntity? chat = state.chats.firstWhereOrNull(
-          (chat) => chat.id == widget.chatId,
+      (chat) => chat.id == widget.chatId,
     );
 
     if (chat == null) {
       chat = state.searchedChats.firstWhereOrNull(
-            (chat) => chat.id == widget.chatId,
+        (chat) => chat.id == widget.chatId,
       );
       viewingSearchedChat = true;
+    }
+
+    if (chat == null) {
+      Future.microtask(() {
+        context.goNamed(AppRoutes.chats.name);
+      });
+      return const SizedBox();
     }
 
     final mediaQuery = MediaQuery.of(context);
@@ -91,10 +103,10 @@ class _ChatScreenState extends State<ChatScreen> {
       child: CustomScrollView(
         controller: _scrollController,
         physics:
-        _detailsMode ? const ScrollPhysics() : const _CustomScrollPhysics(),
+            _detailsMode ? const ScrollPhysics() : const _CustomScrollPhysics(),
         slivers: [
           ChatSliverAppBar(
-            chat: chat!,
+            chat: chat,
             onSearchChanged: _onSearchText,
             searchText: _searchText,
             focusNode: _focusNode,
@@ -116,27 +128,15 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
                   AnimatedPositioned(
                     curve: Curves.decelerate,
                     bottom: bottomPadding,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                     duration: const Duration(milliseconds: 240),
                     child: _ChatScreenMainBody(
                       chat: chat,
@@ -178,7 +178,7 @@ class _ChatScreenMainBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<MessageEntity> messages = chat.messages.where(
-          (message) {
+      (message) {
         return message.content.toLowerCase().contains(searchText.toLowerCase());
       },
     ).toList();
@@ -187,11 +187,9 @@ class _ChatScreenMainBody extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ChatMessages(
+          chatType: chat.type,
           messages: searchMode ? messages : chat.messages,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height - kToolbarHeight - 110,
+          height: MediaQuery.of(context).size.height - kToolbarHeight - 110,
         ),
         ChatBottomBar(
           chat: chat,
@@ -210,20 +208,37 @@ class _ChatScreenDetailsBody extends StatelessWidget {
 
   final ChatEntity chat;
 
+  bool _checkDescription(String? description) {
+    if (description == null) return false;
+
+    if (description.isEmpty) return false;
+
+    if (description.trim().isEmpty) return false;
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    final bool showParticipantsList = chat.type == ChatType.group;
+    final UserEntity currentUser =
+        context.select((AuthCubit cubit) => cubit.state).currentUser;
 
-    final bool showDescription = chat.type != ChatType.savedMessages &&
-        chat.description != null;
+    final ChatParticipantEntity? participant =
+        chat.participants.firstWhereOrNull((e) => e.userId != currentUser.id);
+
+    final String? description =
+        chat.type.isPrivate ? participant?.bio : chat.description;
+
+    final bool showParticipantsList = chat.type.isGroup || chat.type.isChannel;
+
+    final bool showDescription =
+        chat.type != ChatType.savedMessages && _checkDescription(description);
 
     return SingleChildScrollView(
       child: Container(
-        color: CupertinoTheme
-            .of(context)
-            .scaffoldBackgroundColor,
+        color: CupertinoTheme.of(context).scaffoldBackgroundColor,
         height: mediaQuery.size.height,
         width: mediaQuery.size.width,
         child: Column(
@@ -232,8 +247,12 @@ class _ChatScreenDetailsBody extends StatelessWidget {
               ChatDetailsParticipantsList(participants: chat.participants),
             },
             if (showDescription) ...{
-              ChatDescription(description: chat.description!),
+              ChatDescription(
+                isBio: chat.type.isPrivate,
+                description: description!,
+              ),
             },
+            const SizedBox(height: 10),
             Expanded(child: ChatDetailsTabBar(chat: chat)),
           ],
         ),

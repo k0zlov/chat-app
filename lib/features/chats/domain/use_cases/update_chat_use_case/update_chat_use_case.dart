@@ -27,7 +27,7 @@ class UpdateChatParams with _$UpdateChatParams {
     required int chatId,
     @Default(null) String? title,
     @Default(null) String? description,
-    @Default(ChatType) ChatType? chatType,
+    @Default(null) String? chatType,
   }) = _UpdateChatParams;
 
   const UpdateChatParams._();

@@ -19,6 +19,7 @@ mixin _$ChatParticipantEntity {
   int get chatId => throw _privateConstructorUsedError;
   int get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
   ChatParticipantRole get role => throw _privateConstructorUsedError;
   DateTime? get lastActivityAt => throw _privateConstructorUsedError;
   DateTime? get joinedAt => throw _privateConstructorUsedError;
@@ -38,6 +39,7 @@ abstract class $ChatParticipantEntityCopyWith<$Res> {
       {int chatId,
       int userId,
       String name,
+      String bio,
       ChatParticipantRole role,
       DateTime? lastActivityAt,
       DateTime? joinedAt});
@@ -60,6 +62,7 @@ class _$ChatParticipantEntityCopyWithImpl<$Res,
     Object? chatId = null,
     Object? userId = null,
     Object? name = null,
+    Object? bio = null,
     Object? role = null,
     Object? lastActivityAt = freezed,
     Object? joinedAt = freezed,
@@ -76,6 +79,10 @@ class _$ChatParticipantEntityCopyWithImpl<$Res,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       role: null == role
           ? _value.role
@@ -106,6 +113,7 @@ abstract class _$$ChatParticipantEntityImplCopyWith<$Res>
       {int chatId,
       int userId,
       String name,
+      String bio,
       ChatParticipantRole role,
       DateTime? lastActivityAt,
       DateTime? joinedAt});
@@ -126,6 +134,7 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
     Object? chatId = null,
     Object? userId = null,
     Object? name = null,
+    Object? bio = null,
     Object? role = null,
     Object? lastActivityAt = freezed,
     Object? joinedAt = freezed,
@@ -142,6 +151,10 @@ class __$$ChatParticipantEntityImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       role: null == role
           ? _value.role
@@ -166,6 +179,7 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
       {this.chatId = -1,
       this.userId = -1,
       this.name = '',
+      this.bio = '',
       this.role = ChatParticipantRole.member,
       this.lastActivityAt = null,
       this.joinedAt = null})
@@ -182,6 +196,9 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
   final String name;
   @override
   @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
   final ChatParticipantRole role;
   @override
   @JsonKey()
@@ -192,7 +209,7 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
 
   @override
   String toString() {
-    return 'ChatParticipantEntity(chatId: $chatId, userId: $userId, name: $name, role: $role, lastActivityAt: $lastActivityAt, joinedAt: $joinedAt)';
+    return 'ChatParticipantEntity(chatId: $chatId, userId: $userId, name: $name, bio: $bio, role: $role, lastActivityAt: $lastActivityAt, joinedAt: $joinedAt)';
   }
 
   @override
@@ -203,6 +220,7 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
             (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.role, role) || other.role == role) &&
             (identical(other.lastActivityAt, lastActivityAt) ||
                 other.lastActivityAt == lastActivityAt) &&
@@ -212,7 +230,7 @@ class _$ChatParticipantEntityImpl extends _ChatParticipantEntity {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, chatId, userId, name, role, lastActivityAt, joinedAt);
+      runtimeType, chatId, userId, name, bio, role, lastActivityAt, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -227,6 +245,7 @@ abstract class _ChatParticipantEntity extends ChatParticipantEntity {
       {final int chatId,
       final int userId,
       final String name,
+      final String bio,
       final ChatParticipantRole role,
       final DateTime? lastActivityAt,
       final DateTime? joinedAt}) = _$ChatParticipantEntityImpl;
@@ -238,6 +257,8 @@ abstract class _ChatParticipantEntity extends ChatParticipantEntity {
   int get userId;
   @override
   String get name;
+  @override
+  String get bio;
   @override
   ChatParticipantRole get role;
   @override

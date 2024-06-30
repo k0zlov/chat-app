@@ -2,9 +2,8 @@ import 'package:chat_app/core/widgets/search/no_results_search.dart';
 import 'package:chat_app/core/widgets/search/search_results_header.dart';
 import 'package:chat_app/features/contacts/domain/entities/contact_entity/contact_entity.dart';
 import 'package:chat_app/features/contacts/view/cubit/contacts_cubit.dart';
-import 'package:chat_app/features/contacts/view/widgets/contacts_list_item.dart';
+import 'package:chat_app/features/contacts/view/widgets/contact_list_item_wrapper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactsSearchWidget extends StatelessWidget {
@@ -37,11 +36,8 @@ class ContactsSearchWidget extends StatelessWidget {
               topMargin: 0,
               children: [
                 for (final contact in state.searchedContacts) ...{
-                  ContactsListItem(
-                    title: contact.name,
-                    lastActivity: contact.lastActivityAt,
-                    backgroundColor: Colors.transparent,
-                    onPressed: () {},
+                  ContactListItemWrapper(
+                    contact: contact,
                   ),
                 },
               ],
@@ -53,11 +49,8 @@ class ContactsSearchWidget extends StatelessWidget {
               topMargin: 0,
               children: [
                 for (final contact in filteredContacts) ...{
-                  ContactsListItem(
-                    title: contact.name,
-                    lastActivity: contact.lastActivityAt,
-                    backgroundColor: Colors.transparent,
-                    onPressed: () {},
+                  ContactListItemWrapper(
+                    contact: contact,
                   ),
                 },
               ],

@@ -14,9 +14,12 @@ class ContactsListItem extends StatefulWidget {
     this.showStatus = true,
     this.backgroundColor,
     this.titleColor,
+    this.onLongPressed,
+    this.trailing,
   });
 
   final Widget? leading;
+  final Widget? trailing;
 
   final String title;
   final DateTime? lastActivity;
@@ -28,6 +31,7 @@ class ContactsListItem extends StatefulWidget {
   final Color? titleColor;
 
   final void Function() onPressed;
+  final void Function()? onLongPressed;
 
   @override
   State<ContactsListItem> createState() => _ContactsListItemState();
@@ -90,6 +94,7 @@ class _ContactsListItemState extends State<ContactsListItem> {
             size: 38,
             color: CupertinoColors.inactiveGray,
           ),
+      trailing: widget.trailing,
       title: _ContactsListItemTitle(
         online: online,
         title: widget.title,
@@ -100,6 +105,7 @@ class _ContactsListItemState extends State<ContactsListItem> {
 
     return widget.pressable
         ? PressableScaleWidget(
+            onLongPress: widget.onLongPressed,
             child: contactWidget,
           )
         : contactWidget;

@@ -37,7 +37,10 @@ extension ChatsExtension on ChatsCubit {
     emit(_state);
 
     final failureOrChats = await createChatUseCase(
-      CreateChatParams(title: _state.createChatText),
+      CreateChatParams(
+        title: _state.createChatText,
+        chatType: _state.createChatType.name,
+      ),
     );
 
     failureOrChats.fold(
@@ -76,14 +79,12 @@ extension ChatsExtension on ChatsCubit {
     _state = _state.copyWith(loadingChats: true);
     emit(_state);
 
-    final failureOrChats = await leaveChatUseCase(
+    final failureOrSuccess = await leaveChatUseCase(
       LeaveChatParams(chatId: chatId),
     );
 
-    failureOrChats.fold(
-      (failure) {
-        showError(failure.errorMessage);
-      },
+    failureOrSuccess.fold(
+      (failure) => showError(failure.errorMessage),
       (_) {
         final List<ChatEntity> newChats =
             _state.chats.where((chat) => chat.id != chatId).toList();
@@ -202,7 +203,11 @@ extension ChatsExtension on ChatsCubit {
     emit(_state);
 
     final failureOrParticipants = await updateParticipantUseCase(
-      UpdateParticipantParams(chatId: chatId, targetId: targetId, role: role),
+      UpdateParticipantParams(
+        chatId: chatId,
+        targetId: targetId,
+        role: role.name,
+      ),
     );
 
     failureOrParticipants.fold(
@@ -214,6 +219,45 @@ extension ChatsExtension on ChatsCubit {
 
         emitChat(newChat);
       },
+    );
+
+    _state = _state.copyWith(loadingChats: false);
+    emit(_state);
+  }
+
+  Future<void> updateChat({
+    required int chatId,
+  }) async {
+    final ChatEntity? chat = _state.chats.firstWhereOrNull(
+      (chat) => chat.id == chatId,
+    );
+
+    if (chat == null) {
+      showError('Could not find that with that id');
+      return;
+    }
+
+    _state = _state.copyWith(loadingChats: true);
+    emit(_state);
+
+    final String? title =
+        chat.editTitleText == chat.title ? null : chat.editTitleText;
+
+    final String? description = chat.editDescriptionText == chat.description
+        ? null
+        : chat.editDescriptionText;
+
+    final failureOrEntity = await updateChatUseCase(
+      UpdateChatParams(
+        chatId: chatId,
+        title: title,
+        description: description,
+      ),
+    );
+
+    failureOrEntity.fold(
+      (failure) => showError(failure.errorMessage),
+      emitChat,
     );
 
     _state = _state.copyWith(loadingChats: false);

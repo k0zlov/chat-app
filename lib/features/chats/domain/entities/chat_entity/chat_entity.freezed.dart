@@ -27,6 +27,8 @@ mixin _$ChatEntity {
   bool get isPinned => throw _privateConstructorUsedError;
   bool get isArchived => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
+  String get editTitleText => throw _privateConstructorUsedError;
+  String get editDescriptionText => throw _privateConstructorUsedError;
   bool get sendingMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -51,6 +53,8 @@ abstract class $ChatEntityCopyWith<$Res> {
       bool isPinned,
       bool isArchived,
       String text,
+      String editTitleText,
+      String editDescriptionText,
       bool sendingMessage});
 }
 
@@ -77,6 +81,8 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
     Object? isPinned = null,
     Object? isArchived = null,
     Object? text = null,
+    Object? editTitleText = null,
+    Object? editDescriptionText = null,
     Object? sendingMessage = null,
   }) {
     return _then(_value.copyWith(
@@ -120,6 +126,14 @@ class _$ChatEntityCopyWithImpl<$Res, $Val extends ChatEntity>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
+      editTitleText: null == editTitleText
+          ? _value.editTitleText
+          : editTitleText // ignore: cast_nullable_to_non_nullable
+              as String,
+      editDescriptionText: null == editDescriptionText
+          ? _value.editDescriptionText
+          : editDescriptionText // ignore: cast_nullable_to_non_nullable
+              as String,
       sendingMessage: null == sendingMessage
           ? _value.sendingMessage
           : sendingMessage // ignore: cast_nullable_to_non_nullable
@@ -147,6 +161,8 @@ abstract class _$$ChatEntityImplCopyWith<$Res>
       bool isPinned,
       bool isArchived,
       String text,
+      String editTitleText,
+      String editDescriptionText,
       bool sendingMessage});
 }
 
@@ -171,6 +187,8 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
     Object? isPinned = null,
     Object? isArchived = null,
     Object? text = null,
+    Object? editTitleText = null,
+    Object? editDescriptionText = null,
     Object? sendingMessage = null,
   }) {
     return _then(_$ChatEntityImpl(
@@ -214,6 +232,14 @@ class __$$ChatEntityImplCopyWithImpl<$Res>
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
               as String,
+      editTitleText: null == editTitleText
+          ? _value.editTitleText
+          : editTitleText // ignore: cast_nullable_to_non_nullable
+              as String,
+      editDescriptionText: null == editDescriptionText
+          ? _value.editDescriptionText
+          : editDescriptionText // ignore: cast_nullable_to_non_nullable
+              as String,
       sendingMessage: null == sendingMessage
           ? _value.sendingMessage
           : sendingMessage // ignore: cast_nullable_to_non_nullable
@@ -236,6 +262,8 @@ class _$ChatEntityImpl extends _ChatEntity {
       this.isPinned = false,
       this.isArchived = false,
       this.text = '',
+      this.editTitleText = '',
+      this.editDescriptionText = '',
       this.sendingMessage = false})
       : _participants = participants,
         _messages = messages,
@@ -285,11 +313,17 @@ class _$ChatEntityImpl extends _ChatEntity {
   final String text;
   @override
   @JsonKey()
+  final String editTitleText;
+  @override
+  @JsonKey()
+  final String editDescriptionText;
+  @override
+  @JsonKey()
   final bool sendingMessage;
 
   @override
   String toString() {
-    return 'ChatEntity(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, participants: $participants, messages: $messages, isPinned: $isPinned, isArchived: $isArchived, text: $text, sendingMessage: $sendingMessage)';
+    return 'ChatEntity(id: $id, title: $title, type: $type, description: $description, createdAt: $createdAt, participants: $participants, messages: $messages, isPinned: $isPinned, isArchived: $isArchived, text: $text, editTitleText: $editTitleText, editDescriptionText: $editDescriptionText, sendingMessage: $sendingMessage)';
   }
 
   @override
@@ -312,6 +346,10 @@ class _$ChatEntityImpl extends _ChatEntity {
             (identical(other.isArchived, isArchived) ||
                 other.isArchived == isArchived) &&
             (identical(other.text, text) || other.text == text) &&
+            (identical(other.editTitleText, editTitleText) ||
+                other.editTitleText == editTitleText) &&
+            (identical(other.editDescriptionText, editDescriptionText) ||
+                other.editDescriptionText == editDescriptionText) &&
             (identical(other.sendingMessage, sendingMessage) ||
                 other.sendingMessage == sendingMessage));
   }
@@ -329,6 +367,8 @@ class _$ChatEntityImpl extends _ChatEntity {
       isPinned,
       isArchived,
       text,
+      editTitleText,
+      editDescriptionText,
       sendingMessage);
 
   @JsonKey(ignore: true)
@@ -350,6 +390,8 @@ abstract class _ChatEntity extends ChatEntity {
       final bool isPinned,
       final bool isArchived,
       final String text,
+      final String editTitleText,
+      final String editDescriptionText,
       final bool sendingMessage}) = _$ChatEntityImpl;
   const _ChatEntity._() : super._();
 
@@ -373,6 +415,10 @@ abstract class _ChatEntity extends ChatEntity {
   bool get isArchived;
   @override
   String get text;
+  @override
+  String get editTitleText;
+  @override
+  String get editDescriptionText;
   @override
   bool get sendingMessage;
   @override

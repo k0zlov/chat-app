@@ -9,6 +9,8 @@ class ChatsState {
     this.searchingChats = false,
     this.createChatText = '',
     this.searchText = '',
+    this.searchArchivedText = '',
+    this.createChatType = ChatType.group,
   });
 
   final bool loadingChats;
@@ -20,6 +22,10 @@ class ChatsState {
   final String searchText;
   final String createChatText;
 
+  final String searchArchivedText;
+
+  final ChatType createChatType;
+
   ChatsState copyWith({
     bool? loadingChats,
     bool? searchingChats,
@@ -27,6 +33,8 @@ class ChatsState {
     List<ChatEntity>? searchedChats,
     String? searchText,
     String? createChatText,
+    String? searchArchivedText,
+    ChatType? createChatType,
   }) {
     return ChatsState(
       loadingChats: loadingChats ?? this.loadingChats,
@@ -35,6 +43,8 @@ class ChatsState {
       searchedChats: searchedChats ?? this.searchedChats,
       searchText: searchText ?? this.searchText,
       createChatText: createChatText ?? this.createChatText,
+      searchArchivedText: searchArchivedText ?? this.searchArchivedText,
+      createChatType: createChatType ?? this.createChatType,
     );
   }
 }

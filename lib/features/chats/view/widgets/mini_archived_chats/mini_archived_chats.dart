@@ -1,14 +1,13 @@
-import 'package:chat_app/features/chats/domain/entities/chat_entity/chat_entity.dart';
-import 'package:chat_app/features/chats/view/widgets/chat_screen/chat_messages.dart';
-import 'package:chat_app/features/chats/view/widgets/mini_chat_screen/mini_chat_header.dart';
+import 'package:chat_app/features/chats/chats_feature.dart';
+import 'package:chat_app/features/chats/view/widgets/mini_archived_chats/mini_acrhived_chats_header.dart';
+import 'package:chat_app/features/chats/view/widgets/mini_archived_chats/mini_archived_chats_list.dart';
 import 'package:flutter/cupertino.dart';
 
-class MiniChat extends StatefulWidget {
-  const MiniChat({
+class MiniArchivedChats extends StatefulWidget {
+  const MiniArchivedChats({
     super.key,
     required this.visible,
-    required this.chat,
-    required this.chatImage,
+    required this.chats,
     this.animationAlignment,
     this.duration = const Duration(milliseconds: 220),
   });
@@ -17,17 +16,15 @@ class MiniChat extends StatefulWidget {
 
   final Alignment? animationAlignment;
 
-  final ChatEntity chat;
-
-  final Widget chatImage;
+  final List<ChatEntity> chats;
 
   final Duration duration;
 
   @override
-  State<MiniChat> createState() => _MiniChatState();
+  State<MiniArchivedChats> createState() => _MiniArchivedChatsState();
 }
 
-class _MiniChatState extends State<MiniChat>
+class _MiniArchivedChatsState extends State<MiniArchivedChats>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<double> _scaleAnimation;
@@ -55,7 +52,7 @@ class _MiniChatState extends State<MiniChat>
   }
 
   @override
-  void didUpdateWidget(covariant MiniChat oldWidget) {
+  void didUpdateWidget(covariant MiniArchivedChats oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (widget.visible == oldWidget.visible) return;
@@ -75,8 +72,6 @@ class _MiniChatState extends State<MiniChat>
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width * .95;
-
     return ScaleTransition(
       scale: _scaleAnimation,
       alignment: widget.animationAlignment ?? Alignment.center,
@@ -84,20 +79,15 @@ class _MiniChatState extends State<MiniChat>
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MiniChatScreenHeader(
-                  chat: widget.chat,
-                  image: widget.chatImage,
-                ),
-                ChatMessages(
-                  height: 350,
-                  width: width,
-                  chatType: widget.chat.type,
-                  messages: widget.chat.messages,
-                ),
-              ],
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const MiniAcrhivedChatsHeader(),
+                  MiniArchivedChatsList(chats: widget.chats),
+                ],
+              ),
             ),
           ),
         ],

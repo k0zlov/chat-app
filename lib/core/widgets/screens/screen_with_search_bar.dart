@@ -8,6 +8,7 @@ class ScreenWithSearchAppBar extends StatefulWidget {
     required this.focusNode,
     required this.searchWidget,
     required this.showSearchWidget,
+    this.searchingOpacity = 0.6,
   });
 
   final Widget searchAppBar;
@@ -15,6 +16,8 @@ class ScreenWithSearchAppBar extends StatefulWidget {
   final FocusNode focusNode;
   final bool showSearchWidget;
   final Widget searchWidget;
+
+  final double searchingOpacity;
 
   @override
   State<ScreenWithSearchAppBar> createState() => _ScreenWithSearchAppBarState();
@@ -45,7 +48,7 @@ class _ScreenWithSearchAppBarState extends State<ScreenWithSearchAppBar> {
             widget.searchWidget,
           } else ...{
             SliverAnimatedOpacity(
-              opacity: opacity ? 0.6 : 1,
+              opacity: opacity ? widget.searchingOpacity : 1,
               duration: const Duration(milliseconds: 220),
               sliver: widget.sliverBody,
             ),

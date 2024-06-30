@@ -56,13 +56,14 @@ class _ContextMenuAreaState extends State<ContextMenuArea> {
         ? position.dy - (contextMenuHeight - spaceBelow) - 50
         : position.dy;
 
-    final double adjustedChildXPosition =
-        screenWidth - 10 <= position.dx ? position.dx - 10 : position.dx - 130;
-
     final Alignment alignment = Alignment(
       (xCenter / screenWidth) * 2 - 1,
       ((adjustedChildYPosition + size.height / 2) / screenHeight) * 2 - 1,
     );
+
+    final double adjustedChildXPosition = position.dx > 220
+        ? position.dx - 130
+        : position.dx;
 
     showCupertinoDialog<void>(
       context: context,
@@ -94,7 +95,7 @@ class _ContextMenuAreaState extends State<ContextMenuArea> {
                       ),
                     ),
                     Positioned(
-                      left: adjustedChildXPosition,
+                      left: adjustedChildXPosition - 10,
                       top: adjustedChildYPosition + size.height - 10,
                       child: ContextMenu(
                         animationAlignment: alignment,

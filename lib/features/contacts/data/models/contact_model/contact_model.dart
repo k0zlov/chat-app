@@ -21,12 +21,14 @@ class ContactModel with _$ContactModel {
   /// Parameters:
   ///   [contactUserId] The external ID of the contact, defaults to -1.
   ///   [name] The name of the contact, defaults to an empty string.
+  ///   [bio] The bio of the user contact, defaults to an empty string.
   ///   [email] The email of the contact, defaults to an empty string.
   ///   [addedAt] The date when the contact was added, defaults to an empty string.
   ///   [lastActivityAt] The date when the contact had last activity at, defaults to an empty string.
   const factory ContactModel({
     @Default(-1) int contactUserId,
     @Default('') String name,
+    @Default('') String bio,
     @Default('') String email,
     @Default('') String addedAt,
     @Default('') String lastActivityAt,
@@ -62,6 +64,7 @@ class ContactModel with _$ContactModel {
     return ContactEntity(
       id: contactUserId,
       name: name,
+      bio: bio,
       email: email,
       addedAt: DateTime.tryParse(addedAt),
       lastActivityAt: DateTime.tryParse(lastActivityAt),

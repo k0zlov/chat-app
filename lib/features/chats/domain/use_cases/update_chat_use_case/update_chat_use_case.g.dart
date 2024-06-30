@@ -12,8 +12,7 @@ _$UpdateChatParamsImpl _$$UpdateChatParamsImplFromJson(
       chatId: (json['chatId'] as num).toInt(),
       title: json['title'] as String? ?? null,
       description: json['description'] as String? ?? null,
-      chatType:
-          $enumDecodeNullable(_$ChatTypeEnumMap, json['chatType']) ?? ChatType,
+      chatType: json['chatType'] as String? ?? null,
     );
 
 Map<String, dynamic> _$$UpdateChatParamsImplToJson(
@@ -22,12 +21,5 @@ Map<String, dynamic> _$$UpdateChatParamsImplToJson(
       'chatId': instance.chatId,
       'title': instance.title,
       'description': instance.description,
-      'chatType': _$ChatTypeEnumMap[instance.chatType],
+      'chatType': instance.chatType,
     };
-
-const _$ChatTypeEnumMap = {
-  ChatType.private: 'private',
-  ChatType.group: 'group',
-  ChatType.channel: 'channel',
-  ChatType.savedMessages: 'savedMessages',
-};

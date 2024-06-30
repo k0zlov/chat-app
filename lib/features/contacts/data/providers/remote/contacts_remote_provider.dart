@@ -109,7 +109,7 @@ class ContactsRemoteProviderImpl implements ContactsRemoteProvider {
   ) async {
     final response = await network.delete(
       url: ApiEndpoints.deleteContactRemove,
-      queryParameters: params.toJson(),
+      data: params.toJson(),
       parser: (json) => null,
     );
     return response;

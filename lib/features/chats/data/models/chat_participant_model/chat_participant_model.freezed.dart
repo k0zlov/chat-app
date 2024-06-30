@@ -24,6 +24,7 @@ mixin _$ChatParticipantModel {
   int get userId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get role => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
   String get lastActivityAt => throw _privateConstructorUsedError;
   String get joinedAt => throw _privateConstructorUsedError;
 
@@ -44,6 +45,7 @@ abstract class $ChatParticipantModelCopyWith<$Res> {
       int userId,
       String name,
       String role,
+      String bio,
       String lastActivityAt,
       String joinedAt});
 }
@@ -66,6 +68,7 @@ class _$ChatParticipantModelCopyWithImpl<$Res,
     Object? userId = null,
     Object? name = null,
     Object? role = null,
+    Object? bio = null,
     Object? lastActivityAt = null,
     Object? joinedAt = null,
   }) {
@@ -85,6 +88,10 @@ class _$ChatParticipantModelCopyWithImpl<$Res,
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       lastActivityAt: null == lastActivityAt
           ? _value.lastActivityAt
@@ -111,6 +118,7 @@ abstract class _$$ChatParticipantModelImplCopyWith<$Res>
       int userId,
       String name,
       String role,
+      String bio,
       String lastActivityAt,
       String joinedAt});
 }
@@ -130,6 +138,7 @@ class __$$ChatParticipantModelImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? name = null,
     Object? role = null,
+    Object? bio = null,
     Object? lastActivityAt = null,
     Object? joinedAt = null,
   }) {
@@ -149,6 +158,10 @@ class __$$ChatParticipantModelImplCopyWithImpl<$Res>
       role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
               as String,
       lastActivityAt: null == lastActivityAt
           ? _value.lastActivityAt
@@ -170,6 +183,7 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
       this.userId = -1,
       this.name = '',
       this.role = '',
+      this.bio = '',
       this.lastActivityAt = '',
       this.joinedAt = ''})
       : super._();
@@ -191,6 +205,9 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
   final String role;
   @override
   @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
   final String lastActivityAt;
   @override
   @JsonKey()
@@ -198,7 +215,7 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
 
   @override
   String toString() {
-    return 'ChatParticipantModel(chatId: $chatId, userId: $userId, name: $name, role: $role, lastActivityAt: $lastActivityAt, joinedAt: $joinedAt)';
+    return 'ChatParticipantModel(chatId: $chatId, userId: $userId, name: $name, role: $role, bio: $bio, lastActivityAt: $lastActivityAt, joinedAt: $joinedAt)';
   }
 
   @override
@@ -210,6 +227,7 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.role, role) || other.role == role) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.lastActivityAt, lastActivityAt) ||
                 other.lastActivityAt == lastActivityAt) &&
             (identical(other.joinedAt, joinedAt) ||
@@ -219,7 +237,7 @@ class _$ChatParticipantModelImpl extends _ChatParticipantModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, chatId, userId, name, role, lastActivityAt, joinedAt);
+      runtimeType, chatId, userId, name, role, bio, lastActivityAt, joinedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -243,6 +261,7 @@ abstract class _ChatParticipantModel extends ChatParticipantModel {
       final int userId,
       final String name,
       final String role,
+      final String bio,
       final String lastActivityAt,
       final String joinedAt}) = _$ChatParticipantModelImpl;
   const _ChatParticipantModel._() : super._();
@@ -258,6 +277,8 @@ abstract class _ChatParticipantModel extends ChatParticipantModel {
   String get name;
   @override
   String get role;
+  @override
+  String get bio;
   @override
   String get lastActivityAt;
   @override

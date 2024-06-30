@@ -21,33 +21,47 @@ class ChatEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EditScreen(
-      onDone: () {},
-      onCancel: context.pop,
-      sliverBody: _ChatEditScreenBody(chatId: chatId),
-    );
-  }
-}
-
-class _ChatEditScreenBody extends StatelessWidget {
-  const _ChatEditScreenBody({
-    required this.chatId,
-  });
-
-  final int chatId;
-
-  @override
-  Widget build(BuildContext context) {
+    final ChatsCubit cubit = context.read<ChatsCubit>();
     final ChatsState state = context.select((ChatsCubit cubit) => cubit.state);
 
     final ChatEntity? chat = state.chats.firstWhereOrNull(
       (chat) => chat.id == chatId,
     );
 
+    return EditScreen(
+      onDone: () {
+        cubit.updateChat(chatId: chatId);
+        context.pop();
+      },
+      onCancel: () {
+        cubit
+          ..onEditChatTitle(chat.title, chat)
+          ..onEditChatDescription(chat.description ?? '', chat);
+
+        context.pop();
+      },
+      sliverBody: _ChatEditScreenBody(
+        chat: chat!,
+      ),
+    );
+  }
+}
+
+class _ChatEditScreenBody extends StatelessWidget {
+  const _ChatEditScreenBody({
+    required this.chat,
+  });
+
+  final ChatEntity chat;
+
+  @override
+  Widget build(BuildContext context) {
+    final ChatsCubit cubit = context.read<ChatsCubit>();
+
     return SliverList.list(
       children: [
         Hero(
-          tag: chatId,
+          tag: chat.id,
           child: ChatAppBarImage(
             mode: AppBarMode.basic,
             detailsMode: true,
@@ -62,14 +76,20 @@ class _ChatEditScreenBody extends StatelessWidget {
           backgroundColor: Colors.transparent,
           children: [
             EditScreenTextOption(
-              placeholder: 'Group Name',
-              text: chat!.title,
-              onChanged: (_) {},
+              placeholder: 'Title',
+              text: chat.editTitleText,
+              onChanged: (title) => cubit.onEditChatTitle(
+                title,
+                chat,
+              ),
             ),
             EditScreenTextOption(
               placeholder: 'Description',
-              text: chat.description ?? '',
-              onChanged: (_) {},
+              text: chat.editDescriptionText,
+              onChanged: (description) => cubit.onEditChatDescription(
+                description,
+                chat,
+              ),
             ),
           ],
         ),

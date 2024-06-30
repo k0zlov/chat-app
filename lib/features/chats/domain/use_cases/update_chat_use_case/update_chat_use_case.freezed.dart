@@ -23,7 +23,7 @@ mixin _$UpdateChatParams {
   int get chatId => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  ChatType? get chatType => throw _privateConstructorUsedError;
+  String? get chatType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,8 +37,7 @@ abstract class $UpdateChatParamsCopyWith<$Res> {
           UpdateChatParams value, $Res Function(UpdateChatParams) then) =
       _$UpdateChatParamsCopyWithImpl<$Res, UpdateChatParams>;
   @useResult
-  $Res call(
-      {int chatId, String? title, String? description, ChatType? chatType});
+  $Res call({int chatId, String? title, String? description, String? chatType});
 }
 
 /// @nodoc
@@ -75,7 +74,7 @@ class _$UpdateChatParamsCopyWithImpl<$Res, $Val extends UpdateChatParams>
       chatType: freezed == chatType
           ? _value.chatType
           : chatType // ignore: cast_nullable_to_non_nullable
-              as ChatType?,
+              as String?,
     ) as $Val);
   }
 }
@@ -88,8 +87,7 @@ abstract class _$$UpdateChatParamsImplCopyWith<$Res>
       __$$UpdateChatParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int chatId, String? title, String? description, ChatType? chatType});
+  $Res call({int chatId, String? title, String? description, String? chatType});
 }
 
 /// @nodoc
@@ -124,7 +122,7 @@ class __$$UpdateChatParamsImplCopyWithImpl<$Res>
       chatType: freezed == chatType
           ? _value.chatType
           : chatType // ignore: cast_nullable_to_non_nullable
-              as ChatType?,
+              as String?,
     ));
   }
 }
@@ -136,7 +134,7 @@ class _$UpdateChatParamsImpl extends _UpdateChatParams {
       {required this.chatId,
       this.title = null,
       this.description = null,
-      this.chatType = ChatType})
+      this.chatType = null})
       : super._();
 
   factory _$UpdateChatParamsImpl.fromJson(Map<String, dynamic> json) =>
@@ -152,7 +150,7 @@ class _$UpdateChatParamsImpl extends _UpdateChatParams {
   final String? description;
   @override
   @JsonKey()
-  final ChatType? chatType;
+  final String? chatType;
 
   @override
   String toString() {
@@ -197,7 +195,7 @@ abstract class _UpdateChatParams extends UpdateChatParams {
       {required final int chatId,
       final String? title,
       final String? description,
-      final ChatType? chatType}) = _$UpdateChatParamsImpl;
+      final String? chatType}) = _$UpdateChatParamsImpl;
   const _UpdateChatParams._() : super._();
 
   factory _UpdateChatParams.fromJson(Map<String, dynamic> json) =
@@ -210,7 +208,7 @@ abstract class _UpdateChatParams extends UpdateChatParams {
   @override
   String? get description;
   @override
-  ChatType? get chatType;
+  String? get chatType;
   @override
   @JsonKey(ignore: true)
   _$$UpdateChatParamsImplCopyWith<_$UpdateChatParamsImpl> get copyWith =>
