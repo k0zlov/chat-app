@@ -68,26 +68,25 @@ The Chat App relies on several dependencies to function correctly. Key dependenc
 - `sqflite`
 - and more...
 
+Refer to the [pubspec.yaml](https://github.com/k0zlov/chat-app/blob/main/pubspec.yaml) file for a complete list of dependencies.
+
 ### Pictures
 The screenshots of the application.
 
 ## Chats
-<img alt="img.png" src="https://github.com/k0zlov/chat_app/blob/main/assets/chats.png" width="400"/>
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/chats.png" width="400"/>
 
 ## Contacts
-<img alt="img.png" src="https://github.com/k0zlov/chat_app/blob/main/assets/contacts.jpg" width="400"/>
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/contacts.jpg" width="400"/>
 
 ## Settings
-<img alt="img.png" src="https://github.com/k0zlov/chat_app/blob/main/assets/settings.jpg" width="400"/>
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/settings.jpg" width="400"/>
 
 ## Chat
-<img alt="img.png" src="https://github.com/k0zlov/chat_app/blob/main/assets/chat_messages.jpg" width="400"/>
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/chat_messages.jpg" width="400"/>
 
 ## Chat Details
-<img alt="img.png" src="https://github.com/k0zlov/chat_app/blob/main/assets/chat_details.jpg" width="400"/>
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/chat_details.jpg" width="400"/>
 
 ## Chat Details Expanded
-<img alt="img.png" src="https://github.com/k0zlov/chat_app/blob/main/assets/chat_details_expanded.jpg" width="400"/>
-
-
-Refer to the [pubspec.yaml](https://github.com/k0zlov/chat-app/blob/main/pubspec.yaml) file for a complete list of dependencies.
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/chat_details_expanded.jpg" width="400"/>
