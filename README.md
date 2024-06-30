@@ -74,7 +74,7 @@ Refer to the [pubspec.yaml](https://github.com/k0zlov/chat-app/blob/main/pubspec
 The screenshots of the application.
 
 ## Chats
-<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/pictures/chats.png" width="400"/>
+<img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/pictures/chats.jpg" width="400"/>
 
 ## Contacts
 <img alt="img.png" src="https://github.com/k0zlov/chat-app/blob/main/assets/pictures/contacts.jpg" width="400"/>
