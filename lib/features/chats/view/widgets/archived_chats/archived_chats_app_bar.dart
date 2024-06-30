@@ -28,6 +28,7 @@ class ArchivedChatsSliverAppBar extends StatelessWidget {
       loading: state.loadingChats,
       focusNode: focusNode,
       leading: AppBarBackButton(
+        minimize: true,
         onPressed: context.pop,
         blurred: false,
       ),

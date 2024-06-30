@@ -6,9 +6,11 @@ class AppBarBackButton extends StatelessWidget {
     super.key,
     required this.blurred,
     required this.onPressed,
+    this.minimize = false,
   });
 
   final bool blurred;
+  final bool minimize;
   final void Function()? onPressed;
 
   @override
@@ -22,8 +24,8 @@ class AppBarBackButton extends StatelessWidget {
 
     return CupertinoButton(
       onPressed: onPressed,
-      minSize: 20,
-      padding: EdgeInsets.zero,
+      minSize: minimize ? 20 : kMinInteractiveDimensionCupertino,
+      padding: minimize ? EdgeInsets.zero : null,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: BlurredWidget(
